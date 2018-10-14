@@ -79,7 +79,7 @@ Generelly, finding the right format to import EXCEL can be tricky.
 
 To function properly, you have to set a working directory for RStudio first. The working directory is a **folder on your computer from which RStudio can use data, and in which output it saved**. 
 
-1. Therefore, create a folder on your computer and give it a meaningful name (e.g. "My Meta-Analysis")
+1. Therefore, create a folder on your computer and give it a meaningful name (e.g. "My Meta-Analysis").
 2. Save your spreadsheet in the folder
 3. Set the folder as your working directory. This can be done in RStudio on the **bottom-right corner of your screen**. Under the tile **"Files"**, search for the folder on your computer, and open it.
 4. Once you've opened your folder, the file you just saved there should be in there.
