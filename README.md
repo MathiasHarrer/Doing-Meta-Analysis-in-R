@@ -32,11 +32,13 @@ If you want to run all code in RStudio along with reading the book, an easier wa
 3.  In the folder, click on **bookdown-demo.Rproj**. This opens the R Project with which the all analyses were conducted.
 4.  Now, you can access all the chapters in the guide. They are stored as so-called **R Markdown** files (`.Rmd`) in the same folder and have the following names:
 
-* Chapter 1: `01-intro.Rmd`
-* Chapter 2: `02-literature.Rmd`
+* **Chapter 1**: `01-intro.Rmd`
+* **Chapter 2**: `02-literature.Rmd`
 
 5. Click to open the file you want to see. You'll see that the files contain the exact same **text** and **code** as the one used in the guide, but there are a few lines of code more **which are not displayed in the guide**. These are needed, for example, to set the layout for the book.
 6. To run the **code chunks** between the text, click on the **little green arrow** on the top-right corner of each code chunk. Once you do this, the code in the chunk is run by R. 
+
+<img src="greenarrow.PNG">
 
 **Important: most code chunks are not independent, and draw on objects or functions which are created in preceeding chunks. Therefore, you should stick with running one chunk after another, from top to bottom.**
 
