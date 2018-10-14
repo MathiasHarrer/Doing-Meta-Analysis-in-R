@@ -1,0 +1,93 @@
+# RStudio & Basics
+
+![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/chap2.jpg)
+
+```{block,type='rmdinfo'}
+Before we start with our meta-analysis, we have to download and prepare a **computer program** which allows us to use *R* for programming. 
+
+Probably the best option for this at the moment is **RStudio**. This program gives as a user interface which makes it easier to overlook our data, packages and output. The best part is that RStudio is completely free and can be downloaded anytime.
+
+In this Chapter, we'll focus on how you can install RStudio on your computer. We'll also provide some general information on R, and how you can get help if you get error messages.
+
+If you already have RStudio installed on your computer, and if you're an experienced R user already, all of this might be nothing new for you. You may **skip** this chapter then.
+
+Especially if you have **never used R before, we would like to consider this Chapter essential**, as it gives you some input on how R works, and how we can use it for our data.
+```
+
+## Getting RStudio to run on your computer {#RStudio}
+```{r, echo=FALSE, fig.width=3,fig.height=2}
+library(png)
+library(grid)
+img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/rstudiologo.PNG")
+grid.raster(img)
+```
+
+As a prerequisite for this guide, you need to have **RStudio** and a few essential **R packages** installed.
+
+**You have to follow these steps to get your RStudio set.**
+   
+1. Download RStudio on the **RStudio** Website ([Link](https://www.rstudio.com/products/rstudio/download/)). It's free!
+2. If you do not have **R** installed yet, you will have to install the latest R Version before you can use RStudio. You can get the latest R version [here](https://cran.r-project.org/bin/windows/base/).
+3. Once RStudio is running, open the **Console** on the bottom left corner of your screen.
+4. We will now install a few packages using R Code. Here's an overview of the packages, and why we need them:
+
+```{r,echo=FALSE}
+library(kableExtra)
+Package<-c("tidyverse","meta","metafor")
+Description<-c("This is a large package containing various functions to tidy up your data", "This package is a so-called wrapper for many meta-analytic functions and makes it easy to code different meta-analyses","This package is used by the meta package for many applications, so we need to have it installed")
+m<-data.frame(Package,Description)
+names<-c("Package", "Description")
+colnames(m)<-names
+kable(m)
+```
+  
+<br><br>
+5. To install these packages, we use the `install.packages()` function in R. One package after another, our code should look like this:
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+install.packages("meta")
+install.packages("metafor")
+```
+
+```{block, type='rmdachtung'}
+Don't forget to put the packages in `""`. Otherwise, you will get an error message.
+```
+
+<br><br>
+
+**You are now set and ready to proceed. Below, you can find some basic information on RStudio and troubleshooting**
+
+##Basics
+
+Order to get the most out of this guide, it's helpful if you have some programming
+experience already. If you’ve never programmed before, you might find ***Hands-On Programming with R*** [@grolemund2014hands] to be a useful primer.
+
+### Running R Code
+
+There are three things you need to run the code: **R**, **RStudio**, and collection of **R packages**. Packages are the fundamental units of reproducible R code. They include reusable functions, the documentation that describes how to use them, and sample data.
+
+Gladly, once you've reached this point successfully, these three things are set already. Nevertheless, we will have to install and load a few new packages at some place in this guide, for which you can use the `install.packages()` the same way as you did before.
+
+
+Throughout the guide, a consistent set of conventions is used to refer to code:
+
+* Functions are in a code font and followed by parentheses, like
+`sum()` or `mean()`.
+* Other R objects (like data or function arguments) are in a code
+font, without parentheses, like `seTE` or `method.tau`. 
+* Sometimes, we’ll use the package name followed by two colons, like
+`meta::metagen()`. This is also valid R code. This is used so as to not confuse the functions of different packages with the same name.
+
+### Getting Help
+As you start to apply the techniques described in this guide to your data you will soon find questions that the guide does not answer. This section describes a few tips on how to get help.
+
+* If you get stuck, start with Google. Typically, adding “R” to a search is enough to restrict it to relevant results: if the search isn’t useful, it often means that there aren’t any R-specific results available. Google is particularly useful for error messages. If you get an error message and you have no idea what it means, try googling it. Chances are that someone else has been confused by it in the past, and there will
+be help somewhere on the web. (If the error message isn’t in English,
+run `Sys.setenv(LANGUAGE = "en")` and re-run the code; you’re
+more likely to find help for English error messages.)
+* If Google doesn’t help, try [stackoverflow](stackoverflow.com). Start by spending a little time searching for an existing answer; including [R] restricts your search to questions and answers that use R. 
+* Lastly, if you stumble upon an error (or typos!) in this guide's syntax, feel free to contact **Mathias Harrer** at **mathias.harrer@fau.de**.
+
+
+
