@@ -1,6 +1,6 @@
 # How to get and run the R code for the guide
 
-We hope you're enjoying our guide on how to do [Meta-Analysis in R](protectlab.org/meta-analysis-in-r). Here's a description on how you can download the R Code to run your Meta-Analyses yourself.
+We hope you're enjoying our guide on how to do [Meta-Analysis in R](https://www.protectlab.org/meta-analysis-in-r). Here's a description on how you can download the R Code to run your Meta-Analyses yourself.
 
 ## Accessing the repository
 
