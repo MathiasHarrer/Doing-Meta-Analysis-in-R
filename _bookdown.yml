@@ -1,0 +1,5 @@
+book_filename: "Doing_Meta_Analysis_in_R"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true

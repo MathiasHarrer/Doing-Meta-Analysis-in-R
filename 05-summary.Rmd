@@ -1,0 +1,94 @@
+# Between-study Heterogeneity
+
+```{r, echo=FALSE,warning=FALSE,message=FALSE}
+library(tidyverse)
+library(knitr)
+library(meta)
+library(metafor)
+load("Meta_Analysis_Data.RData")
+madata<-Meta_Analysis_Data
+load("metacont_data.RData")
+metacont$Ne<-as.numeric(metacont$Ne)
+metacont$Me<-as.numeric(metacont$Me)
+metacont$Se<-as.numeric(metacont$Se)
+metacont$Mc<-as.numeric(metacont$Mc)
+metacont$Sc<-as.numeric(metacont$Sc)
+m.hksj<-metagen(TE,
+        seTE,
+        data=madata,
+        studlab=paste(Author),
+        comb.fixed = FALSE,
+        comb.random = TRUE,
+        method.tau = "SJ",
+        hakn = TRUE,
+        prediction=TRUE,
+        sm="SMD")
+m.hksj.raw<-metacont(Ne,
+        Me,
+        Se,
+        Nc,
+        Mc,
+        Sc,
+        data=metacont,
+        studlab=paste(Author),
+        comb.fixed = FALSE,
+        comb.random = TRUE,
+        method.tau = "SJ",
+        hakn = TRUE,
+        prediction=TRUE,
+        sm="SMD")
+```
+
+## Define analyzed meta-analysis output
+
+```{r}
+influence.data<-m.hksj
+```
+
+```{r,eval=FALSE,warning=FALSE}
+res <- rma(yi=TE, sei=seTE, measure="ZCOR", 
+           data=influence.data, 
+           method = "SJ", 
+           test="knha")
+inf <- influence(res)
+influence.data.metainf<-metainf(influence.data)
+influence.data.metainf$I2<-format(round(influence.data.metainf$I2,2),nsmall=2)
+plot(inf)
+baujat(influence.data)
+forest(influence.data.metainf,
+       sortvar=I2,
+       rightcols = c("TE","ci","I2"),
+       smlab = "Sorted by I-squared")
+forest(influence.data.metainf,
+       sortvar=TE,
+       rightcols = c("TE","ci","I2"),
+       smlab = "Sorted by Effect size")
+```
+
+```{r,echo=FALSE}
+res <- rma(yi=TE, sei=seTE, measure="ZCOR", 
+           data=influence.data, 
+           method = "SJ", 
+           test="knha")
+inf <- influence(res)
+influence.data.metainf<-metainf(influence.data)
+influence.data.metainf$I2<-format(round(influence.data.metainf$I2,2),nsmall=2)
+```
+
+```{r,echo=FALSE,fig.align='center',fig.cap="Influence Analyses"}
+plot(inf)
+```
+```{r,echo=FALSE, fig.align='center',fig.cap="Baujat Plot",fig.height=10,fig.width=10}
+baujat(influence.data)
+```
+
+```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses"}
+forest(influence.data.metainf,
+       sortvar=I2,
+       rightcols = c("TE","ci","I2"),
+       smlab = "Sorted by I-squared")
+forest(influence.data.metainf,
+       sortvar=TE,
+       rightcols = c("TE","ci","I2"),
+       smlab = "Sorted by Effect size")
+```
