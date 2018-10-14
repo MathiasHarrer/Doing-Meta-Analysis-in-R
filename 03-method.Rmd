@@ -1,5 +1,7 @@
 # Pooling Effect Sizes
 
+![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/pooling.jpg)
+
 Now, let's get to the core of every Meta-Analysis: **pooling your effect sizes** to get one overall effect size estimate of the studies.
 
 ```{block,type='rmdinfo'}

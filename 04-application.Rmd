@@ -1,5 +1,7 @@
 # Forest Plots
 
+![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/forest.jpg)
+
 ```{block,type='rmdinfo'}
 Now that the created the **output of our meta-analysis** using the `metagen`, `metacont` or `metabin` functions in `meta` (see [Chapter 4.1](#fixed),[Chapter 4.2](#random) and [Chapter 4.3](#binary)), it is time to present the data in a more digestable way.
 
