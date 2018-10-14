@@ -8,20 +8,18 @@ We have stored all R Code in a repository which you can download onto your compu
 
 <img src="viewongithub.PNG">
 
-![](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/viewongithub.PNG)
-
 You can directly download the repository on **GitHub** by clicking on **Clone or Download** and then on **Download Zip**.
 
-![](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/clone.PNG)
+<img src="clone.PNG">
 
 In case you are a GitHub user already, you can **star** the repository to access it more easily in the future.
 
-![](https://github.com/MathiasHarrer/Doing_Meta_Analysis_in_R/blob/master/star.PNG)
+<img src="star.PNG">
 
 ## Downloading the files directly
 
 You can download the entire repository on the top of this site by clicking on **Download .zip**. This downloads a `zip` file containing all files onto your computer.
 
-![](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/downloadzip.PNG)
+<img src="downloadzip.PNG">
 
 ## Running the code
