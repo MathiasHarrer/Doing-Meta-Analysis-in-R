@@ -6,7 +6,7 @@ We hope you're enjoying our guide on how to do [Meta-Analysis in R](protectlab.o
 
 We have stored all R Code in a repository which you can download onto your computer. To access the repository, click **View on GitHub** on top of this page. There, you can access all code files, and copy & paste them into RStudio.
 
-<img src="https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/viewongithub.PNG">
+<img src="master/viewongithub.PNG">
 
 ![](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/viewongithub.PNG)
 
