@@ -1,5 +1,30 @@
 # Between-study Heterogeneity
 
+By now, we have already shown you how to pool effect sizes in a meta-analysis. In meta-analytic pooling, we aim to **synthesize the effects of many different studies into one single effect**. However, this makes only sense if we aren't comparing **Apples and Oranges**. For example, it could be the case that while the overall effect we calculate in the meta-analysis is **small**, there are still a few studies which report **very high** effect sizes. Such information is lost in the aggregate effect, but it is very important to know if all studies, or interventions, yield small effect sizes, or if there are exceptions.
+
+It could also be the case that even some very **extreme effect sizes** were included in the meta-analysis, so-called **outliers**. Such outliers might have even distorted our overall effect, and it is important to how our overall effect would have looked without them.
+
+The extent to which effect sizes vary within a meta-analysis is called **heterogeneity**. It is very important to assess heterogeneity in meta-analyses, as high heterogeneity could be caused by the fact that there are actually two or more **subgroups** of studies present in the data, which have a different true effect. Such information could be very valuable for **research**, because this might allow us to find certain interventions or populations for which effects are lower or higher.
+
+From a statistical standpoint, high heterogeneity is also problematic. Very high heterogeneity could mean that the studies have nothing in common, and that there is no **"real" true effect behind our data**, meaning that it makes no sense to report the pooled effect at all [@borenstein2011].
+
+```{block,type='rmdinfo'}
+**The idea behind heterogeneity**
+
+Rücker and colleagues [@rucker2008undue] name three types of heterogeneity in meta-analyses:
+
+1.  *Clinical baseline heterogeneity*. These are differences between sample characteristics between the studies. For example, while one study might have included rather old people into their study, another might have recruited study participants who were mostly quite young.
+2.  *Statistical heterogeneity*. This is the statistical heterogeneity we find in our collected effect size data. Such heterogeneity migh be either important from a clinical standpoint (e.g., when we don't know if a treatment is very or only marginally effective because the effects vary much from study to study), or from statistical standpoint (because it dilutes the confidence we have in our pooled effect)
+3.  *Other sources of heterogeneity*, such as design-related heterogeneity.
+
+Point 1. and 3. may be controlled for to some extent by restricting the scope of our search for studies to certain well-defined intervention types, populations, and outcomes.
+
+Point 2., on the other hand, has to be assessed once we conducted the pooling of studies. This is what this chapter focuses on. 
+
+
+```
+
+
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
 library(tidyverse)
 library(knitr)
