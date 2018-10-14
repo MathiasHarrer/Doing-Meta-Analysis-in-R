@@ -16,7 +16,6 @@ In case you are a GitHub user already, you can **star** the repository to access
 
 You can download the entire repository on the top of this site by clicking on **Download .zip**. This downloads a `zip` file containing all files onto your computer.
 
-<img src="downloadzip.PNG">
 
 ## Running the code
 
