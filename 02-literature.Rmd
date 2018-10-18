@@ -163,7 +163,7 @@ colnames(m)<-names
 kable(m)
 ```
 
-### Converting to factors
+### Converting to factors {#convertfactors}
 
 Let's say we have the subgroup **Risk of Bias** (in which the Risk of Bias rating is coded), and want it to be a factor with two different levels: "low" and "high".
 

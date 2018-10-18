@@ -5,9 +5,9 @@ bookdown::gitbook:
       before: |
         <li><a href="./">Doing Meta-Analysis in R</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
-    edit: https://github.com/rstudio/bookdown-demo/edit/master/%s
-    download: ["pdf", "epub"]
+        <li><a href="https://protectlab.org" target="blank">© PROTECT Lab</a></li>
+    edit: https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/%s
+    download: ["pdf"]
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex

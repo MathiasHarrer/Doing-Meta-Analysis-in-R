@@ -2,14 +2,13 @@
 title: "Doing Meta Analysis in R"
 author: "Mathias Harrer, B.Sc. & Dr. habil. David Ebert"
 date: "Friedrich-Alexander-University Erlangen-Nuremberg"
-github-repo: "MathiasHarrer/Doing_Meta_Analysis_in_R"
+github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
 site: bookdown::bookdown_site
 output: 
   bookdown::gitbook:
     config: 
       toc:
        collapse: section
-      download: null
       search: yes
       fontsettings:
         size: 1
@@ -69,7 +68,11 @@ It is also beyond the scope of this guide to advise in detail which meta-analyti
 * If you're looking for a easily digestable, ready-to-use book on how Meta-Analyses can be conducted, we can recommend **Pim Cuijpers' online courses on Meta-Analysis**. The courses are freely available on YouTube. To have a look, click [here](https://www.youtube.com/watch?v=pP7_VBrG_TY&list=PL-h5cI5Bkvt0J-O0kq_9J9_aksWFPgR7s).
 * If you're interested in more details on how to conduct Meta-Analyses in R, you can either have a look at Wolfgang Viechtbauer's page for the `metafor` package ([Link](http://metafor-project.org)). Or you can consult a book on the `meta` package which was recently published [@schwarzer2015meta].
 
+<br><br>
 
+**How to get the R code for this guide**
+
+All code behind this book is available online on **GitHub**. We have created a website containing a **download link** for all codes, and a **quick guide** on how to get the code running on your computer. The site can be foud [here](https://mathiasharrer.github.io/Doing-Meta-Analysis-in-R/).
 
 
 ```{r eval=FALSE, echo=FALSE}

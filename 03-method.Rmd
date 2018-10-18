@@ -1,4 +1,4 @@
-# Pooling Effect Sizes
+# Pooling Effect Sizes {#pool}
 
 ![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/pooling.jpg)
 
@@ -25,7 +25,7 @@ library(knitr)
 
 ## Fixed-Effects-Model {#fixed}
 
-### Pre-calculated effect size data
+### Pre-calculated effect size data {#pre.calc}
 
 ```{block, type='rmdinfo'}
 **The idea behind the fixed-effects-model**
@@ -33,12 +33,13 @@ library(knitr)
 The fixed-effects-model assumes that all studies along with their effect sizes stem from a single homogeneous population [@borenstein2011]. To calculate the overall effect, we therefore average all effect sizes, but give studies with greater precision a higher weight. In this case, greater precision means that the study has a larger **N**, which leads to a smaller **Standard Error** of its effect size estimate.
 
 For this weighing, we use the **inverse of the variance** $1/\hat\sigma^2_k$ of each study $k$. We then calculate a weighted average of all studies, our fixed effect size estimator $\hat\theta_F$:
+```
 
 \begin{equation}
 \hat\theta_F = \frac{\sum\limits_{k=1}^K \hat\theta_k/ \hat\sigma^2_k}{\sum\limits_{k=1}^K 1/\hat\sigma^2_k}
 \end{equation}
 
-```
+
 
 In [Chapter 3.1](#excel_preparation), we have described two ways your EXCEL spreadsheet for you Meta-Analysis data can look like:
 
@@ -237,7 +238,7 @@ When calculating a random-effects-model meta-analysis, where therefore also have
 Even though it is **conventional** to use random-effects-model meta-analyses in psychological outcome research, applying this model is **not undisputed**. The random-effects-model pays **more attention to small studies** when pooling the overall effect in a meta-analysis [@schwarzer2015meta]. Yet, small studies in particular are often fraught with **bias**. This is why some have argued that the fixed-effects-model should be nearly always preferred [@poole1999; @furukawa2003].
 ```
 
-### Estimators for *tau^2^* in the random-effects-model
+### Estimators for *tau^2^* in the random-effects-model {#tau2}
 
 Operationally, conducting a random-effects-model meta-analysis in R is not so different from conducting a fixed-effects-model meta-analyis. Yet, we do have choose an estimator for $\tau^{2}$. Here are the estimators implemented in `meta`, which we can choose using the `method.tau` variable in our meta-analysis code.
 
@@ -272,7 +273,7 @@ The **Hartung-Knapp-Sidik-Jonkman (HKSJ) method** was thus proposed a way to pro
 It should be noted, however, that the HKSJ method is not uncontroversial. Some authors argue suggest that other (standard) pooling models should also be used **in addition** to the HKSJ as a **sensitivity analysis** [@wiksten2016hartung]. Jackson and colleagues [@jackson2017hartung] present four residual concerns with this method, which you may take into account before selecting your meta-analytic method. The paper can be read [here](https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.7411).
 ```
 
-### Pre-calculated effect size data
+### Pre-calculated effect size data {#random.precalc}
 
 After all this input, you'll see that even random-effects-model meta-analyses are very easy to code in R. Compared to the fixed-effects-model [Chapter 4.1](#fixed), there's just three extra parameters we have to define. Especially, as we've described before, we have to tell R which **between-study-variance estimator** ($\tau^{2}$) we want to use, and if we want to use the **Knapp-Hartung-Sidik-Jonkman** adjustment.
 
