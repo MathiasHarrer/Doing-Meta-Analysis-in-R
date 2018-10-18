@@ -212,7 +212,7 @@ colnames(n)<-names
 kable(n)
 ```
 
-### Selecting specific studies
+### Selecting specific studies {#select}
 
 It may often come in handy to **select certain studies for further analyses**, or to **exclude some studies in further analyses** (e.g., if they are outliers).
 
