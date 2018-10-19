@@ -53,14 +53,17 @@ It is also important to keep in mind that **the capabilites of subgroup analyses
 ```
 
 
-## Subgroup Analyses using the Mixed-Effect-Model {#mixed}
+## Subgroup Analyses using the Mixed-Effects-Model {#mixed}
 
 ```{r,echo=FALSE, message=FALSE}
 library(meta)
 ```
 
+To conduct subgroup analyses using the **Mixed-Effects-Model** (random-effects-model within subgroups, fixed-effects-model between subgroups), you can use the `subgroup.analysis.mixed.effects` function we prepared for you. To use the function, `meta` and `metafor` need to be installed and loaded in your library.
 
-```{r}
+As the code for the function is pretty long, we **don't display it here**. To access the function, use this [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/subgroup_analyses_mixed_effects_function.R). Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code from the website **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
+
+```{r,echo=FALSE}
 subgroup.analysis.mixed.effects<-function(data,sg.var,n.sg,subgroup1,subgroup2,subgroup3,subgroup4,subgroup5,subgroup6){
 
 n.sg<-n.sg  
@@ -294,23 +297,89 @@ print(metagen(TE=estimate,
 
 ```
 
+For the `subgroup.analysis.mixed.effects` function, the following parameters have to be set:
 
-```{r}
+```{r,echo=FALSE}
+library(knitr)
+Code<-c("data","sg.var","n.sg","subgroup[x]")
+Description<-c("The output of you meta-analysis. In my case, this is 'm.hksj'",
+               "The variable in our dataset in which we coded which study belongs to which subgroup. Note that we also tell the function in which dataset this variable is stored. In my case, this was the 'madata' dataset i used to get the meta-analysis output 'm.hksj'. The dataset and the subgroup variable have to be connected with $ (e.g. madata$Control).","The number of subgroups we want to inlcude in our subgroup analysis (e.g. n.sg = 2)","Here, we specify all the subgroups we want to include in the meta-analysis. Subgroup Analyses with up to 6 subgroups are possible with this function. The 'subgroup' parameters have to be numbered (e.g. subgroup1 = 'Name of your first subgroup', subgroup2 = 'Name of your second subgroup', ...)")
+m<-data.frame(Code,Description)
+names<-c("Code","Description")
+colnames(m)<-names
+kable(m)
+```
+
+In my `madata` dataset, which i used previously to generate my meta-analysis output `m.hksj`, i stored the subgroup variable `Control`. This variable specifies **which control group type was employed in which study**. There are **three subgroups**: `WLC` (waitlist control), `no intervention` and `information only`.
+
+The function to do a subgroup analysis using the mixed-effects-model with these paramters looks like this.
+
+```{r,message=FALSE,warning=FALSE}
 subgroup.analysis.mixed.effects(data=m.hksj,
                                 sg.var=madata$Control,
-                                n.sg = 2,
+                                n.sg = 3,
                                 subgroup1 = "WLC",
-                                subgroup2 = "no intervention")
+                                subgroup2 = "no intervention",
+                                subgroup3 = "information only")
+```
+
+The results of the subgroup analysis are displayed under `Results for subgroups (fixed effect model)`. We see that, while the **pooled effects of the subgroups differ quite substantially** (*g* = 0.41-0.78), this difference is **not statistically significant**. 
+
+This can be seen under `Test for subgroup differences` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper.
+
+```{block,type='rmdachtung'}
+Please not that the values displayed under `k` in the `Results for subgroups (fixed effects model)` section are always 1, as the pooled effect of the subgroup is treated as a single study. To determine the actual $k$ of each subgroup, you can use the `count` function from `dplyr` in R.
+```
+
+```{r}
+library(dplyr)
+count(madata, vars=Control)
+```
+
+## Subgroup Analyses using the Random-Effects-Model
+
+```{r,echo=FALSE}
+region<-c("Netherlands","Netherlands","Netherlands","USA","USA","USA","USA","Argentina","Argentina","Argentina","Australia","Australia","Australia","China","China","China","China","China")
+madata$region<-region
+```
+
+Now, let's assume i want to **know if intervention effects in my meta-analysis differ by region**. I use a **random-effects-model** and the selected coutries Argentina, Australia, China, and the Netherlands.
+
+Again, i use the `m.hksj` meta-analysis output object. I can perform a random-effects-model for between-subgroup-differences using the `update.meta` function. For this function, we have to **set two parameters**.
+
+```{r,echo=FALSE}
+library(knitr)
+Code<-c("byvar","comb.random")
+Description<-c("Here, we specify the variable in which the subgroup of each study is stored","Weather we want to use a random-effects-model for between-subgroup-differences. In this case, we have to set comb.random = TRUE")
+m<-data.frame(Code,Description)
+names<-c("Code","Description")
+colnames(m)<-names
+kable(m)
+```
 
 
+```{r,echo=FALSE}
+m.hksj<-metagen(TE, seTE, data=madata, method.tau = "SJ", hakn = TRUE, studlab = paste(Author), comb.random = TRUE)
+```
+
+```{r,warning=FALSE,message=FALSE}
+region.subgroup<-update.meta(m.hksj, 
+                             byvar=region, 
+                             comb.random = TRUE, 
+                             comb.fixed = FALSE)
+region.subgroup
+```
+
+Here, we get the **pooled effect for each subgroup** (country). Under `Test for subgroup differences (random effects model)`, we can see the **test for subgroup differences using the random-effects-model**, which is **not significant** ($Q=4.52$,$p=0.3405$). This means that we did not find differences in the overall effect between different regions, represented by the country in which the study was conducted.
+
+```{block,type='rmdachtung'}
+**Using a fixed-effect-model for within-subgroup-pooling and a fixed-effects-model for between-subgroup-differences**
+
+To use a fixed-effect-model in combination with a fixed-effects-model, we can also use the `update.meta` function again. The procedure is the same as the one we described before, but we have to set `comb.random` as `FALSE` and `comb.fixed` as `TRUE`.
 ```
 
 
 
 
-
-
-
-RMDACHTUNG: apriori, Größe der MA schwarzer [10]
 
 
