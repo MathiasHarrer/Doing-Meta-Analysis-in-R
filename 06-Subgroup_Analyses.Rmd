@@ -1,0 +1,316 @@
+# Subgroup Analyses
+
+![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/subgroup.jpg)
+
+In [Chapter 6](#heterogeneity), we discussed in depth why **between-study heterogeneity** is such an important issue in interpreting the results of our meta-analysis, and how we can **explore sources of heterogeneity** using [outlier](#outliers) and [influence analyses](#influenceanalyses).
+
+Another source of between-study heterogeneity making our effect size estimate less precise could be that **there are slight differences in the study design or intervention components between the studies**. For example, in a meta-analysis on the effects of **cognitive behavioral therapy** (CBT) for **depression** in **university students**, it could be the case that some studies delivered the intervention in a **group setting**, while others delivered the therapy to each student **individually**. In the same example, it is also possible that studies used different **criteria** to determine if a student suffers from **depression** (e.g. they either used the *ICD-10* or the *DSM-5* diagnostic manual). 
+
+Many other differences of this sort are possible, and it seems plausible that such study differences may also be associated with differences in the overall effect.
+
+In **subgroup analyses**, we therefore have a look at different **subgroups within the studies of our meta-analysis** and try to determine of the **differ between these subgroups**.
+
+```{block,type='rmdinfo'}
+**The idea behind subgroup analyses**
+
+Basically, a every subgroup analysis consists of **two parts**: (1) **pooling the effect of each subgroup**, and (2) **comparing the effects of the subgroups** [@borenstein2013meta].
+
+
+**1. Pooling the effect of each subgroup**
+
+This point it rather straightforward, as the same criteria as the ones for a **simple meta-analysis without subgroups** (see [Chapter 4](#pool) and [Chapter 4.2](#random)) apply here.
+
+* If you assume that **all studies in subgroup** stem from the same population, and all have **one shared true effect**, you may use the **fixed-effect-model**. As we mention in [Chapter 4](#pool), many **doubt** that this assumption is ever **true in psychological** and **medical research**, even when we partition our studies into subgroups.
+* The alternative, therefore, is to use a **random-effect-model** which assumes that the studies within a subgroup are drawn from a **universe** of populations follwing its own distribution, for which we want to estimate the **mean**.
+
+**2. Comparing the effects of the subgroups**
+
+After we calculated the pooled effect for each subgroup, **we can compare the size of the effects of each subgroup**. However, to know if this difference is in fact singnificant and/or meaningful, we have to calculate the **Standard Error of the differences between subgroup effect sizes** $SE_{diff}$, to calculate **confidence intervals** and conduct **significance tests**. 
+There are **two ways to calculate** $SE_{diff}$, and both based on different assumptions. 
+
+* **Fixed-effects (plural) model**: The fixed-effects-model for subgroup comparisons is appropriate when **we are only interested in the subgroups at hand** [@borenstein2013meta]. This is the case when **the subgroups we chose to examine** were not randomly "chosen", but represent fixed levels of a characteristic we want to examine. Gender is such a characteristic, as its two subgroups **female** and **male** were not randomly chosen, but are the two subgroups that gender (in its classical conception) has. Same does also apply, for example, if we were to examine if studies in patients with **clinical depression** versus **subclinical depression** yield different effects. Borenstein and Higgins [@@borenstein2013meta] argue that the **fixed-effects (plural) model** may be the **only plausible model** for most analysis in **medical research, prevention, and other fields**. 
+
+As this model assumes that **no further sampling error is introduced at the subgroup level** (because subgroups were not randomly sampled, but are fixed), $SE_{diff}$ only depends on the *variance within the subgroups* $A$ and $B$, $V_A$ and $V_B$.
+
+$$V_{Diff}=V_A + V_B$$
+
+The fixed-effects (plural) model can be used to test differences in the pooled effects between subgroups, while the pooling **within the subgroups is still conducted using a random-effects-model**. Such a combination is sometimes called a **mixed-effects-model**. We'll show you how to use this model in R in the [next chapter](#mixed).
+
+* **Random-effects-model**: The random-effects-model for between-subgroup-effects is appropriate when the **subgroups we use were randomly sampled from a population of subgroups**. Such an example would be if we were interested if the effect of an intervention **varies by region** by looking at studies from 5 different countries (e.g., Netherlands, USA, Australia, China, Argentina). These variable "region" has many different potential subgroups (countries), from which we randomly selected five means that this has introduced a **new sampling error**, for which we have to control for using the **random-effects-model** for between-subgroup-comparisons.
+
+The (simplified) formula for the estimation of $V_{Diff}$ using this model therefore looks like this:
+
+$$V_{Diff}=V_A + V_B + \frac{\hat T^2_G}{m} $$
+
+Where $\hat T^2_G$ is the **estimated variance between the subgroups**, and $m$ is the **number of subgroups**.
+```
+
+```{block,type='rmdachtung'}
+Be aware that subgroup analyses should **always be based on an informed, *a priori* decision** which subgroup differences within the study might be **practically relevant**, and would lead to information gain on relevant **research questions** in your field of research. It is also **good practice** to specify your subgroup analyses **before you do the analysis**, and list them in **the registration of your analysis**.
+
+It is also important to keep in mind that **the capabilites of subgroup analyses to detect meaningful differences between studies is often limited**. Subgroup analyses also need **sufficient power**, so it makes no sense to compare two or more subgroups when your entire number of studies in the meta-analysis is smaller than $k=10$ [@higgins2004controlling].
+
+```
+
+
+## Subgroup Analyses using the Mixed-Effect-Model {#mixed}
+
+```{r,echo=FALSE, message=FALSE}
+library(meta)
+```
+
+
+```{r}
+subgroup.analysis.mixed.effects<-function(data,sg.var,n.sg,subgroup1,subgroup2,subgroup3,subgroup4,subgroup5,subgroup6){
+
+n.sg<-n.sg  
+  
+if(n.sg==2){
+  
+data<-data
+sg.var<-sg.var
+subgroup1<-subgroup1
+subgroup2<-subgroup2
+
+sg1<-update.meta(data,
+               subset = sg.var==paste(subgroup1))
+
+sg2<-update.meta(data,
+               subset = sg.var==paste(subgroup2))
+
+estimate<-c(sg1$TE.random, 
+            sg2$TE.random)
+
+stderror<-c(sg1$seTE.random,
+            sg2$seTE.random)
+
+meta<-c(paste(subgroup1),
+        paste(subgroup2))
+
+data.comp<-data.frame(estimate,stderror,meta)
+print(metagen(TE=estimate,
+        seTE = stderror,
+        data=data.comp,
+        comb.fixed = TRUE,
+        comb.random = FALSE,
+        byvar = meta))
+}
+
+if(n.sg==3){
+  
+data<-data
+sg.var<-sg.var
+subgroup1<-subgroup1
+subgroup2<-subgroup2
+subgroup3<-subgroup3
+
+sg1<-update.meta(data,
+               subset = sg.var==paste(subgroup1))
+
+sg2<-update.meta(data,
+               subset = sg.var==paste(subgroup2))
+
+sg3<-update.meta(data,
+               subset = sg.var==paste(subgroup3))
+
+estimate<-c(sg1$TE.random, 
+            sg2$TE.random,
+            sg3$TE.random)
+
+stderror<-c(sg1$seTE.random,
+            sg2$seTE.random,
+            sg3$seTE.random)
+
+meta<-c(paste(subgroup1),
+        paste(subgroup2),
+        paste(subgroup3))
+
+data.comp<-data.frame(estimate,stderror,meta)
+print(metagen(TE=estimate,
+        seTE = stderror,
+        data=data.comp,
+        comb.fixed = TRUE,
+        comb.random = FALSE,
+        byvar = meta))
+}
+
+if(n.sg==4){
+  
+data<-data
+sg.var<-sg.var
+subgroup1<-subgroup1
+subgroup2<-subgroup2
+subgroup3<-subgroup3
+subgroup4<-subgroup4
+
+sg1<-update.meta(data,
+               subset = sg.var==paste(subgroup1))
+
+sg2<-update.meta(data,
+               subset = sg.var==paste(subgroup2))
+
+sg3<-update.meta(data,
+               subset = sg.var==paste(subgroup3))
+
+sg4<-update.meta(data,
+               subset = sg.var==paste(subgroup4))
+
+estimate<-c(sg1$TE.random, 
+            sg2$TE.random,
+            sg3$TE.random,
+            sg4$TE.random)
+
+stderror<-c(sg1$seTE.random,
+            sg2$seTE.random,
+            sg3$seTE.random,
+            sg4$seTE.random)
+
+meta<-c(paste(subgroup1),
+        paste(subgroup2),
+        paste(subgroup3),
+        paste(subgroup4))
+
+data.comp<-data.frame(estimate,stderror,meta)
+print(metagen(TE=estimate,
+        seTE = stderror,
+        data=data.comp,
+        comb.fixed = TRUE,
+        comb.random = FALSE,
+        byvar = meta))
+}
+
+if(n.sg==5){
+  
+data<-data
+sg.var<-sg.var
+subgroup1<-subgroup1
+subgroup2<-subgroup2
+subgroup3<-subgroup3
+subgroup4<-subgroup4
+subgroup5<-subgroup5
+
+sg1<-update.meta(data,
+               subset = sg.var==paste(subgroup1))
+
+sg2<-update.meta(data,
+               subset = sg.var==paste(subgroup2))
+
+sg3<-update.meta(data,
+               subset = sg.var==paste(subgroup3))
+
+sg4<-update.meta(data,
+               subset = sg.var==paste(subgroup4))
+
+sg5<-update.meta(data,
+               subset = sg.var==paste(subgroup5))
+
+estimate<-c(sg1$TE.random, 
+            sg2$TE.random,
+            sg3$TE.random,
+            sg4$TE.random,
+            sg5$TE.random)
+
+stderror<-c(sg1$seTE.random,
+            sg2$seTE.random,
+            sg3$seTE.random,
+            sg4$seTE.random,
+            sg5$seTE.random)
+
+meta<-c(paste(subgroup1),
+        paste(subgroup2),
+        paste(subgroup3),
+        paste(subgroup4),
+        paste(subgroup5))
+
+data.comp<-data.frame(estimate,stderror,meta)
+print(metagen(TE=estimate,
+        seTE = stderror,
+        data=data.comp,
+        comb.fixed = TRUE,
+        comb.random = FALSE,
+        byvar = meta))
+}
+
+if(n.sg==6){
+  
+data<-data
+sg.var<-sg.var
+subgroup1<-subgroup1
+subgroup2<-subgroup2
+subgroup3<-subgroup3
+subgroup4<-subgroup4
+subgroup5<-subgroup5
+subgroup6<-subgroup6
+
+sg1<-update.meta(data,
+               subset = sg.var==paste(subgroup1))
+
+sg2<-update.meta(data,
+               subset = sg.var==paste(subgroup2))
+
+sg3<-update.meta(data,
+               subset = sg.var==paste(subgroup3))
+
+sg4<-update.meta(data,
+               subset = sg.var==paste(subgroup4))
+
+sg5<-update.meta(data,
+               subset = sg.var==paste(subgroup5))
+
+sg6<-update.meta(data,
+               subset = sg.var==paste(subgroup6))
+
+estimate<-c(sg1$TE.random, 
+            sg2$TE.random,
+            sg3$TE.random,
+            sg4$TE.random,
+            sg5$TE.random,
+            sg6$TE.random)
+
+stderror<-c(sg1$seTE.random,
+            sg2$seTE.random,
+            sg3$seTE.random,
+            sg4$seTE.random,
+            sg5$seTE.random,
+            sg6$seTE.random)
+
+meta<-c(paste(subgroup1),
+        paste(subgroup2),
+        paste(subgroup3),
+        paste(subgroup4),
+        paste(subgroup5),
+        paste(subgroup6))
+
+data.comp<-data.frame(estimate,stderror,meta)
+print(metagen(TE=estimate,
+        seTE = stderror,
+        data=data.comp,
+        comb.fixed = TRUE,
+        comb.random = FALSE,
+        byvar = meta))
+}
+
+}
+
+```
+
+
+```{r}
+subgroup.analysis.mixed.effects(data=m.hksj,
+                                sg.var=madata$Control,
+                                n.sg = 2,
+                                subgroup1 = "WLC",
+                                subgroup2 = "no intervention")
+
+
+```
+
+
+
+
+
+
+
+RMDACHTUNG: apriori, Größe der MA schwarzer [10]
+
+
