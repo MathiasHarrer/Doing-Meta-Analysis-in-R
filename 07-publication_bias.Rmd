@@ -1,0 +1,55 @@
+# Publication Bias
+
+![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/publicationbias.jpg)
+
+
+
+## P-Curve
+
+In the last chapter, we showed you how you can apply **Egger's test of the intercept**, **Duval & Tweedie's trim and fill procedure**, and inspect **Funnel plots** in R.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/V7pvYLZkcK4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+```{r,echo=FALSE}
+library(knitr)
+load("metacont_data.RData")
+kable(metacont)
+```
+
+```{r,message=FALSE,warning=FALSE}
+library(compute.es)
+library(esc)
+library(xtable)
+```
+
+```{r}
+pcurve_dataprep<-function(data){
+data<-data
+Me<-as.numeric(data$Me)
+Se<-as.numeric(data$Se)
+Ne<-as.numeric(data$Ne)
+Mc<-as.numeric(data$Mc)
+Sc<-as.numeric(data$Sc)
+Nc<-as.numeric(data$Nc)
+
+esc<-esc_mean_sd(grp1m=Me, 
+                 grp1sd=Se, 
+                 grp1n=Ne, 
+                 grp2m=Mc, 
+                 grp2sd=Sc, 
+                 grp2n=Nc, 
+                 es.type = "d")
+
+output<-des(d=esc$es,n.1=Ne,n.2=Nc, verbose = FALSE)
+tot<-data.frame(paste("r(",output$N.total-2,")=",output$r))
+colnames(tot)<-c("output")
+print(tot, row.names = FALSE)
+}
+```
+
+```{r}
+pcurve_dataprep(data=metacont)
+```
+
+
+
