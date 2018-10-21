@@ -1,0 +1,44 @@
+# Network Meta-Analysis
+
+```{r,message=FALSE}
+library(netmeta)
+library(plyr)
+```
+
+
+```{r,echo=FALSE}
+load("netmetdata.RData")
+```
+
+```{r,eval=FALSE}
+netmetdata
+```
+
+```{r,echo=FALSE}
+library(knitr)
+kable(netmetdata)
+```
+
+
+Results
+
+```{r}
+netmet <- netmeta(TE, seTE, treat1, treat2, studlab=paste(Author), data=netmetdata, sm="SMD",reference.group = "Waitlist")
+netmet
+```
+
+```{r}
+netgraph(netmet,seq = c("Waitlist","Gestalt","Psychodynamic","MCT","MBCT","Placebo","CBT","System","Psychoanalysis","ACT"))
+
+netgraph(netmet, start="circle", iterate=TRUE, col="darkgray", cex=1.5, multiarm=TRUE, points=TRUE, col.points="blue", cex.points=3)
+```
+
+```{r}
+forest(netmet, xlim=c(-1.5, 0.5), ref="Waitlist", leftlabs="Contrast to Waitlist", xlab="Effect on Depression (SMD)",sortvar = TE, smlab = "")
+
+forest(netmet, xlim=c(-1.5, 0.5), ref="Placebo", leftlabs="Contrast to Placebo", xlab="Effect on Depression (SMD)",sortvar = TE, smlab = "")
+```
+
+
+
+
