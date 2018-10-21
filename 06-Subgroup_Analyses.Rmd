@@ -331,9 +331,15 @@ This can be seen under `Test for subgroup differences` in the `Between groups` r
 Please not that the values displayed under `k` in the `Results for subgroups (fixed effects model)` section are always 1, as the pooled effect of the subgroup is treated as a single study. To determine the actual $k$ of each subgroup, you can use the `count` function from `dplyr` in R.
 ```
 
+```{r,echo=FALSE}
+load("Meta_Analysis_Data.RData")
+madata<-Meta_Analysis_Data
+```
+
+
 ```{r}
 library(dplyr)
-count(madata, vars=Control)
+dplyr::count(madata, vars=madata$Control)
 ```
 
 ## Subgroup Analyses using the Random-Effects-Model

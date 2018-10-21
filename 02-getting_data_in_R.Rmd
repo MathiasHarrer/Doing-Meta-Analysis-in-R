@@ -5,7 +5,7 @@
 ```{block,type='rmdinfo'}
 This chapter will tell you about how you can **import** your effect size data in RStudio. We will also show you a few commands which make it easier to **manipulate data** directly in R.
 
-Data preparation can be tedious and exhausting at times, but it is the backbone of all later steps when doing meta-analyses in R. We therefore have to pay close attention to preparing the data correctly before we can proceed.
+Data preparation can be tedious and exhausting at times, but it is the backbone of all later steps when doing meta-analyses in R. We therefore have to pay **close attention** to preparing the data correctly before we can proceed.
 
 
 ```
@@ -13,11 +13,11 @@ Data preparation can be tedious and exhausting at times, but it is the backbone 
 
 ## Data preparation in Excel
 
-### Setting the columns of excel spreadsheet {#excel_preparation}
+### Setting the columns of the excel spreadsheet {#excel_preparation}
 
 To conduct Meta-Analyses in R, you need to have your study data prepared. For a standard meta-analysis, the following information is needed for every study.
 
-* The **names** of the individual studies, so that the can be easily identified later on. Usually, the first author of a study is used for this (e.g. "Ebert et al., 2018")
+* The **names** of the individual studies, so that they can be easily identified later on. Usually, the first author and publication year of a study is used for this (e.g. "Ebert et al., 2018")
 * The **Mean** of both the Intervention and the Control group at the same assessment point
 * The **Standard Deviation** of both the Intervention and the Control group at the same assessment point
 * The **number of participants (N)** in each group of the trial
@@ -50,9 +50,9 @@ There's also no need to **format** the columns in any way. If you type the colum
 It's also important to know that the import **will distort letters like ä,ü,ö,á,é,ê, etc**. So be sure to transform them to "normal" letters before you proceed.
 ```
 
-###Setting the columns of your sheet if you have calculated the effect sizes of each study already
+### Setting the columns of your sheet if you have calculated the effect sizes of each study already
 
-If you have **already calculated the effect sizes for each study on your own**, for example using Comprehensive Meta-Analysis or RevMan, there's another way to prepare your data which makes things a little easier. In this case, you only have to include the following columns:
+If you have **already calculated the effect sizes for each study on your own**, for example using *Comprehensive Meta-Analysis* or *RevMan*, there's another way to prepare your data which makes things a little easier. In this case, you only have to include the following columns:
 
 ```{r,echo=FALSE}
 library(kableExtra)
@@ -72,7 +72,7 @@ To get our data into R, we need to **save our data in a format and at a place wh
 
 Generelly, finding the right format to import EXCEL can be tricky.
 
-* If you're using a PC or Mac, it is advised to save your EXCEL sheet as a **comma-separated-values (.csv) file**. This can be done by clicking on "save as" and then choosing (.csv) as the output format.
+* If you're using a PC or Mac, it is advised to save your EXCEL sheet as a **comma-separated-values (.csv) file**. This can be done by clicking on "save as" and then choosing (.csv) as the output format in EXCEL.
 * With some PCs, RStudios might not be able to open such files, or the files might be distorted. In this case, you can also try to save the sheet as a normal **.xslx** EXCEL-file and try if this works.
 
 ### Saving the data in your working directory
@@ -96,10 +96,10 @@ grid.raster(img)
 
 **Your file, and the working directory, are now where they should be!**
 
-###Loading the data
+### Loading the data
 
 1. To import the data, simply **click on the file** in the bottom-right pane. Then click on **import dataset...**
-2. An import assistant should now pop up, which is also loading a preview for data. This can be time consuming sometimes, so you can skip this step if you want to, and klick straight on **"import"**
+2. An **import assistant** should now pop up, which is also loading a preview of your data. This can be time-consuming sometimes, so you can skip this step if you want to, and klick straight on **"import"**
 
 ```{r, echo=FALSE, fig.width=7,fig.height=3}
 library(png)
@@ -147,7 +147,7 @@ kable(madata.s)
   
 ## Data manipulation
 
-Now that we have the Meta-Analysis data in RStudio, let's do a few manipulations with the data. These functions might come in handy when were conducting analyses later on.
+Now that we have the Meta-Analysis data in RStudio, let's do a **few manipulations with the data**. These functions might come in handy when were conducting analyses later on.
 
 
 Going back to the output of the `str()` function, we see that this also gives us details on the type of column data we have stored in our data. There a different abbreviations signifying different types of data.
@@ -178,7 +178,7 @@ madata$ROB
 str(madata$ROB)
 ```
 
-We can see now that `ROB`is indeed a **character** type variable, which contains only to words: "low" and "high". We want to convert this to a **factor** variable now, which has only two levels, low and high. To do this, we use the `as.factor()` function.
+We can see now that `ROB`is indeed a **character** type variable, which contains only two words: "low" and "high". We want to convert this to a **factor** variable now, which has only two levels, low and high. To do this, we use the `factor()` function.
 
 ```{r}
 madata$ROB<-factor(madata$ROB)
@@ -187,9 +187,9 @@ str(madata$ROB)
 ```
 We now see that the variable has been **converted to a factor with the levels "high" and "low"**.
 
-###Converting to logicals
+### Converting to logicals
 
-Now lets have a look at the **intervention type** subgroup variable. This variable is corrently stores as a character too.
+Now lets have a look at the **intervention type** subgroup variable. This variable is currently stores as a character `chr` too.
 
 ```{r}
 madata$`intervention type`
@@ -224,14 +224,16 @@ So, let's load the package first.
 library(dplyr)
 ```
 
-Let's say we want to do a Meta-Analysis with three studies in our dataset only. To do this, we need to create a new dataset containing only these studies using the `dplyr::filter()` function. The `dplyr::` part is necessary as there a more than one filter functions in R, and we want to use to use the one of the `dplyr`package.
+Let's say we want to do a Meta-Analysis with three studies in our dataset only. To do this, we need to create a new dataset containing only these studies using the `dplyr::filter()` function. The `dplyr::` part is necessary as there is more than one ``filter` function in R, and we want to use to use the one of the `dplyr`package.
 
 Let's say we want to have the studies by **Cavanagh et al.**, **Frazier et al.** and **Phang et al.** stored in another dataset, so we can conduct analyses only for these studies.
 
-The R code to store theses three studies in a new dataset called `madata.new` looks like this:
+The R code to store these three studies in a new dataset called `madata.new` looks like this:
 
 ```{r}
-madata.new<-dplyr::filter(madata,Author %in% c("Cavanagh et al.","Frazier et al.","Phang et al."))
+madata.new<-dplyr::filter(madata,Author %in% c("Cavanagh et al.",
+                                               "Frazier et al.",
+                                               "Phang et al."))
 ```
 
 Note that the `%in%`-Command tells the `filter` function to search for exactly the three cases we defined in the variable `Author`.
@@ -251,7 +253,9 @@ madata.new.mf<-dplyr::filter(madata,`intervention type` %in% c("mindfulness"))
 We can also use the `dplyr::filter()` function to exclude studies from our dataset. To do this, we only have to add `!` in front of the variable we want to use for filtering.
 
 ```{r}
-madata.new.excl<-dplyr::filter(madata,!Author %in% c("Cavanagh et al.","Frazier et al.","Phang et al."))
+madata.new.excl<-dplyr::filter(madata,!Author %in% c("Cavanagh et al.",
+                                                     "Frazier et al.",
+                                                     "Phang et al."))
 
 ```
 

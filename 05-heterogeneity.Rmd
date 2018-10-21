@@ -4,7 +4,7 @@
 
 By now, we have already shown you how to pool effect sizes in a meta-analysis. In meta-analytic pooling, we aim to **synthesize the effects of many different studies into one single effect**. However, this makes only sense if we aren't comparing **Apples and Oranges**. For example, it could be the case that while the overall effect we calculate in the meta-analysis is **small**, there are still a few studies which report **very high** effect sizes. Such information is lost in the aggregate effect, but it is very important to know if all studies, or interventions, yield small effect sizes, or if there are exceptions.
 
-It could also be the case that even some very **extreme effect sizes** were included in the meta-analysis, so-called **outliers**. Such outliers might have even distorted our overall effect, and it is important to how our overall effect would have looked without them.
+It could also be the case that even some very **extreme effect sizes** were included in the meta-analysis, so-called **outliers**. Such outliers might have even distorted our overall effect, and it is important to know how our overall effect would have looked without them.
 
 The extent to which effect sizes vary within a meta-analysis is called **heterogeneity**. It is very important to assess heterogeneity in meta-analyses, as high heterogeneity could be caused by the fact that there are actually two or more **subgroups** of studies present in the data, which have a different true effect. Such information could be very valuable for **research**, because this might allow us to find certain interventions or populations for which effects are lower or higher.
 
@@ -32,13 +32,13 @@ There are **three types of heterogeneity measures** which are commonly used to a
 
 **1. Cochran's *Q* **
 
-For Cochran's *Q*-statistic, is the **difference between the observed effect sizes and the fixed-effect model estimate** of the effect size, which is then **squared, weighted and summed**. 
+Cochran's *Q*-statistic is the **difference between the observed effect sizes and the fixed-effect model estimate** of the effect size, which is then **squared, weighted and summed**. 
 
 $$ Q = \sum\limits_{k=1}^K w_k (\hat\theta_k  - \frac{\sum\limits_{k=1}^K w_k \hat\theta_k}{\sum\limits_{k=1}^K w_k})^{2}$$
 
 **2. Higgin's & Thompson's *I*^2^ **
 
-$I^{2}$ [@higgins2002quantifying] is the **percentage of variability** in the effect size estimates which is not caused by sampling error. It is derived from $Q$:
+$I^{2}$ [@higgins2002quantifying] is the **percentage of variability** in the effect sizes which is not caused by sampling error. It is derived from $Q$:
 
 $$I^{2} = max \left\{0, \frac{Q-(K-1)}{Q}  \right\}$$
 
@@ -52,17 +52,17 @@ $\tau^{2}$ is the between-study variance in our meta-analysis. As we show in [Ch
 
 Generally, when we assess and report heterogeneity in a meta-analysis, we need a measure which is **robust, and not to easily influenced by statistical power**.
 
-**Cochrane's *Q* ** increases both when the **number of studies** ($k$) increases, and when the **precision** (i.e., the sample size $N$ of a study) increases. Therefore, *Q* and weather it is **significant** highly depends on the size of your meta-analysis, and thus its statistical power. We should therefore not only rely on *Q* when assessing heterogeneity.
+**Cochran's *Q* ** increases both when the **number of studies** ($k$) increases, and when the **precision** (i.e., the sample size $N$ of a study) increases. Therefore, $Q$ and weather it is **significant** highly depends on the size of your meta-analysis, and thus its statistical power. We should therefore not only rely on $Q$ when assessing heterogeneity.
 
-**I^2^** on the other hand, is not sensitive to changes in the number of studies in the analyses. I^2^ is therefore used extensively in medical and psychological research, especially since there is a **"rule of thumb"** to interpret it [@higgins2003measuring]:
+**I^2^** on the other hand, is not sensitive to changes in the number of studies in the analyses. $I^2$ is therefore used extensively in medical and psychological research, especially since there is a **"rule of thumb"** to interpret it [@higgins2003measuring]:
 
-* I^2^ = 25%: **low heterogeneity**
-* I^2^ = 50%: **moderate heterogeneity**
-* I^2^ = 75%: **substantial heterogeneity**
+* *I*^2^ = 25%: **low heterogeneity**
+* *I*^2^ = 50%: **moderate heterogeneity**
+* *I*^2^ = 75%: **substantial heterogeneity**
 
-Despite its common use in the literature, I^2^ not always an adequate measure for heterogeneity either, because it still heavily depends on the **precision** of the included studies [@rucker2008undue; @borenstein2017basics]. As said before, $I^{2}$ is simply the amount of variability **not caused by sampling error**. If our studies become increasingly large, this sampling error tends to **zero**, while at the same time, $I^{2}$ tends to 100% simply because the single studies have greater $N$. Only relying on I^2^ is therefore not a good option either.
+Despite its common use in the literature, $I^2$ not always an adequate measure for heterogeneity either, because it still heavily depends on the **precision** of the included studies [@rucker2008undue; @borenstein2017basics]. As said before, $I^{2}$ is simply the amount of variability **not caused by sampling error**. If our studies become increasingly large, this sampling error tends to **zero**, while at the same time, $I^{2}$ tends to 100% simply because the single studies have greater $N$. Only relying on $I^2$ is therefore not a good option either.
 
-**Tau-squared**, on the other hand, is **insensitive** to the number of studies, **and** the precision. Yet, it is often hard to interpret how relevant our tau-squared is from a practicial standpoint.
+**Tau-squared**, on the other hand, is **insensitive** to the number of studies, **and** the precision. Yet, it is often hard to interpret how relevant our tau-squared is from a practical standpoint.
 
 **Prediction intervals** (like the ones we automatically calculated in [Chapter 4](#pool)) are a good way to overcome this limitation [@inthout2016plea], as they take our between-study variance into account. Prediction intervals give us a range for which we can **expect the effects of future studies to fall** based on **our present evidence in the meta-analysis**. If our prediction interval, for example, lies completely on the positive side favoring the intervention, we can be quite confident to say that **despite varying effects, the intervention might be at least in some way beneficial in all contexts we studied in the future**. If the confidence interval includes **zero**, we can be less sure about this, although it should be noted that **broad prediction intervals are quite common, especially in medicine and psychology**. 
 ```
@@ -71,7 +71,7 @@ Despite its common use in the literature, I^2^ not always an adequate measure fo
 
 Thankfully, once you've already pooled your effects in meta-analysis using the `metagen()`, `metabin()`, or `metacont` function, it is very easy and straightforward to retrieve the **three most common heterogeneity measures** that we described before.
 
-In [Chapter 4.2.2](#random.precalc), we already showed you how to conduct a **random-effect-model meta-analysis**. In this example, we stored our *results* in the object `m.hksj`, which we will use again here.
+In [Chapter 4.2.2](#random.precalc), we already showed you how to conduct a **random-effect-model meta-analysis**. In this example, we stored our **results** in the object `m.hksj`, which we will use again here.
 
 
 ```{r, echo=FALSE,warning=FALSE,message=FALSE}
@@ -120,14 +120,14 @@ print(m.hksj)
 
 ```
 
-We see that this output **already provides us with all three heterogeneity measures** (and even one more, *H*, which we'll not cover here).
+We see that this output **already provides us with all three heterogeneity measures** (and even one more, *H*, which we will not cover here).
 
 * $\tau^{2}$, as we can see from the `tau^2` output, is **0.1337**.
 
 * $I^{2}$ is printed next to `I^2`, and has the value **62.6%**, and a 95% confidence interval rangin from 37.9% to 77.5%.
 
 * The value of $Q$ is displayed next to `Q` under `Test of heterogeneity:`.
-As we can see, the value is **45.50**. In our case, this is highly significant (0.0002; see `p-value`).
+As we can see, the value is **45.50**. In our case, this is highly significant ($p=0.0002$; see `p-value`).
 
 * The **prediction interval** can be found next to `Prediction interval`. As we can see, the 95% interval ranges from **g=-0.2084** to **1.3954**.
 
@@ -181,17 +181,18 @@ A common method to detect outliers directly is to define a study as an outlier i
 To detect such outliers in our dataset, the `filter` function in the `dplyr` package we introduced in [Chapter 3.3.3](#filter) comes in handy again. 
 
 Using this function, we can search for all studies:
+
 * for which the **upper bound of the 95% confidence interval is lower than the lower bound of the pooled effect confidence interval** (i.e., extremely small effects)
 * for which the **lower bound of the 95% confidence interval is higher than the higher bound of the pooled effect confidence interval** (i.e., extremely large effects)
 
-Here, i'll use my `m.hksj` meta-analysis output from [Chapter 4.2.2 ](#random.precalc) again. Let's see what the **upper and lower bound of my pooled effect confidence interval** is. As i performed a **random-effect meta-analysis in this case**, i will use the value stored under `$lower.random` and `$upper.random`. If you performed a **fixed-effect meta-analysis**, the objects would be `$lower.fixed` and `$upper.fixed`, respectively.
+Here, i'll use my `m.hksj` meta-analysis output from [Chapter 4.2.2 ](#random.precalc) again. Let's see what the **upper and lower bound of my pooled effect confidence interval** is. As i performed a **random-effect meta-analysis in this example**, i will use the value stored under `$lower.random` and `$upper.random`. If you performed a **fixed-effect meta-analysis**, the objects would be `$lower.fixed` and `$upper.fixed`, respectively.
 
 ```{r}
 m.hksj$lower.random
 m.hksj$upper.random
 ```
 
-Here we go. I now see that my **pooled effect confidence interval** stretches from *g* = 0.389 to *g* = 0.798. We can use these values to filter out outliers now.
+Here we go. I now see that my **pooled effect confidence interval** stretches from $g = 0.389$ to $g = 0.798$. We can use these values to filter out outliers now.
 
 To filter out outliers **automatically**, we have prepared two **functions** for you, `spot.outliers.random` and `spot.outliers.fixed`. Both need the `dplyr` package (see [Chapter 3.3.3](#select)) to function, so we need to need to have this package **installed** and **loaded into our library**.
 
@@ -227,7 +228,7 @@ This is the output we get from the function:
 spot.outliers.random(data=m.hksj)
 ```
 
-We see that the function has detected **two outliers**. Looking at the `lowerci` value, the lower bound of the two study's confidence intervals, we see that both have extremely high, positive effects, because the lower bounds are both much higher than the **higher bound of the confidence interval of our pooled effect**, which was *g* = 0.798.
+We see that the function has detected **two outliers**. Looking at the `lowerci` value, the lower bound of the two study's confidence intervals, we see that both have extremely high positive effects, because the lower bounds are both much higher than the **higher bound of the confidence interval of our pooled effect**, which was $g = 0.798$.
 
 Thus, we can conduct a **sensitivity analysis** in which we **exclude these two outliers**. We can do this with the `update.meta` function in `meta`. This creates an update of our meta-analysis output `m.hksj` without the outliers.
 
@@ -260,7 +261,7 @@ dplyr::filter(m.outliers,lowerci > te.upper)
 
 We have now showed you how you can detect and remove **extreme effect sizes** (outliers) in your meta-analysis.
 
-As we've mentioned before in [Chapter](), however, it is not only statistical outliers which may cause concerns regarding the robustness of our pooled effect. It is also possible that **some studies in a meta-analysis exert a very high influence on our overall results**. For example, it could be the case that we find that an overall effect is not significant, when in fact, a highly significant is consistently found once we remove one particular study in our analysis. Such information is **highly important once we want to communicate the results of our meta-analysis to the public**.
+As we've mentioned before in [Chapter](), however, it is not only statistical outliers which may cause concerns regarding the robustness of our pooled effect. It is also possible that **some studies in a meta-analysis exert a very high influence on our overall results**. For example, it could be the case that we find that an overall effect is not significant, when in fact, a highly significant effect is consistently found once we remove one particular study in our analysis. Such information is **highly important once we want to communicate the results of our meta-analysis to the public**.
 
 Here, we present techniques which dig a little deeper than simple outlier removal. To some extent, they are based on the **Leave-One-Out**-method, in which we **recalculate the results of our meta-analysis** $K-1$ times, each times leaving out one study. This way, we can more easily detect **studies which influence the overall estimate of our meta-analysis the most**, and lets us better assess if this **influence may distort our pooled effect** [@viechtbauer2010outlier]. Thus, such analyses are called **Influence Analyses**.
 
@@ -380,7 +381,7 @@ In the first analysis, you can see different influence measures, for which we ca
 
 * **dffits**: The DIFFITS value of a study indicates in standard deviations how much the predicted pooled effect changes after excluding this study
 * **cook.d**: The **Cook's distance** resembles the **Mahalanobis distance** you may know from outlier detection in conventional multivariate statistics. It is the distance between the value once the study is included compared to when it is excluded
-* **cov.r**: The **covariance ratio** is the determinant of the variance-covariance matrix of the parameter estimates when the study is removed, divided by the determinant of the variance-covariance matrix of the parameter estimates when the full dataset is considered. Importantly, values of $ cov.r < 1$ indicate that removing the study will lead to a more precise effect size estimation (i.e., less heterogeneity).
+* **cov.r**: The **covariance ratio** is the determinant of the variance-covariance matrix of the parameter estimates when the study is removed, divided by the determinant of the variance-covariance matrix of the parameter estimates when the full dataset is considered. Importantly, values of cov.r < 1 indicate that removing the study will lead to a more precise effect size estimation (i.e., less heterogeneity).
 
 Usually, however, you don't have to dig this deep into the calculations of the individual measures. As a rule of thumb, **influential cases** are studies with **very extreme values in the graphs**. Viechtbauer and Cheung have also proposed cut-offs when to define a a study as an influential case, for example (with $p$ being the number of model coefficients and $k$ the number of studies):
 

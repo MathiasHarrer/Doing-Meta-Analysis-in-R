@@ -5,14 +5,14 @@
 Now, let's get to the core of every Meta-Analysis: **pooling your effect sizes** to get one overall effect size estimate of the studies.
 
 ```{block,type='rmdinfo'}
-When pooling effect sizes in Meta-Analysis, there are two approaches which we can use: the **Fixed-Effects-Model**, or the **Random-Effects-Model** [@borenstein2011]. There is an extensive debate on which model fits best in which context [@fleiss1993review], with no clear consensus in sight. Although it has been recommended to **only resort to the Random-Effects-Pooling model** in clinical psychology and the health sciences [@cuijpers2016meta], we will describe how to conduct both in R here.
+When pooling effect sizes in Meta-Analysis, there are two approaches which we can use: the **Fixed-Effect-Model**, or the **Random-Effects-Model** [@borenstein2011]. There is an extensive debate on which model fits best in which context [@fleiss1993review], with no clear consensus in sight. Although it has been recommended to **only resort to the Random-Effects-Pooling model** in clinical psychology and the health sciences [@cuijpers2016meta], we will describe how to conduct both in R here.
 
-Both of these models only require an **effect size**, and a **dispersion (variance)** estimate for each study, of which the inverse is taken. This is why the methods are often called **general inverse-variance methods**.
+Both of these models only require an **effect size**, and a **dispersion (variance)** estimate for each study, of which the inverse is taken. This is why the methods are often called **generic inverse-variance methods**.
 ```
 
 We will describe in-depth how to conduct meta-analyses in R with **continuous variables** (such as effect sizes), as these are the most common ones in psychology and the health science field. Later on, we will present briefly how to do meta-analyses with **binary outcome** data too, which might be important if you're focusing on prevention trials.
 
-For these Meta-Analyses, we'll use the `meta` package [@schwarzer2007meta]. In [Section 2.1](#RStudio), we show how to install the package. Now, load the package from your library to proceed.
+For these meta-analyses, we'll use the `meta` package [@schwarzer2007meta]. In [Section 2.1](#RStudio), we showed how to install the package. Now, load the package from your library to proceed.
 
 ```{r, warning=FALSE,message=FALSE}
 library(meta)
@@ -41,12 +41,12 @@ For this weighing, we use the **inverse of the variance** $1/\hat\sigma^2_k$ of 
 
 
 
-In [Chapter 3.1](#excel_preparation), we have described two ways your EXCEL spreadsheet for you Meta-Analysis data can look like:
+In [Chapter 3.1](#excel_preparation), we have described two ways your EXCEL spreadsheet for your meta-analysis data can look like:
 
-* It can either be stored as the raw data (including the Mean, N, and SD of every study arm)
-* Or it only contains the calculated effect sizes and the standard error (SE)
+* It can either be stored as the **raw data** (including the Mean, N, and SD of every study arm)
+* Or it only contains the **calculated effect sizes and the standard error (SE)**
 
-The functions to pool the results with a fixed-effects-model differ depending on which data format you used, but not much. First, let's assume you already have a dataset with the calucated effects and SE for each study. In my case, this is my `madata` dataset.
+The functions to pool the results with a fixed-effect-model **differ depending on which data format you used**, but not much. First, let's assume you already have a dataset with the **calucated effects and SE** for each study. In my case, this is my `madata` dataset.
 
 ```{r,echo=FALSE}
 load("Meta_Analysis_Data.RData")
@@ -57,9 +57,9 @@ madata<-Meta_Analysis_Data
 str(madata)
 ```
 
-This dataset has **continuous outcome data**. As our effect sizes are already calculated, we can use the `meta::metagen` function. For this function, we can specify loads of parameters, all of which you can access by typing `?metagen` in your console once the `meta` package is loaded.
+This dataset has **continuous outcome data**. As our effect sizes are already calculated, we can use the `meta::metagen` function. For this function, we can specify loads of parameters, all of which you can accessed by typing `?metagen` in your console once the `meta` package is loaded.
   
-Here is a table with the most important parameters for our code:
+**Here is a table with the most important parameters for our code:**
 
 ```{r,echo=FALSE}
 i<-c("TE","seTE","data=","studlab=paste()","comb.fixed=","comb.random","prediction=","sm=")
@@ -67,9 +67,9 @@ ii<-c("This tells R to use the TE column to retrieve the effect sizes for each s
       "This tells R to use the seTE column to retrieve the standard error for each             study",
       "After =, paste the name of your dataset here",
       "This tells the function were the labels for each study are stored. If you named the spreadsheet columns as advised, this should be studlab=paste(Author)",
-      "Weather to use a fixed-effects-model",
+      "Weather to use a fixed-effect-model",
       "Weather to use a random-effects-model",
-      "Weather to print a prediction interval for the effect of future studies based on present evidence","The summary measure we want to calculate. We can either calculate the mean difference (MD) or Hedges' g (SMD)")
+      "Weather to print a prediction interval for the effect of future studies based on present evidence","The summary measure we want to calculate. We can either calculate the mean difference (MD) or Hedges' g/Cohen's d (SMD)")
 ms<-data.frame(i,ii)
 names<-c("Parameter", "Function")
 colnames(ms)<-names
@@ -95,7 +95,7 @@ We now see the results of our Meta-Analysis, including
 
 * The **individual effect sizes** for each study, and their weight
 * The total **number of included studies** (k)
-* The **overall effect** (in our case, g=0.4805) and its confidence interval and p-value
+* The **overall effect** (in our case, *g* = 0.4805) and its confidence interval and p-value
 * Measures of **between-study heterogeneity**, such as *tau^2^* or *I^2^* and a *Q*-test of heterogeneity
 
 Using the `$` command, we can also have a look at various outputs directly. For example
@@ -104,7 +104,7 @@ Using the `$` command, we can also have a look at various outputs directly. For 
 m$lower.I2
 ```
 
-Gives us the lower 95% confidence interval for *I^2^*
+Gives us the lower bound of the 95% confidence interval for *I^2^*
 
 ```{r, echo=FALSE}
 m$lower.I2
@@ -192,22 +192,22 @@ sink()
 
 ## Random-Effects-Model {#random}
 
-Previously, we showed how to perform a fixed-effects-model meta-analysis using the `meta:metagen` and `meta:metacont` functions.
+Previously, we showed how to perform a fixed-effect-model meta-analysis using the `meta:metagen` and `meta:metacont` functions.
 
-However, we can only use the fixed-effects-model when we can assume that **all included studies come from the same population**. In practice this is hardly ever the case: interventions may vary in certain characteristics, the sample used in each study might be slightly different, or its methods. In this case, we cannot assume that all studies stem from one hypothesized "population" of studies. 
+However, we can only use the fixed-effect-model when we can assume that **all included studies come from the same population**. In practice this is hardly ever the case: interventions may vary in certain characteristics, the sample used in each study might be slightly different, or its methods. In this case, we cannot assume that all studies stem from one hypothesized "population" of studies. 
 
 Same is the case once we detect **statistical heterogeneity** in our fixed-effect-model meta-analysis, as indicated by $I^{2}>0$.
 
-So, it is very likely that you will actually use a random-effects-model for your meta-analysis. Thankfully, there's not much more we have to think about when conducting a random-effects-model meta-analysis in R instead of a fixed-effects-model meta-analysis.
+So, it is very likely that you will actually use a random-effects-model for your meta-analysis. Thankfully, there's not much more we have to think about when conducting a random-effects-model meta-analysis in R instead of a fixed-effect-model meta-analysis.
 
 ```{block,type='rmdinfo'}
 **The Idea behind the Random-Effects-Model**
 
-In the Random-Effects-Model, we want to account for our assumption that the study effect estimates show more variance than when drawn from a single population [@schwarzer2015meta]. The random-effect-model works under the so-called **assumption of exchangeability**. 
+In the Random-Effects-Model, we want to account for our assumption that the study effect estimates show more variance than when drawn from a single population [@schwarzer2015meta]. The random-effects-model works under the so-called **assumption of exchangeability**. 
 
-This means that in Random-Effect-Model Meta-Analyses, we not only assume that effects of individual studies deviate from the true intervention effect of all studies due to sampling error, but that there is another source of variance introduced by the fact that the studies do not stem from one single population, but are drawn from a "universe" of populations. We therefore assume that there is not only one true effect size, but **a distribution of true effect sizes**. Were therefore want to estimate the mean of this distribution of true effect sizes.
+This means that in Random-Effects-Model Meta-Analyses, we not only assume that effects of individual studies deviate from the true intervention effect of all studies due to sampling error, but that there is another source of variance introduced by the fact that the studies do not stem from one single population, but are drawn from a "universe" of populations. We therefore assume that there is not only one true effect size, but **a distribution of true effect sizes**. We therefore want to estimate the mean of this distribution of true effect sizes.
 
-The fixed-effects-model assumes that when the observed effect size $\hat\theta_k$ of an individual study $k$ deviates from the true effect size $\theta_F$, the only reason for this is that the estimate is burdened by (sampling) error $\epsilon_k$.
+The fixed-effect-model assumes that when the observed effect size $\hat\theta_k$ of an individual study $k$ deviates from the true effect size $\theta_F$, the only reason for this is that the estimate is burdened by (sampling) error $\epsilon_k$.
 
 $$\hat\theta_k = \theta_F + \epsilon_k$$
 
@@ -231,11 +231,11 @@ The formula for the random-effects-model therefore looks like this:
 
 $$\hat\theta_k = \mu + \epsilon_k + \zeta_k$$
 
-When calculating a random-effects-model meta-analysis, where therefore also have to take the error $\zeta_k$ into account. To do this, we have to **estimate the variance of the distribution of true effect sizes**, which is denoted by $\tau^{2}$, or *tau^2^*. There are several estimators for $\tau^{2}$, all of which are implemented in `meta`. We will give your more details about them in the next section.
+When calculating a random-effects-model meta-analysis, where therefore also have to take the error $\zeta_k$ into account. To do this, we have to **estimate the variance of the distribution of true effect sizes**, which is denoted by $\tau^{2}$, or *tau^2^*. There are several estimators for $\tau^{2}$, all of which are implemented in `meta`. We will give you more details about them in the next section.
 ```
 
 ```{block,type='rmdachtung'}
-Even though it is **conventional** to use random-effects-model meta-analyses in psychological outcome research, applying this model is **not undisputed**. The random-effects-model pays **more attention to small studies** when pooling the overall effect in a meta-analysis [@schwarzer2015meta]. Yet, small studies in particular are often fraught with **bias**. This is why some have argued that the fixed-effects-model should be nearly always preferred [@poole1999; @furukawa2003].
+Even though it is **conventional** to use random-effects-model meta-analyses in psychological outcome research, applying this model is **not undisputed**. The random-effects-model pays **more attention to small studies** when pooling the overall effect in a meta-analysis [@schwarzer2015meta]. Yet, small studies in particular are often fraught with **bias** (see [Chapter 8.1](#smallstudyeffects)). This is why some have argued that the fixed-effects-model should be nearly always preferred [@poole1999; @furukawa2003].
 ```
 
 ### Estimators for *tau^2^* in the random-effects-model {#tau2}
@@ -254,23 +254,25 @@ kable(ms)
 ```{block,type='rmdinfo'}
 **Which estimator should i use?**
 
-All of these estimators derive $\tau^{2}$ using a slightly different approach, leading to somewhat different pooled effect size estimates and confidence intervals. If one of these approaches is more or less biased often depends on the context, and parameters such as the number of studies $k$, the number of participants $n$ in each study, and how much $n$ varies from study to study, and how big $\tau^{2}$ is. 
+All of these estimators derive $\tau^{2}$ using a slightly different approach, leading to somewhat different pooled effect size estimates and confidence intervals. If one of these approaches is more or less biased often depends on the context, and parameters such as the number of studies $k$, the number of participants $n$ in each study, how much $n$ varies from study to study, and how big $\tau^{2}$ is. 
 
-An overview paper by Veroniki and colleagues [@veroniki2016methods] provides an excellent summary on current evidence which estimator might be more or less biased in which situation. The article is Open Access, and you can read it [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4950030/).
+An overview paper by Veroniki and colleagues [@veroniki2016methods] provides an excellent summary on current evidence which estimator might be more or less biased in which situation. The article is openly accessible, and you can read it [here](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4950030/).
 
-Especially in medical and psychological research, the by far most often used one is the **DerSimonian-Laird estimator** [@dersimonian1986meta]. Part of this widespread use might be attributable to the fact that programs such as *RevMan* or *Comprehensive Meta-Analysis* (older versions) only use this estimator. It is also the default option in our `meta` package in R. Simulation studies, however, have shown that the **Maximum-Likelihood**, **Sidik-Jonkman**, and **Empirical Bayes** estimators have better properties in estimating the between-study variance [@sidik2007comparison;@viechtbauer2005bias].
+Especially in medical and psychological research, the by far most often used estimator is the **DerSimonian-Laird estimator** [@dersimonian1986meta]. Part of this widespread use might be attributable to the fact that programs such as *RevMan* or *Comprehensive Meta-Analysis* (older versions) only use this estimator. It is also the default option in our `meta` package in R. Simulation studies, however, have shown that the **Maximum-Likelihood**, **Sidik-Jonkman**, and **Empirical Bayes** estimators have better properties in estimating the between-study variance [@sidik2007comparison;@viechtbauer2005bias].
 ```
 
 ```{block,type='rmdinfo'}
 **The Hartung-Knapp-Sidik-Jonkman method**
   
-Another criticism of the **DerSimonian-Laird** method is that when estimating the variance of our pooled effect $var(\hat\theta_F)$, this method is very prone to producing false positives [@inthout2014hartung]. This especially the case when the **number of studies** is small, and when there is substantial **heterogeneity**[@hartung1999alternative;@hartung2001refined;@hartung2001tests;@follmann1999valid;@makambi2004effect]. Unfortunately, this is very often the case in when we do meta-analysis in the medical field or in psychology. This is quite a problem, as we don't want to find pooled effects to be statistically significant when in fact they are not!
+Another criticism of the **DerSimonian-Laird** method is that when estimating the variance of our pooled effect $var(\hat\theta_F)$, this method is very prone to producing false positives [@inthout2014hartung]. This is especially the case when the **number of studies** is small, and when there is substantial **heterogeneity** [@hartung1999alternative;@hartung2001refined;@hartung2001tests;@follmann1999valid;@makambi2004effect]. Unfortunately, this is very often the case in when we do meta-analysis in the medical field or in psychology. This is quite a problem, as we don't want to find pooled effects to be statistically significant when in fact they are not!
 
 The **Hartung-Knapp-Sidik-Jonkman (HKSJ) method** was thus proposed a way to produce more robust estimates of $var(\hat\theta_F)$. It has been shown that this method substantially outperforms the DerSimonian-Laird method in many cases [@inthout2014hartung]. The HKSJ method can also be very easily applied in R, while other programs don't have this option yet. This is another big plus of doing meta-analysis in R. The HKSJ usually leads to more **conservative** results, indicated by wider confidence intervals.
 ```
 
 ```{block,type='rmdachtung'}
-It should be noted, however, that the HKSJ method is not uncontroversial. Some authors argue suggest that other (standard) pooling models should also be used **in addition** to the HKSJ as a **sensitivity analysis** [@wiksten2016hartung]. Jackson and colleagues [@jackson2017hartung] present four residual concerns with this method, which you may take into account before selecting your meta-analytic method. The paper can be read [here](https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.7411).
+**Residual concerns with the Hartung-Knapp-Sidik-Jonkman method**
+
+It should be noted, however, that the HKSJ method is not uncontroversial. Some authors argue that other (standard) pooling models should also be used **in addition** to the HKSJ as a **sensitivity analysis** [@wiksten2016hartung]. Jackson and colleagues [@jackson2017hartung] present four residual concerns with this method, which you may take into account before selecting your meta-analytic method. The paper can be read [here](https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.7411).
 ```
 
 ### Pre-calculated effect size data {#random.precalc}
@@ -324,9 +326,9 @@ m.hksj<-metagen(TE,
 m.hksj
 
 ```
-The output shows that our estimated effect is ***g*=0.5935**, and the 95% confidence interval stretches from *g*=0.39 to 0.80 (rounded).
+The output shows that our estimated effect is $g=0.5935$, and the 95% confidence interval stretches from $g=0.39$ to $0.80$ (rounded).
 
-It also becomes clear that this effect is different (and larger) than the one we found in the fixed-effects-model meta-analysis in [Chapter 4.1](#fixed) (*g*=0.48).
+It also becomes clear that this effect is different (and larger) than the one we found in the fixed-effects-model meta-analysis in [Chapter 4.1](#fixed) ($g=0.48$).
 
 Let's compare this to the output using the **DerSimonian-Laird** estimator, and when setting `hakn=FALSE`. As this estimator is the **default**, i don't have to define `method.tau` this time.
 
@@ -343,7 +345,7 @@ m.dl<-metagen(TE,
 m.dl
 
 ```
-We see that the overall effect size estimate using this estimator is similar to the previous one (*g*=0.57), but the confidence intervals **is narrower because we did not adjust them** using the HKSJ method.
+We see that the overall effect size estimate using this estimator is similar to the previous one ($g=0.57$), but the confidence intervals **is narrower because we did not adjust them** using the HKSJ method.
 
 ```{r,echo=FALSE,fig.height=2}
 TE<-c(m.hksj$TE.random,m.dl$TE.random)
@@ -421,7 +423,7 @@ Description<-c(
 "Number of participants in the control arm",
 
 
-"This is the label for one of your Subgroup codes. It's not that important how you name it, so you can give it a more informative name (e.g. population). In this column, each study should then be given an subgroup code, which should be exactly the same for each subgroup, including upper/lowercase letters. Of course, you can also include more than one subgroup column with different subgroup codings, but the column name has to be unique")
+"This is the label for one of your subgroup codes. It's not that important how you name it, so you can give it a more informative name (e.g. population). In this column, each study should then be given a subgroup code, which should be exactly the same for each subgroup, including upper/lowercase letters. Of course, you can also include more than one subgroup column with different subgroup codings, but the column name has to be unique")
 m<-data.frame(Package,Description)
 names<-c("Column", "Description")
 colnames(m)<-names
@@ -434,12 +436,13 @@ load("binarydata.RData")
 str(binarydata)
 ```
 
-The other parameters are the as the ones we used in the meta-analyses with continuous outcome data, with two exceptions:
+The other parameters are like the ones we used in the meta-analyses with continuous outcome data, with two exceptions:
 
-* **sm**: As we want to have a pooled effect for binary data, we have to choose another summary measure now. We can choose from **"OR"** (Odds Ratio), **"RR"** (Risk Ratio), or **RD** (Risk Difference), among other things
-* **incr**. This lets us define if and how we want **conitinuity correction** to be performed. Such a correction if necessary cases where one of the cells in your data is zero (e.g., because no one in the intervention arm died). This can be a frequent phenomenon in some context, and **distorts our effect size estimates**. By default, the `metabin` function adds the value **0.5** in all cells were N is zero [@gart1967bias]. This value can be changed using the `incr`-function (e.g., `incr=0.1`). If your trial arms are very uneven in terms of their total $n$, we can also use the **treatment arm continuity correction** [@j2004add]. This can be done by using `incr="TACC"`.
+* **sm**: As we want to have a pooled effect for binary data, we have to choose another summary measure now. We can choose from **"OR"** (Odds Ratio), **"RR"** (Risk Ratio), or **RD** (Risk Difference), among other things.
+* **incr**. This lets us define if and how we want **conitinuity correction** to be performed. Such a correction is necessary in cases where one of the cells in your data is zero (e.g., because no one in the intervention arm died). This can be a frequent phenomenon in some contexts, and **distorts our effect size estimates**. By default, the `metabin` function adds the value **0.5** in all cells were N is zero [@gart1967bias]. This value can be changed using the `incr`-parameter (e.g., `incr=0.1`). If your trial arms are very uneven in terms of their total $n$, we can also use the **treatment arm continuity correction** [@j2004add]. This can be done by using `incr="TACC"`.
 
 **Here's the code for a meta-analysis with raw binary data**
+
 I have decided to run a random-effect-model meta-analysis. I want the summary measure to be the Risk Ratio (RR).
 
 ```{r}

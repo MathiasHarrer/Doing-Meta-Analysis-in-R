@@ -1,0 +1,42 @@
+# Meta-Regression
+
+![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/regressionbild.jpg)
+
+
+Conceptually, **Meta-Regression** does not differ much from a **subgroup analysis** (in fact, a subgroup analyses is nothing else than a meta-regression with discrete levels). However, meta-regression does allow using **continuous data** and check weather values of a continuous variable are associated with effect size.
+
+Meta-regressions can be conducted in R using the `metareg` function in `meta`. To show the similarity between `subgroup` analysis and `meta-regression` with discrete levels, i'll first conduct a meta-regression with my variable "Control" as predictor again.
+
+```{r}
+metareg(m.hksj,Control)
+```
+
+We see in the output that the `metareg` function uses the values of "Control" (i.e, the three different types of control groups) as a **moderator**. It takes **"information only"** as a *reference group*, and **"no intervention"** and **"WLC"** as **predictors**. Under `Test of Moderators`, we can see that control groups are not significantly associated with effect size differences $F_{2,15}=0.947$, $p=0.41$.
+
+Below `Model Results`, we can also see the $b$-values (`estimate`) of both predictors, and their significance level `pval`. As we can see, both predictors were not significant.
+
+<br><br>
+
+**Continuous variables**
+
+Let's assume i want to check if the **publication year** is associated with effect size. I have stored the variable `pub_year`, containing the publication year of every study in my dataset, and conducted the meta-analysis with it. I stored my meta-analysis output in the `m.pubyear` output.
+
+**Now, i can use this predictor in a meta-regression.**
+
+```{r,echo=FALSE}
+load("Meta_Analysis_Data.RData")
+madata<-Meta_Analysis_Data
+madata$pub_year<-c("2001","2002","2011","2013","2013","2014","1999","2018","2001","2002","2011","2013","2013","2014","1999","2018","2003","2005")
+madata$pub_year<-as.numeric(madata$pub_year)
+m.pubyear<-metagen(TE,seTE,studlab = paste(Author),comb.fixed = FALSE,data=madata)
+```
+
+```{r}
+metareg(m.pubyear,pub_year)
+```
+
+As you can see from the output, `pub_year` was now included as a **predictor**, but it is not significantly associated with the effect size ($p=0.9412$).
+
+
+
+

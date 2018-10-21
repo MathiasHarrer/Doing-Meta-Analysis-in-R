@@ -1,5 +1,13 @@
 # Network Meta-Analysis
 
+```{block,type='rmdachtung'}
+**Work in progress**
+
+A full version of this Chapter will be available soon.
+
+```
+
+
 ```{r,message=FALSE}
 library(netmeta)
 library(plyr)

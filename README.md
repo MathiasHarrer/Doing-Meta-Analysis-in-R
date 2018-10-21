@@ -27,8 +27,18 @@ If you want to run all code in RStudio along with reading the book, an easier wa
 3.  In the folder, click on **bookdown-demo.Rproj**. This opens the R Project with which the all analyses were conducted.
 4.  Now, you can access all the chapters in the guide. They are stored as so-called **R Markdown** files (`.Rmd`) in the same folder and have the following names:
 
-* **Chapter 1**: `01-intro.Rmd`
-* **Chapter 2**: `02-literature.Rmd`
+* **Chapter 1**: `index.Rmd`
+* **Chapter 2**: `01-rstudio_and_basics.Rmd`
+* **Chapter 3**: `02-getting_data_in_R.Rmd`
+* **Chapter 4**: `03-pooling_effect_sizes.Rmd`
+* **Chapter 5**: `04-forest_plots.Rmd`
+* **Chapter 6**: `05-heterogeneity.Rmd`
+* **Chapter 7**: `06-subgroup_analyses.Rmd`
+* **Chapter 8**: `07-metaregression.Rmd`
+* **Chapter 9**: `08-publication_bias.Rmd`
+* **Chapter 10**: `09-risk_of_bias_summary.Rmd`
+* **Chapter 11**: `10-network_metaanalysis.Rmd`
+* **Chapter 12**: `11-Effectsizeconverter.Rmd`
 
 5. Click to open the file you want to see. You'll see that the files contain the exact same **text** and **code** as the one used in the guide, but there are a few lines of code more **which are not displayed in the guide**. These are needed, for example, to set the layout for the book.
 6. To run the **code chunks** between the text, click on the **little green arrow** on the top-right corner of each code chunk. Once you do this, the code in the chunk is run by R. 
