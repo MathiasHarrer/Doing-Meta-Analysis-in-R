@@ -74,6 +74,12 @@ It is also beyond the scope of this guide to advise in detail which meta-analyti
 
 All code behind this book is available online on **GitHub**. We have created a website containing a **download link** for all codes, and a **quick guide** on how to get the code running on your computer. The site can be foud [here](https://mathiasharrer.github.io/Doing-Meta-Analysis-in-R/).
 
+<br><br>
+
+**How to cite this guide**
+
+Harrer, M. & Ebert, D. D. (2018). Doing Meta-Analysis in R: A practical Guide. *PROTECT Lab Friedrich-Alexander University Erlangen-Nuremberg*. [https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/)
+
 
 ```{r eval=FALSE, echo=FALSE}
 install.packages("bookdown")

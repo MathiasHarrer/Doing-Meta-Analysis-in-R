@@ -142,6 +142,6 @@ df_obs<-(n1+n2)-2
   pcurveplot<-plot(di,loss.all,xlab="Effect size\nCohen-d", ylab="Loss (D stat in KS test)",ylim=c(0,1), main="How well does each effect size fit? (lower is better)")
   points(dhat$minimum,dhat$objective,pch=19,col="red",cex=2)
   text(dhat$minimum,dhat$objective-.08,paste0("p-curve's estimate of effect size:\nd=",round(dhat$minimum,3)),col="red")
-  return(pcurveplot)
-  return(dhat$minimum)
+  return(c(pcurveplot,dhat$minimum))
 }
+

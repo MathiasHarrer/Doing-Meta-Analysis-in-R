@@ -45,90 +45,72 @@ library(ggplot2)
 library(tidyr)
 ```
 
-We can than use a predefined code to generate our first plot. To do this, we have to check if a few things about our dataset are correctly defined.
+We have prepared a function called `rob.summary` for you, which **automatically plots the risk of bias summary for your prepared data set. The code for this function can be seen below.
 
-1. You have to rename your dataset to `rob` for the syntax to work. In my case, the dataset already has this name, so it is kind of redundant. Paste the name of your dataset on the right side of the arrow to rename your data using this code:
-
-```{r,eval=FALSE}
-rob<-Name.of.your.data
-```
-
-2. We have to **transform our data for the plot**. To do this, we only have to check in our dataset which risk of bias criterion appears first, and which appears last in our file. To do this, we'll use the `str()` function again
+Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
 ```{r}
-str(rob)
-```
-We see that our dataset starts with the variable `RoB_sequence`, and that the last RoB column is `RoB_identifcal_post_timing`.
-
-We now have to tell the transformation function that we want all RoB criteria, from `RoB_sequence` to `RoB_identifcal_post_timing`, to be included in the plot. To do this, we have to insert `RoB_sequence:RoB_identifcal_post_timing` after `measurement` in the following code:
-
-```{r}
-rob.long <- gather(rob, 
-                   condition, measurement, 
-                   RoB_sequence:RoB_identical_post_timing, 
+rob.summary<-function(data){
+    rob.vars<-data.frame(data)
+    rob.vars$Author<-NULL
+    ncol.rob.vars<-ncol(rob.vars)
+    last<-colnames(rob.vars[ncol.rob.vars])
+    first<-colnames(rob.vars[1])
+    rob.long <- gather(data,
+                   condition, measurement,
+                   first:last,
                    factor_key=TRUE)
-rob.long$measurement<-as.factor(rob.long$measurement)
-rob.long$measurement<-factor(rob.long$measurement,
+    rob.long$measurement<-as.factor(rob.long$measurement)
+    rob.long$measurement<-factor(rob.long$measurement,
                              levels(rob.long$measurement)[c(1,3,2)])
-```
-
-
-The rest of the code, we can leave as is. Note that the string `RoB_sequence:RoB_identifcal_post_timing` can look totally different for you, because you only have to use the names of the column that you have for your dataset. 
-  
-So, if your first RoB column in the dataset was `allocation_concealment`, and your last one `cointerventions`, the string would be called `allocation_concealment:cointerventions`, and the code would look like this:
-
-```{r, eval=FALSE}
-rob.long <- gather(rob, 
-                   condition, measurement, 
-                   allocation_concealment:cointerventions, 
-                   factor_key=TRUE)
-rob.long$measurement<-as.factor(rob.long$measurement)
-rob.long$measurement<-factor(rob.long$measurement,
-                             levels(rob.long$measurement)[c(1,3,2)])
-```
-                             
-3. Now, it's time to plot our first graph. We will call this plot `rob.summary`. As you've prepared your data already, just run the code below:
-
-```{r, fig.width=11.69, fig.height=8.27}
-rob.summary<-ggplot(data=rob.long)+
-  geom_bar(mapping=aes(x=condition,fill=measurement),
-           width=0.7, 
+    rob.plot<-ggplot(data=rob.long)+
+      geom_bar(mapping=aes(x=condition,fill=measurement),
+           width=0.7,
            position = "fill",
            color="black")+
-  coord_flip(ylim = c(0,1))+
-  guides(fill = guide_legend(reverse = TRUE))+
-  scale_fill_manual("Risk of Bias",
+      coord_flip(ylim = c(0,1))+
+      guides(fill = guide_legend(reverse = TRUE))+
+      scale_fill_manual("Risk of Bias",
                     labels = c("    High risk of bias          ",
                                "    Unclear risk of bias       ",
                                "    Low risk of bias  "),
                     values = c("Unclear" = "#E2DF07",
                                "High" = "#BF0000",
                                "Low" = "#02C100"))+
-  scale_y_continuous(labels = scales::percent)+
-  theme(axis.title.x=element_blank(),
+      scale_y_continuous(labels = scales::percent)+
+      theme(axis.title.x=element_blank(),
         axis.title.y.left=element_blank(),
         axis.ticks.y=element_blank(),
         axis.text.y.left = element_text(size=18, color = "black"),
-        axis.line.x = element_line(colour = "black", 
-                                 size = 0.5, linetype = "solid"),
+        axis.line.x = element_line(colour = "black",
+                                   size = 0.5, linetype = "solid"),
         legend.position = "bottom",
-        panel.grid.major = element_blank(), 
+        panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
-        legend.background = element_rect(linetype="solid", 
+        legend.background = element_rect(linetype="solid",
                                          colour ="black"),
         legend.title = element_blank(),
         legend.key.size = unit(0.75,"cm"),
         legend.text=element_text(size=14))
-rob.summary
+return(rob.plot)
+}
 ```
 
-4. We see that RStudio has already **created a RoB summary plot**, but there's something missing. The labels for each RoB criterion on the left are the **raw names** we gave each column, so we should change them to their actual name. To do this, we have to attach the correct labels for each criterion to our `rob.summary`plot.
+To use the `rob.summary`, we have to specify our RoB data set in the function. In my case, this is `rob`. I will call my output `plot`.
 
-5. To do this, we have to attach `+` a function which describes which label should be replaced with which name. A generic version looks like this:
+```{r, fig.width=11.69, fig.height=8.27}
+plot<-rob.summary(data=rob)
+plot
+```
+
+
+We see that the `rob.summary` function has already **created a RoB summary plot**, but there's something missing. The labels for each RoB criterion on the left are the **raw names** we gave each column, so we should change them to their actual name. To do this, we have to attach the correct labels for each criterion to our `plot` object.
+
+To do this, we have to attach `+` a function which describes which label should be replaced with which name. A generic version looks like this:
 
 ```{r,eval=FALSE}
-rob.summary<-rob.summary+
+new.plot<-plot+
   scale_x_discrete(labels=c("former_criterion_name_1" = "New Criterion Name 1", 
                             "former_criterion_name_2" = "New Criterion Name 2"))
 
@@ -139,8 +121,7 @@ Just define **all** the criterion labels this was way, and do not forget to sepa
 If i do this for my data, it looks like this:
 
 ```{r, eval=FALSE}
-rob.summary<-rob.summary+
-scale_x_discrete(labels=c("RoB_sequence" = "Sequence generation", 
+new.plot<-plot+scale_x_discrete(labels=c("RoB_sequence" = "Sequence generation",
                             "RoB_allocation_concealment_" = "Allocation Concealment",
                             "RoB_Blinding of participants and personnel" = "Blinding of participants and personnel",
                             "RoB_Blinding of outcome assessors" = "Blinding of outcome assessors",
@@ -152,14 +133,12 @@ scale_x_discrete(labels=c("RoB_sequence" = "Sequence generation",
                             "RoB_SimilarGroups" = "Similar Groups",
                             "RoB_compliance" = "Compliance",
                             "RoB_identical_post_timing" = "Identical Post Timing"))
-
 ```
 
-We have not updated the labels in the `rob.summary` plot. Let's have a peek how it looks now:
+We have not updated the labels in the `plot` object, which is now called `new.plot`. Let's have a peek how it looks now:
 
 ```{r, echo=FALSE}
-rob.summary<-rob.summary+
-scale_x_discrete(labels=c("RoB_sequence" = "Sequence generation", 
+new.plot<-plot+scale_x_discrete(labels=c("RoB_sequence" = "Sequence generation",
                             "RoB_allocation_concealment_" = "Allocation Concealment",
                             "RoB_Blinding of participants and personnel" = "Blinding of participants and personnel",
                             "RoB_Blinding of outcome assessors" = "Blinding of outcome assessors",
@@ -171,35 +150,34 @@ scale_x_discrete(labels=c("RoB_sequence" = "Sequence generation",
                             "RoB_SimilarGroups" = "Similar Groups",
                             "RoB_compliance" = "Compliance",
                             "RoB_identical_post_timing" = "Identical Post Timing"))
-
 ```
 
 ```{r, fig.width=11.69, fig.height=8.27}
-rob.summary
+new.plot
 ```
 
 Looks good so far.  
 
 ## Saving the Summary Plot {#saving}
 
-I want to save the plot as a **PDF** file in my working directory. To do this, define the name as the file as `rob_summary.pdf`, and save it at the same time in the correct size and orientation using this code:
+I want to save the plot as a **PDF** file in my working directory. To do this, define the name of the file as `rob_summary.pdf`, and save it at the same time in the correct size and orientation using this code:
 
 ```{r, eval=FALSE}
 pdf(file='rob_summary.pdf', width = 11.69, height = 8.27) 
-rob.summary;dev.off() 
+new.plot;dev.off() 
 ```
 
 I can also save the plot as **PNG** file using this command.
 
 ```{r, eval=FALSE}
 png(file='rob_summary.png', width = 842, height = 595) 
-rob.summary;dev.off() 
+new.plot;dev.off() 
 ```
 
 Or as a **Scalable Vector Graphic** (.svg) with this command.
 
 ```{r, eval=FALSE}
 svg(file='rob_summary.svg', width = 11.69, height = 8.27) 
-rob.summary;dev.off() 
+new.plot;dev.off() 
 ```
 
