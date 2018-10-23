@@ -55,6 +55,8 @@ grid.raster(img)
   
 <br><br>
 
+---
+
 **What this guide will not cover**
 
 Although this guide will provide some information on the statistics behind meta-analysis, it will not give you an **in-depth introduction** into how meta-analyses are calculated statistically.
