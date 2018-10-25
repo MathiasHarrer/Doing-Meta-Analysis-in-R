@@ -67,6 +67,10 @@ Despite its common use in the literature, $I^2$ not always an adequate measure f
 **Prediction intervals** (like the ones we automatically calculated in [Chapter 4](#pool)) are a good way to overcome this limitation [@inthout2016plea], as they take our between-study variance into account. Prediction intervals give us a range for which we can **expect the effects of future studies to fall** based on **our present evidence in the meta-analysis**. If our prediction interval, for example, lies completely on the positive side favoring the intervention, we can be quite confident to say that **despite varying effects, the intervention might be at least in some way beneficial in all contexts we studied in the future**. If the confidence interval includes **zero**, we can be less sure about this, although it should be noted that **broad prediction intervals are quite common, especially in medicine and psychology**. 
 ```
 
+<br><br>
+
+---
+
 ## Assessing the heterogeneity of your pooled effect size
 
 Thankfully, once you've already pooled your effects in meta-analysis using the `metagen()`, `metabin()`, or `metacont` function, it is very easy and straightforward to retrieve the **three most common heterogeneity measures** that we described before.
@@ -162,7 +166,9 @@ m.hksj$I2
 m.hksj$tau^2
 ```
 
+<br><br>
 
+---
 
 ## Detecting outliers & influential cases
 
@@ -255,7 +261,9 @@ dplyr::filter(m.outliers,lowerci > te.upper)
 }
 ```
 
+<br><br>
 
+---
 
 ## Influence Analyses {#influenceanalyses}
 
@@ -435,7 +443,9 @@ To use this function, **you only have to set the parameter** `data`, as `method.
 ```
 
 
+<br><br>
 
+---
 
 
 

@@ -13,6 +13,8 @@ output:
       fontsettings:
         size: 1
     split_by: section
+    includes:
+      after_body: banner.html
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
@@ -37,6 +39,7 @@ img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/b
 grid.raster(img)
 ```
 
+---
 
 **The guide will show you how to:**
  
@@ -53,7 +56,6 @@ grid.raster(img)
     + **network analyses** or 
     + meta-analyses with **more than one outcome**
   
-<br><br>
 
 ---
 
@@ -63,7 +65,7 @@ Although this guide will provide some information on the statistics behind meta-
   
 It is also beyond the scope of this guide to advise in detail which meta-analytical strategy is suited best in which contexts, and on how the search, study inclusion and reporting of meta-analyses should be conducted. The [*Cochrane Handbook for Systematic Reviews of Interventions*](http://handbook-5-1.cochrane.org/), however, should be a great source to find more information on these topics.
 
-<br><br>
+---
   
 **Generally, there a two other sources to recommended when conducting Meta-Analyses:**
   
@@ -93,9 +95,12 @@ install.packages("bookdown")
 # devtools::install_github("rstudio/bookdown")
 ```
 
-<br><br>
+---
 
 **To get started, proceed to the next chapter!**
+
+---
+
 <br><br>
 
 ```{r include=FALSE}

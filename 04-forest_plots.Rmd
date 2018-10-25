@@ -8,6 +8,10 @@ Now that we created the **output of our meta-analysis** using the `metagen`, `me
 **Forest Plots** are an easy way to do this, and it is conventional to report forest plots in meta-analysis publications.
 ```
 
+<br><br>
+
+---
+
 ## Generating a Forest Plot
 
 To produce a forest plot, we use the meta-analysis output we just created (e.g., `m`, `m.raw`) und the `meta::forest()` function. I'll use my `m.hksj.raw` output from [Chapter 4.2.3](#random.raw) to create the forest plot
@@ -79,6 +83,10 @@ forest(m.hksj.raw,
 
 Looks good so far! For special **layout types**, proceed to [Chapter 5.2](#layouttypes) now.
 
+<br><br>
+
+---
+
 
 ## Layout types {#layouttypes}
 
@@ -104,6 +112,10 @@ forest(m.hksj.raw,
        col.predict = "black",
        colgap.forest.left = unit(15,"mm"))
 ```
+
+<br><br>
+
+---
 
 ## Saving the forest plots
 
@@ -150,6 +162,8 @@ dev.off()
 ```
 
 
+<br><br>
 
+---
 
 

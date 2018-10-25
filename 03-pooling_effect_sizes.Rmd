@@ -23,6 +23,10 @@ library(tidyverse)
 library(knitr)
 ```
 
+<br><br>
+
+---
+
 ## Fixed-Effects-Model {#fixed}
 
 ### Pre-calculated effect size data {#pre.calc}
@@ -189,6 +193,9 @@ print(m.raw)
 sink()
 ```
 
+<br><br>
+
+---
 
 ## Random-Effects-Model {#random}
 
@@ -396,6 +403,10 @@ m.hksj.raw
 
 ```
 
+<br><br>
+
+---
+
 ## Meta-Analysis with binary outcomes {#binary}
 
 In some cases, you will work with **binary outcome data** (e.g., dead/alive, Depressive Disorder/no Depressive Disorder) instead of continuous data. In such a case, you will probably be more interested in outcomes like the pooled **Odd's Ratio** or the **Relative Risk Reduction**.
@@ -462,6 +473,8 @@ m.bin<-metabin(Ee,
 m.bin
 ```
 
+<br><br>
 
+---
 
 

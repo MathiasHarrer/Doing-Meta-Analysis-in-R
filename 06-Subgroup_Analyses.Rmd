@@ -1,4 +1,4 @@
-# Subgroup Analyses
+# Subgroup Analyses {#subgroup}
 
 ![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/subgroup.jpg)
 
@@ -51,6 +51,10 @@ Be aware that subgroup analyses should **always be based on an informed, *a prio
 It is also important to keep in mind that **the capabilites of subgroup analyses to detect meaningful differences between studies is often limited**. Subgroup analyses also need **sufficient power**, so it makes no sense to compare two or more subgroups when your entire number of studies in the meta-analysis is smaller than $k=10$ [@higgins2004controlling].
 
 ```
+
+<br><br>
+
+---
 
 
 ## Subgroup Analyses using the Mixed-Effects-Model {#mixed}
@@ -342,6 +346,10 @@ library(dplyr)
 dplyr::count(madata, vars=madata$Control)
 ```
 
+<br><br>
+
+---
+
 ## Subgroup Analyses using the Random-Effects-Model
 
 ```{r,echo=FALSE}
@@ -384,8 +392,8 @@ Here, we get the **pooled effect for each subgroup** (country). Under `Test for 
 To use a fixed-effect-model in combination with a fixed-effects-model, we can also use the `update.meta` function again. The procedure is the same as the one we described before, but we have to set `comb.random` as `FALSE` and `comb.fixed` as `TRUE`.
 ```
 
+<br><br>
 
-
-
+---
 
 

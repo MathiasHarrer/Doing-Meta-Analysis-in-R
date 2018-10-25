@@ -14,6 +14,10 @@ If you already have RStudio installed on your computer, and if you're an experie
 Especially if you have **never used R before, we would like to consider this Chapter essential**, as it gives you some input on how R works, and how we can use it for our data analyses.
 ```
 
+<br><br>
+
+---
+
 ## Getting RStudio to run on your computer {#RStudio}
 ```{r, echo=FALSE, fig.width=3,fig.height=2}
 library(png)
@@ -87,6 +91,10 @@ run `Sys.setenv(LANGUAGE = "en")` and re-run the code; you’re
 more likely to find help for English error messages.)
 * If Google doesn’t help, try [stackoverflow](https://stackoverflow.com). Start by spending a little time searching for an existing answer; including [R] restricts your search to questions and answers that use R. 
 * Lastly, if you stumble upon an error (or typos!) in this guide's text or R syntax, feel free to contact **Mathias Harrer** at **mathias.harrer@fau.de**.
+
+<br><br>
+
+---
 
 
 

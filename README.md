@@ -39,6 +39,7 @@ If you want to run all code in RStudio along with reading the book, an easier wa
 * **Chapter 10**: `09-risk_of_bias_summary.Rmd`
 * **Chapter 11**: `10-network_metaanalysis.Rmd`
 * **Chapter 12**: `11-Effectsizeconverter.Rmd`
+* **Chapter 13**: `12-power_analysis.Rmd`
 
 5. Click to open the file you want to see. You'll see that the files contain the exact same **text** and **code** as the one used in the guide, but there are a few lines of code more **which are not displayed in the guide**. These are needed, for example, to set the layout for the book.
 6. To run the **code chunks** between the text, click on the **little green arrow** on the top-right corner of each code chunk. Once you do this, the code in the chunk is run by R. 
