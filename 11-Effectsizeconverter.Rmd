@@ -245,7 +245,91 @@ This can be done in R using the `hedges_g` function with the following parameter
 hedges_g(d = 0.75, totaln = 50)
 ```
 
+## Calculating effect sizes for studies with multiple outcomes {#i}
+
+Many randomized-controlled trials do not only include a single **intervention** and **control group**, but compare the effect of **two or more interventions** to a control group. It might be tempting in such a scenario to **simply include all the comparisons between the intervention groups and control within a study into one meta-analysis**. Yet, researchers should abstain from this practice, as this would mean that the control group is used twice for the meta-analysis, thus **"double-counting"** the participants in the control group. This results in a **unit-of-analysis** error, as the effect size are correlated, and thus not independent, but are treated as if they would stem from independent samples.
+
+**There are two ways to deal with this:**
+
+* Splitting the N of the control group: One method to control for the unit-of-analysis error to some extent would be to **split** the number of participants in the control group between the two intervention groups. So, if your control group has $N=50$ participants, you could divide the control group into two control groups with he same mean and standard deviation, and $N=25$ participants each. After this preparation step, you could calculate the effect sizes for each intervention arm. As this procedure only partially removes the unit of analysis error, it is not generally recommended. A big plus of this procedure, however, is that it makes [**investigations of hetereogeneity**](#heterogeneity) between study arms possible.
+* Another option would be to **synthesize the results of the intervention arms** to obtain one single comparison to the control group. Despite its practical limitations (sometimes, this would mean synthesizing the results from extremely different types of interventions), this procedure does get rid of the unit-of-analysis error problem, and is thus recommended from a statistical standpoint. The following calculations will deal with this option.
+
+To synthesize the **pooled effect size data** (pooled Mean, Standard Deviation and N), we have to use the following formula:
 
 
+$$N_{pooled}=N_1+N_2$$
 
+$$M_{pooled}=\frac{N_1M_1+N_2M_2}{N_1+N_2}$$
+
+$$SD_{pooled} = \sqrt{\frac{(N_1-1)SD^{2}_{1}+ (N_2-1)SD^{2}_{2}+\frac{N_1N_2}{N_1+N_2}(M^{2}_1+M^{2}_2-2M_1M_2)} {N_1+N_2-1}}$$
+
+As these formulae are quite lengthy, we prepared the function `pool.groups` for you, which does the pooling for you automatically. Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
+
+```{r}
+pool.groups<-function(n1,n2,m1,m2,sd1,sd2){
+
+n1 <- n1
+n2 <- n2
+m1 <- m1
+m2 <- m2
+sd1 <- sd1
+sd2 <- sd2
+
+Npooled <- n1+n2
+Mpooled <- (n1*m1+n2*m2)/(n1+n2)
+SDpooled <- sqrt(((n1-1)*sd1^2+(n2-1)*sd2^2+(((n1*n2)/(n1+n2))*(m1^2+m2^2-2*m1*m2))     )/(n1+n2-1))
+
+return(data.frame(Mpooled,SDpooled,Npooled))
+}
+```
+
+**To use this function, we have to specifiy the following parameters:**
+
+* `n1`: The N in the first group
+* `n2`: The N in the second group
+* `m1`: The Mean of the first group
+* `m2`: The Mean of the second group
+* `sd1`: The Standard Deviation of the first group
+* `sd2`: The Standard Deviation of the second grop
+
+**Here's an example**
+
+```{r}
+pool.groups(n1=50,
+            n2=50,
+            m1=3.5,
+            m2=4,
+            sd1=3,
+            sd2=3.8)
+```
+
+```{block, type='rmdinfo'}
+**What should i do when an study has more than two intervention groups**
+
+If a study has more than one two intervention groups you want to synthesize (e.g. four arms, with three distinct intervention arms), you can **pool the effect size data for the first two interventions**, and then **synthesize the pooled data you calculated with the data from the third group**.
+
+This is fairly straightforward if you save the output from `pool.groups` as an object, and then use the `$` operator:
+```
+
+First, pool the **first** and **second intervention group**. I will save the output as `res`.
+
+```{r}
+res<-pool.groups(n1 = 50,
+            n2 = 50,
+            m1 = 3.5,
+            m2 = 4,
+            sd1 = 3,
+            sd2 = 3.8)
+```
+
+Then, use the pooled data saved in `res` and **pool it with the data from the third group**, using the `$` operator to access the different values saved in `res`.
+
+```{r}
+pool.groups(n1 = res$Npooled,
+            n2 = 60,
+            m1 = res$Mpooled,
+            m2 = 4.1,
+            sd1=res$SDpooled,
+            sd2 = 3.8)
+```
 

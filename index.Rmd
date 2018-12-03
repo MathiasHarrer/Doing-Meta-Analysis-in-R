@@ -24,7 +24,7 @@ description: "This is a guide on how to conduct Meta-Analysis in R."
 
 # About this Guide
 
-![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/coverbild.jpg)
+![](/Users/Mathias2/Documents/R/WORKING_DIRECTORY/Windows/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/coverbild.jpg)
 
 ```{block,type='rmdinfo'}
 This guide shows you how to conduct Meta-Analyses in R from scratch. The focus of this guide is primarily on clinical outcome research in psychology. It is designed for staff and collaborators of the [**PROTECT Lab**](https://www.protectlab.org), which is headed by **Dr. David D. Ebert**.
@@ -35,7 +35,7 @@ This guide shows you how to conduct Meta-Analyses in R from scratch. The focus o
 ```{r, echo=FALSE, fig.width=3,fig.height=2}
 library(png)
 library(grid)
-img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/protectlogo.PNG")
+img <- readPNG("/Users/Mathias2/Documents/R/WORKING_DIRECTORY/Windows/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/protectlogo.PNG")
 grid.raster(img)
 ```
 
@@ -77,7 +77,7 @@ It is also beyond the scope of this guide to advise in detail which meta-analyti
 ````{block,type='rmdinfo'}
 **How to get the R code for this guide**
 
-![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/githublogo.png)
+![](/Users/Mathias2/Documents/R/WORKING_DIRECTORY/Windows/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/githublogo.png)
 
 All code behind this book is available online on **GitHub**. We have created a website containing a **download link** for all codes, and a **quick guide** on how to get the code running on your computer. The site can be found [here](https://mathiasharrer.github.io/Doing-Meta-Analysis-in-R/).
 ```
