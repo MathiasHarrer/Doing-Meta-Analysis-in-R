@@ -280,7 +280,7 @@ Again, R doesn't know this function yet, so we have to let R learn it by **copyi
 ```{r}
 influence.analysis<-function(data,method.tau,hakn){
   
-  data<-data
+  influence.data<-data
   TE<-data$TE
   seTE<-data$seTE
   method.tau<-method.tau

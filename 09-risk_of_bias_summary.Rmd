@@ -79,9 +79,9 @@ rob.summary<-function(data){
                                "Low" = "#02C100"))+
       scale_y_continuous(labels = scales::percent)+
       theme(axis.title.x=element_blank(),
-        axis.title.y.left=element_blank(),
+        axis.title.y=element_blank(),
         axis.ticks.y=element_blank(),
-        axis.text.y.left = element_text(size=18, color = "black"),
+        axis.text.y = element_text(size=18, color = "black"),
         axis.line.x = element_line(colour = "black",
                                    size = 0.5, linetype = "solid"),
         legend.position = "bottom",
