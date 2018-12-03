@@ -1,6 +1,6 @@
 # Publication Bias
 
-![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/publicationbias.jpg)
+![](publicationbias.jpg)
 
 In the last chapters, we have showed you how to **pool effects** in meta-analysis, choose the **right pooling model**, assess the **heterogeneity** of your effect estimate, and determine sources of heterogeneity through **outlier, influence, and subgroup analyses**.
 
@@ -99,7 +99,7 @@ legend(1.4, 0, c("p < 0.05", "p<0.025", "< 0.01"),bty = "n",
 ```{r, echo=FALSE, fig.width=7}
 library(png)
 library(grid)
-img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/funnel.PNG")
+img <- readPNG("funnel.PNG")
 grid.raster(img)
 ```
 
@@ -1010,7 +1010,7 @@ The function automatically **creates and stores several files and figures into o
 ```{r, echo=FALSE, fig.width=7}
 library(png)
 library(grid)
-img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/_pcurve/input.png")
+img <- readPNG("_pcurve/input.png")
 grid.raster(img)
 ```
 
@@ -1031,7 +1031,7 @@ If there is evidential value behind our data, the p-curve should also **not be f
 ```{r, echo=FALSE, fig.width=7}
 library(png)
 library(grid)
-img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/_pcurve/input_fit.png")
+img <- readPNG("_pcurve/input_fit.png")
 grid.raster(img)
 ```
 
@@ -1044,7 +1044,7 @@ This plot estimates the **power** behind our data, meaning if we have sufficient
 ```{r, echo=FALSE, fig.width=7}
 library(png)
 library(grid)
-img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/_pcurve/input_cumulative.png")
+img <- readPNG("_pcurve/input_cumulative.png")
 grid.raster(img)
 ```
 

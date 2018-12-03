@@ -1,6 +1,6 @@
 # Creating a RevMan style Risk of Bias summary
 
-![A finished Risk of Bias summary](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/robplot.PNG)
+![A finished Risk of Bias summary](robplot.png)
 
 ## Preparing your Risk of Bias data
 
@@ -8,7 +8,7 @@ In many Meta-Analyses, you will also want to have a look at the quality of inclu
 
 Furthermore, the quality of the Risk of Bias (RoB) summary figures in RevMan are of suboptimal picture quality. Many journals will require figures with better quality, or figures saved in another format (such as **.svg** or **.pdf**).
 
-![This is the output created by RevMan](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/robsummaryrevman.png)
+![This is the output created by RevMan](robsummaryrevman.png)
 
 To avoid all of this, you can easily plot the **RoB Summary in RStudio yourself**.
 To do this, we again have to prepare an EXCEL sheet in which we store our RoB data. In [Chapter 3.1.1](#excel_preparation), we already described how the preparation and import of EXCEL sheets into RStudio works in general. For this data sheet, you need to follow a few guidelines:

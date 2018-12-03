@@ -1,6 +1,6 @@
 # Getting your data into R
 
-![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/chappool.jpg)
+![](chappool.jpg)
 
 ```{block,type='rmdinfo'}
 This chapter will tell you about how you can **import** your effect size data in RStudio. We will also show you a few commands which make it easier to **manipulate data** directly in R.
@@ -95,7 +95,7 @@ To function properly, you have to set a working directory for RStudio first. The
 ```{r, echo=FALSE, fig.width=4,fig.height=3}
 library(png)
 library(grid)
-img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/snippet.PNG")
+img <- readPNG("snippet.PNG")
 grid.raster(img)
 ```
 
@@ -111,7 +111,7 @@ grid.raster(img)
 ```{r, echo=FALSE, fig.width=7,fig.height=3}
 library(png)
 library(grid)
-img <- readPNG("C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/snippet_3.PNG")
+img <- readPNG("snippet_3.PNG")
 grid.raster(img)
 ```
 

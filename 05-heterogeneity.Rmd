@@ -1,6 +1,6 @@
 # Between-study Heterogeneity {#heterogeneity}
 
-![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/schiffchen.jpg)
+![](schiffchen.jpg)
 
 By now, we have already shown you how to pool effect sizes in a meta-analysis. In meta-analytic pooling, we aim to **synthesize the effects of many different studies into one single effect**. However, this makes only sense if we aren't comparing **Apples and Oranges**. For example, it could be the case that while the overall effect we calculate in the meta-analysis is **small**, there are still a few studies which report **very high** effect sizes. Such information is lost in the aggregate effect, but it is very important to know if all studies, or interventions, yield small effect sizes, or if there are exceptions.
 

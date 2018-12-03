@@ -1,6 +1,6 @@
 # Power Analysis
 
-![](C:/Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master/poweranalysis.jpg)
+![](poweranalysis.jpg)
 
 A big asset (and probably one of the reasons why meta-analysis can be helpful in practical research) of meta-analyses is that **they allow for large data to be combined** to attain a more precise pooled effect. **Lack of statistical power**, however, may still play an important role, even in meta-analysis. This is particularly true for the clinical field, where it is often the case that only **few studies are available for synthesis**. The median number of included studies in the *Cochrane Database for Systematic Reviews*, for example, is six [@borenstein2011]. This is even more grave once we consider that (1) many meta-analysts will also want to perform **subgroup analyses and meta-regression**, for which even more power is required, and (2) many meta-analyses have **high heterogeneity**, which reduces our precision, and thus our power.
 
