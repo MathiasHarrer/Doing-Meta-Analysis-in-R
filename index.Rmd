@@ -1,5 +1,6 @@
 --- 
 title: "Doing Meta Analysis in R"
+subtitle: "A Hands-on Guide"
 author: "Mathias Harrer, B.Sc. & Dr. habil. David Ebert"
 date: "Friedrich-Alexander-University Erlangen-Nuremberg"
 github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
@@ -15,11 +16,13 @@ output:
     split_by: section
     includes:
       after_body: banner.html
+    df_print: paged
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 description: "This is a guide on how to conduct Meta-Analysis in R."
+favicon: "favicon.ico"
 ---
 
 # About this Guide
