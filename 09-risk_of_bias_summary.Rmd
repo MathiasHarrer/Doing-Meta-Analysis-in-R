@@ -45,7 +45,7 @@ library(ggplot2)
 library(tidyr)
 ```
 
-We have prepared a function called `rob.summary` for you, which **automatically plots the risk of bias summary for your prepared data set. The code for this function can be seen below.
+We have prepared a function called `rob.summary` for you, which **automatically** plots the risk of bias summary for your prepared data set. The code for this function can be seen below.
 
 Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
