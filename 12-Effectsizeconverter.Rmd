@@ -42,6 +42,7 @@ library(esc)
 6.  [Calculating Hedges' *g* from a correlation](#f)
 7.  [Calculating Hedges' *g* from an independent t-test](#g)
 8.  [Calculating Hedges' *g* from Cohen's *d*](#h)
+9.  [Calculating effect sizes for studies with multiple comparisons](#i)
 
 <br><br>
 
@@ -245,7 +246,7 @@ This can be done in R using the `hedges_g` function with the following parameter
 hedges_g(d = 0.75, totaln = 50)
 ```
 
-## Calculating effect sizes for studies with multiple outcomes {#i}
+## Calculating effect sizes for studies with multiple comparisons {#i}
 
 ![](stack.jpg)
 
