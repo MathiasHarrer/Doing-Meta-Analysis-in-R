@@ -49,6 +49,6 @@ If you want to run all code in RStudio along with reading the book, an easier wa
 **Important: most code chunks are not independent, and draw on objects or functions which are created in preceeding chunks. Therefore, you should stick with running one chunk after another, from top to bottom.**
 
 We hope these files will make it easier for you to do your on Meta-Analysis in R.
-If you're having problems with the **download**, running the **code chunks**, or if you stumble upon errors, let us now at mathias.harrer@fau.de
+If you're having problems with the **download**, running the **code chunks**, or if you stumble upon errors, let us know by writing a mail to mathias.harrer@fau.de
 
 *Mathias & David*
