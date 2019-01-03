@@ -2,15 +2,30 @@
 
 ![](subgroup.jpg)
 
+<<<<<<< HEAD
 In [Chapter 6](#heterogeneity), we discussed in depth why **between-study heterogeneity** is such an important issue in interpreting the results of our meta-analysis, and how we can **explore sources of heterogeneity** using [outlier](#outliers) and [influence analyses](#influenceanalyses). Another source of between-study heterogeneity making our effect size estimate less precise could be that **there are slight differences in the study design or intervention components between the studies**. For example, in a meta-analysis on the effects of **cognitive behavioral therapy** (CBT) for **depression** in **university students**, it could be the case that some studies delivered the intervention in a **group setting**, while others delivered the therapy to each student **individually**. In the same example, it is also possible that studies used different **criteria** to determine if a student suffers from **depression** (e.g. they either used the *ICD-10* or the *DSM-5* diagnostic manual).  Many other differences of this sort are possible, and it seems plausible that such study differences may also be associated with differences in the overall effect.In **subgroup analyses**, we therefore have a look at different **subgroups within the studies of our meta-analysis** and try to determine of the **differ between these subgroups**.
 
 $~$
 
+=======
+In [Chapter 6](#heterogeneity), we discussed in depth why **between-study heterogeneity** is such an important issue in interpreting the results of our meta-analysis, and how we can **explore sources of heterogeneity** using [outlier](#outliers) and [influence analyses](#influenceanalyses).
+
+Another source of between-study heterogeneity making our effect size estimate less precise could be that **there are slight differences in the study design or intervention components between the studies**. For example, in a meta-analysis on the effects of **cognitive behavioral therapy** (CBT) for **depression** in **university students**, it could be the case that some studies delivered the intervention in a **group setting**, while others delivered the therapy to each student **individually**. In the same example, it is also possible that studies used different **criteria** to determine if a student suffers from **depression** (e.g. they either used the *ICD-10* or the *DSM-5* diagnostic manual). 
+
+Many other differences of this sort are possible, and it seems plausible that such study differences may also be associated with differences in the overall effect.
+
+In **subgroup analyses**, we therefore have a look at different **subgroups within the studies of our meta-analysis** and try to determine of the **differ between these subgroups**.
+
+```{block,type='rmdinfo'}
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 **The idea behind subgroup analyses**
 
 Basically, a every subgroup analysis consists of **two parts**: (1) **pooling the effect of each subgroup**, and (2) **comparing the effects of the subgroups** [@borenstein2013meta].
 
+<<<<<<< HEAD
 $~$
+=======
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 **1. Pooling the effect of each subgroup**
 
@@ -19,8 +34,11 @@ This point it rather straightforward, as the same criteria as the ones for a **s
 * If you assume that **all studies in subgroup** stem from the same population, and all have **one shared true effect**, you may use the **fixed-effect-model**. As we mention in [Chapter 4](#pool), many **doubt** that this assumption is ever **true in psychological** and **medical research**, even when we partition our studies into subgroups.
 * The alternative, therefore, is to use a **random-effect-model** which assumes that the studies within a subgroup are drawn from a **universe** of populations follwing its own distribution, for which we want to estimate the **mean**.
 
+<<<<<<< HEAD
 $~$
 
+=======
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 **2. Comparing the effects of the subgroups**
 
 After we calculated the pooled effect for each subgroup, **we can compare the size of the effects of each subgroup**. However, to know if this difference is in fact singnificant and/or meaningful, we have to calculate the **Standard Error of the differences between subgroup effect sizes** $SE_{diff}$, to calculate **confidence intervals** and conduct **significance tests**. 
@@ -40,8 +58,24 @@ The (simplified) formula for the estimation of $V_{Diff}$ using this model there
 
 $$V_{Diff}=V_A + V_B + \frac{\hat T^2_G}{m} $$
 
+<<<<<<< HEAD
 Where $\hat T^2_G$ is the **estimated variance between the subgroups**, and $m$ is the **number of subgroups**. Be aware that subgroup analyses should **always be based on an informed, *a priori* decision** which subgroup differences within the study might be **practically relevant**, and would lead to information gain on relevant **research questions** in your field of research. It is also **good practice** to specify your subgroup analyses **before you do the analysis**, and list them in **the registration of your analysis**. It is also important to keep in mind that **the capabilites of subgroup analyses to detect meaningful differences between studies is often limited**. Subgroup analyses also need **sufficient power**, so it makes no sense to compare two or more subgroups when your entire number of studies in the meta-analysis is smaller than $k=10$ [@higgins2004controlling].
 
+=======
+Where $\hat T^2_G$ is the **estimated variance between the subgroups**, and $m$ is the **number of subgroups**.
+```
+
+```{block,type='rmdachtung'}
+Be aware that subgroup analyses should **always be based on an informed, *a priori* decision** which subgroup differences within the study might be **practically relevant**, and would lead to information gain on relevant **research questions** in your field of research. It is also **good practice** to specify your subgroup analyses **before you do the analysis**, and list them in **the registration of your analysis**.
+
+It is also important to keep in mind that **the capabilites of subgroup analyses to detect meaningful differences between studies is often limited**. Subgroup analyses also need **sufficient power**, so it makes no sense to compare two or more subgroups when your entire number of studies in the meta-analysis is smaller than $k=10$ [@higgins2004controlling].
+
+```
+
+<br><br>
+
+---
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 
 ## Subgroup Analyses using the Mixed-Effects-Model {#mixed}
@@ -298,6 +332,7 @@ Description<-c("The output of you meta-analysis. In my case, this is 'm.hksj'",
 m<-data.frame(Code,Description)
 names<-c("Code","Description")
 colnames(m)<-names
+<<<<<<< HEAD
 kable(m) %>%
   column_spec(2, width = "40em")
 ```
@@ -305,6 +340,14 @@ kable(m) %>%
 In my `madata` dataset, which i used previously to generate my meta-analysis output `m.hksj`, i stored the subgroup variable `Control`. This variable specifies **which control group type was employed in which study**. There are **three subgroups**: `WLC` (waitlist control), `no intervention` and `information only`. The function to do a subgroup analysis using the mixed-effects-model with these paramters looks like this.
 
 $~$
+=======
+kable(m)
+```
+
+In my `madata` dataset, which i used previously to generate my meta-analysis output `m.hksj`, i stored the subgroup variable `Control`. This variable specifies **which control group type was employed in which study**. There are **three subgroups**: `WLC` (waitlist control), `no intervention` and `information only`.
+
+The function to do a subgroup analysis using the mixed-effects-model with these paramters looks like this.
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,message=FALSE,warning=FALSE}
 subgroup.analysis.mixed.effects(data=m.hksj,
@@ -315,11 +358,21 @@ subgroup.analysis.mixed.effects(data=m.hksj,
                                 subgroup3 = "information only")
 ```
 
+<<<<<<< HEAD
 $~$
 
 The results of the subgroup analysis are displayed under `Results for subgroups (fixed effect model)`. We see that, while the **pooled effects of the subgroups differ quite substantially** (*g* = 0.41-0.78), this difference is **not statistically significant**. This can be seen under `Test for subgroup differences` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper. Please note that the values displayed under `k` in the `Results for subgroups (fixed effects model)` section are always 1, as the pooled effect of the subgroup is treated as a single study. To determine the actual $k$ of each subgroup, you can use the `count` function from `dplyr` in R.
 
 
+=======
+The results of the subgroup analysis are displayed under `Results for subgroups (fixed effect model)`. We see that, while the **pooled effects of the subgroups differ quite substantially** (*g* = 0.41-0.78), this difference is **not statistically significant**. 
+
+This can be seen under `Test for subgroup differences` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper.
+
+```{block,type='rmdachtung'}
+Please not that the values displayed under `k` in the `Results for subgroups (fixed effects model)` section are always 1, as the pooled effect of the subgroup is treated as a single study. To determine the actual $k$ of each subgroup, you can use the `count` function from `dplyr` in R.
+```
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,echo=FALSE}
 load("Meta_Analysis_Data.RData")
@@ -332,6 +385,12 @@ library(dplyr)
 dplyr::count(madata, vars=madata$Control)
 ```
 
+<<<<<<< HEAD
+=======
+<br><br>
+
+---
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ## Subgroup Analyses using the Random-Effects-Model
 
@@ -340,9 +399,15 @@ region<-c("Netherlands","Netherlands","Netherlands","USA","USA","USA","USA","Arg
 madata$region<-region
 ```
 
+<<<<<<< HEAD
 Now, let's assume i want to **know if intervention effects in my meta-analysis differ by region**. I use a **random-effects-model** and the selected coutries Argentina, Australia, China, and the Netherlands.Again, i use the `m.hksj` meta-analysis output object. I can perform a random-effects-model for between-subgroup-differences using the `update.meta` function. For this function, we have to **set two parameters**.
 
 $~$
+=======
+Now, let's assume i want to **know if intervention effects in my meta-analysis differ by region**. I use a **random-effects-model** and the selected coutries Argentina, Australia, China, and the Netherlands.
+
+Again, i use the `m.hksj` meta-analysis output object. I can perform a random-effects-model for between-subgroup-differences using the `update.meta` function. For this function, we have to **set two parameters**.
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,echo=FALSE}
 library(knitr)
@@ -351,11 +416,17 @@ Description<-c("Here, we specify the variable in which the subgroup of each stud
 m<-data.frame(Code,Description)
 names<-c("Code","Description")
 colnames(m)<-names
+<<<<<<< HEAD
 kable(m) %>%
   column_spec(2, width = "40em")
 ```
 
 $~$
+=======
+kable(m)
+```
+
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,echo=FALSE}
 m.hksj<-metagen(TE, seTE, data=madata, method.tau = "SJ", hakn = TRUE, studlab = paste(Author), comb.random = TRUE)
@@ -369,6 +440,7 @@ region.subgroup<-update.meta(m.hksj,
 region.subgroup
 ```
 
+<<<<<<< HEAD
 $~$
 
 Here, we get the **pooled effect for each subgroup** (country). Under `Test for subgroup differences (random effects model)`, we can see the **test for subgroup differences using the random-effects-model**, which is **not significant** ($Q=4.52$,$p=0.3405$). This means that we did not find differences in the overall effect between different regions, represented by the country in which the study was conducted.
@@ -380,5 +452,18 @@ $~$
 To use a fixed-effect-model in combination with a fixed-effects-model, we can also use the `update.meta` function again. The procedure is the same as the one we described before, but we have to set `comb.random` as `FALSE` and `comb.fixed` as `TRUE`.
 
 
+=======
+Here, we get the **pooled effect for each subgroup** (country). Under `Test for subgroup differences (random effects model)`, we can see the **test for subgroup differences using the random-effects-model**, which is **not significant** ($Q=4.52$,$p=0.3405$). This means that we did not find differences in the overall effect between different regions, represented by the country in which the study was conducted.
+
+```{block,type='rmdachtung'}
+**Using a fixed-effect-model for within-subgroup-pooling and a fixed-effects-model for between-subgroup-differences**
+
+To use a fixed-effect-model in combination with a fixed-effects-model, we can also use the `update.meta` function again. The procedure is the same as the one we described before, but we have to set `comb.random` as `FALSE` and `comb.fixed` as `TRUE`.
+```
+
+<br><br>
+
+---
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 

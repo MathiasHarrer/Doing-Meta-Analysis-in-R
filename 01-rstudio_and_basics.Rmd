@@ -9,7 +9,16 @@ Before we start with our meta-analysis, we have to download and prepare a **comp
 
 
 ## Getting RStudio to run on your computer {#RStudio}
+<<<<<<< HEAD
 
+=======
+```{r, echo=FALSE, fig.width=3,fig.height=2}
+library(png)
+library(grid)
+img <- readPNG("rstudiologo.PNG")
+grid.raster(img)
+```
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 As a prerequisite for this guide, you need to have **RStudio** and a few essential **R packages** installed.
 

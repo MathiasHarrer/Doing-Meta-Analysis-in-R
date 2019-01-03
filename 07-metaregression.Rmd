@@ -5,10 +5,19 @@
 
 Conceptually, **Meta-Regression** does not differ much from a **subgroup analysis**. In fact, subgroup analyses with more than two groups are nothing more than a meta-regression with categorial covariates. However, meta-regression does also allow us to use **continuous data** as covariates and check weather values of this variable are associated with effect size.
 
+<<<<<<< HEAD
 
 **The idea behind meta-regression**
 
 You may have already performed regressions in regular data where participants or patients are the **unit of analysis**. In typical Meta-Analyses, we do not have the individual data for each participant available, but only the **aggregated effects**, which is why we have to perform meta-regressions with covariates at the **study level**. This also means that while we conduct analyses on participant samples much larger than usual in single studies, it is still very likely that **we don't have enough studies for a meta-regression to be sensible**. In [Chapter 7](#subgroup), we told you that subgroup analyses make no sense when *k*<10. For **meta-regression**, Borenstein and colleages [@borenstein2011] recommend that **each covariate should at least contain ten studies**, although this should not be seen as clear rule. In a conventional regression, we want to estimate a parameter $y$ using a covariate $x_i$ with $n$ regression coefficients $\beta$. A standard regression equation therefore looks like this:
+=======
+```{block,type='rmdinfo'}
+**The idea behind meta-regression**
+
+You may have already performed regressions in regular data where participants or patients are the **unit of analysis**. In typical Meta-Analyses, we do not have the individual data for each participant available, but only the **aggregated effects**, which is why we have to perform meta-regressions with covariates at the **study level**. This also means that while we conduct analyses on participant samples much larger than usual in single studies, it is still very likely that **we don't have enough studies for a meta-regression to be sensible**. In [Chapter 7](#subgroup), we told you that subgroup analyses make no sense when *k*<10. For **meta-regression**, Borenstein and colleages [@borenstein2011] recommend that **each covariate should at least contain ten studies**, although this should not be seen as clear rule.
+
+In a conventional regression, we want to estimate a parameter $y$ using a covariate $x_i$ with $n$ regression coefficients $\beta$. A standard regression equation therefore looks like this:
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 $$y=\beta_0 + \beta_1x_1 + ...+\beta_nx_n$$
 
@@ -16,7 +25,15 @@ In a meta-regression, we want to estimate the **effect size** $\theta$ for diffe
 
 $$\hat \theta_k = \theta + \beta_1x_{1k} + ... + \beta_nx_{nk} + \epsilon_k + \zeta_k$$
 
+<<<<<<< HEAD
 You might have seen that when estimating the effect size $\theta_k$ of a study $k$ in our regression model, there are two **extra terms in the equation**, $\epsilon_k$ and $\zeta_k$. The same terms can also be found in the equation for the random-effects-model in [Chapter 4.2](#random). The two terms signify two types of **independent errors** which cause our regression prediction to be **imperfect**. The first one, $\epsilon_k$, is the sampling error through which the effect size of the study deviates from its "true" effect. The second one, $\zeta_k$, denotes that even the true effect size of the study is only sampled from **an overarching distribution of effect sizes** (see the Chapter on the [Random-Effects-Model](#random) for more details). In a **fixed-effect-model**, we assume that all studies actually share the **same true effect size** and that the **between-study heterogeneity** $\tau^2 = 0$. In this case, we do not consider $\zeta_k$ in our equation, but only $\epsilon_k$. As the equation above has includes **fixed effects** (the $\beta$ coefficients) as well as **random effects** ($\zeta_k$), the model used in meta-regression is often called **a mixed-effects-model**. Mathematically, this model is identical to the **mixed-effects-model** we described in [Chapter 7](#subgroup) where we explained how **subgroup analyses** work.Indeed **subgroup analyses with more than two subgroups** are nothing else than a **meta-regression** with a **categorical predictor**. For meta-regression, these subgroups are then **dummy-coded**, e.g.
+=======
+You might have seen that when estimating the effect size $\theta_k$ of a study $k$ in our regression model, there are two **extra terms in the equation**, $\epsilon_k$ and $\zeta_k$. The same terms can also be found in the equation for the random-effects-model in [Chapter 4.2](#random). The two terms signify two types of **independent errors** which cause our regression prediction to be **imperfect**. The first one, $\epsilon_k$, is the sampling error through which the effect size of the study deviates from its "true" effect. The second one, $\zeta_k$, denotes that even the true effect size of the study is only sampled from **an overarching distribution of effect sizes** (see the Chapter on the [Random-Effects-Model](#random) for more details). In a **fixed-effect-model**, we assume that all studies actually share the **same true effect size** and that the **between-study heterogeneity** $\tau^2 = 0$. In this case, we do not consider $\zeta_k$ in our equation, but only $\epsilon_k$.
+
+As the equation above has includes **fixed effects** (the $\beta$ coefficients) as well as **random effects** ($\zeta_k$), the model used in meta-regression is often called **a mixed-effects-model**. Mathematically, this model is identical to the **mixed-effects-model** we described in [Chapter 7](#subgroup) where we explained how **subgroup analyses** work.
+
+Indeed **subgroup analyses with more than two subgroups** are nothing else than a **meta-regression** with a **categorical predictor**. For meta-regression, these subgroups are then **dummy-coded**, e.g.
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 $$ D_k =  \{\begin{array}{c}0:ACT \\1:CBT \end{array}$$
 
@@ -24,6 +41,10 @@ $$\hat \theta_k = \theta + \beta x_{k} + D_k \gamma + \epsilon_k + \zeta_k$$
 
 In this case, we assume the same **regression line**, which is simply "shifted" **up or down for the different subgroups** $D_k$.
 
+<<<<<<< HEAD
+=======
+```
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r, echo=FALSE, fig.width=6,fig.cap="Visualisation of a Meta-Regression with dummy-coded categorial predictors",fig.align='center'}
 library(png)
@@ -32,30 +53,56 @@ img <- readPNG("dummy.PNG")
 grid.raster(img)
 ```
 
+<<<<<<< HEAD
 $~$
 
+=======
+<br><br>
+
+```{block,type='rmdinfo'}
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 **Assessing the fit of a regression model**
 
 To evaluate the **statistical significance of a predictor**, we a **t-test** of its $\beta$-weight is performed.
 
 $$ t=\frac{\beta}{SE_{\beta}}$$
 
+<<<<<<< HEAD
 Which provides a $p$-value telling us if a variable significantly predicts effect size differences in our regression model. If we fit a regression model, our aim is to find a model **which explains as much as possible of the current variability in effect sizes** we find in our data. In conventional regression, $R^2$ is commonly used to quantify the **goodness of fit** of our model in percent (0-100%). As this measure is commonly used, and many researchers know how to to interpret it, we can also calculate a $R^2$ analog for meta-regression using this formula:
+=======
+Which provides a $p$-value telling us if a variable significantly predicts effect size differences in our regression model.
+
+If we fit a regression model, our aim is to find a model **which explains as much as possible of the current variability in effect sizes** we find in our data.
+
+In conventional regression, $R^2$ is commonly used to quantify the **goodness of fit** of our model in percent (0-100%). As this measure is commonly used, and many researchers know how to to interpret it, we can also calculate a $R^2$ analog for meta-regression using this formula:
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 $$R_2=\frac{\hat\tau^2_{REM}-\hat\tau^2_{MEM}}{\hat\tau^2_{REM}}$$
 
 Where $\hat\tau^2_{REM}$ is the estimated total heterogenetiy based on the random-effects-model and $\hat\tau^2_{REM}$ the total heterogeneity of our mixed-effects regression model.
+<<<<<<< HEAD
+=======
+```
+
+<br><br>
+
+---
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ## Calculating meta-regressions in R
 
 Meta-regressions can be conducted in R using the `metareg` function in `meta`. To show the similarity between `subgroup` analysis and `meta-regression` with categorical predictors, i'll first conduct a meta-regression with my variable "Control" as predictor again.
 
+<<<<<<< HEAD
 $~$
 
+=======
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```{r}
 metareg(m.hksj,Control)
 ```
 
+<<<<<<< HEAD
 $~$
 
 We see in the output that the `metareg` function uses the values of "Control" (i.e, the three different types of control groups) as a **moderator**. It takes **"information only"** as a dummy-coded *reference group*, and **"no intervention"** and **"WLC"** as dummy-coded **predictors**. Under `Test of Moderators`, we can see that control groups are not significantly associated with effect size differences $F_{2,15}=0.947$, $p=0.41$. Our regression model does not explain any of the variability in our effect size data ($R^2=0\%$). Below `Model Results`, we can also see the $\beta$-values (`estimate`) of both predictors, and their significance level `pval`. As we can see, both predictors were not significant.
@@ -67,6 +114,19 @@ $~$
 Let's assume i want to check if the **publication year** is associated with effect size. I have stored the variable `pub_year`, containing the publication year of every study in my dataset, and conducted the meta-analysis with it. I stored my meta-analysis output in the `m.pubyear` output. Now, i can use this predictor in a meta-regression.
 
 $~$
+=======
+We see in the output that the `metareg` function uses the values of "Control" (i.e, the three different types of control groups) as a **moderator**. It takes **"information only"** as a dummy-coded *reference group*, and **"no intervention"** and **"WLC"** as dummy-coded **predictors**. Under `Test of Moderators`, we can see that control groups are not significantly associated with effect size differences $F_{2,15}=0.947$, $p=0.41$. Our regression model does not explain any of the variability in our effect size data ($R^2=0\%$). 
+
+Below `Model Results`, we can also see the $\beta$-values (`estimate`) of both predictors, and their significance level `pval`. As we can see, both predictors were not significant.
+
+<br><br>
+
+**Continuous variables**
+
+Let's assume i want to check if the **publication year** is associated with effect size. I have stored the variable `pub_year`, containing the publication year of every study in my dataset, and conducted the meta-analysis with it. I stored my meta-analysis output in the `m.pubyear` output.
+
+**Now, i can use this predictor in a meta-regression.**
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,echo=FALSE}
 load("Meta_Analysis_Data.RData")
@@ -81,11 +141,19 @@ output.metareg<-metareg(m.pubyear,pub_year)
 output.metareg
 ```
 
+<<<<<<< HEAD
 $~$
 
 As you can see from the output, `pub_year` was now included as a **predictor**, but it is not significantly associated with the effect size ($p=0.9412$).
 
 
+=======
+As you can see from the output, `pub_year` was now included as a **predictor**, but it is not significantly associated with the effect size ($p=0.9412$).
+
+<br><br>
+
+---
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 
 ## Plotting regressions
@@ -108,8 +176,11 @@ colnames(ms)<-names
 kable(ms) 
 ```
 
+<<<<<<< HEAD
 $~$
 
+=======
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```{r,eval=FALSE}
 bubble(output.metareg,
        xlab = "Publication Year",
@@ -117,4 +188,10 @@ bubble(output.metareg,
        studlab = TRUE)
 ```
 
+<<<<<<< HEAD
 
+=======
+<br><br>
+
+---
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876

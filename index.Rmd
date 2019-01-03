@@ -1,11 +1,16 @@
 --- 
 title: "Doing Meta Analysis in R"
+<<<<<<< HEAD
 subtitle: "A Hands-On Guide"
+=======
+subtitle: "A Hands-on Guide"
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 author: "Mathias Harrer, B.Sc. & Dr. habil. David Ebert"
 date: "Behavioral Health Promotion & Technology Lab"
 github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
 site: bookdown::bookdown_site
 output: 
+<<<<<<< HEAD
   bookdown::pdf_book:
     toc: true
     fig_caption: false
@@ -14,15 +19,33 @@ output:
 geometry: margin=2cm
 fontsize: 12pt
 mainfont: Rosario
+=======
+  bookdown::gitbook:
+    config: 
+      toc:
+       collapse: section
+      search: yes
+      fontsettings:
+        size: 1
+    split_by: section
+    includes:
+      after_body: banner.html
+    df_print: paged
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
 link-citations: yes
 description: "This is a guide on how to conduct Meta-Analysis in R."
+favicon: "favicon.ico"
 ---
 
 # About this Guide
 
+<<<<<<< HEAD
+=======
+![](coverbild.jpg)
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{block}
 This guide shows you how to conduct Meta-Analyses in R from scratch. The focus of this guide is primarily on clinical outcome research in psychology. It is designed for staff and collaborators of the [**PROTECT Lab**](https://www.protectlab.org), which is headed by **Dr. David D. Ebert**.
@@ -30,7 +53,18 @@ This guide shows you how to conduct Meta-Analyses in R from scratch. The focus o
 
 
 
+<<<<<<< HEAD
 $~$
+=======
+```{r, echo=FALSE, fig.width=3,fig.height=2}
+library(png)
+library(grid)
+img <- readPNG("protectlogo.PNG")
+grid.raster(img)
+```
+
+---
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 **The guide will show you how to:**
  
@@ -64,11 +98,15 @@ $~$
 
 **How to read this book online**
 
+<<<<<<< HEAD
 We highly recommend to also have a look at the online version of this guide, which can be found here: https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/. The online guide is more interactive and updated regularly with new material. It contains Web Apps and further guides on other topics around doing Meta-Analyses in R which may be of interest to you.
 
 $~$
 
 **How to get the R code for this guide**
+=======
+![](githublogo.png)
+>>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 All code behind this book is available online on **GitHub**. We have created a website containing a **download link** for all codes, and a **quick guide** on how to get the code running on your computer. The site can be found [here](https://mathiasharrer.github.io/Doing-Meta-Analysis-in-R/).
 
