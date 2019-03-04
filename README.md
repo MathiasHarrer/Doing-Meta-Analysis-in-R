@@ -1,4 +1,8 @@
-# How to get and run the R code for the guide
+# Doing Meta-Analysis in R <img src="hexagon.png" width="100" align="right" />
+
+This is a online handbook on how to perform meta-analyses in R.
+
+## How to get and run the R code for the guide
 
 We hope you're enjoying our guide on how to do [Meta-Analysis in R](https://www.protectlab.org/meta-analysis-in-r). Here's a description on how you can download the R Code to run your Meta-Analyses yourself.
 
