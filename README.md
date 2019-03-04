@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Doing Meta-Analysis in R <img src="hexagon.png" width="100" align="right" />
 
 ## How to get and run the R code for the guide
@@ -7,9 +8,13 @@ We hope you're enjoying our guide on how to do [Meta-Analysis in R](https://www.
 
 ### Accessing the repository
 =======
+=======
+# Doing Meta-Analysis in R <img src="hexagon.png" width="100" align="right" />
+
+>>>>>>> d6ba3b0ea5bbdf5c116320588bedc97e3911946a
 [![DOI](https://zenodo.org/badge/152492192.svg)](https://zenodo.org/badge/latestdoi/152492192)
 
-# How to get and run the R code for the guide
+## How to get and run the R code for the guide
 
 We hope you're enjoying our guide on how to do [Meta-Analysis in R](https://www.protectlab.org/meta-analysis-in-r). Here's a description on how you can download the R Code to run your Meta-Analyses yourself.
 
