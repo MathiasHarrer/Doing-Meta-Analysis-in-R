@@ -1,8 +1,10 @@
-# How to get and run the R code for the guide
+# Doing Meta-Analysis in R <img src="hexagon.png" width="100" align="right" />
+
+## How to get and run the R code for the guide
 
 We hope you're enjoying our guide on how to do [Meta-Analysis in R](https://www.protectlab.org/meta-analysis-in-r). Here's a description on how you can download the R Code to run your Meta-Analyses yourself.
 
-## Accessing the repository
+### Accessing the repository
 
 We have stored all R Code in a repository which you can download onto your computer. To access the repository, click **View on GitHub** on top of this page. There, you can access all code files, and copy & paste them into RStudio.
 
@@ -12,12 +14,12 @@ You can directly download the repository on **GitHub** by clicking on **Clone or
 
 In case you are a GitHub user already, you can **star** the repository to access it more easily in the future.
 
-## Downloading the files directly
+### Downloading the files directly
 
 You can download the entire repository on the top of this site by clicking on **Download .zip**. This downloads a `zip` file containing all files onto your computer.
 
 
-## Running the code
+### Running the code
 
 Of course, you can run all code one by one if you simply copy and paste the code into RStudio and run it.
 If you want to run all code in RStudio along with reading the book, an easier way might be to access the **R Markdown** files in the download folder and run the code chunks in them. Here's how you do that.
