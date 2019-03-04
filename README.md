@@ -1,8 +1,9 @@
 # Doing Meta-Analysis in R <img src="hexagon.png" width="100" align="right" />
 
 [![DOI](https://zenodo.org/badge/152492192.svg)](https://zenodo.org/badge/latestdoi/152492192)
-reStructedText
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/MathiasHarrer.svg?style=social&label=Follow%20%40MathiasHarrer)](https://twitter.com/MathiasHarrer)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/DDEbert.svg?style=social&label=Follow%20%40DDEbert)](https://twitter.com/DDEbert)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/pimcuijpers.svg?style=social&label=Follow%20%40pimcuijpers)](https://twitter.com/pimcuijpers)
 
 This is a online handbook on how to perform meta-analyses in R.
 
