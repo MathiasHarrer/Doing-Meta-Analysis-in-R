@@ -1,8 +1,8 @@
 --- 
 title: "Doing Meta Analysis in R"
 subtitle: "A Hands-on Guide"
-author: "Mathias Harrer, B.Sc. & Dr. habil. David Ebert"
-date: "Friedrich-Alexander-University Erlangen-Nuremberg"
+author: "Mathias Harrer & David Ebert"
+date: "Friedrich-Alexander-University Erlangen-Nuremberg & Vrije Universiteit Amsterdam"
 github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
 site: bookdown::bookdown_site
 output: 
@@ -12,7 +12,7 @@ output:
        collapse: section
       search: yes
       fontsettings:
-        size: 1
+        size: 2
     split_by: section
     includes:
       after_body: banner.html
@@ -33,14 +33,10 @@ favicon: "favicon.ico"
 This guide shows you how to conduct Meta-Analyses in R from scratch. The focus of this guide is primarily on clinical outcome research in psychology. It is designed for staff and collaborators of the [**PROTECT Lab**](https://www.protectlab.org), which is headed by **Dr. David D. Ebert**.
 ```
 
+<br></br>
+<img width="40%" src="protectlogo.PNG"/>
+<img width="15%" src="hexagon.png"/>
 
-
-```{r, echo=FALSE, fig.width=3,fig.height=2}
-library(png)
-library(grid)
-img <- readPNG("protectlogo.PNG")
-grid.raster(img)
-```
 
 ---
 
