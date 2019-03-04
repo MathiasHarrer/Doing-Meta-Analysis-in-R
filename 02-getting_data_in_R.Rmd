@@ -2,13 +2,6 @@
 
 ![](chappool.jpg)
 
-<<<<<<< HEAD
-
-This chapter will tell you about how you can **import** your effect size data in RStudio. We will also show you a few commands which make it easier to **manipulate data** directly in R. Data preparation can be tedious and exhausting at times, but it is the backbone of all later steps when doing meta-analyses in R. We therefore have to pay **close attention** to preparing the data correctly before we can proceed.
-
-
-
-=======
 ```{block,type='rmdinfo'}
 This chapter will tell you about how you can **import** your effect size data in RStudio. We will also show you a few commands which make it easier to **manipulate data** directly in R.
 
@@ -20,7 +13,6 @@ Data preparation can be tedious and exhausting at times, but it is the backbone 
 <br><br>
 
 ---
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ## Data preparation in Excel
 
@@ -35,14 +27,10 @@ To conduct Meta-Analyses in R, you need to have your study data prepared. For a 
 * If you want to have a look at differences between various study subgroups later on, you also need a **subgroup code** for each study which signifies to which subgroup it belongs. For example, if a study was conducted in children, you might give it the subgroup code "children".
 
   
-<<<<<<< HEAD
-As per usual, such data is stored in **EXCEL spreadsheets**. We recommend to store your data there, because this makes it very easy to import data into RStudio. However, it is very important how you **name the columns of your spreadsheet**. If you name the columns of your sheet adequately in EXCEL already, you can save a lot of time because your data doesn't have to be transformed in RStudio later on. 
-=======
 As per usual, such data is stored in **EXCEL spreadsheets**. We recommend to store your data there, because this makes it very easy to import data into RStudio.
 
 
 However, it is very important how you **name the columns of your spreadsheet**. If you name the columns of your sheet adequately in EXCEL already, you can save a lot of time because your data doesn't have to be transformed in RStudio later on. 
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 **Here is how you should name the data columns in your EXCEL spreadheet containing your Meta-Analysis data**
   
@@ -50,19 +38,6 @@ However, it is very important how you **name the columns of your spreadsheet**. 
 ```{r,echo=FALSE}
 library(kableExtra)
 Package<-c("Author","Me","Se","Mc","Sc","Ne","Nc","Subgroup")
-<<<<<<< HEAD
-Description<-c("This signifies the column for the study label (i.e., the first author)","The Mean of the experimental/intervention group","The Standard Deviation of the experimental/intervention group","The Mean of the control group","The Standard Deviation of the control group","The number of participants in the experimental/intervention group","The number of participants in the control group","This is the label for one of your Subgroup codes. It's not that important how you name it, so you can give it a more informative name (e.g. population). In this column, each study should then be given an subgroup code, which should be exactly the same for each subgroup, including upper/lowercase letters. Of course, you can also include more than one subgroup column with different subgroup codings, but the column name has to be unique")
-m<-data.frame(Package,Description)
-names<-c("Column", "Description")
-colnames(m)<-names
-kable(m) %>%
-  column_spec(2, width = "40em")
-```
-
-Note that it **doesn't matter how these columns are ordered in your EXCEL spreadsheet**. They just have to be labeled correctly. There's also no need to **format** the columns in any way. If you type the column name in the first line of you spreadsheet, R will automatically detect it as a column name. It's also important to know that the import **will distort letters like ä,ü,ö,á,é,ê, etc**. So be sure to transform them to "normal" letters before you proceed.
-
-
-=======
 Description<-c("This signifies the column for the study label (i.e., the first author)","The Mean of the experimental/intervention group","The Standard Deviation of the experimental/intervention group","The Mean of the control group","The Standard Deviation of the control group","The number of participants in the experimental/intervention group","The number of participats in the control group","This is the label for one of your Subgroup codes. It's not that important how you name it, so you can give it a more informative name (e.g. population). In this column, each study should then be given an subgroup code, which should be exactly the same for each subgroup, including upper/lowercase letters. Of course, you can also include more than one subgroup column with different subgroup codings, but the column name has to be unique")
 m<-data.frame(Package,Description)
 names<-c("Column", "Description")
@@ -77,7 +52,6 @@ There's also no need to **format** the columns in any way. If you type the colum
 ```{block,type='rmdachtung'}
 It's also important to know that the import **will distort letters like ä,ü,ö,á,é,ê, etc**. So be sure to transform them to "normal" letters before you proceed.
 ```
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ### Setting the columns of your sheet if you have calculated the effect sizes of each study already
 
@@ -90,19 +64,12 @@ Description.cma<-c("This signifies the column for the study label (i.e., the fir
 m.cma<-data.frame(Package.cma,Description.cma)
 names.cma<-c("Column", "Description")
 colnames(m.cma)<-names.cma
-<<<<<<< HEAD
-kable(m.cma) %>%
-  column_spec(2, width = "40em")
-```
-
-=======
 kable(m.cma)
 ```
 
 <br><br>
 
 ---
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ## Importing the Spreadsheet into Rstudio {#import_excel}
 
@@ -182,17 +149,6 @@ madata.s$`ROB superstreng`=NULL
 madata.s$compensation=NULL
 madata.s$instruments=NULL
 madata.s$guidance=NULL
-<<<<<<< HEAD
-madata.s$`intervention duration`=NULL
-kable(madata.s) %>%
-  column_spec(6)
-```
-
-
-## Data manipulation
-
-Now that we have the Meta-Analysis data in RStudio, let's do a **few manipulations with the data**. These functions might come in handy when were conducting analyses later on. Going back to the output of the `str()` function, we see that this also gives us details on the type of column data we have stored in our data. There a different abbreviations signifying different types of data.
-=======
 kable(madata.s)
 ```
   
@@ -206,7 +162,6 @@ Now that we have the Meta-Analysis data in RStudio, let's do a **few manipulatio
 
 
 Going back to the output of the `str()` function, we see that this also gives us details on the type of column data we have stored in our data. There a different abbreviations signifying different types of data.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,echo=FALSE}
 library(kableExtra)
@@ -216,108 +171,49 @@ Description<-c("This is all data stored as numbers (e.g. 1.02)","This is all dat
 m<-data.frame(Package,type,Description)
 names<-c("Abbreviation", "Type","Description")
 colnames(m)<-names
-<<<<<<< HEAD
-kable(m) %>%
-  column_spec(3, width = "30em")
-=======
 kable(m)
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```
 
 ### Converting to factors {#convertfactors}
 
-<<<<<<< HEAD
-Let's say we have the subgroup **Risk of Bias** (in which the Risk of Bias rating is coded), and want it to be a factor with two different levels: "low" and "high". To do this, we need to the variable `ROB` to be a factor. However, this variable is currently stored as a character (`chr`). We can have a look at this variable by typing the name of our dataset, then adding the selector `$` and then adding the variable we want to have a look at.
-
-$~$
-=======
 Let's say we have the subgroup **Risk of Bias** (in which the Risk of Bias rating is coded), and want it to be a factor with two different levels: "low" and "high".
 
 To do this, we need to the variable `ROB` to be a factor. However, this variable is currently stored as a character (`chr`). We can have a look at this variable by typing the name of our dataset, then adding the selector `$` and then adding the variable we want to have a look at.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,echo=FALSE}
 madata$ROB<-madata$`ROB streng`
 ```
 
-<<<<<<< HEAD
-```{r, collapse=TRUE}
-=======
 ```{r}
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 madata$ROB
 str(madata$ROB)
 ```
 
-<<<<<<< HEAD
-$~$
-
-We can see now that `ROB`is indeed a **character** type variable, which contains only two words: "low" and "high". We want to convert this to a **factor** variable now, which has only two levels, low and high. To do this, we use the `factor()` function.
-
-$~$
-
-```{r, collapse=TRUE}
-=======
 We can see now that `ROB`is indeed a **character** type variable, which contains only two words: "low" and "high". We want to convert this to a **factor** variable now, which has only two levels, low and high. To do this, we use the `factor()` function.
 
 ```{r}
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 madata$ROB<-factor(madata$ROB)
 madata$ROB
 str(madata$ROB)
 ```
-<<<<<<< HEAD
-
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 We now see that the variable has been **converted to a factor with the levels "high" and "low"**.
 
 ### Converting to logicals
 
 Now lets have a look at the **intervention type** subgroup variable. This variable is currently stores as a character `chr` too.
 
-<<<<<<< HEAD
-$~$
-
-```{r, collapse=TRUE}
-=======
 ```{r}
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 madata$`intervention type`
 str(madata$`intervention type`)
 ```
 
-<<<<<<< HEAD
-$~$
-
-Let's say we want a variable which only contains information if a study way a mindfulness intervention or not. A logical is very well suited for this. To convert the data to logical, we use the `as.logical` function. We will create a new variable containing this information called `intervention.type.logical`. To tell R what to count as `TRUE` and what as `FALSE`, we have to define the specific intervention type using the `==` command.
-
-$~$
-
-```{r, collapse=TRUE}
-=======
 Let's say we want a variable which only contains information if a study way a mindfulness intervention or not. A logical is very well suited for this. To convert the data to logical, we use the `as.logical` function. We will create a new variable containing this information called `intervention.type.logical`. To tell R what to count as `TRUE` and what as `FALSE`, we have to define the specific intervention type using the `==` command.
 
 ```{r}
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 intervention.type.logical<-as.logical(madata$`intervention type`=="mindfulness")
 intervention.type.logical
 ```
 
-<<<<<<< HEAD
-$~$
-
-We see that R has converted the character information into trues and falses for us. To check if this was done correctly, let's compare the original and the new variable
-
-```{r, echo=FALSE}
-n<-data.frame(intervention.type.logical,madata$`intervention type`)
-names<-c("New", "Original")
-colnames(n)<-names
-kable(n) %>%
-  column_spec(2, width = "10em")
-=======
 We see that R has converted the character information into trues and falses for us. To check if this was done correctly, let's compare the original and the new variable
 
 ```{r}
@@ -325,30 +221,20 @@ n<-data.frame(intervention.type.logical,madata$`intervention type`)
 names<-c("New", "Original")
 colnames(n)<-names
 kable(n)
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```
 
 ### Selecting specific studies {#select}
 
-<<<<<<< HEAD
-It may often come in handy to **select certain studies for further analyses**, or to **exclude some studies in further analyses** (e.g., if they are outliers). To do this, we can use the `filter` function in the `dplyr`package, which is part of the `tidyverse` package we installed before. So, let's load the package first.
-=======
 It may often come in handy to **select certain studies for further analyses**, or to **exclude some studies in further analyses** (e.g., if they are outliers).
 
 To do this, we can use the `filter` function in the `dplyr`package, which is part of the `tidyverse` package we installed before.
 
 So, let's load the package first.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r, eval=FALSE,warning=FALSE}
 library(dplyr)
 ```
 
-<<<<<<< HEAD
-Let's say we want to do a Meta-Analysis with three studies in our dataset only. To do this, we need to create a new dataset containing only these studies using the `dplyr::filter()` function. The `dplyr::` part is necessary as there is more than one ``filter` function in R, and we want to use to use the one of the `dplyr`package. Let's say we want to have the studies by **Cavanagh et al.**, **Frazier et al.** and **Phang et al.** stored in another dataset, so we can conduct analyses only for these studies. The R code to store these three studies in a new dataset called `madata.new` looks like this:
-
-```{r, message=FALSE, warning=FALSE}
-=======
 Let's say we want to do a Meta-Analysis with three studies in our dataset only. To do this, we need to create a new dataset containing only these studies using the `dplyr::filter()` function. The `dplyr::` part is necessary as there is more than one ``filter` function in R, and we want to use to use the one of the `dplyr`package.
 
 Let's say we want to have the studies by **Cavanagh et al.**, **Frazier et al.** and **Phang et al.** stored in another dataset, so we can conduct analyses only for these studies.
@@ -356,7 +242,6 @@ Let's say we want to have the studies by **Cavanagh et al.**, **Frazier et al.**
 The R code to store these three studies in a new dataset called `madata.new` looks like this:
 
 ```{r}
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 madata.new<-dplyr::filter(madata,Author %in% c("Cavanagh et al.",
                                                "Frazier et al.",
                                                "Phang et al."))
@@ -372,27 +257,12 @@ kable(madata.new)
 
 Note that the function can also be used for any other type of data and variable. We can also use it to e.g., only select studies which were coded as being a mindfulness study
 
-<<<<<<< HEAD
-$~$
-
-```{r, message=FALSE, warning=FALSE}
-madata.new.mf<-dplyr::filter(madata,`intervention type` %in% c("mindfulness"))
-```
-
-$~$
-
-We can also use the `dplyr::filter()` function to exclude studies from our dataset. To do this, we only have to add `!` in front of the variable we want to use for filtering.
-
-$~$
-
-=======
 ```{r}
 madata.new.mf<-dplyr::filter(madata,`intervention type` %in% c("mindfulness"))
 ```
 
 We can also use the `dplyr::filter()` function to exclude studies from our dataset. To do this, we only have to add `!` in front of the variable we want to use for filtering.
 
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```{r}
 madata.new.excl<-dplyr::filter(madata,!Author %in% c("Cavanagh et al.",
                                                      "Frazier et al.",
@@ -402,41 +272,23 @@ madata.new.excl<-dplyr::filter(madata,!Author %in% c("Cavanagh et al.",
 
 ### Changing cell values
 
-<<<<<<< HEAD
-Sometimes, even when preparing your data in EXCEL, you might want to **change values in RStudio once you have imported your data**. To do this, we have to select a cell in our data frame in RStudio. This can be done by adding `[x,y]` to our dataset name, where **x** signifies the number of the **row** we want to select, and **y** signifies the number of the **column**. To see how this works, let's select a variable using this command first:
-$~$
-=======
 Sometimes, even when preparing your data in EXCEL, you might want to **change values in RStudio once you have imported your data**. 
 
 To do this, we have to select a cell in our data frame in RStudio. This can be done by adding `[x,y]` to our dataset name, where **x** signifies the number of the **row** we want to select, and **y** signifies the number of the **column**.
 
 To see how this works, let's select a variable using this command first:
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r}
 madata[6,1]
 ```
 
-<<<<<<< HEAD
-$~$
-
 We now see the **6th study** in our dataframe, and the value of this study for **Column 1 (the author name)** is displayed. Let's say we had a typo in this name and want to have it changed. In this case, we have to give this exact cell a new value.
-$~$
-=======
-We now see the **6th study** in our dataframe, and the value of this study for **Column 1 (the author name)** is displayed. Let's say we had a typo in this name and want to have it changed. In this case, we have to give this exact cell a new value.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r}
 madata[6,1]<-"Frogelli et al."
 ```
 
-<<<<<<< HEAD
-$~$
 Let's check if the name has changed.
-$~$
-=======
-Let's check if the name has changed.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r}
 madata[6,1]
@@ -444,11 +296,7 @@ madata[6,1]
 
 You can also use this function to change any other type of data, including numericals and logicals. Only for characters, you have to put the values you want to insert in `""`.
 
-<<<<<<< HEAD
-
-=======
 <br><br>
 
 ---
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 

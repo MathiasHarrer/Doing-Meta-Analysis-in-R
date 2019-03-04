@@ -1,42 +1,22 @@
 --- 
 title: "Doing Meta Analysis in R"
-<<<<<<< HEAD
-subtitle: "A Hands-On Guide"
-=======
 subtitle: "A Hands-on Guide"
-<<<<<<< HEAD
-author: "Mathias Harrer & David Ebert"
-date: "Friedrich-Alexander-University Erlangen-Nuremberg & Vrije Universiteit Amsterdam"
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 author: "Mathias Harrer, B.Sc. & Dr. habil. David Ebert"
-date: "Behavioral Health Promotion & Technology Lab"
->>>>>>> 0fc13e2edf49a88680171433ff8d8a3744ec9df8
+date: "Friedrich-Alexander-University Erlangen-Nuremberg"
 github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
 site: bookdown::bookdown_site
 output: 
-<<<<<<< HEAD
-  bookdown::pdf_book:
-    toc: true
-    fig_caption: false
-    df_print: kable
-    highlight: tango
-geometry: margin=2cm
-fontsize: 12pt
-mainfont: Rosario
-=======
   bookdown::gitbook:
     config: 
       toc:
        collapse: section
       search: yes
       fontsettings:
-        size: 2
+        size: 1
     split_by: section
     includes:
       after_body: banner.html
     df_print: paged
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 documentclass: book
 bibliography: [book.bib, packages.bib]
 biblio-style: apalike
@@ -47,25 +27,14 @@ favicon: "favicon.ico"
 
 # About this Guide
 
-<<<<<<< HEAD
-=======
 ![](coverbild.jpg)
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
-```{block}
+```{block,type='rmdinfo'}
 This guide shows you how to conduct Meta-Analyses in R from scratch. The focus of this guide is primarily on clinical outcome research in psychology. It is designed for staff and collaborators of the [**PROTECT Lab**](https://www.protectlab.org), which is headed by **Dr. David D. Ebert**.
 ```
 
-<br></br>
-<img width="40%" src="protectlogo.PNG"/>
-<img width="15%" src="hexagon.png"/>
 
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-$~$
-=======
 ```{r, echo=FALSE, fig.width=3,fig.height=2}
 library(png)
 library(grid)
@@ -73,9 +42,7 @@ img <- readPNG("protectlogo.PNG")
 grid.raster(img)
 ```
 
->>>>>>> 0fc13e2edf49a88680171433ff8d8a3744ec9df8
 ---
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 **The guide will show you how to:**
  
@@ -89,39 +56,36 @@ grid.raster(img)
 * Control for selective outcome reporting and publication bias
 * Analyse the **risk of bias** in your data
 * Do advanced types of meta-analyses, such as 
-    + **network analyses** or (online only)
-    + meta-analyses with **more than one outcome** (online only)
+    + **network analyses** or 
+    + meta-analyses with **more than one outcome**
   
-$~$
+
+---
 
 **What this guide will not cover**
 
-Although this guide will provide some information on the statistics behind meta-analysis, it will not give you an **in-depth introduction** into how meta-analyses are calculated statistically. It is also beyond the scope of this guide to advise in detail which meta-analytical strategy is suited best in which contexts, and on how the search, study inclusion and reporting of meta-analyses should be conducted. The [*Cochrane Handbook for Systematic Reviews of Interventions*](http://handbook-5-1.cochrane.org/), however, should be a great source to find more information on these topics.
+Although this guide will provide some information on the statistics behind meta-analysis, it will not give you an **in-depth introduction** into how meta-analyses are calculated statistically.
+  
+It is also beyond the scope of this guide to advise in detail which meta-analytical strategy is suited best in which contexts, and on how the search, study inclusion and reporting of meta-analyses should be conducted. The [*Cochrane Handbook for Systematic Reviews of Interventions*](http://handbook-5-1.cochrane.org/), however, should be a great source to find more information on these topics.
 
-$~$
+---
   
 **Generally, there a two other sources to recommended when conducting Meta-Analyses:**
   
 * If you're looking for a easily digestable, hands-on introduction on how Meta-Analyses are conducted, we can recommend **Pim Cuijpers' online courses on Meta-Analysis**. The courses are freely available on YouTube. To have a look, click [here](https://www.youtube.com/watch?v=pP7_VBrG_TY&list=PL-h5cI5Bkvt0J-O0kq_9J9_aksWFPgR7s).
 * If you're interested in more details on how to conduct Meta-Analyses in R, you can either have a look at Wolfgang Viechtbauer's page for the `metafor` package ([Link](http://metafor-project.org)). Or you can consult a book on the `meta` package which was recently published [@schwarzer2015meta].
 
-$~$
+<br><br>
 
-**How to read this book online**
-
-<<<<<<< HEAD
-We highly recommend to also have a look at the online version of this guide, which can be found here: https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/. The online guide is more interactive and updated regularly with new material. It contains Web Apps and further guides on other topics around doing Meta-Analyses in R which may be of interest to you.
-
-$~$
-
+````{block,type='rmdinfo'}
 **How to get the R code for this guide**
-=======
+
 ![](githublogo.png)
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 All code behind this book is available online on **GitHub**. We have created a website containing a **download link** for all codes, and a **quick guide** on how to get the code running on your computer. The site can be found [here](https://mathiasharrer.github.io/Doing-Meta-Analysis-in-R/).
+```
 
-$~$
+<br><br>
 
 **How to cite this guide**
 
@@ -134,9 +98,13 @@ install.packages("bookdown")
 # devtools::install_github("rstudio/bookdown")
 ```
 
-$~$
+---
 
 **To get started, proceed to the next chapter!**
+
+---
+
+<br><br>
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

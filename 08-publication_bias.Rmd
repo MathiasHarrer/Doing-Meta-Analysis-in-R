@@ -2,17 +2,6 @@
 
 ![](publicationbias.jpg)
 
-<<<<<<< HEAD
-In the last chapters, we have showed you how to **pool effects** in meta-analysis, choose the **right pooling model**, assess the **heterogeneity** of your effect estimate, and determine sources of heterogeneity through **outlier, influence, and subgroup analyses**. Nevertheless, even the most thoroughly conducted meta-analysis can only work with the **study material at hand**. An issue commonly discussed in research, however, is the **file-drawer** or **publication bias** problem, which states that a study with high effect sizes **is more likely to be published** than a study with a low effect size [@rothstein2006publication]. Such **missing studies** with low effect sizes, it is assumed, thus never get published and therefore cannot be integrated into our meta-analysis. This leads to **publication bias**, as the pooled effect we estimate in our meta-analysis might be higher than the **true effect size** because we did not consider the missing studies with lower effects due to the simple fact that they were never published. Although this practice is gradually changing [@nelson2018psychology], weather a study is published or not heavily depends on the **statistical significance** ($p<0.05$) of its results [@dickersin2005publication]. For any sample size, a result is more likely to become **statistically significant** if its **effect size is high**. This is particularly true for **small studies**, for which very large effect sizes are needed to attain a statisitcally significant result. In the [following chapter](#smallstudyeffects), we will describe the **idea behind statistical models for publication bias** in further depth. We termed these concepts and methods **small-study effect methods**, as it is small studies that they mostly focus on. These methods assume that publication bias is primarily driven by **effect size** and because researchers **immediately put every study in the file drawer once the results are not significant**. Recently, it has been argued that these **assumptions may not be true**, and that publication bias is mostly caused by **significance levels** and **p-hacking** [@simonsohn2014p]. An alternative method called **P-Curve** has therefore been suggested to examine **publication bias**. We will present this method in the [last chapter](#pcurve) of this section.
-
-$~$
-
-**Which method should i use for my meta-analysis?**
-
-While recent research suggests that the conventional **small-study effect methods** may have substantial **limitations**, and that **p-Curve** may be able to estimate the true effect with less bias [@simonsohn2014p;@simonsohn2015better;@simonsohn2014pb], please note that both methods are based on different **theoretical assumptions** about the origin of publication bias. As we cannot ultimately decide which assumption is the **"true"** one in specific research fields, and, in practice **the true effect is unkown when doing meta-analysis**, we argue that you may use **both methods** and compare results as **sensitivity analyses** [@harrer2019internet]. **P-curve** was developed with **full-blown experimental psychological research in mind**, in which researchers often have **high degrees of "researcher freedom"** [@simmons2011false] in deleting outliers and performing statistical test on their data. We argue that this looks slightly different for **clinical psychology** and the medical field, where researchers conduct **randomized controlled trials** whith a clear **primary outcome**: the difference between the control and the intervention group after the treatment. While it is also true for **medicine and clinical psychology that statistical significance plays an important role**, the **effect size** of an intervention is often of greater interest, as **treatments are often compared in terms of their treatment effects** in this field. Furthermore, best practice for randomized controlled trials is to perform **intention-to-treat** analyses, in which all collected data in a trial has to be considered, giving researchers less space to "play around" with their data and perform p-hacking. While we certainly do not want to insinuate that **outcome research in clinical psychology** is free from p-hacking and bad data analysis practices, this should be seen as a **caveat** that the assumptions of the small-study effects methods may be more adequate for clinical psychology than other fields within psychology, especially when **the risk of bias for each study is also taken into account*.
-Facing this uncertainty, we think that conducting both analyses and reporting them in our research paper may be the most adequate approach until meta-scientific research gives us more certainty about which **assumption actually best reflects the field of clinical psychology**. 
-
-=======
 In the last chapters, we have showed you how to **pool effects** in meta-analysis, choose the **right pooling model**, assess the **heterogeneity** of your effect estimate, and determine sources of heterogeneity through **outlier, influence, and subgroup analyses**.
 
 Nevertheless, even the most thoroughly conducted meta-analysis can only work with the **study material at hand**. An issue commonly discussed in research, however, is the **file-drawer** or **publication bias** problem, which states that a study with high effect sizes **is more likely to be published** than a study with a low effect size [@rothstein2006publication]. 
@@ -36,19 +25,13 @@ We argue that this looks slightly different for **clinical psychology** and the 
 Facing this uncertainty, we think that conducting both analyses and reporting them in our research paper may be the most adequate approach until meta-scientific research gives us more certainty about which **assumption actually best reflects the field of clinical psychology**. 
 
 ```
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 
 ## Small-study effect methods {#smallstudyeffects}
 
 The **small-study effect methods** we present here have been conventional for many years. Thus various methods to assess and control for publication bias have been developed, but we will only focus on the most important ones here.
 
-<<<<<<< HEAD
-
-
-=======
 ```{block,type='rmdinfo'}
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 **The model behind small-study effects methods**
 
 According to Borenstein et al. [@borenstein2011]. The model behind the most common small-study effects methods has these core **assumptions**:
@@ -59,15 +42,6 @@ According to Borenstein et al. [@borenstein2011]. The model behind the most comm
 
 In accordance with these assumptions, the methods we present here particularly focus **on small studies with small effect sizes, and wheather they are missing**.
 
-<<<<<<< HEAD
-
-
-### Funnel plots
-
-The best way to visualize weather **small studies with small effect sizes are missing** is through **funnel plots**. We can generate a funnel plot for our `m.hksj` meta-analysis output using the `funnel()` function in `meta`.
-
-$~$
-=======
 ```
 
 ### Funnel plots
@@ -75,7 +49,6 @@ $~$
 The best way to visualize weather **small studies with small effect sizes are missing** is through **funnel plots**.
 
 We can generate a funnel plot for our `m.hksj` meta-analysis output using the `funnel()` function in `meta`.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,echo=FALSE,message=FALSE}
 library(meta)
@@ -100,15 +73,6 @@ m.hksj<-metagen(TE,
 funnel(m.hksj,xlab = "Hedges' g")
 ```
 
-<<<<<<< HEAD
-$~$
-
-The **funnel plot** basically consists of a **funnel** and two **axes**: the y-axis showing the **Standard Error** $SE$ of each study, with larger studies (which thus have a smaller $SE$) plotted **on top of the y-axis**; and the x-axis showing the **effect size** of each study. Given our assumptions, and in the case when there is **no publication bias**, all studies would lie **symmetrically around our pooled effect size (the striped line)** within the form of the funnel. When **publication bias is present**, we would assume that the funnel would look asymmetrical, because only the small studies with a large effect size very published, **while small studies without a significant, large effect would be missing**.We see from the plot that in the case of our meta-anlysis `m.hksj`, the latter is probably true. We see that the plot is highly asymmetrical, with exactly the small studies with low effect size missing in the bottom-left corner of our plot. We can also display the name of each study using the `studlab` parameter.
-
-$~$
-
-```{r, fig.width=10, fig.height=10}
-=======
 The **funnel plot** basically consists of a **funnel** and two **axes**: the y-axis showing the **Standard Error** $SE$ of each study, with larger studies (which thus have a smaller $SE$) plotted **on top of the y-axis**; and the x-axis showing the **effect size** of each study.
 
 Given our assumptions, and in the case when there is **no publication bias**, all studies would lie **symmetrically around our pooled effect size (the striped line)** within the form of the funnel. When **publication bias is present**, we would assume that the funnel would look asymmetrical, because only the small studies with a large effect size very published, **while small studies without a significant, large effect would be missing**.
@@ -118,7 +82,6 @@ We see from the plot that in the case of our meta-anlysis `m.hksj`, the latter i
 We can also display the name of each study using the `studlab` parameter.
 
 ```{r}
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 funnel(m.hksj,xlab = "g",studlab = TRUE)
 ```
 
@@ -140,24 +103,15 @@ img <- readPNG("funnel.PNG")
 grid.raster(img)
 ```
 
-<<<<<<< HEAD
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 We can see in the plot that while **some studies have statistically significant effect sizes** (blue background), other do not (white background). We also see a trend that while the moderately sized studies are partly significant and non-significant, with slightly more significant studies, the asymmetry is much larger for small studies. This gives us a hint that publication bias might indeed be present in our analysis.
 
 ### Testing for funnel plot asymmetry using Egger's test
 
-<<<<<<< HEAD
-**Egger's test of the intercept** [@egger1997bias] quantifies the funnel plot asymmetry and performs a statistical test. We have prepared a function called `eggers.test` for you, which can be found below. The function is a wrapper for the `metabias` function in `meta`. Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
-=======
 **Egger's test of the intercept** [@egger1997bias] quantifies the funnel plot asymmetry and performs a statistical test.
 
 We have prepared a function called `eggers.test` for you, which can be found below. The function is a wrapper for the `metabias` function in `meta`.
 
 Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r}
 eggers.test<-function(data){
@@ -184,34 +138,19 @@ print(eggers.output)
 }
 ```
 
-<<<<<<< HEAD
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 Now we can use the `eggers.test` function. We only have to specify our meta-analysis output `m.hksj` as the `data` the function should use.
 
 ```{r}
 eggers.test(data=m.hksj)
 ```
 
-<<<<<<< HEAD
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 The function returns the `intercept` along with its confidence interval. We can see that the `p-value` of Egger's test is **significant** ($p<0.05$), which means that there is substanital asymmetry in the Funnel plot. This asymmetry could have been caused by publication bias.
 
 ### Duval & Tweedie's trim-and-fill procedure {#dant}
 
 **Duval & Tweedie's trim-and-fill procedure** [@duval2000trim] is also based the funnel plot and its symmetry/asymmetry. When **Egger's test is significant**, we can use this method to estimate what **the actaul effect size would be had the "missing" small studies been published**. The procedure **imputes** missing studies into the funnel plot until symmetry is reached again.
 
-<<<<<<< HEAD
-$~$
-
-=======
 ```{block,type='rmdinfo'}
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 **The trim-and-fill procedure includes the following five steps** [@schwarzer2015meta]:
 
 1.  Estimating the number of studies in the outlying (right) part of the funnel plot
@@ -219,29 +158,14 @@ $~$
 3. This pooled effect is then taken as the center of all effect sizes
 4. For each trimmed/removed study, a additional study is imputed, mirroring the effect of the study on the left side of the funnel plot
 5. Pooling the results with the imputed studies and the trimmed studies included
-<<<<<<< HEAD
-
-
-
-The **trim-and-fill-procedure** can be performed using the `trimfill` function in `meta`, and specifying our meta-analysis output.
-
-$~$
-
-=======
 ```
 
 The **trim-and-fill-procedure** can be performed using the `trimfill` function in `meta`, and specifying our meta-analysis output.
 
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```{r}
 trimfill(m.hksj)
 ```
 
-<<<<<<< HEAD
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 We see that the procedure identified and trimmed **eight studies** `(with 8 added studies)`). The overall effect estimated by the procedure is $g = 0.34$.
 
 Let's compare this to our initial results.
@@ -250,15 +174,9 @@ Let's compare this to our initial results.
 m.hksj$TE.random
 ```
 
-<<<<<<< HEAD
-The initial pooled effect size was $g = 0.59$, which is substantially larger than the bias-corrected effect. In our case, if we assume that **publication bias** was a problem in the analyses, the **trim-and-fill procedure** lets us assume that our initial results were **overestimated** due to publication bias, and the "true" effect when controlling for selective publication might be $g = 0.34$ rather than $g = 0.59$. If we store the results of the `trimfill` function in an **object**, we can also create **funnel plots including the imputed studies**.
-
-$~$
-=======
 The initial pooled effect size was $g = 0.59$, which is substantially larger than the bias-corrected effect. In our case, if we assume that **publication bias** was a problem in the analyses, the **trim-and-fill procedure** lets us assume that our initial results were **overestimated** due to publication bias, and the "true" effect when controlling for selective publication might be $g = 0.34$ rather than $g = 0.59$.
 
 If we store the results of the `trimfill` function in an **object**, we can also create **funnel plots including the imputed studies**.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r}
 m.hksj.trimfill<-trimfill(m.hksj)
@@ -267,16 +185,6 @@ funnel(m.hksj.trimfill,xlab = "Hedges' g")
 
 ## P-Curve {#pcurve}
 
-<<<<<<< HEAD
-In the last chapter, we showed you how you can apply **Egger's test of the intercept**, **Duval & Tweedie's trim and fill procedure**, and inspect **Funnel plots** in R. As we have mentioned before, recent research has shown **that the assumptions of the small-effect study methods may be inaccurate in many cases**. The **Duval & Tweedie trim-and-fill procedure** in particular has been shown to be prone to providing **inaccurate effect size estimates** [@simonsohn2014pb]. **P-curve Analysis** has been proposed as an alternative way to assess publication bias and estimate the true effect behind our collected data. P-Curve assumes that publication bias is not primarily generated because researchers **do not publish non-significant results**, but because the **"play" around with their data (e.g., selectively removing outliers, choosing different outcomes, controlling for different variables) until a non-significant finding becomes significant**. This (bad) practice is called **p-hacking**, and has been shown to be extremely frequent among researchers [@head2015extent].
-
-$~$
-
-**The idea behind P-Curve**
-
-You can find a great video describing the idea behing P-Curve here:  https://www.youtube.com/embed/V7pvYLZkcK4
-
-=======
 In the last chapter, we showed you how you can apply **Egger's test of the intercept**, **Duval & Tweedie's trim and fill procedure**, and inspect **Funnel plots** in R.
 
 As we have mentioned before, recent research has shown **that the assumptions of the small-effect study methods may be inaccurate in many cases**. The **Duval & Tweedie trim-and-fill procedure** in particular has been shown to be prone to providing **inaccurate effect size estimates** [@simonsohn2014pb].
@@ -290,29 +198,18 @@ P-Curve assumes that publication bias is not primarily generated because researc
 
 <iframe width="700" height="415" src="https://www.youtube.com/embed/V7pvYLZkcK4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 ```
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 
 ### Preparing RStudio and our data
 
 To use **P-curve**, we need our data in the same format as the one we used for the `metacont` function in [Chapter 3.1.1](#excel_preparation). We need to specify `Me`, `Se`, `Ne`, `Mc`, `Sc`, and `Nc`. My `metacont` data already has this format. 
 
-<<<<<<< HEAD
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```{r,echo=FALSE}
 library(knitr)
 load("metacont_data.RData")
 kable(metacont)
 ```
 
-<<<<<<< HEAD
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 To use p-curve, we also have to install and load **four packages**. The `esc` package [@esc], the `compute.es` package [@del2013compute], the `stringr` package, and the `poibin` package [@hong2011poibin].
 
 ```{r,message=FALSE,warning=FALSE}
@@ -322,18 +219,10 @@ library(stringr)
 library(poibin)
 ```
 
-<<<<<<< HEAD
-$~$
-
-To **prepare our data** which we stored in the format described above, we need to use the `pcurve_dataprep` function, which we prepared for you. Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
-
-$~$
-=======
 To **prepare our data** which we stored in the format described above, we need to use the `pcurve_dataprep` function, which we prepared for you.
 
 Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r}
 pcurve_dataprep<-function(data){
@@ -365,35 +254,12 @@ write(totoutput,ncolumns=1, file="input.txt")
 
 ```
 
-<<<<<<< HEAD
-$~$
-
 To use the `pcurve_dataprep` function, we simply have to specify our dataset. In my case, this is `metacont`.
 
-$~$
-
-=======
-To use the `pcurve_dataprep` function, we simply have to specify our dataset. In my case, this is `metacont`.
-
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```{r}
 pcurve_dataprep(data=metacont)
 ```
 
-<<<<<<< HEAD
-$~$
-
-The function gives us **the correct format of our effect sizes (t-values)** which we need to conduct the p-curve analysis. The function also **automatically stores a .txt-File (input.txt) in your working directory folder on your computer**. If you forgot where your working directory is, use the `getwd` function.
-
-$~$
-
-```{r, eval=FALSE}
-getwd()
-```
-
-$~$
-
-=======
 The function gives us **the correct format of our effect sizes (t-values)** which we need to conduct the p-curve analysis.
 
 The function also **automatically stores a .txt-File (input.txt) in your working directory folder on your computer**.
@@ -404,18 +270,13 @@ If you forgot where your working directory is, use the `getwd` function.
 getwd()
 ```
 
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 This tells you the path to your working directory, where the **input.txt** file should be stored.
 
 ### Creating P-Curves
 
-<<<<<<< HEAD
-To create p-curves, we have to use the `pcurve_app` function. The code for this function is very long, so it is not displayed here. The code for the function has been made publically available online by **Uri Simonsohn, Leif Nelson, and Joseph Simmons** and can be found [here](http://p-curve.com/app4/pcurve_app4.06.r). Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
-=======
 To create p-curves, we have to use the `pcurve_app` function. The code for this function is very long, so it is not displayed here. The code for the function has been made publically available online by **Uri Simonsohn, Leif Nelson, and Joseph Simmons** and can be found [here](http://p-curve.com/app4/pcurve_app4.06.r).
 
 Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r,echo=FALSE}
 
@@ -1130,12 +991,6 @@ prop33=function(pc)
 }
 ```
 
-<<<<<<< HEAD
-To use the `pcurve_app` function, we have to specify that the function should use the **input.txt** in which the data we created using the `pcurve_dataprep` function is stored. We also have to provide the function with the **path to our folder/working directory where the file is stored**. Please note that while the standard way that **Windows** provides you with paths is using **backslashes**, we need to use **normal slashes** (**/**) for our designated path.
-
-```{r,eval=FALSE}
-pcurve_app("input.txt","C://my_folder")
-=======
 To use the `pcurve_app` function, we have to specify that the function should use the **input.txt** in which the data we created using the `pcurve_dataprep` function is stored. We also have to provide the function with the **path to our folder/working directory where the file is stored**. 
 
 ```{block,type='rmdachtung'}
@@ -1144,16 +999,12 @@ Please not that while the standard way that **Windows** provides you with paths 
 
 ```{r,eval=FALSE}
 pcurve_app("input.txt","C://Users/Admin/Documents/R/WORKING_DIRECTORY/Meta-Analyse Buch/bookdown-demo-master")
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 ```
 
 The function automatically **creates and stores several files and figures into our folder/working directory**. Here the most important ones:
 
-<<<<<<< HEAD
-=======
 <br><br>
 
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 **Figure 1: "input.png"**
 
 ```{r, echo=FALSE, fig.width=7}
@@ -1165,29 +1016,15 @@ grid.raster(img)
 
 This figure shows you the **p-curve for your results (in blue)**. On the bottom, you can also find the number of effect sizes with $p<0.05$ which were included in the analysis. There are two tests displayed in the plot.
 
-<<<<<<< HEAD
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 **The test for right-skewness**
 
 If there is evidential value behind our data, the p-curve should be **right-skewed**. Through eyeballing, we see that this is pretty much the case here, and the **tests for the half and full p-curve** are also both **significant** ($p_{Full}<0.001, p_{Half}<0.001$). This means that the p-curve is heavily right-skewed, indicating that **evidential value is present in our data**
 
-<<<<<<< HEAD
-$~$
-
-=======
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 **The test for flatness**
 
 If there is evidential value behind our data, the p-curve should also **not be flat**. Through eyeballing, we see that this is pretty much the case here. The **tests for flatness** are both not significant ($p_{Full}=0.9887, p_{Binomial}=0.7459$).
 
-<<<<<<< HEAD
-$~$
-=======
 <br><br>
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 **Figure 2: "input_fit.png"**
 
@@ -1200,11 +1037,7 @@ grid.raster(img)
 
 This plot estimates the **power** behind our data, meaning if we have sufficient studies with sufficient participants to find a true effect if it exists. A conventional threshold for optimal power is **80%**, but P-curve can even assess evidential value if studies are **underpowered**. In our case, the the power estimate is **90%**.
 
-<<<<<<< HEAD
-$~$
-=======
 <br><br>
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 **Figure 3: "input_cumulative.png"**
 
@@ -1219,15 +1052,11 @@ This plot provides **sensitivity analyses** in which the **highest and lowest p-
 
 ### Estimating the "true" effect of our data
 
-<<<<<<< HEAD
-To estimate the **true effect of our data** with p-curve (much like the [Duval & Tweedie trim-and-fill procedure](#dant)), we can use the `plotloss` function described and made openly available by Simonsohn et al. [@simonsohn2014pb]. The code for this function is quite long, so it is not displayed here. It can accessed using this [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/true_effect_estimation.R). Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
-=======
 To estimate the **true effect of our data** with p-curve (much like the [Duval & Tweedie trim-and-fill procedure](#dant)), we can use the `plotloss` function described and made openly available by Simonsohn et al. [@simonsohn2014pb].
 
 The code for this function is quite long, so it is not displayed here. It can accessed using this [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/true_effect_estimation.R).
 
 Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 
 ```{r,echo=FALSE}
@@ -1376,24 +1205,14 @@ df_obs<-(n1+n2)-2
 }
 ```
 
-<<<<<<< HEAD
-For the `plotloss` function, we only have to provide the **data** to be used to find the "true" effect size underlying the data, and a **range of effect sizes in which the function should search for the true effect**, delineated by `dmin` and `dmax`. I will use my `metacont` data again here, and will search for the true effect between $d=0$ to $d=1.0$.
-
-$~$
-=======
 For the `plotloss` function, we only have to provide the **data** to be used to find the "true" effect size underlying the data, and a **range of effect sizes in which the function should search for the true effect**, delineated by `dmin` and `dmax`.
 
 I will use my `metacont` data again here, and will search for the true effect between $d=0$ to $d=1.0$.
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
 
 ```{r}
 plotloss(data=metacont,dmin=0,dmax=1)
 ```
 
-<<<<<<< HEAD
-The function provides an effect estimate of $d=0.64$. It should be noted that this chapter should only be seen as **an introduction into p-Curve**, which should not be seen as comprehensive. Simonsohn et al. [@simonsohn2015better] also stress that P-Curve should only be used for **outcome data which was actually of interest for the Authors of the specific article**, because those are the one's likely to get p-hacked. They also ask meta-researchers to provide a **detailed table in which the reported results of each outcome data used in the p-Curve is documented** (a guide can be found [here](http://p-curve.com/guide.pdf)). It has also been shown that P-Curve's effect estimate are **not robust when the heterogeneity of a meta-analyis is high** (*I*^2^ > 50%). Van Aert et al. [@van2016conducting] propose **not to determine the "true" effect using P-Curve when heterogeneity is high** (defined as I^2^ > 50%). A poosible solution for this problem might be to **reduce the overall heterogeneity using outlier removal**, or to p-Curve results in **more homogeneous subgroups**.
-
-=======
 The function provides an effect estimate of $d=0.64$. 
 
 ```{block,type='rmdachtung'}
@@ -1405,4 +1224,3 @@ It has also been shown that P-Curve's effect estimate are **not robust when the 
 
 A poosible solution for this problem might be to **reduce the overall heterogeneity using outlier removal**, or to p-Curve results in **more homogeneous subgroups**.
 ```
->>>>>>> f3259eafbebf95ffc6044d4af3f61e06d59c7876
