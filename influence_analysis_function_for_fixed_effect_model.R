@@ -1,4 +1,4 @@
-## Influence Analysis function for fixed-effect-model meta-analyses
+### Influence Analysis function for fixed-effect-model meta-analyses
 
 influence.analysis.fixed<-function(data){
 
