@@ -1,4 +1,4 @@
-# Between-study Heterogeneity {#heterogeneity}
+# Between-Study Heterogeneity {#heterogeneity}
 
 ![](schiffchen.jpg)
 
@@ -26,7 +26,7 @@ Point 2., on the other hand, has to be assessed once we conducted the pooling of
 ```
 
 ```{block,type='rmdinfo'}
-**Heterogeneity Measures**
+**Heterogeneity measures**
 
 There are **three types of heterogeneity measures** which are commonly used to assess the degree of heterogeneity. In the following examples, $k$ denotes the individual study, $K$ denotes all studies in our meta-analysis, $\hat \theta_k$ is the estimated effect of $k$ with a variance of $\hat \sigma^{2}_k$, and $w_k$ is the individual **weight** of the study (i.e., its *inverse variance*: $w_k = \frac{1}{\hat \sigma^{2}_k}$; see infobox in [Chapter 4.1.1](#fixed) for more details).
 
@@ -36,7 +36,7 @@ Cochran's *Q*-statistic is the **difference between the observed effect sizes an
 
 $$ Q = \sum\limits_{k=1}^K w_k (\hat\theta_k  - \frac{\sum\limits_{k=1}^K w_k \hat\theta_k}{\sum\limits_{k=1}^K w_k})^{2}$$
 
-**2. Higgin's & Thompson's *I*^2^ **
+**2. Higgins & Thompson's *I*^2^ **
 
 $I^{2}$ [@higgins2002quantifying] is the **percentage of variability** in the effect sizes which is not caused by sampling error. It is derived from $Q$:
 
@@ -48,11 +48,11 @@ $\tau^{2}$ is the between-study variance in our meta-analysis. As we show in [Ch
 ```
 
 ```{block, type='rmdachtung'}
-**Which measure should i use?**
+**Which measure should I use?**
 
 Generally, when we assess and report heterogeneity in a meta-analysis, we need a measure which is **robust, and not to easily influenced by statistical power**.
 
-**Cochran's *Q* ** increases both when the **number of studies** ($k$) increases, and when the **precision** (i.e., the sample size $N$ of a study) increases. Therefore, $Q$ and weather it is **significant** highly depends on the size of your meta-analysis, and thus its statistical power. We should therefore not only rely on $Q$ when assessing heterogeneity.
+**Cochran's *Q* ** increases both when the **number of studies** ($k$) increases, and when the **precision** (i.e., the sample size $N$ of a study) increases. Therefore, $Q$ and whether it is **significant** highly depends on the size of your meta-analysis, and thus its statistical power. We should therefore not only rely on $Q$ when assessing heterogeneity.
 
 **I^2^** on the other hand, is not sensitive to changes in the number of studies in the analyses. $I^2$ is therefore used extensively in medical and psychological research, especially since there is a **"rule of thumb"** to interpret it [@higgins2003measuring]:
 
@@ -60,7 +60,7 @@ Generally, when we assess and report heterogeneity in a meta-analysis, we need a
 * *I*^2^ = 50%: **moderate heterogeneity**
 * *I*^2^ = 75%: **substantial heterogeneity**
 
-Despite its common use in the literature, $I^2$ not always an adequate measure for heterogeneity either, because it still heavily depends on the **precision** of the included studies [@rucker2008undue; @borenstein2017basics]. As said before, $I^{2}$ is simply the amount of variability **not caused by sampling error**. If our studies become increasingly large, this sampling error tends to **zero**, while at the same time, $I^{2}$ tends to 100% simply because the single studies have greater $N$. Only relying on $I^2$ is therefore not a good option either.
+Despite its common use in the literature, $I^2$ not always an adequate measure for heterogeneity either, because it still heavily depends on the **precision** of the included studies [@rucker2008undue; @borenstein2017basics]. As said before, $I^{2}$ is simply the amount of variability **not caused by sampling error**. If our studies become increasingly large, this sampling error tends to **zero**, while at the same time, $I^{2}$ tends towards 100% simply because the single studies have greater $N$. Only relying on $I^2$ is therefore not a good option either.
 
 **Tau-squared**, on the other hand, is **insensitive** to the number of studies, **and** the precision. Yet, it is often hard to interpret how relevant our tau-squared is from a practical standpoint.
 
@@ -71,9 +71,9 @@ Despite its common use in the literature, $I^2$ not always an adequate measure f
 
 ---
 
-## Assessing the heterogeneity of your pooled effect size
+## Assessing the Heterogeneity of Your Pooled Effect Size
 
-Thankfully, once you've already pooled your effects in meta-analysis using the `metagen()`, `metabin()`, or `metacont` function, it is very easy and straightforward to retrieve the **three most common heterogeneity measures** that we described before.
+Thankfully, once you've already pooled your effects in meta-analysis using the `metagen()`, `metabin()`, or `metacont()` function, it is very easy and straightforward to retrieve the **three most common heterogeneity measures** that we described before.
 
 In [Chapter 4.2.2](#random.precalc), we already showed you how to conduct a **random-effect-model meta-analysis**. In this example, we stored our **results** in the object `m.hksj`, which we will use again here.
 
@@ -141,7 +141,7 @@ How can we interpret the values of this example analysis? Well, all three of our
 
 **When the measures are not displayed in my output**
 
-Depending on how you changed the settings of the `metagen`, `metabin`, or `metacont`, it is possible that some of the measures are not displayed in your output. That's not a big deal, because all measures are stored in the object, no matter if they are immediately displayed or not.
+Depending on how you changed the settings of the `metagen()`, `metabin()`, or `metacont()`, it is possible that some of the measures are not displayed in your output. That's not a big deal, because all measures are stored in the object, no matter if they are immediately displayed or not.
 
 To directly access one of the measures, we can to use `$` again (see [Chapter 3.3.1](#convertfactors)). We use this **in combination with our meta-analysis output object** to define which measure we want to see.
 
@@ -170,28 +170,28 @@ m.hksj$tau^2
 
 ---
 
-## Detecting outliers & influential cases
+## Detecting Outliers and Influential Cases {#detectingoutliers}
 
 As mentioned before, **between-study heterogeneity** can also be caused by one more studies with **extreme effect sizes** which don't quite **fit in**. Especially when the **quality of these studies is low**, or the **studies are very small**, this may **distort** our pooled effect estimate, and it's a good idea to have a look on the **pooled effect again once we remove such outliers from the analysis**. 
 
 On the other hand, we also want to know **if the pooled effect estimate we found is robust**, meaning that the effect does not depend heavily on **one single study**. Therefore, we also want to know **whether there are studies which heavily push the effect of our analysis into some direction**. Such studies are called **influential cases**, and we'll devote some time to this topic in the [second part](#influenceanalyses) of this chapter.
 
 ```{block,type='rmdachtung'}
-It should be noted that they are **many methods** to spot **outliers and influential cases**, and the methods described here are not comprehensive. If you want to read more about the underpinnings of this topic, we can recommend the paper by Wolfgang Viechtbauer and Mike Cheung [@viechtbauer2010outlier].
+It should be noted that there are **many methods** to spot **outliers and influential cases**, and the methods described here are not comprehensive. If you want to read more about the underpinnings of this topic, we can recommend the paper by Viechtbauer and Cheung [-@viechtbauer2010outlier].
 ```
 
-### Searching for extreme effect sizes (outliers) {#outliers}
+### Searching for Extreme Effect Sizes (Outliers) {#outliers}
 
-A common method to detect outliers directly is to define a study as an outlier if the **study's confidence interval does not overlap with the confidence interval**. This means that we define a study as an outlier when it's effect size estimate is **so extreme that we have high certainty that the study cannot be part of the "population" of effect size we determined when pooling our results** (i.e., the individual study differs significantly from the overall effect).
+A common method to detect outliers directly is to define a study as an outlier if the **study's confidence interval does not overlap with the confidence interval**. This means that we define a study as an outlier when its effect size estimate is **so extreme that we have high certainty that the study cannot be part of the "population" of effect sizes we determined when pooling our results** (i.e., the individual study differs significantly from the overall effect).
 
-To detect such outliers in our dataset, the `filter` function in the `dplyr` package we introduced in [Chapter 3.3.3](#filter) comes in handy again. 
+To detect such outliers in our dataset, the `filter()` function in the `dplyr` package we introduced in [Chapter 3.3.3](#filter) comes in handy again. 
 
 Using this function, we can search for all studies:
 
 * for which the **upper bound of the 95% confidence interval is lower than the lower bound of the pooled effect confidence interval** (i.e., extremely small effects)
 * for which the **lower bound of the 95% confidence interval is higher than the higher bound of the pooled effect confidence interval** (i.e., extremely large effects)
 
-Here, i'll use my `m.hksj` meta-analysis output from [Chapter 4.2.2 ](#random.precalc) again. Let's see what the **upper and lower bound of my pooled effect confidence interval** is. As i performed a **random-effect meta-analysis in this example**, i will use the value stored under `$lower.random` and `$upper.random`. If you performed a **fixed-effect meta-analysis**, the objects would be `$lower.fixed` and `$upper.fixed`, respectively.
+Here, I'll use my `m.hksj` meta-analysis output from [Chapter 4.2.2 ](#random.precalc) again. Let's see what the **upper and lower bound of my pooled effect confidence interval** is. As I performed a **random-effect meta-analysis in this example**, I will use the value stored under `$lower.random` and `$upper.random`. If you performed a **fixed-effect meta-analysis**, the objects would be `$lower.fixed` and `$upper.fixed`, respectively.
 
 ```{r}
 m.hksj$lower.random
@@ -200,13 +200,13 @@ m.hksj$upper.random
 
 Here we go. I now see that my **pooled effect confidence interval** stretches from $g = 0.389$ to $g = 0.798$. We can use these values to filter out outliers now.
 
-To filter out outliers **automatically**, we have prepared two **functions** for you, `spot.outliers.random` and `spot.outliers.fixed`. Both need the `dplyr` package (see [Chapter 3.3.3](#select)) to function, so we need to need to have this package **installed** and **loaded into our library**.
+To filter out outliers **automatically**, we have prepared two **functions** for you, `spot.outliers.random()` and `spot.outliers.fixed()`. Both need the `dplyr` package (see [Chapter 3.3.3](#select)) to function, so we need to have this package **installed** and **loaded into our library**.
 
 ```{r}
 library(dplyr)
 ```
 
-The function we'll use in the case of my `m.hksj` dataset is `spot.outliers.random`, because we conducted a **random-effect meta-analysis to get this output object**. R doesn't know this function yet, so we have to let R learn it copying and pasting the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
+The function we'll use in the case of my `m.hksj` dataset is `spot.outliers.random()`, because we conducted a **random-effect meta-analysis to get this output object**. R doesn't know this function yet, so we have to let R learn it copying and pasting the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
 ```{r}
 spot.outliers.random<-function(data){
@@ -222,7 +222,7 @@ dplyr::filter(m.outliers,lowerci > te.upper)
 }
 ```
 
-Now, the function is ready to be used. The only thing we have to tell the `spot.outliers.random` function is the **meta-analysis output** that we want to check for outliers, which is defined by `data`. In my case, this is `m.hksj`.
+Now, the function is ready to be used. The only thing we have to tell the `spot.outliers.random()` function is the **meta-analysis output** that we want to check for outliers, which is defined by `data`. In my case, this is `m.hksj`.
 
 ```{r,eval=FALSE}
 spot.outliers.random(data=m.hksj)
@@ -234,9 +234,9 @@ This is the output we get from the function:
 spot.outliers.random(data=m.hksj)
 ```
 
-We see that the function has detected **two outliers**. Looking at the `lowerci` value, the lower bound of the two study's confidence intervals, we see that both have extremely high positive effects, because the lower bounds are both much higher than the **higher bound of the confidence interval of our pooled effect**, which was $g = 0.798$.
+We see that the function has detected **two outliers**. Looking at the `lowerci` value, the lower bound of the two studies' confidence intervals, we see that both have extremely high positive effects, because the lower bounds are both much higher than the **higher bound of the confidence interval of our pooled effect**, which was $g = 0.798$.
 
-Thus, we can conduct a **sensitivity analysis** in which we **exclude these two outliers**. We can do this with the `update.meta` function in `meta`. This creates an update of our meta-analysis output `m.hksj` without the outliers.
+Thus, we can conduct a **sensitivity analysis** in which we **exclude these two outliers**. We can do this with the `update.meta()` function in `meta`. This creates an update of our meta-analysis output `m.hksj` without the outliers.
 
 ```{r,message=FALSE,warning=FALSE}
 m.hksj.outliers<-update.meta(m.hksj,
@@ -245,7 +245,7 @@ m.hksj.outliers<-update.meta(m.hksj,
 m.hksj.outliers
 ```
 
-The entire procedure works the same if you **conducted a fixed-effect meta-analysis**. However, you need to copy and paste the code for the `spot.outliers.fixed` function then, which can be found **below**.
+The entire procedure works the same if you **conducted a fixed-effect meta-analysis**. However, you need to copy and paste the code for the `spot.outliers.fixed()` function then, which can be found **below**.
 
 ```{r}
 spot.outliers.fixed<-function(data){
@@ -269,11 +269,11 @@ dplyr::filter(m.outliers,lowerci > te.upper)
 
 We have now showed you how you can detect and remove **extreme effect sizes** (outliers) in your meta-analysis.
 
-As we've mentioned before in [Chapter](), however, it is not only statistical outliers which may cause concerns regarding the robustness of our pooled effect. It is also possible that **some studies in a meta-analysis exert a very high influence on our overall results**. For example, it could be the case that we find that an overall effect is not significant, when in fact, a highly significant effect is consistently found once we remove one particular study in our analysis. Such information is **highly important once we want to communicate the results of our meta-analysis to the public**.
+As we've mentioned before in [Chapter 6.2](#detectingoutliers), however, it is not only statistical outliers which may cause concerns regarding the robustness of our pooled effect. It is also possible that **some studies in a meta-analysis exert a very high influence on our overall results**. For example, it could be the case that we find that an overall effect is not significant, when in fact, a highly significant effect is consistently found once we remove one particular study in our analysis. Such information is **highly important once we want to communicate the results of our meta-analysis to the public**.
 
-Here, we present techniques which dig a little deeper than simple outlier removal. To some extent, they are based on the **Leave-One-Out**-method, in which we **recalculate the results of our meta-analysis** $K-1$ times, each times leaving out one study. This way, we can more easily detect **studies which influence the overall estimate of our meta-analysis the most**, and lets us better assess if this **influence may distort our pooled effect** [@viechtbauer2010outlier]. Thus, such analyses are called **Influence Analyses**.
+Here, we present techniques which dig a little deeper than simple outlier removal. To some extent, they are based on the **Leave-One-Out**-method, in which we **recalculate the results of our meta-analysis** $K-1$ times, each time leaving out one study. This way, we can more easily detect **studies which influence the overall estimate of our meta-analysis the most**, and lets us better assess if this **influence may distort our pooled effect** [@viechtbauer2010outlier]. Thus, such analyses are called **Influence Analyses**.
 
-We have created the **function** `influence.analysis` for you through which influences can be conducted all in one. For this function to work, you need to have the `meta` and `metafor` packages installed and loaded in your library.
+We have created the **function** `influence.analysis()` for you through which influences can be conducted all in one. For this function to work, you need to have the `meta` and `metafor` packages installed and loaded in your library.
 
 Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
@@ -328,11 +328,11 @@ if(hakn == TRUE){
 }}  
 ```
 
-The `influence.analysis` function has **three parameters** which we have to define in the function.
+The `influence.analysis()` function has **three parameters** which we have to define in the function.
 
 ```{r,echo=FALSE}
 Code<-c("data","method.tau","hakn")
-Description<-c("The output object from our meta-analysis. In my case, this is 'data=m.hksj'","The method we used to estimate tau-squared (see Chapter 4.2.1). If you haven't set the estimator 'method.tau' in your analysis, use 'DL' because the DerSimonian-Laird estimator is the default in meta","Weather we used the Knapp-Hartung-Sidik-Jonkman adjustments. If yes, use hakn=TRUE. If not, use hakn=FALSE")
+Description<-c("The output object from our meta-analysis. In my case, this is 'data=m.hksj'","The method we used to estimate tau-squared (see Chapter 4.2.1). If you haven't set the estimator 'method.tau' in your analysis, use 'DL' because the DerSimonian-Laird estimator is the default in meta","Whether we used the Knapp-Hartung-Sidik-Jonkman adjustments. If yes, use hakn=TRUE. If not, use hakn=FALSE")
 m<-data.frame(Code, Description)
 names<-c("Code", "Description")
 colnames(m)<-names
@@ -379,19 +379,19 @@ forest(influence.data.metainf,
        smlab = "Sorted by Effect size")
 ```
 
-As you can see, the `influence.analysis` function gives us various types of **plots** as output. Let's interpret them one by one.
+As you can see, the `influence.analysis()` function gives us various types of **plots** as output. Let's interpret them one by one.
 
 <br><br>
 
 **Influence Analyses**
 
-In the first analysis, you can see different influence measures, for which we can see **graphs including each individual study of our meta-analysis**. This type of **influence analysis** has been proposed by Viechtbauer and Cheung [@viechtbauer2010outlier]. We'll discuss the most important ones here:
+In the first analysis, you can see different influence measures, for which we can see **graphs including each individual study of our meta-analysis**. This type of **influence analysis** has been proposed by Viechtbauer and Cheung [-@viechtbauer2010outlier]. We'll discuss the most important ones here:
 
 * **dffits**: The DIFFITS value of a study indicates in standard deviations how much the predicted pooled effect changes after excluding this study
 * **cook.d**: The **Cook's distance** resembles the **Mahalanobis distance** you may know from outlier detection in conventional multivariate statistics. It is the distance between the value once the study is included compared to when it is excluded
 * **cov.r**: The **covariance ratio** is the determinant of the variance-covariance matrix of the parameter estimates when the study is removed, divided by the determinant of the variance-covariance matrix of the parameter estimates when the full dataset is considered. Importantly, values of cov.r < 1 indicate that removing the study will lead to a more precise effect size estimation (i.e., less heterogeneity).
 
-Usually, however, you don't have to dig this deep into the calculations of the individual measures. As a rule of thumb, **influential cases** are studies with **very extreme values in the graphs**. Viechtbauer and Cheung have also proposed cut-offs when to define a a study as an influential case, for example (with $p$ being the number of model coefficients and $k$ the number of studies):
+Usually, however, you don't have to dig this deep into the calculations of the individual measures. As a rule of thumb, **influential cases** are studies with **very extreme values in the graphs**. Viechtbauer and Cheung have also proposed cut-offs when to define a study as an influential case, for example (with $p$ being the number of model coefficients and $k$ the number of studies):
 
 $$ DFFITS > 3\times\sqrt{\frac{p}{k-p}}$$
 $$ hat > 3\times\frac{p}{k}$$
@@ -401,7 +401,7 @@ If a case was determined being **an influential case using these cut-offs**, its
 ```{block, type='rmdachtung'}
 Please note, as Viechtbauer & Cheung emphasize, that **these cut-offs are set on somewhat arbitrary thresholds**. Therefore, you should never only have a look on the color of the study, but the general structure of the graph, and interpret results in context.
 
-In our example, we see that while only Study 3 is defined as an influential case, there are **actually two spiked in most plots**, while the other studies all quite have the same value. Given this structure, we could also decide to define **Study 16** as an influential case too, because its values are very extreme too.
+In our example, we see that while only Study 3 is defined as an influential case, there are **actually two spiked in most plots**, while the other studies all quite have the same value. Given this structure, we could also decide to define **Study 16** as an influential case, too, because its values are very extreme too.
 ```
 
 Let's have a look what the **3rd and 16th study** in our `m.hksj` meta-analysis output were.
@@ -424,7 +424,7 @@ As you might have already recognized, the only two **studies we find in those re
 
 **Leave-One-Out Analyses**
 
-In these to forest plots, we see the **pooled effect recalculated, with one study omitted each time**. There are two plots, which provide the same data, but are ordered by different values.
+In these two forest plots, we see the **pooled effect recalculated, with one study omitted each time**. There are two plots, which provide the same data, but are ordered by different values.
 
 The **first plot is ordered by heterogeneity (low to high), as measured by *I*^2^ **. We see in the plot that the lowest *I*^2^ heterogeneity is reached (as we've seen before) by omitting the studies **Danitz & Orsillo** and **Shapiro et al.**. This again corroborates our finding that these two studies were the main "culprits" for the between-study heterogeneity we found in the meta-analysis.
 
@@ -437,7 +437,7 @@ All in all, the results of our **outlier and influence analysis** in this exampl
 ```{block,type='rmdachtung'}
 **The influence analysis function for fixed-effect-model meta-analyses**
 
-The `influence.analysis` function we presented above can only be used for **random-effect meta-analyses**. If you want to perform influence analyses for meta-analyses in **which you pooled the effects with a fixed-effect model**, you will have to use the `influence.analysis.fixed` function, which can be found [here](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/influence_analysis_function_for_fixed_effect_model.R).
+The `influence.analysis()` function we presented above can only be used for **random-effect meta-analyses**. If you want to perform influence analyses for meta-analyses in **which you pooled the effects with a fixed-effect model**, you will have to use the `influence.analysis.fixed()` function, which can be found [here](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/influence_analysis_function_for_fixed_effect_model.R).
 
 To use this function, **you only have to set the parameter** `data`, as `method.tau` and `hakn` only apply to random-effect-models.
 ```

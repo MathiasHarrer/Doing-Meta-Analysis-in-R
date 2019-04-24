@@ -8,27 +8,27 @@ Another source of between-study heterogeneity making our effect size estimate le
 
 Many other differences of this sort are possible, and it seems plausible that such study differences may also be associated with differences in the overall effect.
 
-In **subgroup analyses**, we therefore have a look at different **subgroups within the studies of our meta-analysis** and try to determine of the **differ between these subgroups**.
+In **subgroup analyses**, we therefore have a look at different **subgroups within the studies of our meta-analysis** and try to determine the **difference between these subgroups**.
 
 ```{block,type='rmdinfo'}
 **The idea behind subgroup analyses**
 
-Basically, a every subgroup analysis consists of **two parts**: (1) **pooling the effect of each subgroup**, and (2) **comparing the effects of the subgroups** [@borenstein2013meta].
+Basically, every subgroup analysis consists of **two parts**: (1) **pooling the effect of each subgroup**, and (2) **comparing the effects of the subgroups** [@borenstein2013meta].
 
 
 **1. Pooling the effect of each subgroup**
 
 This point it rather straightforward, as the same criteria as the ones for a **simple meta-analysis without subgroups** (see [Chapter 4](#pool) and [Chapter 4.2](#random)) apply here.
 
-* If you assume that **all studies in subgroup** stem from the same population, and all have **one shared true effect**, you may use the **fixed-effect-model**. As we mention in [Chapter 4](#pool), many **doubt** that this assumption is ever **true in psychological** and **medical research**, even when we partition our studies into subgroups.
+* If you assume that **all studies in subgroup** stem from the same population, and all have **one shared true effect**, you may use the **fixed-effect-model**. As we mention in [Chapter 4](#pool), many people **doubt** that this assumption is ever **true in psychological** and **medical research**, even when we partition our studies into subgroups.
 * The alternative, therefore, is to use a **random-effect-model** which assumes that the studies within a subgroup are drawn from a **universe** of populations follwing its own distribution, for which we want to estimate the **mean**.
 
 **2. Comparing the effects of the subgroups**
 
-After we calculated the pooled effect for each subgroup, **we can compare the size of the effects of each subgroup**. However, to know if this difference is in fact singnificant and/or meaningful, we have to calculate the **Standard Error of the differences between subgroup effect sizes** $SE_{diff}$, to calculate **confidence intervals** and conduct **significance tests**. 
+After we calculated the pooled effect for each subgroup, **we can compare the size of the effects of each subgroup**. However, to know if this difference is in fact significant and/or meaningful, we have to calculate the **standard error of the differences between subgroup effect sizes** $SE_{diff}$, to calculate **confidence intervals** and conduct **significance tests**. 
 There are **two ways to calculate** $SE_{diff}$, and both based on different assumptions. 
 
-* **Fixed-effects (plural) model**: The fixed-effects-model for subgroup comparisons is appropriate when **we are only interested in the subgroups at hand** [@borenstein2013meta]. This is the case when **the subgroups we chose to examine** were not randomly "chosen", but represent fixed levels of a characteristic we want to examine. Gender is such a characteristic, as its two subgroups **female** and **male** were not randomly chosen, but are the two subgroups that gender (in its classical conception) has. Same does also apply, for example, if we were to examine if studies in patients with **clinical depression** versus **subclinical depression** yield different effects. Borenstein and Higgins [@@borenstein2013meta] argue that the **fixed-effects (plural) model** may be the **only plausible model** for most analysis in **medical research, prevention, and other fields**. 
+* **Fixed-effects (plural) model**: The fixed-effects-model for subgroup comparisons is appropriate when **we are only interested in the subgroups at hand** [@borenstein2013meta]. This is the case when **the subgroups we chose to examine** were not randomly "chosen", but represent fixed levels of a characteristic we want to examine. Gender is such a characteristic, as its two subgroups **female** and **male** were not randomly chosen, but are the two subgroups that gender (in its classical conception) has. Same does also apply, for example, if we were to examine if studies in patients with **clinical depression** versus **subclinical depression** yield different effects. Borenstein and Higgins [-@borenstein2013meta] argue that the **fixed-effects (plural) model** may be the **only plausible model** for most analysis in **medical research, prevention, and other fields**. 
 
 As this model assumes that **no further sampling error is introduced at the subgroup level** (because subgroups were not randomly sampled, but are fixed), $SE_{diff}$ only depends on the *variance within the subgroups* $A$ and $B$, $V_A$ and $V_B$.
 
@@ -57,13 +57,13 @@ It is also important to keep in mind that **the capabilites of subgroup analyses
 ---
 
 
-## Subgroup Analyses using the Mixed-Effects-Model {#mixed}
+## Subgroup Analyses Using the Mixed-Effects-Model {#mixed}
 
 ```{r,echo=FALSE, message=FALSE}
 library(meta)
 ```
 
-To conduct subgroup analyses using the **Mixed-Effects-Model** (random-effects-model within subgroups, fixed-effects-model between subgroups), you can use the `subgroup.analysis.mixed.effects` function we prepared for you. To use the function, `meta` and `metafor` need to be installed and loaded in your library.
+To conduct subgroup analyses using the **mixed-effects-model** (random-effects-model within subgroups, fixed-effects-model between subgroups), you can use the `subgroup.analysis.mixed.effects()` function we prepared for you. To use the function, `meta` and `metafor` need to be installed and loaded in your library.
 
 As the code for the function is pretty long, we **don't display it here**. To access the function, use this [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/subgroup_analyses_mixed_effects_function.R). Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code from the website **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
@@ -301,20 +301,20 @@ print(metagen(TE=estimate,
 
 ```
 
-For the `subgroup.analysis.mixed.effects` function, the following parameters have to be set:
+For the `subgroup.analysis.mixed.effects()` function, the following parameters have to be set:
 
 ```{r,echo=FALSE}
 library(knitr)
 Code<-c("data","sg.var","n.sg","subgroup[x]")
 Description<-c("The output of you meta-analysis. In my case, this is 'm.hksj'",
-               "The variable in our dataset in which we coded which study belongs to which subgroup. Note that we also tell the function in which dataset this variable is stored. In my case, this was the 'madata' dataset i used to get the meta-analysis output 'm.hksj'. The dataset and the subgroup variable have to be connected with $ (e.g. madata$Control).","The number of subgroups we want to inlcude in our subgroup analysis (e.g. n.sg = 2)","Here, we specify all the subgroups we want to include in the meta-analysis. Subgroup Analyses with up to 6 subgroups are possible with this function. The 'subgroup' parameters have to be numbered (e.g. subgroup1 = 'Name of your first subgroup', subgroup2 = 'Name of your second subgroup', ...)")
+               "The variable in our dataset in which we coded which study belongs to which subgroup. Note that we also tell the function in which dataset this variable is stored. In my case, this was the 'madata' dataset I used to get the meta-analysis output 'm.hksj'. The dataset and the subgroup variable have to be connected with $ (e.g. madata$Control).","The number of subgroups we want to inlcude in our subgroup analysis (e.g. n.sg = 2)","Here, we specify all the subgroups we want to include in the meta-analysis. Subgroup analyses with up to 6 subgroups are possible with this function. The 'subgroup' parameters have to be numbered (e.g. subgroup1 = 'Name of your first subgroup', subgroup2 = 'Name of your second subgroup', ...)")
 m<-data.frame(Code,Description)
 names<-c("Code","Description")
 colnames(m)<-names
 kable(m)
 ```
 
-In my `madata` dataset, which i used previously to generate my meta-analysis output `m.hksj`, i stored the subgroup variable `Control`. This variable specifies **which control group type was employed in which study**. There are **three subgroups**: `WLC` (waitlist control), `no intervention` and `information only`.
+In my `madata` dataset, which I used previously to generate my meta-analysis output `m.hksj`, I stored the subgroup variable `Control`. This variable specifies **which control group type was employed in which study**. There are **three subgroups**: `WLC` (waitlist control), `no intervention` and `information only`.
 
 The function to do a subgroup analysis using the mixed-effects-model with these paramters looks like this.
 
@@ -332,7 +332,7 @@ The results of the subgroup analysis are displayed under `Results for subgroups 
 This can be seen under `Test for subgroup differences` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper.
 
 ```{block,type='rmdachtung'}
-Please not that the values displayed under `k` in the `Results for subgroups (fixed effects model)` section are always 1, as the pooled effect of the subgroup is treated as a single study. To determine the actual $k$ of each subgroup, you can use the `count` function from `dplyr` in R.
+Please note that the values displayed under `k` in the `Results for subgroups (fixed effects model)` section are always 1, as the pooled effect of the subgroup is treated as a single study. To determine the actual $k$ of each subgroup, you can use the `count()` function from `dplyr` in R.
 ```
 
 ```{r,echo=FALSE}
@@ -350,21 +350,21 @@ dplyr::count(madata, vars=madata$Control)
 
 ---
 
-## Subgroup Analyses using the Random-Effects-Model
+## Subgroup Analyses Using the Random-Effects-Model
 
 ```{r,echo=FALSE}
 region<-c("Netherlands","Netherlands","Netherlands","USA","USA","USA","USA","Argentina","Argentina","Argentina","Australia","Australia","Australia","China","China","China","China","China")
 madata$region<-region
 ```
 
-Now, let's assume i want to **know if intervention effects in my meta-analysis differ by region**. I use a **random-effects-model** and the selected coutries Argentina, Australia, China, and the Netherlands.
+Now, let's assume I want to **know if intervention effects in my meta-analysis differ by region**. I use a **random-effects-model** and the selected coutries Argentina, Australia, China, and the Netherlands.
 
-Again, i use the `m.hksj` meta-analysis output object. I can perform a random-effects-model for between-subgroup-differences using the `update.meta` function. For this function, we have to **set two parameters**.
+Again, I use the `m.hksj` meta-analysis output object. I can perform a random-effects-model for between-subgroup-differences using the `update.meta()` function. For this function, we have to **set two parameters**.
 
 ```{r,echo=FALSE}
 library(knitr)
 Code<-c("byvar","comb.random")
-Description<-c("Here, we specify the variable in which the subgroup of each study is stored","Weather we want to use a random-effects-model for between-subgroup-differences. In this case, we have to set comb.random = TRUE")
+Description<-c("Here, we specify the variable in which the subgroup of each study is stored","Whether we want to use a random-effects-model for between-subgroup-differences. In this case, we have to set comb.random = TRUE")
 m<-data.frame(Code,Description)
 names<-c("Code","Description")
 colnames(m)<-names
@@ -389,7 +389,7 @@ Here, we get the **pooled effect for each subgroup** (country). Under `Test for 
 ```{block,type='rmdachtung'}
 **Using a fixed-effect-model for within-subgroup-pooling and a fixed-effects-model for between-subgroup-differences**
 
-To use a fixed-effect-model in combination with a fixed-effects-model, we can also use the `update.meta` function again. The procedure is the same as the one we described before, but we have to set `comb.random` as `FALSE` and `comb.fixed` as `TRUE`.
+To use a fixed-effect-model in combination with a fixed-effects-model, we can also use the `update.meta()` function again. The procedure is the same as the one we described before, but we have to set `comb.random` as `FALSE` and `comb.fixed` as `TRUE`.
 ```
 
 <br><br>

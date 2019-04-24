@@ -7,18 +7,18 @@ Before we start with our meta-analysis, we have to download and prepare a **comp
 
 Probably the best option for this at the moment is **RStudio**. This program gives us a user interface which makes it easier to overlook our data, packages and output. The best part is that RStudio is **completely free** and can be downloaded anytime.
 
-In this Chapter, we'll focus on how you can install RStudio on your computer. We'll also provide some general information on R, and how you can get help if you get error messages.
+In this chapter, we will focus on how you can install RStudio on your computer. We will also provide some general information on R, and how you can get help if you get error messages.
 
-If you already have RStudio installed on your computer, and if you're an experienced R user already, all of this might be nothing new for you. You may **skip** this chapter then.
+If you already have RStudio installed on your computer, and if you are an experienced R user already, all of this might be nothing new for you. You may **skip** this chapter then.
 
-Especially if you have **never used R before, we would like to consider this Chapter essential**, as it gives you some input on how R works, and how we can use it for our data analyses.
+Especially if you have **never used R before, we would like to consider this chapter essential**, as it gives you some input on how R works, and how we can use it for our data analyses.
 ```
 
 <br><br>
 
 ---
 
-## Getting RStudio to run on your computer {#RStudio}
+## Getting RStudio to Run on Your Computer {#RStudio}
 ```{r, echo=FALSE, fig.width=3,fig.height=2}
 library(png)
 library(grid)
@@ -44,8 +44,6 @@ names<-c("Package", "Description")
 colnames(m)<-names
 kable(m)
 ```
-  
-<br><br>
 5. To install these packages, we use the `install.packages()` function in R. One package after another, our code should look like this:
 
 ```{r, eval=FALSE}
@@ -66,7 +64,7 @@ Otherwise, you will get an error message.
 
 ### Running R Code
 
-Order to get the most out of this guide, it's helpful (but not essential) if you have some programming experience already. If you’ve never programmed before, you might find ***Hands-On Programming with R*** [@grolemund2014hands] to be a useful primer.
+In order to get the most out of this guide, it's helpful (but not essential) if you have some programming experience already. If you’ve never programmed before, you might find ***Hands-On Programming with R*** [@grolemund2014hands] to be a useful primer.
 
 There are three things you need to run the code: **R**, **RStudio**, and collection of **R packages**. Packages are the fundamental units of reproducible R code. They include reusable functions, the documentation that describes how to use them, and sample data.
 

@@ -7,7 +7,7 @@ $$ $$
 This chapter deals with the topic of pooling effect sizes in **"multilevel" meta-analyses**. You probably wonder why we put the word "multilevel" into **quotation marks**. There is an increasing number of studies describing themselves as "multilevel" meta-analyses, which insinuates that a "multilevel" meta-analysis would be something special or extraordinary compared to "standard" meta-analyses. This, however, is not true, as every meta-analytic model presupposes a multilevel structure within the data to pool results [@pastor2018multilevel]. This means that basically, once you've reached this chapter in the guide, you will have already fitted a multilevel meta-analytic model to data several times (maybe even without knowing). When people talk about multilevel meta-analysis, what they often think of are **three-level meta-analytic models**, which are indeed somewhat different to the [fixed-effect](#fixed) and [random-effects models](#random) we presented before.
 
 ```{block, type='rmdinfo'}
-**The multilevel nature of Meta-Analysis**
+**The multilevel nature of meta-analysis**
 
 To see why meta-analysis is by nature multileveled, let us go back to the formula for the random-effects model we discussed in [Chapter 4.2](#random):
 
@@ -76,9 +76,9 @@ $$\hat\theta_{ij} = \beta_{0} + \zeta_{(2)ij} + \zeta_{(3)j} + \epsilon_{ij}$$
 
 ```
 
-The `metafor` package is particularly well suited for fitting various three-level models in meta-analyses. When setting up meta-analytic models, we have previously used the `meta` function primarly, because we think that this package's code is a little less technical. `metafor`, however, is also fairly easy to use once you prepared the data correctly. We'll get to this in the next chapter. 
+The `metafor` package is particularly well suited for fitting various three-level models in meta-analyses. When setting up meta-analytic models, we have previously used the `meta()` function primarly, because we think that this package's code is a little less technical. `metafor`, however, is also fairly easy to use once you prepared the data correctly. We'll get to this in the next chapter. 
 
-## Fitting a three-level model
+## Fitting a Three-Level Model
 
 ### Data preparation
 
@@ -88,7 +88,7 @@ Before we start with fitting the model, we need the `metafor` package to be load
 library(metafor)
 ```
 
-For this chapter, i will use the `mlm.data` dataset. It has already been prepared for model fitting using `metafor`. Let's have a peek at the dataset:
+For this chapter, I will use the `mlm.data` dataset. It has already been prepared for model fitting using `metafor`. Let's have a peek at the dataset:
 
 ```{r, echo=FALSE}
 load("mlm.data.RData")
@@ -101,13 +101,14 @@ mlm.data
 We see that the dataset has 80 rows and 5 columns (i.e., 5 variables). The first four are the most important ones:
 
 * **ID_1** and **ID_2**. In these two columns, we stored the identifiers corresponding to the individual effect sizes and clusters on different levels of our multilevel model. We have left these columns quite generic to make clear that such multilevel data can accommodate various types of data structures. For example, one can think of a scenario where ID_2 corresponds with the different effect sizes we find within a study (e.g., different effect sizes for different measures of depression). In this example, the effect sizes in ID_2 would then be nested within the larger clusters defined in ID_1, the studies. Another possible example would be that ID_2 in fact symbolizes the unique identifier for single studies, which are then nested in larger clusters (e.g., cultural regions) shown in ID_1. 
-* **y** and **v**. In these columns, the effect size data is stored. The format is similar to the one we know from the `metagen` function in `meta`. The column `y` contains the effect size ($d$, $g$, $r$, $z$, or other continuous effect size metrics). The `v` column contains the sampling variance which can be obtained by **squaring the standard error**.
+* **y** and **v**. In these columns, the effect size data is stored. The format is similar to the one we know from the `metagen()` function in `meta`. The column `y` contains the effect size ($d$, $g$, $r$, $z$, or other continuous effect size metrics). The `v` column contains the sampling variance which can be obtained by **squaring the standard error**.
 
-There are two additional columns which contain data needed for **subgroup analyses**. To conduct subgroup analyses with `metafor`, however, we need to store the data a little differently than in [Chapter 7](#subgroup). This time, we do not use a factor vector containing the subgroup levels as strings, but **recode all subgroup levels** as individuals columns in the data. In our case, we are interested if the publication status has a moderating effect on the pooled results. We want to compare studies published in peer-review journals to dissertations. To do this, we need to create **two variables/columns for each subgroup level** (peer-review, dissertation). In each column we provide a code if the effect size belongs to this subgroup, defined by `1 = yes` and `0 = no`. Of course, the subgroup codings now have to be **mutually exclusive**, as we cannot calculate subgroup effects if a study is both part of the "peer-review" group and the "dissertation" group.  
+There are two additional columns which contain data needed for **subgroup analyses**. To conduct subgroup analyses with `metafor`, however, we need to store the data a little differently than in [Chapter 7](#subgroup). This time, we do not use a factor vector containing the subgroup levels as strings, but **recode all subgroup levels** as individuals columns in the data. In our case, we are interested if the publication status has a moderating effect on the pooled results. We want to compare studies published in peer-review journals to dissertations. To do this, we need to create **two variables/columns for each subgroup level** (peer-review, dissertation). In each column we provide a code if the effect size belongs to this subgroup, defined by `1 = yes` and `0 = no`. Of course, the subgroup codings now have to be **mutually exclusive**, as we cannot calculate subgroup effects if a study is both part of the "peer-review" group and the "dissertation" group.
+# However, study 3/24 is coded as both peer-review and dissertation!
 
 ### Model fitting
 
-We are now prepared to fit our model. I will save the model to the object `full.model`. For model fitting, we use the `rma.mv` function in `metafor`. The function has plenty of parameters one can specify (type `?metafor::rma.mv` in the console to see them all). For now, we will only focus on the really essential ones.
+We are now prepared to fit our model. I will save the model to the object `full.model`. For model fitting, we use the `rma.mv()` function in `metafor`. The function has plenty of parameters one can specify (type `?metafor::rma.mv` in the console to see them all). For now, we will only focus on the really essential ones.
 
 ```{r,echo=FALSE, warning=FALSE, message=FALSE}
 library(knitr)
@@ -150,9 +151,9 @@ Under `Model Results`, we see the `estimate` of our pooled effect, which is 0.43
 Under `Test for Heterogeneity`, we see that the variance of effect sizes within our data overall was highly significant ($p < 0.0001$). This however, is not very informative as we are interested how variance can be attributed to the different levels in our model.
 
 
-### Distribution of total variance
+### Distribution of Total Variance
 
-As mentioned before, what we're actually interested in is the **distribution of variance over the three levels of our model**. Cheung (2014) provides a formula to estimate the sampling variance, which is needed to calculate the variance proportions for each level. We have have programmed a function called `variance.distribution.3lm`, which implements this formula. The code for the function can be seen below. Parts of this code were adapted from Assink and Wibbelink [@assink2016fitting].
+As mentioned before, what we are actually interested in is the **distribution of variance over the three levels of our model**. Cheung (2014) provides a formula to estimate the sampling variance, which is needed to calculate the variance proportions for each level. We have programmed a function called `variance.distribution.3lm()`, which implements this formula. The code for the function can be seen below. Parts of this code were adapted from Assink and Wibbelink [-@assink2016fitting].
 
 R doesn't know this function yet, so we have to let R learn it copying and pasting the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
@@ -214,11 +215,11 @@ variance.distribution.3lm(data = mlm.data,
 
 From the outputs, we see that about 8.94% of the overall variance can be attributed to level 1, 23.92% to level 2, and as much as 67.15% to level 3. 
 
-### Comparing the fit
+### Comparing the Fit
 
 Of course, when fitting a three-level model, we are interested if this model actually **captures the variability in our data better than a two-level model**. `metafor` allows us to easily do this by comparing models **in which one of the levels is removed**.
 
-To do this, we can use the `rma.mv` function again, but this time, we hold the variance component $\sigma^2$ of one level constant. This can be done by specifying the `sigma2` parameter. The parameter can be specified by providing a vector telling the function which level to hold constant, with the generic version being `c(level 2, level3)`. So, if we want to hold level 2 constant while leaving the rest as is, we use `sigma2 = c(0,NA)`, and vice verse for the third level.
+To do this, we can use the `rma.mv()` function again, but this time, we hold the variance component $\sigma^2$ of one level constant. This can be done by specifying the `sigma2` parameter. The parameter can be specified by providing a vector telling the function which level to hold constant, with the generic version being `c(level 2, level3)`. So, if we want to hold level 2 constant while leaving the rest as is, we use `sigma2 = c(0,NA)`, and vice verse for the third level.
 
 **Model without level 2**
 
@@ -234,7 +235,7 @@ model.l2.removed<-rma.mv(y,
 summary(model.l2.removed)
 ```
 
-We see that the `Model Results` have changed, but does the second level in fact capture a significant amount of variability in the data? To check, we can use the `anova` function to compare the `full.model` to the `model.l2.removed`.
+We see that the `Model Results` have changed, but does the second level in fact capture a significant amount of variability in the data? To check, we can use the `anova()` function to compare the `full.model` to the `model.l2.removed`.
 
 ```{r}
 anova(full.model, model.l2.removed)
@@ -263,7 +264,7 @@ We see the same pattern here, suggesting that overall, our three-level model is 
 
 ## Subgroup Analyses in Three-Level Models
 
-Once our **three-level meta-analytic model** is set, it is easy to also check for moderators of the overall effect, i.e. conduct subgroup analyses. To do this, we can use the `mods` parameter in `rma.mv`. The subgroup/moderator can be specified by putting a tilde (`~`) in front of it. In our case, we want to check if dissertations report higher  or lower effect sizes, so we use `mods = ~ dissertation`. Here's the full code:
+Once our **three-level meta-analytic model** is set, it is easy to also check for moderators of the overall effect, i.e. conduct subgroup analyses. To do this, we can use the `mods` parameter in `rma.mv()`. The subgroup/moderator can be specified by putting a tilde (`~`) in front of it. In our case, we want to check if dissertations report higher  or lower effect sizes, so we use `mods = ~ dissertation`. Here's the full code:
 
 ```{r}
 model.mods<-rma.mv(y, 

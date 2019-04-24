@@ -4,12 +4,12 @@
 
 A big asset (and probably one of the reasons why meta-analysis can be helpful in practical research) of meta-analyses is that **they allow for large data to be combined** to attain a more precise pooled effect. **Lack of statistical power**, however, may still play an important role, even in meta-analysis. This is particularly true for the clinical field, where it is often the case that only **few studies are available for synthesis**. The median number of included studies in the *Cochrane Database for Systematic Reviews*, for example, is six [@borenstein2011]. This is even more grave once we consider that (1) many meta-analysts will also want to perform **subgroup analyses and meta-regression**, for which even more power is required, and (2) many meta-analyses have **high heterogeneity**, which reduces our precision, and thus our power.
 
-Power is directly related to the **Type II error level** ($\beta$) we defined: $Power = 1- \beta$. It is common practice to set our **Type I error level** ($\alpha$) to $\alpha=0.05$, and thus to assume that the **Type I error is four times as grave as the Type II error** (i.e., falsely finding an effect while there is no effect in reality is four times as bad as not finding an effect while there is one in reality). The **Type II error** is therefore set at $\beta=0.20$, and the power should thus be $1-\beta=1-0.20=80\%$.
+Power is directly related to the **type II error level** ($\beta$) we defined: $Power = 1- \beta$. It is common practice to set our **type I error level** ($\alpha$) to $\alpha=0.05$, and thus to assume that the **type I error is four times as grave as the type II error** (i.e., falsely finding an effect while there is no effect in reality is four times as bad as not finding an effect while there is one in reality). The **type II error** is therefore set at $\beta=0.20$, and the power should thus be $1-\beta=1-0.20=80\%$.
 
 <br><br>
 
 ```{block,type='rmdinfo'}
-**What assumptions should i make for my meta-analysis?**
+**What assumptions should I make for my meta-analysis?**
 
 While researchers conducting primary studies can **plan the size of their sample based on the effect size they want to find**, the situation is a little different in meta-analysis, where we can only work with the published material. However, we have some **control over the number of studies we want to include in our meta-analysis** (e.g., through more leniently or strictly defined inclusion criteria). Therefore, we can change our power to some extent by including more or less studies into the meta-analysis. There are **four things we have to make assumptions about when assessing the power of our meta-analysis a priori**.
 
@@ -34,7 +34,7 @@ Power analyses conducted *after* an analysis ("post hoc") are fundamentally flaw
 
 ## Fixed-Effect Model {#fixed.power}
 
-To determine the **power** of a meta-analysis **under the fixed-effect model**, we have to assume the **true value of a distribution when the alternative hypothesis is correct** (i.e., when there is an effect). For power analysis in a conventional study, this distribution is $Z$. Follwing Borenstein et al. [@borenstein2011], we will call the true value $\lambda$ here to make clear that we are dealing with a meta-analysis, and not a primary study. $\lambda$ is defined as:
+To determine the **power** of a meta-analysis **under the fixed-effect model**, we have to assume the **true value of a distribution when the alternative hypothesis is correct** (i.e., when there is an effect). For power analysis in a conventional study, this distribution is $Z$. Follwing Borenstein et al. [-@borenstein2011], we will call the true value $\lambda$ here to make clear that we are dealing with a meta-analysis, and not a primary study. $\lambda$ is defined as:
 
 $$\lambda=\frac{\delta}{\sqrt{V_{\delta}}}$$
 
@@ -52,10 +52,10 @@ Assuming a normal distribution and using $\lambda$, we can calculate the Power:
 $$Power = 1- \beta$$
 $$Power = 1- \Phi(c_{\alpha}-\lambda)+\Phi(-c_{\alpha}-\lambda) $$
 
-Where $c_{\alpha}$ is the critical value of a $Z$-distribution. $\Phi$ is the **standard normal density function**, which we we need to calcuate the power using this equation:
+Where $c_{\alpha}$ is the critical value of a $Z$-distribution. $\Phi$ is the **standard normal density function**, which we need to calcuate the power using this equation:
 $$\Phi(Z)=\frac{1}{\sqrt {2\pi}}e^{-\frac{Z^2}{2}}$$
 
-Luckily, you don't have too think about these statistical details too much, as we have prepared a **function** for you with which you can easily conduct a **power analysis** using the fixed-effect model yourself. The function is called `power.analysis.function` and its code can be found below.
+Luckily, you don't have too think about these statistical details too much, as we have prepared a **function** for you with which you can easily conduct a **power analysis** using the fixed-effect model yourself. The function is called `power.analysis.function()` and its code can be found below.
 
 Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
@@ -107,9 +107,9 @@ power.analysis.fixed(d=0.30,k=10,n1=25,n2=25,p=0.05)
 
 Meaning that my power is 91%. This is more than the desired 80%, so given that my assumptions are remotely true, my meta-analysis will have **sufficient power using the fixed-effect model to detect a clinically relevant effect if it exists**.
 
-So, if i assume an effect of $d = 0.30$ in this example, i am lucky. If we play around with the effect size a little, however, while holding the other paramters constant, this can look very different.
+So, if I assume an effect of $d = 0.30$ in this example, I am lucky. If we play around with the effect size a little, however, while holding the other paramters constant, this can look very different.
 
-```{r,fig.width=5,fig.align='center',echo=FALSE,message=FALSE}
+```{r,fig.width=5,fig.align='center',echo=FALSE,message=FALSE,fig.cap="Relationship between the number of studies and the power achieved in a fixed-effects model"}
 library(ggplot2)
 library(reshape)
 k <- seq(0, 50, length=1000)
@@ -144,7 +144,7 @@ annotate("text", x = 2, y = 0.7, label = "d = 0.3",size=5)+
   geom_hline(yintercept=0.8,linetype="dashed")
 ```
 
-As you can see from this plot, sufficient power (see the **dashed line**) is soon reached for $d=0.30$, even if only few studies are included. If i assume a smaller effect size of $d=0.10$, however, **even 50 studies will not be sufficient to find a true effect**. 
+As you can see from this plot, sufficient power (see the **dashed line**) is soon reached for $d=0.30$, even if only few studies are included. If I assume a smaller effect size of $d=0.10$, however, **even 50 studies will not be sufficient to find a true effect**. 
 
 ---
 
@@ -154,7 +154,7 @@ For power analyses under the **random-effects model**, the formula to calculate 
 
 $$V_{\delta}^*=\frac{V_Y+\tau^2}{k}$$
 
-We see that again, $tau^2$ has to be included to take the **between-study heterogeneity into account** (see [Chapter 4.2](#random) for more details). However, i **do not know the between-study heterogeneity of my analysis** before i perform it, so what value should i assume?
+We see that again, $tau^2$ has to be included to take the **between-study heterogeneity into account** (see [Chapter 4.2](#random) for more details). However, I **do not know the between-study heterogeneity of my analysis** before I perform it, so what value should I assume?
 
 According to Hedges and Pigott [@hedges2004power], the follwing formulae may be used to calculate the power in the random-effect model assuming **small, moderate or high heterogeneity**:
 
@@ -171,7 +171,7 @@ $$V_{\delta}^*=1.67\times\frac{V_Y}{k}$$
 
 $$V_{\delta}^*=2\times\frac{V_Y}{k}$$
 
-Again, you don't have to worry about the statistical details here. We have put the entire calculations into the `power.analysis.random` function, which can be found below.
+Again, you don't have to worry about the statistical details here. We have put the entire calculations into the `power.analysis.random()` function, which can be found below.
 
 Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
@@ -224,7 +224,7 @@ power.analysis.random<-function(d,k,n1,n2,p,heterogeneity){
 }
 ```
 
-Now you are set and ready to use the function. I will assume the same parameters from [before](#fixed.power), but this time i will also have to specify the `heterogeneity` in the function, which can take the values `"low"`, `"moderate"` and `"high"`. I will choose `"moderate"` for this example.
+Now you are set and ready to use the function. I will assume the same parameters from [before](#fixed.power), but this time I will also have to specify the `heterogeneity` in the function, which can take the values `"low"`, `"moderate"` and `"high"`. I will choose `"moderate"` for this example.
 
 ```{r,eval=FALSE}
 power.analysis.random(d=0.30,k=10,n1=25,n2=25,p=0.05,
@@ -232,16 +232,16 @@ power.analysis.random(d=0.30,k=10,n1=25,n2=25,p=0.05,
 
 ```
 
-The output i get is:
+The output I get is:
 
 ```{r,echo=FALSE}
 power.analysis.random(d=0.30,k=10,n1=25,n2=25,p=0.05,heterogeneity = "moderate")
 
 ```
 
-Interestingly, we see that this value is 73%, which is smaller than the value of 91% which was calculated using the **fixed-effect model**. The value is also below 80%, meaning that i would not have optimal power to find the desired effect of $d=0.30$ to be statistically significant if it exists.
+Interestingly, we see that this value is 73%, which is smaller than the value of 91% which was calculated using the **fixed-effect model**. The value is also below 80%, meaning that I would not have optimal power to find the desired effect of $d=0.30$ to be statistically significant if it exists.
 
-This has to do with the **larger heterogeneity** i assume in this simulation, which decreases the precision of my effect size estimate, and thus increases my need for statistical power.
+This has to do with the **larger heterogeneity** I assume in this simulation, which decreases the precision of my effect size estimate, and thus increases my need for statistical power.
 
 **The graph below visualizes this relationship:**
 
