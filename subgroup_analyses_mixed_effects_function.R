@@ -2,233 +2,100 @@
 ## Copy and paste the code underneath in its enterity into your console
 ## Then hit 'Enter ⏎'
 
-subgroup.analysis.mixed.effects<-function(data,sg.var,n.sg,subgroup1,subgroup2,subgroup3,subgroup4,subgroup5,subgroup6){
+subgroup.analysis.mixed.effects<-function(m, subgroups, exclude = "none", hakn=FALSE){
 
-  n.sg<-n.sg
+  library(meta)
+  library(metafor)
 
-  if(n.sg==2){
+  # Define variables
+  m = m
+  subgroups = subgroups
+  value.hakn = hakn
+  exclude = exclude
 
-    data<-data
-    sg.var<-sg.var
-    subgroup1<-subgroup1
-    subgroup2<-subgroup2
+  # Levels of subgroup
+  subgroups = as.factor(subgroups)
+  k=as.vector(summary(subgroups))
+  levels = levels(subgroups)
+  k.level.df = data.frame("level"=levels, "k"=k)
 
-    sg1<-update.meta(data,
-                     subset = sg.var==paste(subgroup1))
-
-    sg2<-update.meta(data,
-                     subset = sg.var==paste(subgroup2))
-
-    estimate<-c(sg1$TE.random,
-                sg2$TE.random)
-
-    stderror<-c(sg1$seTE.random,
-                sg2$seTE.random)
-
-    meta<-c(paste(subgroup1),
-            paste(subgroup2))
-
-    data.comp<-data.frame(estimate,stderror,meta)
-    print(metagen(TE=estimate,
-                  seTE = stderror,
-                  data=data.comp,
-                  comb.fixed = TRUE,
-                  comb.random = FALSE,
-                  byvar = meta))
+  # Out Loop for wrong input
+  if (length(subgroups)!=length(m$studlab)){
+    stop("Subgroup variable does not contain the same number of cases as the 'meta' object. You need to define a variable which provides a subgroup value for each effect size included in your 'meta' results object.")
   }
 
-  if(n.sg==3){
-
-    data<-data
-    sg.var<-sg.var
-    subgroup1<-subgroup1
-    subgroup2<-subgroup2
-    subgroup3<-subgroup3
-
-    sg1<-update.meta(data,
-                     subset = sg.var==paste(subgroup1))
-
-    sg2<-update.meta(data,
-                     subset = sg.var==paste(subgroup2))
-
-    sg3<-update.meta(data,
-                     subset = sg.var==paste(subgroup3))
-
-    estimate<-c(sg1$TE.random,
-                sg2$TE.random,
-                sg3$TE.random)
-
-    stderror<-c(sg1$seTE.random,
-                sg2$seTE.random,
-                sg3$seTE.random)
-
-    meta<-c(paste(subgroup1),
-            paste(subgroup2),
-            paste(subgroup3))
-
-    data.comp<-data.frame(estimate,stderror,meta)
-    print(metagen(TE=estimate,
-                  seTE = stderror,
-                  data=data.comp,
-                  comb.fixed = TRUE,
-                  comb.random = FALSE,
-                  byvar = meta))
+  # get "Exclude" Subgroup level names
+  if (exclude[1]!="none"){
+    levels = levels[!levels %in% exclude]
+    k = k.level.df[(k.level.df$level %in% levels),]$k
   }
 
-  if(n.sg==4){
-
-    data<-data
-    sg.var<-sg.var
-    subgroup1<-subgroup1
-    subgroup2<-subgroup2
-    subgroup3<-subgroup3
-    subgroup4<-subgroup4
-
-    sg1<-update.meta(data,
-                     subset = sg.var==paste(subgroup1))
-
-    sg2<-update.meta(data,
-                     subset = sg.var==paste(subgroup2))
-
-    sg3<-update.meta(data,
-                     subset = sg.var==paste(subgroup3))
-
-    sg4<-update.meta(data,
-                     subset = sg.var==paste(subgroup4))
-
-    estimate<-c(sg1$TE.random,
-                sg2$TE.random,
-                sg3$TE.random,
-                sg4$TE.random)
-
-    stderror<-c(sg1$seTE.random,
-                sg2$seTE.random,
-                sg3$seTE.random,
-                sg4$seTE.random)
-
-    meta<-c(paste(subgroup1),
-            paste(subgroup2),
-            paste(subgroup3),
-            paste(subgroup4))
-
-    data.comp<-data.frame(estimate,stderror,meta)
-    print(metagen(TE=estimate,
-                  seTE = stderror,
-                  data=data.comp,
-                  comb.fixed = TRUE,
-                  comb.random = FALSE,
-                  byvar = meta))
+  # Create Loop for subgroups
+  list = list()
+  for (x in levels){
+    list[[x]] = which(subgroups %in% c(paste(x)))
   }
 
-  if(n.sg==5){
-
-    data<-data
-    sg.var<-sg.var
-    subgroup1<-subgroup1
-    subgroup2<-subgroup2
-    subgroup3<-subgroup3
-    subgroup4<-subgroup4
-    subgroup5<-subgroup5
-
-    sg1<-update.meta(data,
-                     subset = sg.var==paste(subgroup1))
-
-    sg2<-update.meta(data,
-                     subset = sg.var==paste(subgroup2))
-
-    sg3<-update.meta(data,
-                     subset = sg.var==paste(subgroup3))
-
-    sg4<-update.meta(data,
-                     subset = sg.var==paste(subgroup4))
-
-    sg5<-update.meta(data,
-                     subset = sg.var==paste(subgroup5))
-
-    estimate<-c(sg1$TE.random,
-                sg2$TE.random,
-                sg3$TE.random,
-                sg4$TE.random,
-                sg5$TE.random)
-
-    stderror<-c(sg1$seTE.random,
-                sg2$seTE.random,
-                sg3$seTE.random,
-                sg4$seTE.random,
-                sg5$seTE.random)
-
-    meta<-c(paste(subgroup1),
-            paste(subgroup2),
-            paste(subgroup3),
-            paste(subgroup4),
-            paste(subgroup5))
-
-    data.comp<-data.frame(estimate,stderror,meta)
-    print(metagen(TE=estimate,
-                  seTE = stderror,
-                  data=data.comp,
-                  comb.fixed = TRUE,
-                  comb.random = FALSE,
-                  byvar = meta))
+  # Loop over list to generate subgroup results
+  sg.results = list()
+  for (x in 1:length(list)){
+    sg.results[[x]] = update.meta(m, subset = list[[x]])
   }
 
-  if(n.sg==6){
-
-    data<-data
-    sg.var<-sg.var
-    subgroup1<-subgroup1
-    subgroup2<-subgroup2
-    subgroup3<-subgroup3
-    subgroup4<-subgroup4
-    subgroup5<-subgroup5
-    subgroup6<-subgroup6
-
-    sg1<-update.meta(data,
-                     subset = sg.var==paste(subgroup1))
-
-    sg2<-update.meta(data,
-                     subset = sg.var==paste(subgroup2))
-
-    sg3<-update.meta(data,
-                     subset = sg.var==paste(subgroup3))
-
-    sg4<-update.meta(data,
-                     subset = sg.var==paste(subgroup4))
-
-    sg5<-update.meta(data,
-                     subset = sg.var==paste(subgroup5))
-
-    sg6<-update.meta(data,
-                     subset = sg.var==paste(subgroup6))
-
-    estimate<-c(sg1$TE.random,
-                sg2$TE.random,
-                sg3$TE.random,
-                sg4$TE.random,
-                sg5$TE.random,
-                sg6$TE.random)
-
-    stderror<-c(sg1$seTE.random,
-                sg2$seTE.random,
-                sg3$seTE.random,
-                sg4$seTE.random,
-                sg5$seTE.random,
-                sg6$seTE.random)
-
-    meta<-c(paste(subgroup1),
-            paste(subgroup2),
-            paste(subgroup3),
-            paste(subgroup4),
-            paste(subgroup5),
-            paste(subgroup6))
-
-    data.comp<-data.frame(estimate,stderror,meta)
-    print(metagen(TE=estimate,
-                  seTE = stderror,
-                  data=data.comp,
-                  comb.fixed = TRUE,
-                  comb.random = FALSE,
-                  byvar = meta))
+  # Loop over sg.results to get effect size estimates
+  ES = vector()
+  SE = vector()
+  Qsg = vector()
+  I2sg = vector()
+  I2sg.lower = vector()
+  I2sg.upper = vector()
+  for (x in 1:length(sg.results)){
+    ES[x] = sg.results[[x]]$TE.random
+    SE[x] = sg.results[[x]]$seTE.random
+    Qsg[x] = sg.results[[x]]$Q
+    I2sg[x] = sg.results[[x]]$I2
+    I2sg.lower[x] = sg.results[[x]]$lower.I2
+    I2sg.upper[x] = sg.results[[x]]$upper.I2
   }
 
+  me.data = data.frame("Subgroup"=levels, "TE"=ES, "seTE"=SE)
+
+  # Fixed Meta-Analysis betweens subgroups
+  meta = metagen(TE,
+                 seTE,
+                 data=me.data,
+                 comb.fixed = TRUE,
+                 comb.random = FALSE,
+                 byvar = Subgroup,
+                 hakn = value.hakn)
+
+  # Create full output dataset
+
+  subgroup.results = data.frame("Subgroup"=me.data$Subgroup,
+                                "k"=k,
+                                "TE"=me.data$TE,
+                                "seTE"=me.data$seTE,
+                                "LLCI"=round(meta$lower,3),
+                                "ULCI"=round(meta$upper,3),
+                                "p"=meta$pval,
+                                "Q"=Qsg,
+                                "I2"=round(I2sg,2),
+                                "I2.lower"=round(I2sg.lower,2),
+                                "I2.upper"=round(I2sg.upper,2))
+
+  mixedeffects.results = data.frame("Q"=meta$Q, "df"=meta$df.Q, "p"=meta$pval.Q, row.names = "Between groups")
+
+  res = list("within.subgroup.results"=subgroup.results, "subgroup.analysis.results"=mixedeffects.results)
+
+  cat("Subgroup Results:","--------------", sep="\n")
+  print(subgroup.results)
+  cat("","Test for subgroup differences (mixed/fixed-effects (plural) model):","--------------", sep="\n")
+  print(mixedeffects.results)
+  cat("", sep="\n")
+  cat("- Total number of studies included in subgroup analysis: ", sum(k))
+  cat("", sep="\n")
+  cat("- Tau estimator used for within-group pooling: ", m$method.tau)
+
+  invisible(res)
 }
+

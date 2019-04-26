@@ -1,8 +1,8 @@
 --- 
-title: "Doing Meta Analysis in R"
+title: "Doing Meta-Analysis in R"
 subtitle: "A Hands-on Guide"
-author: "Mathias Harrer, B.Sc. & Dr. habil. David Ebert"
-date: "Friedrich-Alexander-University Erlangen-Nuremberg"
+author: "Mathias Harrer, B.Sc.¹, Prof. Dr. Pim Cuijpers² & Assoc. Prof. Dr. David Ebert²"
+date: "¹Friedrich-Alexander-University Erlangen-Nuremberg, ²Vrije Universiteit Amsterdam"
 github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
 site: bookdown::bookdown_site
 output: 
@@ -12,7 +12,7 @@ output:
        collapse: section
       search: yes
       fontsettings:
-        size: 1
+        size: 2
     split_by: section
     includes:
       after_body: banner.html

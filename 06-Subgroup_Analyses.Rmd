@@ -68,235 +68,105 @@ To conduct subgroup analyses using the **Mixed-Effects-Model** (random-effects-m
 As the code for the function is pretty long, we **don't display it here**. To access the function, use this [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/subgroup_analyses_mixed_effects_function.R). Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code from the website **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
 
 ```{r,echo=FALSE}
-subgroup.analysis.mixed.effects<-function(data,sg.var,n.sg,subgroup1,subgroup2,subgroup3,subgroup4,subgroup5,subgroup6){
+## This is the function code for the subgroup.analysis.mixed.effects function
+## Copy and paste the code underneath in its enterity into your console
+## Then hit 'Enter ⏎'
 
-n.sg<-n.sg  
-  
-if(n.sg==2){
-  
-data<-data
-sg.var<-sg.var
-subgroup1<-subgroup1
-subgroup2<-subgroup2
+subgroup.analysis.mixed.effects<-function(m, subgroups, exclude = "none", hakn=FALSE){
 
-sg1<-update.meta(data,
-               subset = sg.var==paste(subgroup1))
+  library(meta)
+  library(metafor)
 
-sg2<-update.meta(data,
-               subset = sg.var==paste(subgroup2))
+  # Define variables
+  m = m
+  subgroups = subgroups
+  value.hakn = hakn
+  exclude = exclude
 
-estimate<-c(sg1$TE.random, 
-            sg2$TE.random)
+  # Levels of subgroup
+  subgroups = as.factor(subgroups)
+  k=as.vector(summary(subgroups))
+  levels = levels(subgroups)
+  k.level.df = data.frame("level"=levels, "k"=k)
 
-stderror<-c(sg1$seTE.random,
-            sg2$seTE.random)
+  # Out Loop for wrong input
+  if (length(subgroups)!=length(m$studlab)){
+    stop("Subgroup variable does not contain the same number of cases as the 'meta' object. You need to define a variable which provides a subgroup value for each effect size included in your 'meta' results object.")
+  }
 
-meta<-c(paste(subgroup1),
-        paste(subgroup2))
+  # get "Exclude" Subgroup level names
+  if (exclude[1]!="none"){
+    levels = levels[!levels %in% exclude]
+    k = k.level.df[(k.level.df$level %in% levels),]$k
+  }
 
-data.comp<-data.frame(estimate,stderror,meta)
-print(metagen(TE=estimate,
-        seTE = stderror,
-        data=data.comp,
-        comb.fixed = TRUE,
-        comb.random = FALSE,
-        byvar = meta))
-}
+  # Create Loop for subgroups
+  list = list()
+  for (x in levels){
+    list[[x]] = which(subgroups %in% c(paste(x)))
+  }
 
-if(n.sg==3){
-  
-data<-data
-sg.var<-sg.var
-subgroup1<-subgroup1
-subgroup2<-subgroup2
-subgroup3<-subgroup3
+  # Loop over list to generate subgroup results
+  sg.results = list()
+  for (x in 1:length(list)){
+    sg.results[[x]] = update.meta(m, subset = list[[x]])
+  }
 
-sg1<-update.meta(data,
-               subset = sg.var==paste(subgroup1))
+  # Loop over sg.results to get effect size estimates
+  ES = vector()
+  SE = vector()
+  Qsg = vector()
+  I2sg = vector()
+  I2sg.lower = vector()
+  I2sg.upper = vector()
+  for (x in 1:length(sg.results)){
+    ES[x] = sg.results[[x]]$TE.random
+    SE[x] = sg.results[[x]]$seTE.random
+    Qsg[x] = sg.results[[x]]$Q
+    I2sg[x] = sg.results[[x]]$I2
+    I2sg.lower[x] = sg.results[[x]]$lower.I2
+    I2sg.upper[x] = sg.results[[x]]$upper.I2
+  }
 
-sg2<-update.meta(data,
-               subset = sg.var==paste(subgroup2))
+  me.data = data.frame("Subgroup"=levels, "TE"=ES, "seTE"=SE)
 
-sg3<-update.meta(data,
-               subset = sg.var==paste(subgroup3))
+  # Fixed Meta-Analysis betweens subgroups
+  meta = metagen(TE,
+                 seTE,
+                 data=me.data,
+                 comb.fixed = TRUE,
+                 comb.random = FALSE,
+                 byvar = Subgroup,
+                 hakn = value.hakn)
 
-estimate<-c(sg1$TE.random, 
-            sg2$TE.random,
-            sg3$TE.random)
+  # Create full output dataset
 
-stderror<-c(sg1$seTE.random,
-            sg2$seTE.random,
-            sg3$seTE.random)
+  subgroup.results = data.frame("Subgroup"=me.data$Subgroup,
+                                "k"=k,
+                                "TE"=me.data$TE,
+                                "seTE"=me.data$seTE,
+                                "LLCI"=round(meta$lower,3),
+                                "ULCI"=round(meta$upper,3),
+                                "p"=meta$pval,
+                                "Q"=Qsg,
+                                "I2"=round(I2sg,2),
+                                "I2.lower"=round(I2sg.lower,2),
+                                "I2.upper"=round(I2sg.upper,2))
 
-meta<-c(paste(subgroup1),
-        paste(subgroup2),
-        paste(subgroup3))
+  mixedeffects.results = data.frame("Q"=meta$Q, "df"=meta$df.Q, "p"=meta$pval.Q, row.names = "Between groups")
 
-data.comp<-data.frame(estimate,stderror,meta)
-print(metagen(TE=estimate,
-        seTE = stderror,
-        data=data.comp,
-        comb.fixed = TRUE,
-        comb.random = FALSE,
-        byvar = meta))
-}
+  res = list("within.subgroup.results"=subgroup.results, "subgroup.analysis.results"=mixedeffects.results)
 
-if(n.sg==4){
-  
-data<-data
-sg.var<-sg.var
-subgroup1<-subgroup1
-subgroup2<-subgroup2
-subgroup3<-subgroup3
-subgroup4<-subgroup4
+  cat("Subgroup Results:","--------------", sep="\n")
+  print(subgroup.results)
+  cat("","Test for subgroup differences (mixed/fixed-effects (plural) model):","--------------", sep="\n")
+  print(mixedeffects.results)
+  cat("", sep="\n")
+  cat("- Total number of studies included in subgroup analysis: ", sum(k))
+  cat("", sep="\n")
+  cat("- Tau estimator used for within-group pooling: ", m$method.tau)
 
-sg1<-update.meta(data,
-               subset = sg.var==paste(subgroup1))
-
-sg2<-update.meta(data,
-               subset = sg.var==paste(subgroup2))
-
-sg3<-update.meta(data,
-               subset = sg.var==paste(subgroup3))
-
-sg4<-update.meta(data,
-               subset = sg.var==paste(subgroup4))
-
-estimate<-c(sg1$TE.random, 
-            sg2$TE.random,
-            sg3$TE.random,
-            sg4$TE.random)
-
-stderror<-c(sg1$seTE.random,
-            sg2$seTE.random,
-            sg3$seTE.random,
-            sg4$seTE.random)
-
-meta<-c(paste(subgroup1),
-        paste(subgroup2),
-        paste(subgroup3),
-        paste(subgroup4))
-
-data.comp<-data.frame(estimate,stderror,meta)
-print(metagen(TE=estimate,
-        seTE = stderror,
-        data=data.comp,
-        comb.fixed = TRUE,
-        comb.random = FALSE,
-        byvar = meta))
-}
-
-if(n.sg==5){
-  
-data<-data
-sg.var<-sg.var
-subgroup1<-subgroup1
-subgroup2<-subgroup2
-subgroup3<-subgroup3
-subgroup4<-subgroup4
-subgroup5<-subgroup5
-
-sg1<-update.meta(data,
-               subset = sg.var==paste(subgroup1))
-
-sg2<-update.meta(data,
-               subset = sg.var==paste(subgroup2))
-
-sg3<-update.meta(data,
-               subset = sg.var==paste(subgroup3))
-
-sg4<-update.meta(data,
-               subset = sg.var==paste(subgroup4))
-
-sg5<-update.meta(data,
-               subset = sg.var==paste(subgroup5))
-
-estimate<-c(sg1$TE.random, 
-            sg2$TE.random,
-            sg3$TE.random,
-            sg4$TE.random,
-            sg5$TE.random)
-
-stderror<-c(sg1$seTE.random,
-            sg2$seTE.random,
-            sg3$seTE.random,
-            sg4$seTE.random,
-            sg5$seTE.random)
-
-meta<-c(paste(subgroup1),
-        paste(subgroup2),
-        paste(subgroup3),
-        paste(subgroup4),
-        paste(subgroup5))
-
-data.comp<-data.frame(estimate,stderror,meta)
-print(metagen(TE=estimate,
-        seTE = stderror,
-        data=data.comp,
-        comb.fixed = TRUE,
-        comb.random = FALSE,
-        byvar = meta))
-}
-
-if(n.sg==6){
-  
-data<-data
-sg.var<-sg.var
-subgroup1<-subgroup1
-subgroup2<-subgroup2
-subgroup3<-subgroup3
-subgroup4<-subgroup4
-subgroup5<-subgroup5
-subgroup6<-subgroup6
-
-sg1<-update.meta(data,
-               subset = sg.var==paste(subgroup1))
-
-sg2<-update.meta(data,
-               subset = sg.var==paste(subgroup2))
-
-sg3<-update.meta(data,
-               subset = sg.var==paste(subgroup3))
-
-sg4<-update.meta(data,
-               subset = sg.var==paste(subgroup4))
-
-sg5<-update.meta(data,
-               subset = sg.var==paste(subgroup5))
-
-sg6<-update.meta(data,
-               subset = sg.var==paste(subgroup6))
-
-estimate<-c(sg1$TE.random, 
-            sg2$TE.random,
-            sg3$TE.random,
-            sg4$TE.random,
-            sg5$TE.random,
-            sg6$TE.random)
-
-stderror<-c(sg1$seTE.random,
-            sg2$seTE.random,
-            sg3$seTE.random,
-            sg4$seTE.random,
-            sg5$seTE.random,
-            sg6$seTE.random)
-
-meta<-c(paste(subgroup1),
-        paste(subgroup2),
-        paste(subgroup3),
-        paste(subgroup4),
-        paste(subgroup5),
-        paste(subgroup6))
-
-data.comp<-data.frame(estimate,stderror,meta)
-print(metagen(TE=estimate,
-        seTE = stderror,
-        data=data.comp,
-        comb.fixed = TRUE,
-        comb.random = FALSE,
-        byvar = meta))
-}
-
+  invisible(res)
 }
 
 ```
@@ -305,9 +175,9 @@ For the `subgroup.analysis.mixed.effects` function, the following parameters hav
 
 ```{r,echo=FALSE}
 library(knitr)
-Code<-c("data","sg.var","n.sg","subgroup[x]")
+Code<-c("m","subgroups", "exclude")
 Description<-c("The output of you meta-analysis. In my case, this is 'm.hksj'",
-               "The variable in our dataset in which we coded which study belongs to which subgroup. Note that we also tell the function in which dataset this variable is stored. In my case, this was the 'madata' dataset i used to get the meta-analysis output 'm.hksj'. The dataset and the subgroup variable have to be connected with $ (e.g. madata$Control).","The number of subgroups we want to inlcude in our subgroup analysis (e.g. n.sg = 2)","Here, we specify all the subgroups we want to include in the meta-analysis. Subgroup Analyses with up to 6 subgroups are possible with this function. The 'subgroup' parameters have to be numbered (e.g. subgroup1 = 'Name of your first subgroup', subgroup2 = 'Name of your second subgroup', ...)")
+               "The variable in our dataset in which we coded which study belongs to which subgroup. Note that we also tell the function in which dataset this variable is stored. In my case, this was the 'madata' dataset i used to get the meta-analysis output 'm.hksj'. The dataset and the subgroup variable have to be connected with $ (e.g. madata$Control). It is important that the subgroup variable is defined for each effect size used to calculate m", "This controls if one or more subgroups should be excluded from the subgroup analysis. To exclude one or more subgroups, we have to provide the function with the name of the subgroup as it appears in our dataframe (in quotation marks; e.g., exclude='psychology'). One can also exclude more than one subgroup at the same time. To do this, one has to concatenate the names of the subgroups we want to exclude (e.g. exclude = c('psychology','general')). If you do not want to exclude subgroups (as is advised), you can leave out this parameter.")
 m<-data.frame(Code,Description)
 names<-c("Code","Description")
 colnames(m)<-names
@@ -316,35 +186,16 @@ kable(m)
 
 In my `madata` dataset, which i used previously to generate my meta-analysis output `m.hksj`, i stored the subgroup variable `Control`. This variable specifies **which control group type was employed in which study**. There are **three subgroups**: `WLC` (waitlist control), `no intervention` and `information only`.
 
-The function to do a subgroup analysis using the mixed-effects-model with these paramters looks like this.
+The function to do a subgroup analysis using the mixed-effects-model with these parameters looks like this.
 
 ```{r,message=FALSE,warning=FALSE}
-subgroup.analysis.mixed.effects(data=m.hksj,
-                                sg.var=madata$Control,
-                                n.sg = 3,
-                                subgroup1 = "WLC",
-                                subgroup2 = "no intervention",
-                                subgroup3 = "information only")
+subgroup.analysis.mixed.effects(m=m.hksj,
+                                subgroups=madata$Control)
 ```
 
-The results of the subgroup analysis are displayed under `Results for subgroups (fixed effect model)`. We see that, while the **pooled effects of the subgroups differ quite substantially** (*g* = 0.41-0.78), this difference is **not statistically significant**. 
+The results of the subgroup analysis are displayed under `Subgroup Results`. We also see that, while the **pooled effects of the subgroups differ quite substantially** (*g* = 0.41-0.78), this difference is **not statistically significant**. 
 
-This can be seen under `Test for subgroup differences` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper.
-
-```{block,type='rmdachtung'}
-Please not that the values displayed under `k` in the `Results for subgroups (fixed effects model)` section are always 1, as the pooled effect of the subgroup is treated as a single study. To determine the actual $k$ of each subgroup, you can use the `count` function from `dplyr` in R.
-```
-
-```{r,echo=FALSE}
-load("Meta_Analysis_Data.RData")
-madata<-Meta_Analysis_Data
-```
-
-
-```{r}
-library(dplyr)
-dplyr::count(madata, vars=madata$Control)
-```
+This can be seen under `Test for subgroup differences (mixed/fixed-effects (plural) model)` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper.
 
 <br><br>
 
