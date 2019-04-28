@@ -85,7 +85,8 @@ All code behind this book is available online on **GitHub**. We have created a w
 
 **How to cite this guide**
 
-Harrer, M. & Ebert, D. D. (2018). Doing Meta-Analysis in R: A practical Guide. *PROTECT Lab Friedrich-Alexander University Erlangen-Nuremberg*. [https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/)
+Harrer, M., Cuijpers, P. & Ebert, D. D. (2019). Doing Meta-Analysis in R: A Hand-on Guide. [https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
+[![DOI](https://zenodo.org/badge/152492192.svg)](https://zenodo.org/badge/latestdoi/152492192)
 
 
 ```{r eval=FALSE, echo=FALSE}

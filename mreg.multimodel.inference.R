@@ -5,8 +5,7 @@ mreg.multimodel.inference = function(TE,
                                      method="REML",
                                      test="knha",
                                      eval.criterion="aicc",
-                                     level=1,
-                                     ...){
+                                     level=1){
 
   # Parts of the computatations for this function are based on:
   # http://www.metafor-project.org/doku.php/tips:model_selection_with_glmulti
@@ -14,14 +13,13 @@ mreg.multimodel.inference = function(TE,
   library(metafor)
   library(glmulti)
 
-  TE=TE
-  seTE=seTE
-  data=data
-  predictors=predictors
-  method=method
-  test=test
-  eval.criterion=eval.criterion
-  level=level
+  # Change supplied df to conform to glmulti
+  TE = data[TE]
+  seTE = data[seTE]
+  preds = data[predictors]
+  glm.data = data.frame("TE"=TE, "seTE"=seTE)
+  colnames(glm.data) = c("TE", "seTE")
+  glm.data = cbind(glm.data, preds)
 
   # Build the formula
   predictor.string = paste(predictors, collapse="+")
@@ -29,10 +27,10 @@ mreg.multimodel.inference = function(TE,
 
   # Set up function
   rma.glmulti = function(formula, data, ...)
-    rma(formula, sei, data=data, method=method, test=test)
+    rma(formula, seTE, data=data, method=method, test=test)
 
   # Loop over all possible models
-  result = glmulti::glmulti(paste(noquote(form)), data=data,
+  result = glmulti(y="TE", xr=predictors, data=glm.data,
                          level=level,
                          fitfunction=rma.glmulti,
                          crit=eval.criterion,
