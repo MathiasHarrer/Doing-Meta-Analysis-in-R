@@ -19,7 +19,10 @@ direct.evidence.plot = function(x){
 
   # Plot
 
-  gg = ggplot(measures.reshape, aes(x=reorder(comparison, value), fill=variable, y=value)) +
+  gg = ggplot(measures.reshape,
+              aes(x=reorder(comparison, value),
+                  fill=factor(variable, levels=c("indirect","direct")),
+                  y=value)) +
        geom_bar(stat="identity", position="fill") +
        coord_flip() +
        theme_minimal() +
@@ -29,7 +32,7 @@ direct.evidence.plot = function(x){
        ylab("Percentage")+
        xlab("Network Estimate")+
        guides(fill = guide_legend(title="Evidence"))+
-       scale_fill_manual(values=c('orange','lightblue'))
+       scale_fill_manual(values=c('lightblue', 'orange'))
 
   return(list(plot = gg, data = measures))
 
