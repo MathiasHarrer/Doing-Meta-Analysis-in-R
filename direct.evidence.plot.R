@@ -1,3 +1,6 @@
+## Copy and paste the code underneath in its enterity into your console
+## Then hit 'Enter ⏎'
+
 direct.evidence.plot = function(x){
 
   # Packages
