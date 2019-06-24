@@ -5,7 +5,7 @@ bookdown::gitbook:
       before: |
         <li><a href="./">Doing Meta-Analysis in R</a></li>
       after: |
-        <li><a href="https://protectlab.org" target="blank">© PROTECT Lab</a></li>
+        <li><a href="https://www.protectlab.org/meta-analysis-in-r" target="blank">How to cite this guide</a></li>
     edit: https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/%s
     download: ["pdf"]
 bookdown::pdf_book:

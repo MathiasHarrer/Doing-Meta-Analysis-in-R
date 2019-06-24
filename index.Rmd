@@ -1,8 +1,12 @@
 --- 
 title: "Doing Meta-Analysis in R"
 subtitle: "A Hands-on Guide"
-author: "Mathias Harrer, B.Sc.¹, Prof. Dr. Pim Cuijpers² & Assoc. Prof. Dr. David Ebert²"
-date: "¹Friedrich-Alexander-University Erlangen-Nuremberg, ²Vrije Universiteit Amsterdam"
+author: 
+- Mathias Harrer, B.Sc.¹ 
+- Prof. Dr. Pim Cuijpers²
+- Prof. Dr. Toshi A. Furukawa³
+- Assoc. Prof. Dr. David D. Ebert²
+date: "¹Friedrich-Alexander-University Erlangen-Nuremberg, ²Vrije Universiteit Amsterdam, ³Kyoto University"
 github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
 site: bookdown::bookdown_site
 output: 
@@ -85,7 +89,7 @@ All code behind this book is available online on **GitHub**. We have created a w
 
 **How to cite this guide**
 
-Harrer, M., Cuijpers, P. & Ebert, D. D. (2019). Doing Meta-Analysis in R: A Hand-on Guide. [https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
+Harrer, M., Cuijpers, P., Furukawa, T.A, & Ebert, D. D. (2019). Doing Meta-Analysis in R: A Hand-on Guide. [https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
 [![DOI](https://zenodo.org/badge/152492192.svg)](https://zenodo.org/badge/latestdoi/152492192)
 
 

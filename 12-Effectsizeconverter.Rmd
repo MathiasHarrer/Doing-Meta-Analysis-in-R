@@ -1,4 +1,4 @@
-# Effect size calculators
+# Effect size calculators {#effectsizecalculator}
 
 ![](effect.jpg)
 

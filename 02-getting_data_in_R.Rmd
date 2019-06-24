@@ -156,7 +156,7 @@ kable(madata.s)
 
 ---
 
-## Data manipulation
+## Data manipulation {#manipulate}
 
 Now that we have the Meta-Analysis data in RStudio, let's do a **few manipulations with the data**. These functions might come in handy when were conducting analyses later on.
 

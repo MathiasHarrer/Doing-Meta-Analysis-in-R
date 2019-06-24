@@ -2,8 +2,9 @@
 
 [![DOI](https://zenodo.org/badge/152492192.svg)](https://zenodo.org/badge/latestdoi/152492192)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/MathiasHarrer.svg?style=social&label=Follow%20%40MathiasHarrer)](https://twitter.com/MathiasHarrer)
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/DDEbert.svg?style=social&label=Follow%20%40DDEbert)](https://twitter.com/DDEbert)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/pimcuijpers.svg?style=social&label=Follow%20%40pimcuijpers)](https://twitter.com/pimcuijpers)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/pimcuijpers.svg?style=social&label=Follow%20%40Toshi_FRKW)](https://twitter.com/Toshi_FRKW)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/DDEbert.svg?style=social&label=Follow%20%40DDEbert)](https://twitter.com/DDEbert)
 
 This is a online handbook on how to perform meta-analyses in R.
 
