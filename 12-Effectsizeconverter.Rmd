@@ -43,10 +43,12 @@ library(esc)
 7.  [Calculating Hedges' *g* from an independent t-test](#g)
 8.  [Calculating Hedges' *g* from Cohen's *d*](#h)
 9.  [Calculating effect sizes for studies with multiple comparisons](#i)
+10. [Calculating the *Number Needed to Treat* (NNT) from an effect size](#j)
+11. [Calculating the Standard Error from a *p*-value and effect size](#k)
 
 <br><br>
 
-## Calculating Hedges' g from the Mean and SD {#a}
+## Hedges' g from the Mean and SD {#a}
 
 To calculate Hedges' *g* from the *Mean*, *Standard Deviation*, and $n_{group}$ of both trial arms, we can use the `esc_mean_sd` function with the following parameters.
 
@@ -72,7 +74,7 @@ grp2m = 12.3, grp2sd = 3.1, grp2n = 56, es.type = "g")
 
 
 
-## Calculating Hedges' *g* from a regression coefficient {#b}
+## Hedges' *g* from a regression coefficient {#b}
 
 ### Unstandardized regression coefficients
 
@@ -114,9 +116,9 @@ Here, we can use the `esc_beta` function with the follwing parameters:
 esc_beta(beta=0.7, sdy=3, grp1n=100, grp2n=150, es.type = "g")
 ```
 
-## Calculating an Odd's Ratio from *Chi-square* {#c}
+## Odds Ratio from *Chi-square* {#c}
 
-To calculate the **Odd's Ratio** (or any other kind of effect size measure) from $\chi^2$ using the `esc_chisq` function with the following paramters:
+To calculate the **Odds Ratio** (or any other kind of effect size measure) from $\chi^2$ using the `esc_chisq` function with the following paramters:
 
 * `chisq`: The value of Chi-squared (or only `p`)
 * `p`: the chi squared p or phi value (or only `chisq`)
@@ -131,7 +133,7 @@ esc_chisq(chisq=9.9,totaln=100,es.type="cox.or")
 ```
 
 
-## Calculating Hedges' *g* from a one-way ANOVA {#d}
+## Hedges' *g* from a one-way ANOVA {#d}
 
 We can also derive the SMD from the $F$-value of a **one-way ANOVA with two groups**. Such ANOVAs can be detected if you look for the **degrees of freedom** ($df$) underneath of $F$. In a one-way ANOVA with two groups, the degrees of freedom should always start with $1$ (e.g. $F_{1,147}=5.31$). The formula for this transformation looks like this [@cohen1992power;@rosnow1996computing;@rosnow2000contrasts]:
 
@@ -156,7 +158,7 @@ esc_f(f=5.04,grp1n = 519,grp2n = 528,es.type = "g")
 ```
 
 
-## Calculating Hedges' *g* from the Mean and SE {#e}
+## Hedges' *g* from the Mean and SE {#e}
 
 When calculating **Hedges' g** from the **Mean** and **Standard Error**, we simply make use of the fact that the Standard error is not much more than the **Standard Deviation** when the sample size is taken into account [@thalheimer2002calculate]: 
 
@@ -181,7 +183,7 @@ esc_mean_se(grp1m = 8.5, grp1se = 1.5, grp1n = 50,
   grp2m = 11, grp2se = 1.8, grp2n = 60, es.type = "g")
 ```
 
-## Calculating Hedges' *g* from a correlation {#f}
+## Hedges' *g* from a correlation {#f}
 
 For **equally sized groups** ($n_1=n_2$), we can use the following formula to derive the SMD from the pointbiserial **correlation** [@rosenthal1984meta].
 
@@ -205,7 +207,7 @@ esc_rpb(r = 0.25, grp1n = 99, grp2n = 120, es.type = "g")
 ```
 
 
-## Calculating Hedges' *g* from an independent t-test {#g}
+## Hedges' *g* from an independent t-test {#g}
 
 The SMD can also be derived from an **independent t-test value** with the following formula [@thalheimer2002calculate]:
 
@@ -230,7 +232,7 @@ esc_t(t = 3.3, grp1n = 100, grp2n = 150,es.type="g")
 ```
 
 
-## Calculating Hedges' *g* from Cohen's *d* {#h}
+## Hedges' *g* from Cohen's *d* {#h}
 
 We can also directly correct **Cohen's *d* ** and thus generate **Hedges' g** using the formula by Hedges and Olkin [@hedges1985statistical]:
  
@@ -246,7 +248,7 @@ This can be done in R using the `hedges_g` function with the following parameter
 hedges_g(d = 0.75, totaln = 50)
 ```
 
-## Calculating effect sizes for studies with multiple comparisons {#i}
+## Multiple comparisons {#i}
 
 ![](stack.jpg)
 
@@ -266,24 +268,18 @@ $$M_{pooled}=\frac{N_1M_1+N_2M_2}{N_1+N_2}$$
 
 $$SD_{pooled} = \sqrt{\frac{(N_1-1)SD^{2}_{1}+ (N_2-1)SD^{2}_{2}+\frac{N_1N_2}{N_1+N_2}(M^{2}_1+M^{2}_2-2M_1M_2)} {N_1+N_2-1}}$$
 
-As these formulae are quite lengthy, we prepared the function `pool.groups` for you, which does the pooling for you automatically. Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
+As these formulae are quite lengthy, we prepared the function `pool.groups` for you, which does the pooling for you automatically. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
-```{r}
-pool.groups<-function(n1,n2,m1,m2,sd1,sd2){
+```{r, eval=FALSE}
+library(dmetar)
+```
 
-n1 <- n1
-n2 <- n2
-m1 <- m1
-m2 <- m2
-sd1 <- sd1
-sd2 <- sd2
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/pool.groups.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. 
 
-Npooled <- n1+n2
-Mpooled <- (n1*m1+n2*m2)/(n1+n2)
-SDpooled <- sqrt(((n1-1)*sd1^2+(n2-1)*sd2^2+(((n1*n2)/(n1+n2))*(m1^2+m2^2-2*m1*m2))     )/(n1+n2-1))
 
-return(data.frame(Mpooled,SDpooled,Npooled))
-}
+
+```{r, echo=FALSE}
+source("dmetar/pool.groups.R")
 ```
 
 **To use this function, we have to specifiy the following parameters:**
@@ -317,12 +313,12 @@ This is fairly straightforward if you save the output from `pool.groups` as an o
 First, pool the **first** and **second intervention group**. I will save the output as `res`.
 
 ```{r}
-res<-pool.groups(n1 = 50,
-            n2 = 50,
-            m1 = 3.5,
-            m2 = 4,
-            sd1 = 3,
-            sd2 = 3.8)
+res <- pool.groups(n1 = 50,
+                   n2 = 50,
+                   m1 = 3.5,
+                   m2 = 4,
+                   sd1 = 3,
+                   sd2 = 3.8)
 ```
 
 Then, use the pooled data saved in `res` and **pool it with the data from the third group**, using the `$` operator to access the different values saved in `res`.
@@ -335,4 +331,116 @@ pool.groups(n1 = res$Npooled,
             sd1=res$SDpooled,
             sd2 = 3.8)
 ```
+
+## Number Needed to Treat (*NNT*) {#j}
+
+Effect sizes such as Cohen's $d$ or Hedges' $g$ are often difficult to interpret from a clinical standpoint. What exactly does an effect of $g=0.35$ mean for patients, medical professionals, or other stakeholders? A good way to facilitate the understanding of your results is to calculate the **Number Needed to Treat**, or $NNT$, which signifies how many additional patients must be treated with an intervention or treatment to avoid one additional negative event (e.g., relapse) or tp achieve one additional positive event (e.g., symptom remission, response). There are two ways to calculate the $NNT$ from effect size data such as $d$ or $g$:
+
+* The method by **Kraemer and Kupfer (2006)**, calculates $NNT$ from the Area Under the Curve ($AUC$) defined as the probability that a patient in the treatment has an outcome preferable to one in the control. This method allows to calculate the $NNT$ directly from $d$ or $g$ without any extra variables.
+* The method by **Furukawa** calculates the $NNT$ from $d$ using a reasonable estimate of $CER$, in most contexts the assumed response rate in the control group.
+
+Furukawa's method has been shown to be superior in predicting the $NNT$ compared to the Kraemer & Kupfer method [@furukawa2011obtain]. If reasonable assumptions can be made concerning the $CER$, Furukawa's method should therefore be preferred. When **event data** is used, the $CER$ and $EER$ (experimental group event rate) is calculated first, and the standard definition of the $NTT$, $\frac{1}{EER-CER}$, can be applied.
+
+<br></br>
+
+### The `NNT` function
+
+To calculate the $NNT$ using these three method, we prepared the `NNT` function for you. The function is part if the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
+
+```{r, eval=FALSE}
+library(dmetar)
+```
+
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/NNT.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. 
+
+<br></br>
+
+**Kraemer & Kupfer method**
+
+To use the Kraemer & Kupfer method, we only have to provide the function with an effect size ($d$ or $g$).
+
+```{r, echo=FALSE}
+source("dmetar/NNT.R")
+```
+
+```{r}
+NNT(d = 0.245)
+```
+
+<br></br>
+
+**Furukawa's method**
+
+Once we supply a $CER$ value additionally, Furukawa's method is used automatically.
+
+```{r}
+NNT(d = 0.245, CER = 0.35)
+```
+
+<br></br>
+
+**Binary event data**
+
+We can also provide binary event data to calculate the $NNT$ directly. To do this, we only need the event rate in the experimental group `event.e` and the total sample in the experimental group, `n.e`, and the same information for the control group in `event.c` and `n.c`.
+
+```{r}
+NNT(event.e = 10, event.c = 20, n.e = 200, n.c = 200)
+```
+
+You can read more about this function in the [documentation](https://dmetar.protectlab.org/reference/NNT.html).
+
+<br></br>
+
+
+## Standard Error from *p*-value {#k}
+
+When extracting effect sizes from published articles, it can sometimes happen that a study only reports the effect size (e.g., Cohen's $d$), its $p$-value, but nothing more. To pool results in a meta-analysis (for example using the `metagen` function, see Chapter 4), however, we need some metric for the dispersion of the effect size, preferably the **Standard Error** ($SE$).
+
+Standard errors can be calculated from Effect sizes such as Cohen's $d$ or the Risk Ratio ($RR$) using the formula by @altman2011obtain. We have prepared a function called `se.from.p` for you which implements this formula. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
+
+```{r, eval=FALSE}
+library(dmetar)
+```
+
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/SE_from_p.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `esc` package to work.
+
+<br></br>
+
+**Effect sizes based on a difference**
+
+Assuming we have a study with $N=75$ participants reporting an effect size of $d=0.71$ with $p=0.013$, we can calculate the standard error like this:
+
+```{r, echo=FALSE, message=FALSE}
+library(esc)
+source("dmetar/se_from_p.R")
+```
+
+```{r}
+se.from.p(effect.size = 0.71, 
+          p = 0.013, 
+          N = 75,
+          effect.size.type= "difference")
+```
+
+<br></br>
+
+**Effect sizes based on a ratio**
+
+Assuming we have a study with $N=200$ participants reporting an effect size of $OR=0.91$ with $p=0.05$, we can calculate the standard error like this:
+
+```{r}
+se.from.p(effect.size = 0.91, 
+          p = 0.05, 
+          N = 200,
+          effect.size.type= "ratio")
+```
+
+As you can see from the output, the function automatically calculates the log-transformed effect size and standard error, which is needed for usage in the `metagen` function (see [Chapter 4.3.3](#binarymetagen)). 
+
+
+
+
+
+
+
 

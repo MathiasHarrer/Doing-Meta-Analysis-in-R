@@ -67,6 +67,12 @@ Where $\hat\tau^2_{REM}$ is the estimated total heterogenetiy based on the rando
 
 Meta-regressions can be conducted in R using the `metareg` function in `meta`. To show the similarity between `subgroup` analysis and `meta-regression` with categorical predictors, i'll first conduct a meta-regression with my variable "Control" as predictor again.
 
+```{r, echo=FALSE, message=FALSE, error=FALSE}
+library(meta)
+```
+
+
+
 ```{r}
 metareg(m.hksj,Control)
 ```
@@ -404,51 +410,57 @@ Please note that when the **number of studies** $k$ included in our model is **s
 
 Previously, we already described that one can also try to **model all possible predictor combinations** in a procedure called **multimodel inference** to examine which possible predictor combinations provide the best fit, and which predictors are the most important ones overall.
 
-To perform multimodel inference, we have prepared a function for you, `mreg.multimodel.inference`. The full code for this function can be found [here](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/mreg.multimodel.inference.R). Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code from the website **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**. For the `mreg.multimodel.inference` function, the following parameters need to be specified:
+To perform multimodel inference, you can use the `multimodel.inference` function we prepared for you. This function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
+
+```{r, eval=FALSE}
+library(dmetar)
+```
+
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/mreg.multimodel.inference.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**. The function requires the `MuMIn`, `ggplot2` and `metafor` package to work.
+
+For this function, the following parameters need to be specified:
 
 ```{r,echo=FALSE}
-i<-c("TE", "seTE", "data", "predictors", "method", "test", "level")
-ii<-c("The name of the variable containing the calculated effect sizes for each study.", "The name of the variable containing the calculated standard error of each effect size.", "Our dataset containing all effect size and predictor data.", "The predictors in our dataset we want to consider. We have to supply them to the function as predictors=c('variable1', 'variable2', ...).","The tau-squared estimator we want to use. We can choose from 'Maximum-Likelihood ('ML') and Restricted Maximum Likelihood ('REML'; default).", "The test we want to use to evaluate the significance of a predictor.'knha' (Knapp-Hartung) is used as the default, but we can also set this to 'z'.", "This specifies if we want to also model all possible interaction terms (level=2) or not (level=1). Default is level=1.")
+i<-c("TE", "seTE", "data", "predictors", "method", "test", "eval.criterion", "interaction")
+ii<-c(	
+"The precalculated effect size for each study. Must be supplied as the name of the effect size column in the dataset (in quotation marks; e.g. TE = 'effectsize').",
+"The precalculated standard error for each study. Must be supplied as the name of the standard error column in the dataset (in quotation marks; e.g. seTE = 'se').",
+"A data.frame containing columns for the effect size, standard error and meta-regression predictors of each study/effect.",
+"A concentenated array of characters specifying the predictors to be used for multimodel inference. Names of the predictors must be identical to the names of the column names of the data.frame supplied to data.",
+"Meta-analysis model to use for pooling effect sizes. Use 'FE' for the fixed-effect model. Different random-effect models are available: 'DL', 'HE', 'SJ', 'ML', 'REML', 'EB', 'HS', 'GENQ'. If 'FE' is used, the test argument is automatically set to 'z', as the Knapp-Hartung method is not meant to be used with fixed-effect models. Default is 'REML', and it is strongly advised to remain with this option to use a standard (mixed-effects) meta-regression model.",
+"Method to use to compute test statistics and confidence intervals. Default is 'knha' which uses the Knapp-Hartung (Knapp & Hartung, 2003) adjustment method. 'Conventional' Wald-type tests and CIs are calculated by setting this argument to 'z'. When method='FE', this argument is set to 'z' automatically as the Knapp-Hartung method was not meant to be used with fixed-effect models.",
+"Evaluation criterion to sort the multiple models by. Can be either 'AICc' (default; corrected Akaike's Information Criterion), 'AIC' (Akaike's Information Criterion) or 'BIC' (Bayesian Information Criterion).",
+"If set to FALSE (default), no interactions between predictors are considered. Setting this parameter to TRUE means that all interactions are modeled.")
 ms<-data.frame(i,ii)
 names<-c("Parameter", "Function")
 colnames(ms)<-names
 kable(ms) 
 ```
 
-The `mreg.multimodel.inference` requires the `glmulti` package to be installed on you computer, so let's make sure first to install this package and then load it into our library.
-
-```{r, message=FALSE, warning=FALSE}
-library(glmulti)
-```
-
-```{block,type='rmdachtung'}
-**Problems with rJava**
-
-`glmulti` requires the installation of `rJava` as a dependency. Usually, this is done automatically when installing `glmulti`. However, `rJava` installation often **does not work properly**, and `rJava` may cease to function after updates are installed. If this happens on your computer, this [thread](https://stackoverflow.com/questions/6492361/problem-loading-rjava), or a quick Google search may help you to fix this problem.
-```
-
 **Now, let's perform multimodelling for all possible predictor combinations using all predictors in the `mvreg.data` dataset, excluding all interaction terms**. Be aware that this can take some time, especially if the number of predictors is large.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-source("mreg.multimodel.inference.R")
+source("dmetar/mreg.multimodel.inference.R")
 load("mvreg_data.rda")
-library(glmulti)
+library(MuMIn)
+library(metafor)
+library(ggplot2)
 set.seed(123)
 ```
 
-```{r, warning=FALSE, message=FALSE}
-mreg.multimodel.inference(TE = "yi", 
-                          seTE = "sei",
-                          data = mvreg.data,
-                          predictors = c("pubyear", "quality", "reputation", "continent"), 
-                          level=1)
+```{r, warning=FALSE, message=FALSE, fig.height=2, fig.width=6, fig.align="center"}
+multimodel.inference(TE = "yi", 
+                     seTE = "sei",
+                     data = mvreg.data,
+                     predictors = c("pubyear", "quality", "reputation", "continent"),
+                     interaction = FALSE)
 ```
 
 **Let's go through the output one after another:**
 
 - `Multimodel Inference: Final Results`. This part of the output provides us with details about the fitted models. We see that the total number of $2^4=16$ possible models have been fitted. We also see that the function used the corrected AIC (`aicc`) to compare the models.
-- `Best 5 Models`. Displayed here are the **five models with the lowest AICc**, sorted from low to high. We see that `TE ~ 1 + pubyear + reputation + continent` shows the best fit ($AICc=31.30$). But we also see that the other models including other predictors which are presented here come very close to this value. Thus, it is hard to say which model really is the "best" model. Nevertheless, we see that all of the best five models contain the predictor `pubyear`, suggesting that this variable might be particularly important.
-- `Multimodel Inference Coefficients`. Here, we can see the **coefficients of all predictors** we used for our models **aggregated** over all models in which they appear. We see that the coefficient `Estimate` is largest for `pubyear` ($b=0.356$), which corroborates our finding from before. Approximate confidence intervals can be obtained by subtracting and adding the value stored in `+/- (alpha=0.05)` from/to `Estimate`.
+- `Best 5 Models`. Displayed here are the **five models with the lowest AICc**, sorted from low to high. Predictors are displayed as columns of the table, and models as rows. A number (weight) or `+` sign (for categorical predictors) indicates that a predictor/interaction term was used for the model, while empty cells indicate that the predictor was omitted in this model. We see that `TE ~ 1 + continent + pubyear + reputation` shows the best fit ($AICc=6.0$). But we also see that the other models including other predictors which are presented here come very close to this value. Thus, it is hard to say which model really is the "best" model. Nevertheless, we see that all of the best five models contain the predictor `pubyear`, suggesting that this variable might be particularly important.
+- `Multimodel Inference Coefficients`. Here, we can see the **coefficients of all predictors** we used for our models **aggregated** over all models in which they appear. We see that the coefficient `Estimate` is largest for `pubyear` ($b=0.378$), which corroborates our finding from before. Approximate confidence intervals can be obtained by subtracting and adding the value stored in `Std.Error`, multiplied by 1.96, from/to `Estimate`.
 - **Model-averaged importance of terms plot**. In the plot, we see the averaged importance of each predictor across all models displayed as a bar chart. We again see that `pubyear` is the most important predictor, followed by `reputation`, `continent`, and `quality`.
 
 ```{block,type='rmdinfo'}
@@ -456,12 +468,13 @@ This example should make clear that Multimodel Inference can be a useful way to 
 ```
 
 ```{block,type='rmdinfo'}
-The output of the `mreg.multimodel.inference` function displayed after running the function is **only a small part of all results returned by the function**. If we want to access all results of the function, we can save the results to an object (e.g. `results <- mreg.multimodel.inference(...)`), and then open them using the 'dollar' operator. The following results are returned, among other things:
+The output of the `mreg.multimodel.inference` function displayed after running the function is **only a small part of all results returned by the function**. If we want to access all results of the function, we can save the results to an object (e.g. `results <- multimodel.inference(...)`), and then open them using the 'dollar' operator. The following results are returned, among other things:
 
 * `all.models`: the AICc statistics for all fitted models, ordered from best to worst.
 * `top5.models`: the top 5 models by AICc we already saw in the output of the function before.
 * `multimodel.coef`: the averaged multimodel coefficient estimates we already saw before.
-* `model.details`: a list containing the detailed `rma` output for all fitted models. We can access a specific model by its number the following way: `results$model.details[[1]]` (for the first model).
+* `predictor.importance`: The predictor importance table we already saw before.
+* `formula`: The full formula used to conduct the multimodel analysis.
 ```
 
 ---

@@ -55,11 +55,16 @@ $$Power = 1- \Phi(c_{\alpha}-\lambda)+\Phi(-c_{\alpha}-\lambda) $$
 Where $c_{\alpha}$ is the critical value of a $Z$-distribution. $\Phi$ is the **standard normal density function**, which we we need to calcuate the power using this equation:
 $$\Phi(Z)=\frac{1}{\sqrt {2\pi}}e^{-\frac{Z^2}{2}}$$
 
-Luckily, you don't have too think about these statistical details too much, as we have prepared a **function** for you with which you can easily conduct a **power analysis** using the fixed-effect model yourself. The function is called `power.analysis.function` and its code can be found below.
+Luckily, you don't have too think about these statistical details too much, as we have prepared a **function** for you with which you can easily conduct a **power analysis** using the fixed-effect model yourself. The function is called `power.analysis`. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
-Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
+```{r, eval=FALSE}
+library(dmetar)
+```
 
-```{r}
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/power.analysis.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `ggplot2` package to work.
+
+```{r, echo=FALSE}
+source("dmetar/power.analysis.R")
 power.analysis.fixed<-function(d,k,n1,n2,p){
 
   n1<-n1
@@ -85,8 +90,14 @@ power.analysis.fixed<-function(d,k,n1,n2,p){
 
 ```{r,echo=FALSE}
 library(kableExtra)
-Package<-c("d","k","n1","n2","p")
-Description<-c("The effect size we want to be able to detect","The number of studies we will likely be able to include into our analysis","The average number of participats we assume in the intervention arms of our included studies","The average number of participats we assume in the control arms of our included studies","The Type I error rate (p-level). It is common to use 'p=0.05'")
+Package<-c("d","OR", "k", "n1", "n2", "p", "heterogeneity")
+Description<-c("The hypothesized, or plausible overall effect size of a treatment/intervention under study compared to control, expressed as the standardized mean difference (SMD). Effect sizes must be positive numerics (i.e., expressed as positive effect sizes).",
+               "The hypthesized, or plausible overall effect size of a treatment/intervention under study compared to control, expressed as the Odds Ratio (OR). If both d and OR are specified, results will only be computed for the value of d.",
+               "The expected number of studies to be included in the meta-analysis.",
+               "The expected, or plausible mean sample size of the treatment group in the studies to be included in the meta-analysis.",
+               "The expected, or plausible mean sample size of the control group in the studies to be included in the meta-analysis.",
+               "The alpha level to be used for the power computation. Default is alpha=0.05",
+               "Which level of between-study heterogeneity to assume for the meta-analysis. Can be either 'fixed' for no heterogeneity/a fixed-effect model, 'low' for low heterogeneity, 'moderate' for moderate-sized heterogeneity or 'high' for high levels of heterogeneity. Default is 'fixed'.")
 m<-data.frame(Package,Description)
 names<-c("Parameter", "Description")
 colnames(m)<-names
@@ -96,18 +107,22 @@ kable(m)
 Now, let's give an example. I assume that an effect of $d=0.30$ is likely and meaningful for the field of my meta-analysis. I also assume that on average, the studies in my analysis will be rather small, with 25 participants in each trial arm, and that there will be 10 studies in my analysis. I will set the $\alpha$-level to 0.05, as is convention.
 
 ```{r, eval=FALSE}
-power.analysis.fixed(d=0.30,k=10,n1=25,n2=25,p=0.05)
+power.analysis.(d=0.30, 
+                k=10, 
+                n1=25, 
+                n2=25, 
+                p=0.05)
 ```
 
 The output of the function is:
 
-```{r,echo=FALSE}
-power.analysis.fixed(d=0.30,k=10,n1=25,n2=25,p=0.05)
+```{r,echo=FALSE, fig.align="center"}
+power.analysis(d=0.30,k=10,n1=25,n2=25,p=0.05)
 ```
 
-Meaning that my power is 91%. This is more than the desired 80%, so given that my assumptions are remotely true, my meta-analysis will have **sufficient power using the fixed-effect model to detect a clinically relevant effect if it exists**.
+Meaning that my power is 92%. This is more than the desired 80%, so given that my assumptions are remotely true, my meta-analysis will have **sufficient power using the fixed-effect model to detect a clinically relevant effect if it exists**.
 
-So, if i assume an effect of $d = 0.30$ in this example, i am lucky. If we play around with the effect size a little, however, while holding the other paramters constant, this can look very different.
+So, if i assume an effect of $d = 0.30$ in this example, i am lucky. If we play around with the effect size a little, however, while holding the other parameters constant, this can look very different.
 
 ```{r,fig.width=5,fig.align='center',echo=FALSE,message=FALSE}
 library(ggplot2)
@@ -171,11 +186,9 @@ $$V_{\delta}^*=1.67\times\frac{V_Y}{k}$$
 
 $$V_{\delta}^*=2\times\frac{V_Y}{k}$$
 
-Again, you don't have to worry about the statistical details here. We have put the entire calculations into the `power.analysis.random` function, which can be found below.
+Again, you don't have to worry about the statistical details here. We have put the entire calculations into the `power.analysis` function, which can already introduced [before](#fixed.power).
 
-Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
-
-```{r}
+```{r, echo=FALSE}
 power.analysis.random<-function(d,k,n1,n2,p,heterogeneity){
 
   n1<-n1
@@ -224,18 +237,22 @@ power.analysis.random<-function(d,k,n1,n2,p,heterogeneity){
 }
 ```
 
-Now you are set and ready to use the function. I will assume the same parameters from [before](#fixed.power), but this time i will also have to specify the `heterogeneity` in the function, which can take the values `"low"`, `"moderate"` and `"high"`. I will choose `"moderate"` for this example.
+I will assume the same parameters used for the [fixed-effect model power analysis](#fixed.power), but this time i will also have to specify the `heterogeneity` in the function, which can take the values `"low"`, `"moderate"` and `"high"`. I will choose `"moderate"` for this example.
 
 ```{r,eval=FALSE}
-power.analysis.random(d=0.30,k=10,n1=25,n2=25,p=0.05,
-                      heterogeneity = "moderate")
+power.analysis(d=0.30,
+               k=10,
+               n1=25,
+               n2=25,
+               p=0.05,
+               heterogeneity = "moderate")
 
 ```
 
 The output i get is:
 
-```{r,echo=FALSE}
-power.analysis.random(d=0.30,k=10,n1=25,n2=25,p=0.05,heterogeneity = "moderate")
+```{r,echo=FALSE, fig.align="center"}
+power.analysis(d=0.30,k=10,n1=25,n2=25,p=0.05,heterogeneity = "moderate")
 
 ```
 
@@ -306,6 +323,38 @@ annotate("text", x = 3, y = 0.7, label = "d = 0.3",size=5)+
   annotate("text", x = 20, y = 0.13, label = "d = 0.1",size=5)+
   geom_hline(yintercept=0.8,linetype="dashed")
 ```
+
+---
+
+## Subgroup Analyses
+
+Often when conducting a test for subgroup differences within a meta-analysis, we might be interested which effect size difference is needed between the two subgroups for the difference to become significant given the data material at hand. To evaluate this, a **power analysis for subgroup differences** may be helpful.
+
+We have created a function called `power.analysis.subgroup`, which calculates the power of a subgroup difference test (using only two subgroups) by implementing the formulae described by @hedges2001power. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
+
+```{r, eval=FALSE}
+library(dmetar)
+```
+
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/power.analysis.subgroup.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `ggplot2` package to work.
+
+```{r, echo=FALSE}
+source("dmetar/power.analysis.subgroup.R")
+
+```
+
+Let's assume we have a subgroup analysis in which the pooled effect size of subgroup 1 is $g=0.30$, with a standard error of $0.13$, and an effect size of $g=0.66$ for subgroup 2, with a standard error of $0.14$. We can then use the function like this:
+
+```{r, fig.align="center"}
+power.analysis.subgroup(TE1=0.30, 
+                        TE2=0.66, 
+                        seTE1=0.13, 
+                        seTE2=0.14)
+```
+
+From the output, we can see that the power for our subgroup test (47%) is **not sufficient**. We also see that the effect size difference must be at least 0.536, leaving all other parameters the same, to reach sufficient power.
+
+
 
 ---
 

@@ -1,8 +1,3 @@
----
-output:
-  html_document: default
-  pdf_document: default
----
 # Network Meta-Analysis
 
 ![](networks.jpg)
@@ -298,20 +293,36 @@ rglwidget()
 
 ##### Visualising direct and indirect evidence
 
-As a next step, we can also turn our attention to the **direct and indirect evidence** in our network by looking at the **proportion** of direct and indirect contributing to each comparison. We have prepared a function for this purpose for you, which is called `direct.evidence.plot()`. The code for this function can be found [here](https://raw.githubusercontent.com/MathiasHarrer/Doing-Meta-Analysis-in-R/master/direct.evidence.plot.R). The function requires the `ggplot2` and `reshape` to be installed on your computer.
+As a next step, we can also turn our attention to the **direct and indirect evidence** in our network by looking at the **proportion** of direct and indirect contributing to each comparison. We have prepared a function for this purpose for you, which is called `direct.evidence.plot()`. The `direct.evidence.plot` function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
-The function provides you with two outputs: a **plot** showing the percentage of direct and indirect evidence used for each estimated comparison, and a corresponding data frame containing the underlying data. The only thing the `direct.evidence.plot()` function needs as input is an object created by the `netmeta()` function. We will call the result of the function `direct.evidence` and then access the `plot` stored in it. 
-
-```{r, echo=FALSE}
-source("direct.evidence.plot.R")
+```{r, eval=FALSE}
+library(dmetar)
 ```
 
-```{r, fig.width=6, fig.height=9, fig.align='center'}
-direct.evidence <- direct.evidence.plot(x = m.netmeta)
-direct.evidence$plot
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/direct.evidence.plot.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `ggplot2`, `gridExtra`, and `scales` package to work.
+
+The function provides you with two outputs: a **plot** showing the percentage of direct and indirect evidence used for each estimated comparison, and a corresponding data frame containing the underlying data. The only thing the `direct.evidence.plot()` function needs as input is an object created by the `netmeta()` function. 
+
+```{r, echo=FALSE, message=FALSE, error=FALSE}
+source("dmetar/direct.evidence.plot.R")
+library(gridExtra)
+library(ggplot2)
+library(scales)
 ```
 
-As we can see, there are many estimates in our network model which had to be inferred by indirect evidence alone.
+```{r, fig.width=9, fig.height=6, fig.align='center', eval=FALSE}
+direct.evidence.plot(x = m.netmeta)
+```
+
+```{r, echo=FALSE, fig.width=10, fig.align="center"}
+library(png)
+library(grid)
+img <- readPNG("directevidence.png")
+grid.raster(img)
+```
+
+
+As we can see, there are many estimates in our network model which had to be inferred by indirect evidence alone. The plot also provides us with two additional metrics: the **Minimal Parallelism** and the **Mean Path Length** of each comparison. According to @konig2013visualizing, lower values of minimal parallelism and $Mean Path Length > 2$ means that results for a specific comparison should be interpreted with caution.
 
 ##### Producing a matrix containing all treatment comparison estimates
 
@@ -697,7 +708,7 @@ gelman.diag(mcmc1)$mpsrf
 gelman.diag(mcmc2)$mpsrf
 ```
 
-We see that, while the overall PSRF is below the threshold for both simulations, our second simulation `mcmc2` performs better, indicating that we should use the results obtained by this simulation.
+We see that the overall PRSF is only below the threshold for our second simulation `mcmc2`, indicating that we should use the results obtained by this simulation.
 
 
 ### Assessing inconsistency: the nodesplit method
@@ -758,14 +769,24 @@ forest(relative.effect(mcmc2, t1 = "Placebo"))
 In the chapter on frequentist network meta-analysis, we already covered the **P-score** as a metric to evaluate which treatment in a network is likely to be the most efficacious. An equivalent to the **P-score** is the **Surface Under the Cumulative RAnking** (SUCRA) score, which can be calculated like this [@salanti2011graphical]:
 
 $$ SUCRA_j = \frac{\sum_{b=1}^{a-1}cum_{jb}}{a-1}$$
-Where $j$ is some treatment, $a$ are all competing treatments, $b$ are the $b = 1, 2, ... a-1$ best treatments, and $cum$ represents the cumulative probability of a treatment being among the $b$ best treatments. To do this, we prepared the `sucra` function for you, which can be found [here](https://raw.githubusercontent.com/MathiasHarrer/Doing-Meta-Analysis-in-R/master/sucra.R). The function only needs a `rank.probability()` object as input, and we need to specify if lower values indicate better outcomes in our context by specifying `lower.is.better`. Let us see what results we get.
+Where $j$ is some treatment, $a$ are all competing treatments, $b$ are the $b = 1, 2, ... a-1$ best treatments, and $cum$ represents the cumulative probability of a treatment being among the $b$ best treatments. To do this, we prepared the `sucra` function for you. The `sucra` function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
-```{r, echo=FALSE}
-source("sucra.R")
+```{r, eval=FALSE}
+library(dmetar)
+```
+
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/sucra.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `ggplot2` and `forcats` package to work.
+
+The function only needs a `rank.probability()` object as input, and we need to specify if lower values indicate better outcomes in our context by specifying `lower.is.better`. Let us see what results we get.
+
+```{r, echo=FALSE, error=FALSE, warning=FALSE, message=FALSE}
+source("dmetar/sucra.R")
+library(ggplot2)
+library(forcats)
 ```
 
 
-```{r}
+```{r, fig.align="center", fig.width=5}
 rank.probability <- rank.probability(mcmc2)
 sucra(rank.probability, lower.is.better = TRUE)
 ```
@@ -773,7 +794,7 @@ sucra(rank.probability, lower.is.better = TRUE)
 Looking at the SUCRA values of each treatment, we again see that **Rosiglitazone** may be the best treatment, followed by, with some distance, **Metformin** and **Pioglitazone**.
 
 
-A last thing we also often want to report in our research paper is the effect size estimate for **each treatment comparison**, based on our model. We can easily export such a matrix using the `relative.effect.table()` function. We can save the results of this function in an object, such as `result`, which we can then save to .csv file for later usage. The `relative.effect.table()` automatically creates a treatment comparison matrix containing the **estimated effect**, as well as the **credibility intervals** for each comparison. Here is how we do this:
+A last thing we also often want to report in our research paper is the effect size estimate for **each treatment comparison**, based on our model. We can easily export such a matrix using the `relative.effect.table()` function. We can save the results of this function in an object, such as `result`, which we can then save to .csv file for later usage. The `relative.effect.table()` automatically creates a treatment comparison matrix containing the **estimated effect**, as well as the **credibility intervals** for each comparison. Here is how we can do this:
 
 ```{r, eval=FALSE}
 results <- relative.effect.table(mcmc2)
@@ -783,7 +804,7 @@ save(results, file = "results.csv")
 
 ### Summary
 
-This is the **end of our short introduction** into network meta-analysis and the `netmeta` and `gemtc` package. We have described the general idea behind network meta-analysis, the assumptions and caveats associated with it, two different statistical approaches through which network meta-analysis can be conducted, and how they are implmented in R. Still, we would like to stress that what we covered here is **still only a rough overview** of this metholodological approach. There are many other techniques and procedures helping us to generate robust evidence for decision-making from network meta-analysis, and we recommend to get acquainted with them. Here are two rather easily digestable **literature recommendations** you may find helpful for this endeavor:
+This is the **end of our short introduction** into network meta-analysis and the `netmeta` and `gemtc` package. We have described the general idea behind network meta-analysis, the assumptions and caveats associated with it, two different statistical approaches through which network meta-analysis can be conducted, and how they are implemented in R. Still, we would like to stress that what we covered here is **still only a rough overview** of this metholodological approach. There are many other techniques and procedures helpful in generating robust evidence for decision-making from network meta-analysis, and we recommend to get acquainted with them. Here are two rather easily digestable **literature recommendations** you may find helpful for this endeavor:
 
 * Efthimiou, O., Debray, T. P., van Valkenhoef, G., Trelle, S., Panayidou, K., Moons, K. G., ... & GetReal Methods Review Group. (2016). GetReal in network meta‐analysis: a review of the methodology. *Research synthesis methods, 7*(3), 236-263. [Link](https://onlinelibrary.wiley.com/doi/abs/10.1002/jrsm.1195)
 * Dias, S., Ades, A. E., Welton, N. J., Jansen, J. P., & Sutton, A. J. (2018). *Network meta-analysis for decision-making*. Wiley & Sons. [Link](https://www.wiley.com/en-us/Network+Meta+Analysis+for+Decision+Making-p-9781118647509)

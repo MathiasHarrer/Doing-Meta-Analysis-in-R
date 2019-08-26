@@ -3,13 +3,13 @@
 ![](chap2.jpg)
 
 ```{block,type='rmdinfo'}
-Before we start with our meta-analysis, we have to download and prepare a **computer program** which allows us to use *R* for programming. 
+Before we start with our meta-analysis, we have to download and prepare a **computer program** which allows us to use *R* for statistical analyses. 
 
-Probably the best option for this at the moment is **RStudio**. This program gives us a user interface which makes it easier to overlook our data, packages and output. The best part is that RStudio is **completely free** and can be downloaded anytime.
+Probably the best option for this at the moment is **RStudio**. This program gives us a user interface which makes it easier to handle our data, packages and output. The best part is that RStudio is **completely free** and can be downloaded anytime.
 
-In this Chapter, we'll focus on how you can install RStudio on your computer. We'll also provide some general information on R, and how you can get help if you get error messages.
+In this Chapter, we'll focus on how you can install RStudio on your computer. We'll also provide some general information on *R*, and how you can get help if you get error messages.
 
-If you already have RStudio installed on your computer, and if you're an experienced R user already, all of this might be nothing new for you. You may **skip** this chapter then.
+If you already have RStudio installed on your computer, and if you're an experienced *R* user already, all of this might be nothing new for you. You may **skip** this chapter then.
 
 Especially if you have **never used R before, we would like to consider this Chapter essential**, as it gives you some input on how R works, and how we can use it for our data analyses.
 ```
@@ -28,17 +28,19 @@ grid.raster(img)
 
 As a prerequisite for this guide, you need to have **RStudio** and a few essential **R packages** installed.
 
-**You have to follow these steps to get your RStudio set.**
+**You have to follow these steps to get your RStudio version set.**
    
 1. Download RStudio on the **RStudio** Website ([Link](https://www.rstudio.com/products/rstudio/download/)). It's free!
-2. If you do not have **R** installed yet, you will have to install the latest R Version before you can use RStudio. You can get the latest R version [here](https://cran.r-project.org/bin/windows/base/).
+2. If you do not have **R** installed yet, you will have to install the latest R Version before you can use RStudio. You can get the latest R version [here](https://cran.r-project.org/bin/windows/base/). You have to choose the right *R* version depending on the operating system you use (i.e., Windows or Mac).
 3. Once RStudio is running, open the **Console** on the bottom left corner of your screen.
 4. We will now install a few packages using R Code. Here's an overview of the packages, and why we need them:
 
 ```{r,echo=FALSE}
 library(kableExtra)
 Package<-c("tidyverse","meta","metafor")
-Description<-c("This is a large package containing various functions to tidy up your data", "This package is a so-called wrapper for many meta-analytic functions and makes it easy to code different meta-analyses","This package is used by the meta package for many applications, so we need to have it installed")
+Description<-c("This is a large bundle of packages which make it easy to manipulate and visualize data in R. Function included in the tidyverse have become very popular in the R community in recent years, and are used by many researchers, programmers and data scientists. If you want to learn more about the tidyverse, you can click on this link: https://www.tidyverse.org/.", 
+               "This package contains functions which make it easy to run different types of meta-analyses. We will primarily focus on this package in the guide, because it easy to use, well documentated, and very versatile. More info on the meta package can be found here: http://www.imbi.uni-freiburg.de/lehre/lehrbuecher/meta-analysis-with-r.", 
+               "The metafor package is also dedicted to conducting meta-analyses, and a true 'powerhouse' in terms of functionality. The package also provides more advanced tools, but may be a little involved for first time R users. However, because we will use this package at times in later chapters, and because metafor is used by the meta package for many applications, it is best to have it installed. The metafor package also has an excellent documentation for various meta-analysis-related topics, which can be found here: http://www.metafor-project.org/doku.php/metafor.")
 m<-data.frame(Package,Description)
 names<-c("Package", "Description")
 colnames(m)<-names
@@ -52,6 +54,15 @@ kable(m)
 install.packages("tidyverse")
 install.packages("meta")
 install.packages("metafor")
+```
+
+In RStudio, you simply have to type in the code displayed above into the the **Console** (usually, this is the bottom-left pane in your RStudio window) next to the little arrow (`>`) in the last line. Then hit **Enter ⏎**.
+
+```{r, echo=FALSE, fig.width=6,fig.height=4,fig.align='center'}
+library(png)
+library(grid)
+img <- readPNG("install_packages_tut.png")
+grid.raster(img)
 ```
 
 ```{block, type='rmdachtung'}
@@ -73,28 +84,78 @@ There are three things you need to run the code: **R**, **RStudio**, and collect
 Gladly, once you've reached this point successfully, these three things are set already. Nevertheless, we will have to install and load a few new packages at some place in this guide, for which you can use the `install.packages()` the same way as you did before.
 
 
-Throughout the guide, a consistent set of conventions is used to refer to code:
-
-* Functions are in a code font and followed by parentheses, like
-`sum()` or `mean()`.
-* Other R objects (like data or function arguments) are in a code
-font, without parentheses, like `seTE` or `method.tau`. 
-* Sometimes, we’ll use the package name followed by two colons, like
-`meta::metagen()`. This is also valid R code. This is used so as to not confuse the functions of different packages with the same name.
-
 ### Getting Help
-As you start to apply the techniques described in this guide to your data you will soon find questions that the guide does not answer. This section describes a few tips on how to get help.
+As you start to apply the functions described in this guide to your data you will soon find questions that the guide does not answer. This section describes a few tips on how to get help.
 
-* If you get stuck, start with **Google**. Typically, adding “R” to a search is enough to restrict it to relevant results: if the search isn’t useful, it often means that there aren’t any R-specific results available. Google is particularly useful for error messages. If you get an error message and you have no idea what it means, try googling it. Chances are that someone else has been confused by it in the past, and there will
+* If you get stuck somewhere, the best way is to start with **Google**. Google is particularly useful for error messages. If you get an error message and you have no idea what to do with it, try googling it first. The *R* community is very large, and chances are that someone else has been confused by it in the past, and there will
 be help somewhere on the web. (If the error message isn’t in English,
 run `Sys.setenv(LANGUAGE = "en")` and re-run the code; you’re
 more likely to find help for English error messages.)
 * If Google doesn’t help, try [stackoverflow](https://stackoverflow.com). Start by spending a little time searching for an existing answer; including [R] restricts your search to questions and answers that use R. 
-* Lastly, if you stumble upon an error (or typos!) in this guide's text or R syntax, feel free to contact **Mathias Harrer** at **mathias.harrer@fau.de**.
+* Lastly, if you stumble upon an error (or typos!) in this guide's text or *R* syntax, feel free to contact **Mathias Harrer** at **mathias.harrer@fau.de**.
 
 <br><br>
 
 ---
+
+## The *dmetar* package {#dmetar}
+
+```{r, echo=FALSE, fig.width=4,fig.height=2}
+library(png)
+library(grid)
+img <- readPNG("dmetar_head.png")
+grid.raster(img)
+```
+
+In this guide, we want to make conducting meta-analyses as accessible and easy as possible for you as a researcher. Although there are fantastical packages like the `meta` and `metafor` package which do most of the heavy lifting, there are still some aspects of meta-analyses in the biomedical field and psychology which we consider important, but are **not easy** to do in *R* currently, particularly if you do not have a programming or statistics background.
+
+To fill this gap, we developed the `dmetar` package, which serves as the companion *R* package for this guide. The `dmetar` package has its own documentation, which can be found [here](dmetar.protectlab.org). Functions of the `dmetar` package provide additional functionality for the `meta` and `metafor` packages (and a few other, more advanced packages), which we will be using frequently in this guide. Most of the functions included in the `dmetar` package and how they can improve your meta-analysis workflow will be described in detail throughout the guide.
+
+```{block, type='rmdachtung'}
+Although highly recommended, it is **not essential** to have the `dmetar` package installed to work through the guide. For each function of the package used in the guide, we will also provide the source code, which can be used to save the function locally on your computer, and the additional *R* packages those functions rely on. 
+
+However installing the `dmetar` package beforehand is **much more convenient**, because all the functions will already be pre-installed on your computer.
+
+```
+
+<br></br>
+
+### Installation of the `dmetar` package
+
+
+**Current R version**
+
+To install the `dmetar` package, the *R* version of your computer must be 3.5 or higher. If you have (re-)installed *R* recently, this will probably be the case. To check if your R version is new enough, you can paste this line of code into the Console, and then hit **Enter**.
+
+```{r, eval=FALSE}
+R.Version()$version.string
+```
+
+This will display the current *R* version you have. If the *R* version is below 3.5, you will have to update your *R* version. A tutorial on how to do this can be found [here](https://www.linkedin.com/pulse/3-methods-update-r-rstudio-windows-mac-woratana-ngarmtrakulchol/).
+
+<br></br>
+
+**Devtools**
+
+If you want to install `dmetar`, one package already needs to be installed on your computer first. This package is called `devtools`. So, if `devtools` is not on your computer yet, you can install it like we did before:
+
+```{r, eval=FALSE}
+install.packages("devtools")
+```
+
+<br></br>
+
+**Installation process**
+
+You can then install `dmetar` using this line of code:
+
+```{r, eval=FALSE}
+devtools::install_github("MathiasHarrer/dmetar")
+```
+
+This will initiate the installation process. It is likely that the installation will take some time, because several other packages have to be installed along with the `dmetar` package for it to function properly. If you are having trouble installing the package, you can copy the error message and send it to **Mathias** (mathias.harrer@fau.de).
+
+<br></br>
 
 
 

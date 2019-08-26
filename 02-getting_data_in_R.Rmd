@@ -3,10 +3,9 @@
 ![](chappool.jpg)
 
 ```{block,type='rmdinfo'}
-This chapter will tell you about how you can **import** your effect size data in RStudio. We will also show you a few commands which make it easier to **manipulate data** directly in R.
+This chapter will tell you about how you can **import** your effect size data in RStudio. We will also show you a few commands which make it easier to **manipulate data** directly in *R*.
 
-Data preparation can be tedious and exhausting at times, but it is the backbone of all later steps when doing meta-analyses in R. We therefore have to pay **close attention** to preparing the data correctly before we can proceed.
-
+Data preparation can be tedious and exhausting at times, but it is the backbone of all later steps when doing meta-analyses in *R*. We therefore have to pay **close attention** to preparing the data correctly before we can proceed.
 
 ```
 
@@ -16,21 +15,43 @@ Data preparation can be tedious and exhausting at times, but it is the backbone 
 
 ## Data preparation in Excel
 
-### Setting the columns of the excel spreadsheet {#excel_preparation}
+To conduct Meta-Analyses in *R*, you need to have your study data prepared. In the following, we describe the (preferred) way in which you should structure your dataset to facilitate the import into RStudio. We do this for two types of data: **"raw" effect size data** and **pre-calculated effect size data**.
 
-To conduct Meta-Analyses in R, you need to have your study data prepared. For a standard meta-analysis, the following information is needed for every study.
+Usually, data imported into RStudio is stored in **Excel spreadsheets** first. We recommend to store your data there, because this makes it very easy to do the import.
 
-* The **names** of the individual studies, so that they can be easily identified later on. Usually, the first author and publication year of a study is used for this (e.g. "Ebert et al., 2018")
-* The **Mean** of both the Intervention and the Control group at the same assessment point
-* The **Standard Deviation** of both the Intervention and the Control group at the same assessment point
-* The **number of participants (N)** in each group of the trial
+```{block,type='rmdinfo'}
+**What to (not) to do in your Excel spreadsheet**
+
+* It is very important how you **name the columns of your spreadsheet**. If you already named the columns of your sheet adequately in Excel, you can save a lot of time because your data doesn't have to be transformed in RStudio later on. "Naming" the columns of the spreadsheet simply means to write the name of the variable into the first line of the column; RStudio will automatically detect that this is the name of the column then.
+
+* It **doesn't matter how columns are ordered in your Excel spreadsheet**. They just have to be labeled correctly.
+
+* There's also no need to **format** the columns in any way. If you type the column name in the first line of you spreadsheet, R will automatically detect it as a column name.
+
+* It's also important to know that the import **will distort letters like ä,ü,ö,á,é,ê, etc**. So be sure to transform them to "normal" letters before you proceed.
+
+* Make sure that your Excel file **only contains one sheet**. If you want to import Excel files with more than one sheet, you can have a look at the [`xlsx`](http://www.sthda.com/english/wiki/r-xlsx-package-a-quick-start-guide-to-manipulate-excel-files-in-r) package.
+
+* If you have **one or several empty rows or columns which used to contain data**, make sure to delete those columns/rows completely, because RStudio could think that these columns contain data and import them also.
+
+```
+
+
+
+### Setting the columns of the Excel spreadsheet (raw effect size data) {#excel_preparation}
+
+
+
+#### "Standard" effect size data (*M*, *SD*, *N*)
+
+For a "standard" meta-analysis which uses the mean, standard deviation, and sample size from both groups in a study, the following information is needed for every study.
+
+* The **names** of the individual studies, so that they can be easily identified later on. Usually, the first author and publication year of a study is used for this (e.g. "Ebert et al., 2018"). The names must be unique for each study.
+* The **Mean** of both the Intervention and the Control group at the same assessment point.
+* The **Standard Deviation** of both the Intervention and the Control group at the same assessment point.
+* The **number of participants ($N$)** in each group of the trial.
 * If you want to have a look at differences between various study subgroups later on, you also need a **subgroup code** for each study which signifies to which subgroup it belongs. For example, if a study was conducted in children, you might give it the subgroup code "children".
 
-  
-As per usual, such data is stored in **EXCEL spreadsheets**. We recommend to store your data there, because this makes it very easy to import data into RStudio.
-
-
-However, it is very important how you **name the columns of your spreadsheet**. If you name the columns of your sheet adequately in EXCEL already, you can save a lot of time because your data doesn't have to be transformed in RStudio later on. 
 
 **Here is how you should name the data columns in your EXCEL spreadheet containing your Meta-Analysis data**
   
@@ -38,24 +59,85 @@ However, it is very important how you **name the columns of your spreadsheet**. 
 ```{r,echo=FALSE}
 library(kableExtra)
 Package<-c("Author","Me","Se","Mc","Sc","Ne","Nc","Subgroup")
-Description<-c("This signifies the column for the study label (i.e., the first author)","The Mean of the experimental/intervention group","The Standard Deviation of the experimental/intervention group","The Mean of the control group","The Standard Deviation of the control group","The number of participants in the experimental/intervention group","The number of participats in the control group","This is the label for one of your Subgroup codes. It's not that important how you name it, so you can give it a more informative name (e.g. population). In this column, each study should then be given an subgroup code, which should be exactly the same for each subgroup, including upper/lowercase letters. Of course, you can also include more than one subgroup column with different subgroup codings, but the column name has to be unique")
+Description<-c("This signifies the column for the study label (i.e., the first author)","The Mean of the experimental/intervention group","The Standard Deviation of the experimental/intervention group","The Mean of the control group","The Standard Deviation of the control group","The number of participants in the experimental/intervention group","The number of participats in the control group","This is the label for one of your Subgroup codes. It's not that important how you name this column, so you can give it a more informative name (e.g. population). In this column, each study should then be given an subgroup code, which should be exactly the same for each subgroup, including upper/lowercase letters. Of course, you can also include more than one subgroup column with different subgroup codings, but the column name has to be unique")
 m<-data.frame(Package,Description)
 names<-c("Column", "Description")
 colnames(m)<-names
 kable(m)
 ```
 
-Note that it **doesn't matter how these columns are ordered in your EXCEL spreadsheet**. They just have to be labeled correctly.
+<br></br>
 
-There's also no need to **format** the columns in any way. If you type the column name in the first line of you spreadsheet, R will automatically detect it as a column name.
+#### Event rate data
 
-```{block,type='rmdachtung'}
-It's also important to know that the import **will distort letters like ä,ü,ö,á,é,ê, etc**. So be sure to transform them to "normal" letters before you proceed.
+For a meta-analysis of event rates, which uses the number of events and sample size from both groups in a study, the following information is needed for every study.
+
+* The **names** of the individual studies, so that they can be easily identified later on. Usually, the first author and publication year of a study is used for this (e.g. "Ebert et al., 2018"). The names must be unique for each study.
+* The **Number of events** of both the Intervention and the Control group at the same assessment point.
+* The **number of participants ($N$)** in each group of the trial.
+* If you want to have a look at differences between various study subgroups later on, you also need a **subgroup code** for each study which signifies to which subgroup it belongs. For example, if a study was conducted in children, you might give it the subgroup code "children".
+
+```{r,echo=FALSE}
+library(kableExtra)
+Package<-c("Author","Ee","Ne","Ec","Nc","Subgroup")
+Description<-c(
+  
+"This signifies the column for the study label (i.e., the first author)",
+
+"Number of events in the experimental treatment arm",
+
+"Number of participants in the experimental treatment arm",
+
+"Number of events in the control arm",
+
+"Number of participants in the control arm",
+
+
+"This is the label for one of your subgroup codes. It's not that important how you name it, so you can give it a more informative name (e.g. population). In this column, each study should then be given a subgroup code, which should be exactly the same for each subgroup, including upper/lowercase letters. Of course, you can also include more than one subgroup column with different subgroup codings, but the column name has to be unique")
+m<-data.frame(Package,Description)
+names<-c("Column", "Description")
+colnames(m)<-names
+kable(m)
 ```
 
-### Setting the columns of your sheet if you have calculated the effect sizes of each study already
+<br></br>
 
-If you have **already calculated the effect sizes for each study on your own**, for example using *Comprehensive Meta-Analysis* or *RevMan*, there's another way to prepare your data which makes things a little easier. In this case, you only have to include the following columns:
+#### Incidence rate data
+
+For a meta-analysis of incidence rates, which uses the number of events and person-time from both groups in a study, the following information is needed for every study.
+
+* The **names** of the individual studies, so that they can be easily identified later on. Usually, the first author and publication year of a study is used for this (e.g. "Ebert et al., 2018"). The names must be unique for each study.
+* The **Number of events** of both the Intervention and the Control group at the same assessment point.
+* The [**person-time at risk**](https://sph.unc.edu/files/2015/07/nciph_ERIC4.pdf) in each group of the trial.
+* If you want to have a look at differences between various study subgroups later on, you also need a **subgroup code** for each study which signifies to which subgroup it belongs. For example, if a study was conducted in children, you might give it the subgroup code "children".
+
+```{r,echo=FALSE}
+library(kableExtra)
+Package<-c("Author","event.e","time.e","event.c","time.c","Subgroup")
+Description<-c(
+  
+"This signifies the column for the study label (i.e., the first author)",
+
+"Number of events in the experimental treatment arm",
+
+"The person-time at risk in the experimental treatment arm",
+
+"Number of events in the control arm",
+
+"The person-time at risk in the control arm",
+
+
+"This is the label for one of your subgroup codes. It's not that important how you name it, so you can give it a more informative name (e.g. population). In this column, each study should then be given a subgroup code, which should be exactly the same for each subgroup, including upper/lowercase letters. Of course, you can also include more than one subgroup column with different subgroup codings, but the column name has to be unique")
+m<-data.frame(Package,Description)
+names<-c("Column", "Description")
+colnames(m)<-names
+kable(m)
+```
+
+
+### Setting the columns of the Excel spreadsheet (pre-calculated effect size data)
+
+If you have **already calculated the effect sizes for each study on your own**, for example using *Comprehensive Meta-Analysis*, *RevMan*, or one of the [**effect size calculators**](#effectsizecalculator) we present in this guide, there's another way to prepare your data which makes things a little easier. In this case, you only have to include the following columns:
 
 ```{r,echo=FALSE}
 library(kableExtra)
@@ -77,10 +159,10 @@ To get our data into R, we need to **save our data in a format and at a place wh
 
 ### Saving the data in the right format
 
-Generelly, finding the right format to import EXCEL can be tricky.
+Generelly, finding the right format to import Excel can be tricky.
 
-* If you're using a PC or Mac, it is advised to save your EXCEL sheet as a **comma-separated-values (.csv) file**. This can be done by clicking on "save as" and then choosing (.csv) as the output format in EXCEL.
-* With some PCs, RStudios might not be able to open such files, or the files might be distorted. In this case, you can also try to save the sheet as a normal **.xslx** EXCEL-file and try if this works.
+* If you're using a PC or Mac, it is advised to save your Excel sheet as a **comma-separated-values (.csv) file**. This can be done by clicking on "save as" and then choosing (.csv) as the output format in Excel.
+* With some PCs, RStudios might not be able to open such files, or the files might be distorted. In this case, you can also try to save the sheet as a normal **.xslx** Excel-file and try if this works.
 
 ### Saving the data in your working directory
 
@@ -124,10 +206,18 @@ load("Meta_Analysis_Data.RData")
 ```
 
 ```{r}
-madata<-Meta_Analysis_Data
+madata <- Meta_Analysis_Data
 ```
 
+This "copies" the data, and gives the copy the name `madata`.
+
 4. Now, let's have a look at the **structure of my data** using the `str()` function
+
+```{r, echo=FALSE}
+madata$`ROB streng`=NULL
+madata$`ROB superstreng`=NULL
+```
+
 
 ```{r}
 str(madata)
@@ -138,18 +228,22 @@ Although this output looks kind of messy, it's already very informative. It show
 **Here's a (shortened) table created for my data**
 
 ```{r, echo=FALSE}
+library(kableExtra)
+library(magrittr)
 madata.s<-madata
 madata.s$population=NULL
 madata.s$`type of students`=NULL
 madata.s$`prevention type`=NULL
 madata.s$gender=NULL
-madata.s$`mode of delivery`=NULL
 madata.s$`ROB streng`=NULL
 madata.s$`ROB superstreng`=NULL
+madata.s$`mode of delivery`=NULL
 madata.s$compensation=NULL
 madata.s$instruments=NULL
 madata.s$guidance=NULL
-kable(madata.s)
+madata.s %>% 
+  kable("html") %>%
+  kable_styling(font_size = 10)
 ```
   
 <br><br>
@@ -158,16 +252,20 @@ kable(madata.s)
 
 ## Data manipulation {#manipulate}
 
-Now that we have the Meta-Analysis data in RStudio, let's do a **few manipulations with the data**. These functions might come in handy when were conducting analyses later on.
+Now that we have the Meta-Analysis data in RStudio, let's do a **few manipulations with the data**. These functions might come in handy when we are conducting analyses later on.
 
 
-Going back to the output of the `str()` function, we see that this also gives us details on the type of column data we have stored in our data. There a different abbreviations signifying different types of data.
+Going back to the output of the `str()` function, we see that this also gives us details on the type of column data we have stored in our data. There are different abbreviations signifying different types of data.
 
 ```{r,echo=FALSE}
 library(kableExtra)
+library(magrittr)
 Package<-c("num","chr","log","factor")
 type<-c("Numerical","Character","Logical","Factor")
-Description<-c("This is all data stored as numbers (e.g. 1.02)","This is all data stored as words","These are variables which are binary, meaning that they signify that a condition is either TRUE or FALSE","Factors are stored as numbers, with each number signifying a different level of a variable. A possible factor of a variable might be 1 = low, 2 = medium, 3 = high")
+Description<-c("This is all data stored as numbers (e.g. 1.02).",
+               "This is all data stored as words.",
+               "These are variables which are binary, meaning that they signify that a condition is either TRUE or FALSE.",
+               "Factors are stored as numbers, with each number signifying a different level of a variable. A possible factor of a variable might be 1 = low, 2 = medium, 3 = high.")
 m<-data.frame(Package,type,Description)
 names<-c("Abbreviation", "Type","Description")
 colnames(m)<-names
@@ -178,9 +276,10 @@ kable(m)
 
 Let's say we have the subgroup **Risk of Bias** (in which the Risk of Bias rating is coded), and want it to be a factor with two different levels: "low" and "high".
 
-To do this, we need to the variable `ROB` to be a factor. However, this variable is currently stored as a character (`chr`). We can have a look at this variable by typing the name of our dataset, then adding the selector `$` and then adding the variable we want to have a look at.
+To do this, we need the variable `ROB` to be a factor. However, this variable is currently stored as a character (`chr`). We can have a look at this variable by typing the name of our dataset, then adding the selector `$` and then adding the variable we want to have a look at.
 
 ```{r,echo=FALSE}
+madata = Meta_Analysis_Data
 madata$ROB<-madata$`ROB streng`
 ```
 
@@ -217,9 +316,9 @@ intervention.type.logical
 We see that R has converted the character information into trues and falses for us. To check if this was done correctly, let's compare the original and the new variable
 
 ```{r}
-n<-data.frame(intervention.type.logical,madata$`intervention type`)
-names<-c("New", "Original")
-colnames(n)<-names
+n <- data.frame(intervention.type.logical,madata$`intervention type`)
+names <- c("New", "Original")
+colnames(n) <- names
 kable(n)
 ```
 
@@ -242,29 +341,31 @@ Let's say we want to have the studies by **Cavanagh et al.**, **Frazier et al.**
 The R code to store these three studies in a new dataset called `madata.new` looks like this:
 
 ```{r}
-madata.new<-dplyr::filter(madata,Author %in% c("Cavanagh et al.",
-                                               "Frazier et al.",
-                                               "Phang et al."))
+madata.new <- dplyr::filter(madata, Author %in% c("Cavanagh et al.",
+                                                  "Frazier et al.",
+                                                  "Phang et al."))
 ```
 
 Note that the `%in%`-Command tells the `filter` function to search for exactly the three cases we defined in the variable `Author`.
 Now, let's have a look at the new data `madata.new` we just created.
 
 ```{r,echo=FALSE}
-kable(madata.new)
+madata.new %>% 
+  kable("html") %>% 
+  kable_styling(font_size = 9)
 ```
 
 
-Note that the function can also be used for any other type of data and variable. We can also use it to e.g., only select studies which were coded as being a mindfulness study
+Note that the function can also be used for any other type of data and variable. We can also use it to, for example, only select studies which were coded as being a mindfulness study.
 
 ```{r}
-madata.new.mf<-dplyr::filter(madata,`intervention type` %in% c("mindfulness"))
+madata.new.mf <- dplyr::filter(madata,`intervention type` %in% c("mindfulness"))
 ```
 
 We can also use the `dplyr::filter()` function to exclude studies from our dataset. To do this, we only have to add `!` in front of the variable we want to use for filtering.
 
 ```{r}
-madata.new.excl<-dplyr::filter(madata,!Author %in% c("Cavanagh et al.",
+madata.new.excl <- dplyr::filter(madata,!Author %in% c("Cavanagh et al.",
                                                      "Frazier et al.",
                                                      "Phang et al."))
 
@@ -272,7 +373,7 @@ madata.new.excl<-dplyr::filter(madata,!Author %in% c("Cavanagh et al.",
 
 ### Changing cell values
 
-Sometimes, even when preparing your data in EXCEL, you might want to **change values in RStudio once you have imported your data**. 
+Sometimes, even when preparing your data in Excel, you might want to **change values in RStudio once you have imported your data**. 
 
 To do this, we have to select a cell in our data frame in RStudio. This can be done by adding `[x,y]` to our dataset name, where **x** signifies the number of the **row** we want to select, and **y** signifies the number of the **column**.
 
@@ -285,7 +386,7 @@ madata[6,1]
 We now see the **6th study** in our dataframe, and the value of this study for **Column 1 (the author name)** is displayed. Let's say we had a typo in this name and want to have it changed. In this case, we have to give this exact cell a new value.
 
 ```{r}
-madata[6,1]<-"Frogelli et al."
+madata[6,1] <- "Frogelli et al."
 ```
 
 Let's check if the name has changed.
@@ -299,4 +400,19 @@ You can also use this function to change any other type of data, including numer
 <br><br>
 
 ---
+
+## Exercises
+
+If you feel like it, you can test your previously acquired knowledge about data manipulation in *R* using this **interactive exercise**. To see if your code generates the right output, simply click on the green button. 
+
+The exercises are displayed in the code next to the `#` sign. Leave the first chunk of code as is, because this generates the data used for the exercises. Your dataset is named `data`.
+
+<iframe width='100%' height='700' src='https://rdrr.io/snippets/embed/?code=%23%20Generate%20the%20data%0AsuppressPackageStartupMessages(library(dplyr))%0Adata%20%3D%20data.frame(%22Author%22%20%3D%20c(%22Jones%22%2C%20%22Goldman%22%2C%20%22Townsend%22%2C%20%22Martin%22%2C%20%22Rose%22)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22TE%22%20%3D%20c(0.23%2C%200.56%2C%200.78%2C%200.23%2C%200.33)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22seTE%22%20%3D%20c(0.324%2C%200.235%2C%200.394%2C%200.275%2C%200.348)%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22subgroup%22%20%3D%20c(%22one%22%2C%20%22one%22%2C%20%22two%22%2C%20%22two%22%2C%20%22three%22))%0A%0A%23%20First%20exercise%3A%20show%20the%20variable%20%22Author%22%0A%0A%0A%23%20Second%20exercise%3A%20convert%20%22subgroup%22%20to%20a%20factor%0A%0A%0A%23%20Third%20exercise%3A%20select%20the%20%22Jones%22%20and%20%22Martin%22%20study%0A%0A%0A%23%20Fourth%20exercise%3A%20change%20the%20name%20of%20%22Rose%22%20to%20%22Bloom%22' frameborder='0'></iframe>
+
+
+
+<br></br>
+
+
+
 

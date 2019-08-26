@@ -34,7 +34,7 @@ favicon: "favicon.ico"
 ![](coverbild.jpg)
 
 ```{block,type='rmdinfo'}
-This guide shows you how to conduct Meta-Analyses in R from scratch. The focus of this guide is primarily on clinical outcome research in psychology. It is designed for staff and collaborators of the [**PROTECT Lab**](https://www.protectlab.org), which is headed by **Dr. David D. Ebert**.
+This guide shows you how to conduct Meta-Analyses in R from scratch. The focus of this guide is primarily on clinical outcome research in psychology. It was designed for staff and collaborators of the [**PROTECT Lab**](https://www.protectlab.org), which is headed by **Prof. Dr. David D. Ebert**.
 ```
 
 <br></br>
@@ -46,18 +46,20 @@ This guide shows you how to conduct Meta-Analyses in R from scratch. The focus o
 
 **The guide will show you how to:**
  
-* Get **R** and **RStudio** set for your Meta-Analysis
-* Get your data into R
-* **Prepare your data** for the meta-analysis
-* Perform **fixed-effect** and **random-effects** meta-analysis using the `meta` and `metafor`packages
-* Analyse the **heterogeneity** of your results
-* Tackle heterogeneity using **subgroup analyses** and **meta-regression**
-* Check if **selective outcome reporting (publication bias)** is a present in your data
-* Control for selective outcome reporting and publication bias
-* Analyse the **risk of bias** in your data
+* Get **R** and **RStudio** set for your Meta-Analysis.
+* Get your data into R.
+* **Prepare your data** for the meta-analysis.
+* Introduce you to the `dmetar` *R* package we built specifically for this guide.
+* Perform **fixed-effect** and **random-effects** meta-analysis using the `meta` and `metafor` packages.
+* Analyse the **heterogeneity** of your results.
+* Tackle heterogeneity using **subgroup analyses** and **meta-regression**.
+* Check if **selective outcome reporting (publication bias)**  or **p-hacking** is a present in your data
+* Summarize the **risk of bias** in your data
+* Calculate the **power** of a meta-analysis
+* **Convert effect sizes** reported in original studies to the ones you need for your meta-analysis.
 * Do advanced types of meta-analyses, such as 
-    + **network analyses** or 
-    + meta-analyses with **more than one outcome**
+    + **multilevel meta-analyses** or 
+    + **network meta-analyses**.
   
 
 ---
@@ -73,7 +75,7 @@ It is also beyond the scope of this guide to advise in detail which meta-analyti
 **Generally, there a two other sources to recommended when conducting Meta-Analyses:**
   
 * If you're looking for a easily digestable, hands-on introduction on how Meta-Analyses are conducted, we can recommend **Pim Cuijpers' online courses on Meta-Analysis**. The courses are freely available on YouTube. To have a look, click [here](https://www.youtube.com/watch?v=pP7_VBrG_TY&list=PL-h5cI5Bkvt0J-O0kq_9J9_aksWFPgR7s).
-* If you're interested in more details on how to conduct Meta-Analyses in R, you can either have a look at Wolfgang Viechtbauer's page for the `metafor` package ([Link](http://metafor-project.org)). Or you can consult a book on the `meta` package which was recently published [@schwarzer2015meta].
+* If you're interested in more details on how to conduct Meta-Analyses in R, you can either have a look at Wolfgang Viechtbauer's page for the `metafor` package ([Link](http://metafor-project.org)). Or you can consult a book written by Schwarzer and colleagues on the `meta` package [@schwarzer2015meta].
 
 <br><br>
 

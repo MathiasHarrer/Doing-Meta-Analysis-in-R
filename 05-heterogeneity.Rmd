@@ -269,70 +269,32 @@ dplyr::filter(m.outliers,lowerci > te.upper)
 
 We have now showed you how you can detect and remove **extreme effect sizes** (outliers) in your meta-analysis.
 
-As we've mentioned before in [Chapter](), however, it is not only statistical outliers which may cause concerns regarding the robustness of our pooled effect. It is also possible that **some studies in a meta-analysis exert a very high influence on our overall results**. For example, it could be the case that we find that an overall effect is not significant, when in fact, a highly significant effect is consistently found once we remove one particular study in our analysis. Such information is **highly important once we want to communicate the results of our meta-analysis to the public**.
+As we've mentioned before, however, it is not only statistical outliers which may cause concerns regarding the robustness of our pooled effect. It is also possible that **some studies in a meta-analysis exert a very high influence on our overall results**. For example, it could be the case that we find that an overall effect is not significant, when in fact, a highly significant effect is consistently found once we remove one particular study in our analysis. Such information is **highly important once we want to communicate the results of our meta-analysis to the public**.
 
-Here, we present techniques which dig a little deeper than simple outlier removal. To some extent, they are based on the **Leave-One-Out**-method, in which we **recalculate the results of our meta-analysis** $K-1$ times, each times leaving out one study. This way, we can more easily detect **studies which influence the overall estimate of our meta-analysis the most**, and lets us better assess if this **influence may distort our pooled effect** [@viechtbauer2010outlier]. Thus, such analyses are called **Influence Analyses**.
+Here, we present techniques which dig a little deeper than simple outlier removal. To some extent, they are based on the **Leave-One-Out**-method, in which we **recalculate the results of our meta-analysis** $K-1$ times, each times leaving out one study. This way, we can more easily detect **studies which influence the overall estimate of our meta-analysis the most**, and this lets us better assess if this **influence may distort our pooled effect** [@viechtbauer2010outlier]. Thus, such analyses are called **Influence Analyses**.
 
-We have created the **function** `influence.analysis` for you through which influences can be conducted all in one. For this function to work, you need to have the `meta` and `metafor` packages installed and loaded in your library.
+We have created the **function** `InfluenceAnalysis` for you, in which these analyses are conducted and results are visualized all in one. This function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
-Again, R doesn't know this function yet, so we have to let R learn it by **copying and pasting** the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
-
-```{r}
-influence.analysis<-function(data,method.tau,hakn){
-  
-  influence.data<-data
-  TE<-data$TE
-  seTE<-data$seTE
-  method.tau<-method.tau
-  hakn<-hakn
-  
-if(hakn == TRUE){
-  res <- rma(yi=TE, sei=seTE, measure="ZCOR", 
-           data=influence.data, 
-           method = paste(method.tau),
-           test="knha")
-  res
-  inf <- influence(res)
-  influence.data<-metainf(data)
-  influence.data$I2<-format(round(influence.data$I2,2),nsmall=2)
-  plot(inf)
-  baujat(data)
-  forest(influence.data,
-       sortvar=I2,
-       rightcols = c("TE","ci","I2"),
-       smlab = "Sorted by I-squared")
-  forest(influence.data,
-       sortvar=TE,
-       rightcols = c("TE","ci","I2"),
-       smlab = "Sorted by Effect size")
-
-} else {
-  
-  res <- rma(yi=TE, sei=seTE, measure="ZCOR", 
-           data=influence.data, 
-           method = paste(method.tau))
-  res
-  inf <- influence(res)
-  influence.data<-metainf(data)
-  influence.data$I2<-format(round(influence.data$I2,2),nsmall=2)
-  plot(inf)
-  baujat(data)
-  forest(influence.data,
-       sortvar=I2,
-       rightcols = c("TE","ci","I2"),
-       smlab = "Sorted by I-squared")
-  forest(influence.data,
-       sortvar=TE,
-       rightcols = c("TE","ci","I2"),
-       smlab = "Sorted by Effect size")
-}}  
+```{r, eval=FALSE}
+library(dmetar)
 ```
 
-The `influence.analysis` function has **three parameters** which we have to define in the function.
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/influence.analysis.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**. The function requires the `ggplot2`, `ggrepel`, `forcats`, `dplyr`, `grid`, `gridExtra`, `metafor`, and `meta` package to work.
+
+
+The `InfluenceAnalysis` function has **several parameters** which we have to define.
 
 ```{r,echo=FALSE}
-Code<-c("data","method.tau","hakn")
-Description<-c("The output object from our meta-analysis. In my case, this is 'data=m.hksj'","The method we used to estimate tau-squared (see Chapter 4.2.1). If you haven't set the estimator 'method.tau' in your analysis, use 'DL' because the DerSimonian-Laird estimator is the default in meta","Weather we used the Knapp-Hartung-Sidik-Jonkman adjustments. If yes, use hakn=TRUE. If not, use hakn=FALSE")
+Code<-c("x","random","subplot.heights", "subplot.widths", "forest.lims", "return.separate.plots", "text.scale")
+
+Description<-c("An object of class meta, generated by the metabin, metagen, metacont, metacor, metainc, or metaprop function",
+               "Logical. Should the random-effects model be used to generate the influence diagnostics? Uses the method.tau specified in the meta object if one of 'DL', 'HE', 'SJ', 'ML', 'REML', 'EB', 'HS' or 'GENQ' (to ensure compatibility with the metafor package). Otherwise, the DerSimonian-Laird ('DL'; DerSimonian & Laird, 1986) estimator is used. FALSE by default.",
+               "Concatenated array of two numerics. Specifies the heights of the first (first number) and second (second number) row of the overall results plot generated by the function. Default is c(30,18).",
+               "Concatenated array of two numerics. Specifies the widths of the first (first number) and second (second number) column of the overall results plot generated by the function. Default is c(30,30).",
+               "Concatenated array of two numerics. Specifies the x-axis limits of the forest plots generated by the function. Use 'default' if standard settings should be used (this is the default).",
+               "Logical. Should the influence plots be returned as seperate plots in lieue of returning them in one overall plot? Additionally returns a dataframe Data containing the data used for plotting. If set to TRUE, the ouput of the function must be saved in a variable; specific plots can then be accessed by selecting the plot element and using plot().",
+               "Positive numeric. Scaling factor for the text geoms used in the plot. Values <1 shrink the text, while values >1 increase the text size. Default is 1." )
+
 m<-data.frame(Code, Description)
 names<-c("Code", "Description")
 colnames(m)<-names
@@ -341,42 +303,61 @@ kable(m)
 
 This is how the function code looks for my `m.hksj` data:
 
+```{r, echo=FALSE, message=FALSE, error=FALSE}
+
+library(ggplot2)
+library(ggrepel)
+library(forcats)
+library(dplyr)
+library(grid)
+library(gridExtra)
+library(metafor)
+library(meta)
+
+source("dmetar/influence.analysis.R")
+
+```
+
+
 ```{r,eval=FALSE}
-influence.analysis(data=m.hksj,method.tau = "SJ", hakn = TRUE)
+InfluenceAnalysis(x = m.hksj,
+                  random = TRUE)
 ```
 
 Now, let's have a look at the output.
 
 
-```{r,echo=FALSE}
-  data<-m.hksj
-  TE<-data$TE
-  seTE<-data$seTE
-res <- rma(yi=TE, sei=seTE, measure="ZCOR", 
-           data=data, 
-           method = "SJ", 
-           test="knha")
-inf <- influence(res)
-influence.data.metainf<-metainf(data)
-influence.data.metainf$I2<-format(round(influence.data.metainf$I2,2),nsmall=2)
+```{r,echo=FALSE,fig.align='center',fig.cap="Influence Analyses", fig.height=7}
+library(png)
+library(grid)
+img <- readPNG("inflA1.png")
+grid.raster(img)
 ```
 
-```{r,echo=FALSE,fig.align='center',fig.cap="Influence Analyses"}
-plot(inf)
-```
-```{r,echo=FALSE, fig.align='center',fig.cap="Baujat Plot",fig.height=10,fig.width=10}
-baujat(data)
+```{r,echo=FALSE, fig.align='center',fig.cap="Baujat Plot",fig.height=6}
+library(png)
+library(grid)
+img <- readPNG("inflA2.png")
+grid.raster(img)
 ```
 
-```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses"}
-forest(influence.data.metainf,
-       sortvar=I2,
-       rightcols = c("TE","ci","I2"),
-       smlab = "Sorted by I-squared")
-forest(influence.data.metainf,
-       sortvar=TE,
-       rightcols = c("TE","ci","I2"),
-       smlab = "Sorted by Effect size")
+```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by effect size"}
+library(png)
+library(grid)
+img <- readPNG("inflA3.png")
+grid.raster(img)
+
+
+```
+
+```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by heterogeneity"}
+library(png)
+library(grid)
+
+
+
+img <- readPNG("inflA4.png")
+grid.raster(img)
 ```
 
 As you can see, the `influence.analysis` function gives us various types of **plots** as output. Let's interpret them one by one.
@@ -385,10 +366,10 @@ As you can see, the `influence.analysis` function gives us various types of **pl
 
 **Influence Analyses**
 
-In the first analysis, you can see different influence measures, for which we can see **graphs including each individual study of our meta-analysis**. This type of **influence analysis** has been proposed by Viechtbauer and Cheung [@viechtbauer2010outlier]. We'll discuss the most important ones here:
+In the first analysis, you can see different influence measures, for which we can see **graphs including each individual study of our meta-analysis**. This type of **influence analysis** has been proposed by Viechtbauer and Cheung [@viechtbauer2010outlier]. We'll discuss the most important subplots here:
 
-* **dffits**: The DIFFITS value of a study indicates in standard deviations how much the predicted pooled effect changes after excluding this study
-* **cook.d**: The **Cook's distance** resembles the **Mahalanobis distance** you may know from outlier detection in conventional multivariate statistics. It is the distance between the value once the study is included compared to when it is excluded
+* **dffits**: The DIFFITS value of a study indicates in standard deviations how much the predicted pooled effect changes after excluding this study.
+* **cook.d**: The **Cook's distance** resembles the **Mahalanobis distance** you may know from outlier detection in conventional multivariate statistics. It is the distance between the value once the study is included compared to when it is excluded.
 * **cov.r**: The **covariance ratio** is the determinant of the variance-covariance matrix of the parameter estimates when the study is removed, divided by the determinant of the variance-covariance matrix of the parameter estimates when the full dataset is considered. Importantly, values of cov.r < 1 indicate that removing the study will lead to a more precise effect size estimation (i.e., less heterogeneity).
 
 Usually, however, you don't have to dig this deep into the calculations of the individual measures. As a rule of thumb, **influential cases** are studies with **very extreme values in the graphs**. Viechtbauer and Cheung have also proposed cut-offs when to define a a study as an influential case, for example (with $p$ being the number of model coefficients and $k$ the number of studies):
@@ -396,27 +377,22 @@ Usually, however, you don't have to dig this deep into the calculations of the i
 $$ DFFITS > 3\times\sqrt{\frac{p}{k-p}}$$
 $$ hat > 3\times\frac{p}{k}$$
 
-If a case was determined being **an influential case using these cut-offs**, its value will be displayed in **red** (in our example, this is the case for study number 3).
+If a case was determined being **an influential case using these cut-offs**, its value will be displayed in **red** (in our example, this is the case for study "Dan", or Danitz-Orsillo).
 
 ```{block, type='rmdachtung'}
 Please note, as Viechtbauer & Cheung emphasize, that **these cut-offs are set on somewhat arbitrary thresholds**. Therefore, you should never only have a look on the color of the study, but the general structure of the graph, and interpret results in context.
 
-In our example, we see that while only Study 3 is defined as an influential case, there are **actually two spiked in most plots**, while the other studies all quite have the same value. Given this structure, we could also decide to define **Study 16** as an influential case too, because its values are very extreme too.
+In our example, we see that while only the study by Danitz-Orsillo is defined as an influential case, there are **actually two spiked in most plots**, while the other studies all quite have the same value. Given this structure, we could also decide to define **Study "Sha"** (Shapiro et al.) as an influential case too, because its values are very extreme too.
 ```
 
-Let's have a look what the **3rd and 16th study** in our `m.hksj` meta-analysis output were.
 
-```{r}
-m.hksj$studlab[c(3,16)]
-```
-
-This is an interesting finding, as we **detected the same studies when only looking at statistical outliers**. This further corroborates that these two studies could maybe have distorted our pooled effect estimate, and **might cause parts of the between-group heterogeneity we found in our meta-analysis**.
+In these analyses, we found that the studies "Danitz-Orsillo" and "Shapiro et al." might be influential. This is an interesting finding, as we **detected the same studies when only looking at statistical outliers**. This further corroborates that these two studies could maybe have distorted our pooled effect estimate, and **might cause parts of the between-group heterogeneity we found in our meta-analysis**.
 
 <br><br>
 
 **Baujat Plot**
 
-The Baujat Plot [@baujat2002graphical] is a diagnostic plot to detect studies **overly contributing to the heterogeneity of a meta-analysis**. The plot shows the contribution of each study to the overall heterogeneity as measured by Cochran's *Q* on the **horizontal axis**, and its **influence on the pooled effect size** on the vertical axis. As we want to assess heterogeneity and studies contributing to it, all studies **on the right side of the plot are important to look at**, as this means that they cause much of the heterogeneity we observe. **This is even more important when a study contributes much to the overall heterogeneity, while at the same time being not very influential concerning the overall pooled effect** (e.g., because the study had a very small sample size). Therefore, **all studies on the right side of the Baujat plot**, especially in the **lower part**, are important for us.
+The Baujat Plot [@baujat2002graphical] is a diagnostic plot to detect studies **overly contributing to the heterogeneity of a meta-analysis**. The plot shows the contribution of each study to the overall heterogeneity as measured by Cochran's $Q$ on the **horizontal axis**, and its **influence on the pooled effect size** on the vertical axis. As we want to assess heterogeneity and studies contributing to it, all studies **on the right side of the plot are important to look at**, as this means that they cause much of the heterogeneity we observe. **This is even more important when a study contributes much to the overall heterogeneity, while at the same time being not very influential concerning the overall pooled effect** (e.g., because the study had a very small sample size). Therefore, **all studies on the right side of the Baujat plot**, especially in the **lower part**, are important for us.
 
 As you might have already recognized, the only two **studies we find in those regions of the plot are the two studies we already detected before** (Danitz & Orsillo, Shapiro et al.). These studies don't have a large impact on the overall results (presumably because they are very small), but they do **add substantially to the heterogeneity we found in the meta-analysis**.
 
@@ -426,21 +402,11 @@ As you might have already recognized, the only two **studies we find in those re
 
 In these to forest plots, we see the **pooled effect recalculated, with one study omitted each time**. There are two plots, which provide the same data, but are ordered by different values.
 
-The **first plot is ordered by heterogeneity (low to high), as measured by *I*^2^ **. We see in the plot that the lowest *I*^2^ heterogeneity is reached (as we've seen before) by omitting the studies **Danitz & Orsillo** and **Shapiro et al.**. This again corroborates our finding that these two studies were the main "culprits" for the between-study heterogeneity we found in the meta-analysis.
+The **first plot is ordered by heterogeneity (low to high), as measured by $I^2$**. We see in the plot that the lowest $I*^2$ heterogeneity is reached (as we've seen before) by omitting the studies **Danitz & Orsillo** and **Shapiro et al.**. This again corroborates our finding that these two studies were the main "culprits" for the between-study heterogeneity we found in the meta-analysis.
 
 The **second plot is ordered by effect size (low to high)**. Here, we see how the overall effect estimate changes with one study removed. Again, as the two outlying studies have very high effect sizes, we find that the overall effect is smallest when they are removed.
 
 All in all, the results of our **outlier and influence analysis** in this example point in the **same direction**. The two studies are probably **outliers which may distort the effect size estimate**, as well as its **precision**. We should therefore also conduct and report a **sensitivity analysis in which these studies are excluded**.
-
-<br><br>
-
-```{block,type='rmdachtung'}
-**The influence analysis function for fixed-effect-model meta-analyses**
-
-The `influence.analysis` function we presented above can only be used for **random-effect meta-analyses**. If you want to perform influence analyses for meta-analyses in **which you pooled the effects with a fixed-effect model**, you will have to use the `influence.analysis.fixed` function, which can be found [here](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/influence_analysis_function_for_fixed_effect_model.R).
-
-To use this function, **you only have to set the parameter** `data`, as `method.tau` and `hakn` only apply to random-effect-models.
-```
 
 
 <br><br>
