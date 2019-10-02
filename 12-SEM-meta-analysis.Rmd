@@ -1,0 +1,23 @@
+# Structural Equation Modeling Meta-Analysis {#sem}
+
+![](sem_title.jpg)
+
+$$ $$
+
+In the past Chapter on [Three-Level Meta-Analysis Models](#mlma), we were able to generalize our conceptual knowledge on meta-analyses by showing that meta-analysis models have an **inherent multilevel structure**, which can be used to extend conventional meta-analysis models to three-level models. A peculiar thing about statistical methods is that they are often put into seperate "boxes", and treated as unrelated in research and practice, when in fact they are not. For many social scientists, for example, it is often surprising to find out that Analysis of Variance (ANOVA) and dummy-coded Regression are doing essentially the [same thing](https://www.theanalysisfactor.com/why-anova-and-linear-regression-are-the-same-analysis/) [@montgomery2001design]. This often happens because two methods are traditionally used in different contexts, and taught as separate entities. 
+
+It might thus have been only fairly recently that researchers recognized that **multilevel models** are simply a special form of a **Structural Equation Model**, or **SEM** [@bauer2003estimating; @mehta2005people]. As said before, every meta-analysis model is in itself a multilevel model, so this association also has exciting implications for meta-analysts: **we can treat our meta-analysis as a structural equation model**, in which the pooled effect size we want to estimate is the **latent** (or unobserved) variable [@cheung2015metasem; @cheung2015meta]. This does not only mean that we can model previous types of meta-analyses we presented before from a SEM perspective, but also allows us to use te
+
+
+
+
+
+
+
+
+
+
+
+
+
+

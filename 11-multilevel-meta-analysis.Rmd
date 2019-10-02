@@ -152,67 +152,26 @@ Under `Test for Heterogeneity`, we see that the variance of effect sizes within 
 
 ### Distribution of total variance
 
-As mentioned before, what we're actually interested in is the **distribution of variance over the three levels of our model**. Cheung (2014) provides a formula to estimate the sampling variance, which is needed to calculate the variance proportions for each level. We have have programmed a function called `variance.distribution.3lm`, which implements this formula. The code for the function can be seen below. Parts of this code were adapted from Assink and Wibbelink [@assink2016fitting].
+As mentioned before, what we're actually interested in is the **distribution of variance over the three levels of our model**. Cheung (2014) provides a formula to estimate the sampling variance, which is needed to calculate the variance proportions for each level. We have have prepared a function called `mlm.variance.distribution`, which implements this formula. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
-R doesn't know this function yet, so we have to let R learn it copying and pasting the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
-
-```{r, fig.height=3}
-variance.distribution.3lm <- function(data, m){
-  
-  # Calculate estimated sampling variance and proportions across levels  
-  data <- data
-    m <- m
-    n <- length(data$v)
-    vector.inv.var <- 1/(data$v)
-    sum.inv.var <- sum(vector.inv.var)
-    sum.sq.inv.var <- (sum.inv.var)^2
-    vector.inv.var.sq <- 1/(data$v^2)
-    sum.inv.var.sq <- sum(vector.inv.var.sq)
-    num <- (n-1)*sum.inv.var
-    den <- sum.sq.inv.var - sum.inv.var.sq
-    est.samp.var <- num/den
-    level1<-((est.samp.var)/(m$sigma2[1]+m$sigma2[2]+est.samp.var)*100)
-    level2<-((m$sigma2[1])/(m$sigma2[1]+m$sigma2[2]+est.samp.var)*100)
-    level3<-((m$sigma2[2])/(m$sigma2[1]+m$sigma2[2]+est.samp.var)*100)
-    Level<-c("level 1", "level 2", "level 3")
-    Variance<-c(level1, level2, level3)
-    df<-data.frame(Level, Variance)
-    df1<-df
-    colnames(df1) <- c("Level", "% of total variance")
-    
-    # Generate plot
-  df$distribution<-"Distribution"
-  df$Level<-factor(df$Level, levels(df$Level)[c(3,2,1)])
-  g <- ggplot(df, aes(fill=Level, y=Variance, x=distribution)) + 
-    geom_bar(stat="identity", position="fill", width = 0.3) + coord_flip(ylim = c(1,0)) + scale_y_continuous(labels = scales::percent)+
-      theme(axis.title.x=element_blank(),
-        axis.title.y=element_blank(),
-        axis.ticks.y=element_blank(),
-        axis.text.y = element_blank(),
-        axis.line.x = element_line(colour = "black",
-                                   size = 0.5, linetype = "solid"),
-        legend.position = "bottom",
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.background = element_blank(),
-        legend.background = element_rect(linetype="solid",
-                                         colour ="black"),
-        legend.title = element_blank(),
-        legend.key.size = unit(0.75,"cm")) + guides(fill = guide_legend(reverse = TRUE))
-  return(list(g, df1))
-}
+```{r, eval=FALSE}
+library(dmetar)
 ```
 
-Please be aware that the function needs `ggplot2` installed and loaded to work. There are only two parameters: `data`, the data we used for our three-level model (in which `v` signifies the effect size), and `m`, the model we just fitted using `rma.mv`. Let's have a look:
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/mlm.variance.distribution.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `ggplot2` package to work.
 
-```{r, fig.height=3}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+source("dmetar/mlm.variance.distribution.R")
 library(ggplot2)
-variance.distribution.3lm(data = mlm.data,
-                          m = full.model)
 ```
 
+We only have to specify one parameter: `x`, the model we just fitted using `rma.mv`. Let's have a look:
 
-From the outputs, we see that about 8.94% of the overall variance can be attributed to level 1, 23.92% to level 2, and as much as 67.15% to level 3. 
+```{r, fig.height=6, fig.width=6, fig.align="center"}
+mlm.variance.distribution(x = full.model)
+```
+
+From the outputs, we see that about 8.94% of the overall variance can be attributed to level 1, 23.92% to level 2, and as much as 67.15% to level 3. The variance proportions at level 2 and 3 are equivalent to the between-study heterogeneity $I^2$ we covered in [Chapter 6](#heterogeneity). However, in the context of three-level meta-analysis models, there are three types of $I^2$ values: $I^2_{Level2}$, which describes the amount of within-cluster heterogeneity, $I^2_{Level3}$, representing the amount of between-cluster heterogeneity, and $I^2_{total}$, which is the total amount of heterogeneity not attributable to sampling error. $I^2_{total}$ is simply the sum of the $I^2$ values at level 2 and level 3.
 
 ### Comparing the fit
 

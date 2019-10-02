@@ -38,8 +38,8 @@ As a prerequisite for this guide, you need to have **RStudio** and a few essenti
 ```{r,echo=FALSE}
 library(kableExtra)
 Package<-c("tidyverse","meta","metafor")
-Description<-c("This is a large bundle of packages which make it easy to manipulate and visualize data in R. Function included in the tidyverse have become very popular in the R community in recent years, and are used by many researchers, programmers and data scientists. If you want to learn more about the tidyverse, you can click on this link: https://www.tidyverse.org/.", 
-               "This package contains functions which make it easy to run different types of meta-analyses. We will primarily focus on this package in the guide, because it easy to use, well documentated, and very versatile. More info on the meta package can be found here: http://www.imbi.uni-freiburg.de/lehre/lehrbuecher/meta-analysis-with-r.", 
+Description<-c("This is a large bundle of packages which make it easy to manipulate and visualize data in R. Functions included in the tidyverse have become very popular in the R community in recent years, and are used by many researchers, programmers and data scientists. If you want to learn more about the tidyverse, you can click on this link: https://www.tidyverse.org/.", 
+               "This package contains functions which make it easy to run different types of meta-analyses. We will primarily focus on this package in the guide, because it is easy to use, well documentated, and very versatile. More info on the meta package can be found here: http://www.imbi.uni-freiburg.de/lehre/lehrbuecher/meta-analysis-with-r.", 
                "The metafor package is also dedicted to conducting meta-analyses, and a true 'powerhouse' in terms of functionality. The package also provides more advanced tools, but may be a little involved for first time R users. However, because we will use this package at times in later chapters, and because metafor is used by the meta package for many applications, it is best to have it installed. The metafor package also has an excellent documentation for various meta-analysis-related topics, which can be found here: http://www.metafor-project.org/doku.php/metafor.")
 m<-data.frame(Package,Description)
 names<-c("Package", "Description")
@@ -109,7 +109,7 @@ grid.raster(img)
 
 In this guide, we want to make conducting meta-analyses as accessible and easy as possible for you as a researcher. Although there are fantastical packages like the `meta` and `metafor` package which do most of the heavy lifting, there are still some aspects of meta-analyses in the biomedical field and psychology which we consider important, but are **not easy** to do in *R* currently, particularly if you do not have a programming or statistics background.
 
-To fill this gap, we developed the `dmetar` package, which serves as the companion *R* package for this guide. The `dmetar` package has its own documentation, which can be found [here](dmetar.protectlab.org). Functions of the `dmetar` package provide additional functionality for the `meta` and `metafor` packages (and a few other, more advanced packages), which we will be using frequently in this guide. Most of the functions included in the `dmetar` package and how they can improve your meta-analysis workflow will be described in detail throughout the guide.
+To fill this gap, we developed the `dmetar` package, which serves as the companion *R* package for this guide. The `dmetar` package has its own documentation, which can be found [here](https://dmetar.protectlab.org). Functions of the `dmetar` package provide additional functionality for the `meta` and `metafor` packages (and a few other, more advanced packages), which we will be using frequently in this guide. Most of the functions included in the `dmetar` package and how they can improve your meta-analysis workflow will be described in detail throughout the guide.
 
 ```{block, type='rmdachtung'}
 Although highly recommended, it is **not essential** to have the `dmetar` package installed to work through the guide. For each function of the package used in the guide, we will also provide the source code, which can be used to save the function locally on your computer, and the additional *R* packages those functions rely on. 
@@ -123,19 +123,19 @@ However installing the `dmetar` package beforehand is **much more convenient**, 
 ### Installation of the `dmetar` package
 
 
-**Current R version**
+#### Current R version
 
-To install the `dmetar` package, the *R* version of your computer must be 3.5 or higher. If you have (re-)installed *R* recently, this will probably be the case. To check if your R version is new enough, you can paste this line of code into the Console, and then hit **Enter**.
+To install the `dmetar` package, the *R* version of your computer must be 3.5.2 or higher. If you have (re-)installed *R* recently, this will probably be the case. To check if your R version is new enough, you can paste this line of code into the Console, and then hit **Enter**.
 
 ```{r, eval=FALSE}
 R.Version()$version.string
 ```
 
-This will display the current *R* version you have. If the *R* version is below 3.5, you will have to update your *R* version. A tutorial on how to do this can be found [here](https://www.linkedin.com/pulse/3-methods-update-r-rstudio-windows-mac-woratana-ngarmtrakulchol/).
+This will display the current *R* version you have. If the *R* version is below 3.5.2, you will have to update your *R* version. A tutorial on how to do this can be found [here](https://www.linkedin.com/pulse/3-methods-update-r-rstudio-windows-mac-woratana-ngarmtrakulchol/).
 
 <br></br>
 
-**Devtools**
+#### Devtools
 
 If you want to install `dmetar`, one package already needs to be installed on your computer first. This package is called `devtools`. So, if `devtools` is not on your computer yet, you can install it like we did before:
 
@@ -145,7 +145,7 @@ install.packages("devtools")
 
 <br></br>
 
-**Installation process**
+#### Installation process
 
 You can then install `dmetar` using this line of code:
 
@@ -153,7 +153,73 @@ You can then install `dmetar` using this line of code:
 devtools::install_github("MathiasHarrer/dmetar")
 ```
 
-This will initiate the installation process. It is likely that the installation will take some time, because several other packages have to be installed along with the `dmetar` package for it to function properly. If you are having trouble installing the package, you can copy the error message and send it to **Mathias** (mathias.harrer@fau.de).
+This will initiate the installation process. It is likely that the installation will take some time, because several other packages have to be installed along with the `dmetar` package for it to function properly. 
+
+During the installation process, the installation manager may ask you if you want to update existing *R* packages on your computer. The output may look something like this:
+
+```
+These packages have more recent versions available.
+Which would you like to update?
+
+1: All                          
+2: CRAN packages only            
+3: None                          
+4: ggpubr (0.2.2 -> 0.2.3) [CRAN]
+5: zip    (2.0.3 -> 2.0.4) [CRAN]
+
+Enter one or more numbers, or an empty line to skip updates:
+```
+
+When you get this message, it is best to first tell the installation manager that no packages should be updated. In this example, this means pasting `3` into the console and then hitting **Enter**. In the same vein, when the installation manager asks this question:
+
+```
+ There are binary versions available but the source versions are later:
+ 
+ [...]
+ 
+  Do you want to install from sources the package which needs compilation?
+  y/n: 
+```
+
+It is best to first choose `n` (no). If the installation fails with these strategies, run the installation again, updating all packages this time.
+
+```{block, type='rmdachtung'}
+**"Failed to install 'unknown package' from GitHub"**
+
+After having installed `devtools`, and then proceeding with the installation of the `dmetar` package, it is possible that the installation does not start and that you get the following error message:
+
+![](error_server_timeout.png){width=500px}
+
+This error message can have various reasons, depending on your internet connection, location, operating system, and/or *R* version (see [thread](https://github.com/IRkernel/IRkernel/issues/493) for a similar issue). If you get this error message, you can try to download the `dmetar` package directly from [GitHub](https://github.com/MathiasHarrer/dmetar). On the GitHub site, click on the button **Clone or download**, and then on **Download ZIP**.
+
+![](github_download.png){width=250px}
+
+After downloading, unzip the ZIP-folder, and drag the **dmetar-master** folder inside to a meaningful location on your computer. You can then install the `dmetar` package directly from your computer using the code shown below.
+
+```
+
+**For Windows:**
+
+```{r, eval=FALSE}
+devtools::install("C:\\Path\\To\\The\\Folder\\dmetar-master")
+```
+
+**For Mac:**
+
+```{r, eval=FALSE}
+devtools::install("~/Path/To/The/Folder/dmetar-master")
+```
+
+Where you have to replace the path shown in the above examples with the path to the **dmetar-master** folder on your computer.
+
+**After the** `dmetar` **package is installed successfully, you can load it from your library:**
+
+```{r, eval=FALSE}
+library(dmetar)
+```
+
+
+If you are having trouble installing the package, you can copy the **entire output of the installation process**, including the **code** you entered, and the **error message** you receive, and send it to **Mathias** (mathias.harrer@fau.de).
 
 <br></br>
 
