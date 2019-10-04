@@ -1,0 +1,7 @@
+# Dataset Download {-}
+
+Here are the **links** to the datasets used in this guide. You can download the data set on the GitHuB page, drag it into your working directory folder, and then **click** on it in the file viewer in RStudio to import them into your environment.
+
+* `madata`: https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/Meta_Analysis_Data.RData mm
+*
+* m

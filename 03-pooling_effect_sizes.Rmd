@@ -385,6 +385,7 @@ metacont$Me<-as.numeric(metacont$Me)
 metacont$Se<-as.numeric(metacont$Se)
 metacont$Mc<-as.numeric(metacont$Mc)
 metacont$Sc<-as.numeric(metacont$Sc)
+save(metacont, file = "_data/metacont_data.RData")
 ```
 
 ```{r}
@@ -562,7 +563,7 @@ However, it also becomes clear that **all studies** clearly follow this trend: w
 
 To conduct meta-analyses using incidence rate data, so-called **person-time** data has to be collected or calculated by hand. What it basically needed to calculate person-time data is the **number of events** and the **timeframe** during which they occurred. You can find a general introduction into this topic [here](https://sph.unc.edu/files/2015/07/nciph_ERIC4.pdf), and this [quick course](https://www.cdc.gov/ophss/csels/dsepd/ss1978/lesson3/section2.html) by the Centers for Disease Control and Prevention gives a hands-on introduction on how person-time data is calculated.
 
-As an example, i will use my `IRR.data.RData` dataset, in which the person-time (in my case, person-year) is stored in the `time.e` and `time.c` column for the experimental and control group, respectively. The `event.e` and `event.c` column contains the number of **events** (in my case, depression onsets) for both groups.
+As an example, i will use my `IRR.data` dataset, in which the person-time (in my case, person-year) is stored in the `time.e` and `time.c` column for the experimental and control group, respectively. The `event.e` and `event.c` column contains the number of **events** (in my case, depression onsets) for both groups.
 
 ```{r, echo=FALSE}
 load("_data/IRR.data.RData")
