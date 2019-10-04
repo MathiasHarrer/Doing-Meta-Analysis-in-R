@@ -1,3 +1,5 @@
+# (PART) Helpful Tools {-}
+
 # Effect size calculators {#effectsizecalculator}
 
 ![](effect.jpg)

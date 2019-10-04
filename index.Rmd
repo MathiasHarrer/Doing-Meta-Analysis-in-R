@@ -29,6 +29,8 @@ description: "This is a guide on how to conduct Meta-Analysis in R."
 favicon: "favicon.ico"
 ---
 
+# (PART) Introduction & R Basics {-}
+
 # About this Guide
 
 ![](coverbild.jpg)

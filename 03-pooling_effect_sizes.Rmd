@@ -1,3 +1,5 @@
+# (PART) Meta-Analysis in R {-}
+
 # Pooling Effect Sizes {#pool}
 
 ![](pooling.jpg)

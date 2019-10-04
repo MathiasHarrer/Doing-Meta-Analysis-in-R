@@ -511,3 +511,14 @@ sem.path = meta2semPlot(random2)
 labels = c("Resilience","Emotion\nRegulation","Coping","Depres-\nsion")
 semPaths(sem.path, whatLabels = "est", edge.color = "black", layout="tree2", rotation=2,
          nodeLabels = labels)
+
+# Insomnia: Sleep Quality, Sleep Latency, Sleep Efficiency
+# Lassitude: Daytime Dysfunction, Hypersomnia
+
+Digman97$data
+
+# 7 studies
+
+library(purrr)
+
+map(Digman97$data, )
