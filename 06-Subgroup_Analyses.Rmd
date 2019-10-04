@@ -1,6 +1,6 @@
 # Subgroup Analyses {#subgroup}
 
-![](subgroup.jpg)
+![](_figs/subgroup.jpg)
 
 In [Chapter 6](#heterogeneity), we discussed in depth why **between-study heterogeneity** is such an important issue in interpreting the results of our meta-analysis, and how we can **explore sources of heterogeneity** using [outlier](#outliers) and [influence analyses](#influenceanalyses).
 
@@ -97,7 +97,7 @@ In my `madata` dataset, which i used previously to generate my meta-analysis out
 The function to do a subgroup analysis using the mixed-effects-model with these parameters looks like this.
 
 ```{r,echo=FALSE}
-load("Meta_Analysis_Data.RData")
+load("_data/Meta_Analysis_Data.RData")
 madata = Meta_Analysis_Data
 m.hksj<-metagen(TE, seTE, data=madata, method.tau = "SJ", hakn = TRUE, studlab = paste(Author), comb.random = TRUE)
 ```

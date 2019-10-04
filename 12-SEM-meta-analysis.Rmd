@@ -1,6 +1,6 @@
 # Structural Equation Modeling Meta-Analysis {#sem}
 
-![](sem_title.jpg)
+![](_figs/sem_title.jpg)
 
 $$ $$
 
@@ -13,7 +13,7 @@ $$ ~ $$
 
 ## The Idea behind Meta-Analytic SEM {#sem_about}
 
-![](SEM_titel2.jpg)
+![](_figs/SEM_titel2.jpg)
 
 ```{block, type='rmdinfo'}
 **What is Structural Equation Modeling?**
@@ -61,7 +61,7 @@ In this model, $x_i$ and $y_i$ are the observed variables. There are no unobserv
 **Using these components, we can build a graphical model for a simple univariate linear regression:**
 
 
-![](regression_path.png)
+![](_figs/regression_path.png)
 
 We can also use this graphical model as a starting point to reassemble the regression model equation. From the model, we can infer that $y$ is influenced by two components: $x \times \beta_1$ and $1 \times \beta_0$. If we add these two parts together, we again arrive at the formula for $\hat{y}$ from before. 
 
@@ -69,25 +69,25 @@ We can also use this graphical model as a starting point to reassemble the regre
 
 There are several common ways to represent SEM mathematically through matrices [@joreskog2006lisrel; @muthen2012mplus; @mcardle1984some]. Here, we will focus on the **Reticular Action Model** formulation, or **RAM** [@mcardle1984some], because this formulation is used by the `metaSEM` package we will be introducing later on. In the RAM, four matrices are specified: $\mathbf{F}$, $\mathbf{A}$, $\mathbf{S}$ and $\mathbf{M}$. Because the $\mathbf{M}$ matrix is not necessary to fit the meta-analytic SEM we will present later, we omit it here (see @cheung2015meta for a more extensive introduction). We will now specify the remaining three matrices for our linear regression from before. The three matrices all have the same number of rows and columns, corresponding with the (manifest and latent) variables we have in our model: $x$ and $y$. The generic structure in our regression example for all matrices therefore looks like this:
 
-![](M1.png)
+![](_figs/M1.png)
 
 **The $\mathbf{A}$ Matrix: Single Arrows**
 
 The $\mathbf{A}$ matrix represents the asymmetrical (single) arrows in our path model. The way to fill this matrix is to search for the matrix **column entry** of the variable in which the arrow starts ($x$), and then for the matrix **row entry** of the variable in which the arrow ends ($y$). We put the value of our arrow, $\beta_1$, where the selected column and row intersect in the matrix ($i_{y,x}$). Given that there are no more paths between the variables in our matrix, we fill all other fields with $0$. The $\mathbf{A}$ matrix for our example therefore looks like this:
 
-![](M2.png)
+![](_figs/M2.png)
 
 **The $\mathbf{S}$ Matrix: Double Arrows/Variances**
 
 The $\mathbf{S}$ matrix represents the (co)variances we want to estimate for the included variables. For $x$, our predictor, we want to estimate the variance $\sigma^{2}_{x}$. For our estimated regression target $\hat{y}$, we want to know the error variance $\sigma^{2}_{e_y}$. We therefore specify $\mathbf{S}$ like this:
 
-![](M4.png)
+![](_figs/M4.png)
 
 **The $\mathbf{F}$ Matrix: Observed Variables**
 
 The $\mathbf{F}$ matrix allows us to specify the observed (vs. latent) variables in our model. To specify that a variable has been observed, we simply insert $1$ in the respective diagonal field of the matrix. Given that both $x$ and $y$ are observed in our model, we put $1$ in all diagonal fields of the matrix:
 
-![](M3.png)
+![](_figs/M3.png)
 
 Once these matrices are set, it is possible to estimate the parameters in our SEM, and to derive how good the specified model fits the data using matrix algebra and **Maximum-Likelihood** estimation. We omit how these steps are performed here. If you are interested in understanding the details behind this step, you can have a look at @cheung2015meta, @mcardle1984some, or this [blog post](https://towardsdatascience.com/probability-concepts-explained-maximum-likelihood-estimation-c7b4342fdbb1). 
 
@@ -116,7 +116,7 @@ In a random-effects model, we assume that even the true effect size for $k$ is o
 
 It is quite straightforward to represent this model as a SEM graph if we use the variables on level 1 as **latent variables** to "explain" how the effect sizes we observed came into being [@cheung2015meta]:
 
-![](REM_SEM.png)
+![](_figs/REM_SEM.png)
 
 In this graphical model, it becomes clear that the observed effect size $\hat{\theta}_k$ in the $k$th study is "influenced" by two arms: by the sampling error $\epsilon_k$ with variance $v_k$, and the true effect size $\theta_k$ with variance $\tau^2$.
 
@@ -135,9 +135,11 @@ Where $\mathbf{r}$ is a transformation of the pooled correlation matrix. The imp
 
 ## Multivariate Meta-Analysis
 
-![](MVMA.jpg)
+![](_figs/MVMA.jpg)
 
+```{block, type='rmdinfo'}
 Now it is time to delve into our first worked example of a meta-analytic SEM using *R*. We will begin by using the SEM-based approach for **multivariate meta-analysis**, which has not been covered before. In multivariate meta-analyses, each study contributes more than just one effect size at the same time. This may be helpful in cases where we are studying a problem or condition for which there are several main outcomes, not just one. For example, for some type of treatment, there could be two types of outcomes which are deemed as important in the literature, and are thus assessed in most studies [@schwarzer2015meta]. In multivariate meta-analyses, we can estimate the effect sizes for both outcomes simultaneously in one model. Taking the correlation between the two outcomes into account, we can also determine if **studies with a high effect size on one outcome also have higher effect sizes on the other outcome**, or if there is no, or a negative relationship.
+```
 
 It is of note here that multivariate meta-analysis can also be performed outside a SEM framework [@schwarzer2015meta]. Nevertheless, as an introduction, we will to show you how multivariate meta-analysis can be performed from a SEM perspective. In this and the following examples, we will work with `metaSEM`, a magnificent package for meta-analytic SEM developed by Mike Cheung [@cheungpackage]. To begin, as always, install the `metaSEM` package and load it from your library.
 
@@ -150,7 +152,7 @@ For my multivariate meta-analysis, i will use the `dat.da` dataset. This is a fi
 **Let's have a look at the data first.**
 
 ```{r, echo=FALSE}
-load("dat_da.rda")
+load("_data/dat_da.rda")
 ```
 
 
@@ -281,22 +283,26 @@ $$~$$
 
 ## Confirmatory Factor Analysis
 
-![](sem_tree.jpg)
+![](_figs/sem_tree.jpg)
+
+```{block, type='rmdinfo'}
 
 **Confirmatory Factor Analysis** (**CFA**) is a popular SEM method in which one specifies how observed variables relate to assumed latent variables [@thompson2004exploratory]. CFA is often used to evaluate the psychometric properties of questionnaires or other assessments. It allows researchers to determine if the variables they assess indeed measure one or more latent variables, and how these latent variables relate to each other. For frequently used questionnaires, there are often many studies which report the correlations between the different items of the questionnaires. Such data can be used for meta-analytic SEM, which allows us to **evaluate which latent variable (or factor) structure** is the **most appropriate** based on all available evidence.
 
-In this example, let us assume that we want to confirm the latent factor structure of a **questionnaire for sleep problems**. The questionnaire is assumed to measure two distinct latent variables, which together characterize sleep problems: **insomnia** and **lassitude** (in fact @koffel2009two argue that sleep complaints do indeed follow this structure). For our questionnaire, we have created a fictitious dataset, `dat.cfa` (based on the `Digman97` data in the `metaSEM` package) which contains 14 independent studies which report the correlations between the different symptoms of sleep complaints that our questionnaire measures: **sleep quality**, **sleep latency**, **sleep efficiency**, **daytime dysfunction** and **hypersomnia** (i.e., sleeping too much). We assume that the first three symptoms are related, because they all measure insomnia as a latent variable, whereas daytime dysfunction and hypersomnia are related because they are symptoms of the lassitude factor. 
+```
+
+In this example, let us assume that we want to confirm the latent factor structure of a **questionnaire for sleep problems**. The questionnaire is assumed to measure two distinct latent variables, which together characterize sleep problems: **insomnia** and **lassitude** (in fact @koffel2009two argue that sleep complaints do indeed follow this structure). For our questionnaire, we have created a fictitious dataset, `dat.cfa` (based on the `Digman97` data in the `metaSEM` package) which contains 14 independent studies which report the correlations between the different symptoms of sleep complaints that our questionnaire measures: **sleep quality**, **sleep latency**, **sleep efficiency**, **daytime dysfunction** and **hypersomnia** (i.e., sleeping too much; the dataset can be downloaded [here](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/dat_da.rda)). We assume that the first three symptoms are related, because they all measure insomnia as a latent variable, whereas daytime dysfunction and hypersomnia are related because they are symptoms of the lassitude factor. 
 
 **The proposed structure represented as a graphical model looks like this** (please note that the labels are somewhat idiosyncratic to make identifying the relevant components of the model easier later on):
 
-![](CFA_Graph.png)
+![](_figs/CFA_Graph.png)
 
 ### Setting up our data {#matrix_structure}
 
 Let us first have a look at the data we want to use for model fitting. The `dat.cfa` dataset i will use here has a **special structure**: it is a so-called `list`, containing (1) another `list` of matrices and (2) a vector. A list is a very versatile *R* object, which allows to bind together different objects in one single big object. Lists can be accessed like `data.frame`s by using the `$` operator. By using the `names()` function, we can see the names of the objects in the list. 
 
 ```{r, echo=FALSE}
-load("dat_cfa.rda")
+load("_data/dat_cfa.rda")
 ```
 
 ```{r}
@@ -310,7 +316,7 @@ names(dat.cfa$data)
 dat.cfa$data$`Coleman et al. (2003)`
 ```
 
-We see that the `data` list contains 14 elements for each of the 14 included studies. A closer look at the `Coleman et al. (2003)` study reveals that the data are stored as **correlation matrices** between our five observed variables. The Coleman et al. (2003) study contains correlation data for all variable combinations; however we can also allow for some studies to have missings (coded as `NA`) on some of the fields **because the meta-analytic SEM approach can handle missing data** at least to some extent.
+We see that the `data` list contains 14 elements for each of the 14 included studies. A closer look at the `Coleman et al. (2003)` study reveals that the data are stored as **correlation matrices** for our five observed variables. The Coleman et al. (2003) study contains correlation data for all variable combinations; however we can also allow for some studies to have missings (coded as `NA`) on some of the fields **because the meta-analytic SEM approach can handle missing data** at least to some extent.
 
 Before we proceed, let us quickly show how you can construct such a list yourself. Let us assume that you have the correlation matrices stored in separate `data.frame`s, which you [imported into R](#importing) (Chapter 3). The important part here is that the **column names**, and their **order** should already be **the same** in all of the `data.frames`. Let us say i have two data frames containing the correlation data, `df1` and `df2`, which look like this:
 
@@ -350,7 +356,7 @@ matrix.list <- list(mat1, mat2)
 names(matrix.list) <- c("Study1", "Study2")
 ```
 
-To do the modeling, we also need the total sample size $N$ of each study. We only have to create a numeric vector which contains the sample sizes in the **same order** as the objects in our list. We can then create one big list, containing both the lists with our correlation matrix data, and the sample sizes for each study, again using the `list()` function.
+To do the modeling, we also need the total sample size $N$ of each study. We only have to create a numeric vector which contains the sample sizes in the **same order** as the objects in our list. We can then create one big list, containing both the list with our correlation matrix data, and the sample sizes for each study, again using the `list()` function.
 
 ```{r}
 n <- c(205, 830)
@@ -408,7 +414,7 @@ dimnames(fc.mat)[[1]] <- dimnames(fc.mat)[[2]] <- c("Quality", "Latency", "Effic
 fc.mat
 ```
 
-We can now see the **pooled correlation matrix** for our our variables. Looking back the model output, we also see that all correlation coefficients are **significant** ($p<0.05$), except one: the **correlation between sleep quality and daytime dysfunction** was not significant. From the perspective of our model, this makes sense, because expect these variables to load on different factors. We also find that the $I^2$ values for the different estimates are very, very large ($76\% - 93\%$). We may therefore also have a look if a model fitted in different subclusters of studies might reduce the amount of heterogeneity we find, and if this translates to different SEM fits on stage 2.
+We can now see the **pooled correlation matrix** for our our variables. Looking back the model output, we also see that all correlation coefficients are **significant** ($p<0.05$), except one: the **correlation between sleep quality and daytime dysfunction** was not significant. From the perspective of our model, this makes sense, because we expect these variables to load on different factors. We also find that the $I^2$ values for the different estimates are very, very large ($76\% - 93\%$). We may therefore also have a look if a model fitted in different subclusters of studies might reduce the amount of heterogeneity we find, and if this translates to different SEM fits on stage 2.
 
 #### Stage 2
 
@@ -529,31 +535,31 @@ cfa2 <- tssem2(cfa1,
 summary(cfa2)
 ```
 
-We again see that the `OpenMx status1` is `0`, meaning that the optimization worked fine. We get the estimates for the different paths between the latent variables and the observed symptoms such as $0.69$ for $Lassitude \rightarrow Daytime Dysfunction$ (`Las_D`). The important part, however, it so check **how well the assumed model fits our data**. We can have a look at the second, third and fourth row of the `Goodness-of-fit indices`, where we see that the **goodness of fit** test is $\chi^{2}_{4,4496} = 7.82$, which is **not significant** $p=0.098$. On the other hand, we see that the **Root Mean Square Error of Approximation** (RMSEA; @steiger1980statistically) value is $RMSEA=0.0146$. As a rule of thumb, a model can be considered to fit the data well when the $RMSEA$ is close to $0.05$ and smaller than $0.10$. The indices for this model are therefore somewhat **conflicting**, but generally indicate that the model may **not fit all of the data closely**. A potential way to explore this would be to conduct a **subgroup analysis**, in which the model is fitted to subgroups of studies which share some kind of characteristic (e.g. age group, country of origin etc.) to see if there might be subclusters in which the model fits better than others.
+We again see that the `OpenMx status1` is `0`, meaning that the optimization worked fine. We get the estimates for the different paths between the latent variables and the observed symptoms, such as $0.69$ for $Lassitude \rightarrow  Daytime Dysfunction$ (`Las_D`). The important part, however, it to check **how well the assumed model fits our data**. We can have a look at the second, third and fourth row of the `Goodness-of-fit indices`, where we see that the **goodness of fit** test is $\chi^{2}_{4,4496} = 7.82$, which is **not significant** $p=0.098$. On the other hand, we see that the **Root Mean Square Error of Approximation** (**RMSEA**; @steiger1980statistically) value is $RMSEA=0.0146$. As a rule of thumb, a model can be considered to fit the data well when the $RMSEA$ is close to $0.05$ and smaller than $0.10$. The indices for this model are therefore somewhat **conflicting**, but generally indicate that the model may **not fit all of the data closely**. A potential way to explore this would be to conduct a **subgroup analysis**, in which the model is fitted to subgroups of studies which share some kind of characteristic (e.g. age group, country of origin, etc.) to see if there might be subclusters in which the model fits better than others.
 
 ```{block, type='rmdachtung'}
-Please be aware that a common problem in SEM studies is that researchers often only focus on their **one proposed model**, and if it fits the data well. If it is found that the model has a close fit for the data, it is often directly assumed that the data prove the underlying structure or theory. This is **problematic**, because for the same data, more than one model can achieve a good fit at the same time. It is therefore necessary to also check for **alternative model hypotheses** and structures. If the alternative model fits the data well too, it becomes less clear if our proposed structure really is actually the "correct" one.
+Please be aware that a common problem in SEM studies is that researchers often only focus on their **one proposed model**, and if it fits the data well. If it is found that the model has a close fit for the data, it is often directly assumed that the data prove the underlying structure or theory. This is **problematic**, because for the same data, more than one model can achieve a good fit at the same time. It is therefore necessary to also check for **alternative model hypotheses** and structures. If the alternative model fits the data well too, it becomes less clear if our proposed structure really is the "correct" one.
 
 ```
 
 #### Plotting the Model
 
-After we fit the model, `metaSEM` makes it quite easy for us to visualize it graphically. To do this, we first have to install and load the `semPlot` package [@semplot] first.
+After we fit the model, `metaSEM` makes it quite easy for us to visualize it graphically. To do this, we first have to install and load the `semPlot` package [@semplot].
 
 ```{r, message=FALSE}
 library(semPlot)
 ```
 
-To plot the model, we have to **convert** it into a format that `semPlot` can use first. We can use the `meta2semPlot()` function to do this.
+To plot the model, we have to **convert** it into a format that `semPlot` can use. We can use the `meta2semPlot()` function to do this.
 
 ```{r}
 cfa.plot <- meta2semPlot(cfa2)
 ```
 
-We can then use the `semPaths()` function in `semPlot` to generate the plot. This function has many parameters, which you can access by typing `?semPaths` into the Console, and then hitting Enter. Here is how the code for my plot looks like, and the resulting plot:
+We can then use the `semPaths()` function in `semPlot` to generate the plot. This function has many parameters, which you can access by typing `?semPaths` into the Console, and then hitting Enter. Here is how my code looks like, and the resulting plot:
 
 ```{r}
-# Create Plot labels (left tot right, bottom to top)
+# Create Plot labels (left to right, bottom to top)
 labels <- c("Sleep\nQuality","Sleep\nLatency","Sleep\nEfficiency","Daytime\nDysfunction",
             "Hyper-\nsomnia","Insomnia", "Lassitude")
 
@@ -568,24 +574,27 @@ semPaths(cfa.plot,
 
 ## Mediation
 
+![](_figs/mediation_title.jpg)
+
+```{block, type='rmdinfo'}
+
 In mediation models [@baron1986moderator], we want to examine if a **direct effect** from one variable to another is **mediated** by an **intervening** or **mediator variable**. If a total mediation exists, we assume that a variable $X$ has an effect on a variable $Y$ only because $X$ influences a mediating variable $Z$, which itself affects $Y$.
 
-Mediation is used in many fields, especially when we are interested in the **mechanisms** behind some relation between two variables. However, it is important to mention that mediation models should always be based on a **theoretically** and **logically sound rationale** why the some variable $Z$ should be able to mediate the relationship between $X$ and $Y$.
+Mediation is used in many fields, especially when we are interested in the **mechanisms** behind some relationship between two variables. However, it is important to mention that mediation models should always be based on a **theoretically** and **logically sound rationale** why the some variable $Z$ is mediating the relationship between $X$ and $Y$.
+```
 
 Using meta-analytic SEM, we can synthesize evidence from original studies to determine if a proposed mediation is indeed backed by all available evidence. In the following, we will show you an example of how this can be done in *R* using the `metaSEM` package.
 
 ### Model Specification
 
-#### Proposed Model & Dataset
+For this example, let us assume we want to disentangle why there is a relationship between (low) **psychological resilience** (see @fletcher2013psychological for a definition of this concept) and elevated levels of **depressive symptoms**. Based on the literature, we assume that there are two mediating variables: **emotion regulation** capabilities and **dysfunctional coping styles**. Both mediating variables are influenced by resilience, while low emotion regulation capabilities also influence dysfunctional coping. Both emotion regulation and coping style then influence the level of depressive symptoms a person experiences. One may represent the proposed model graphically like this (again using idiosyncratic notation to facilitate the model specification later on):
 
-For this example, let us assume we want disentangle why there is a relationship between (low) **psychological resilience** (see @fletcher2013psychological for a definition of this concept) and elevated levels of **depressive symptoms**. Based on the literature, we assume that there are two mediating variables: **emotion regulation** capabilities and **dysfunctional coping styles**. Both mediating variables are influenced by resilience, while low emotion regulation capabilities also influence dysfunctional coping. Both emotion regulation and coping styles influence then influence the level of depressive symptoms a person experiences. May may represent the proposed model graphically like this (again using idiosyncratic notation to facilitate the model specification later on):
+![](_figs/MED_SEM.png)
 
-![](MED_SEM.png)
-
-For this example, we ill use the fictitious `dat.med` dataset, which was adapted from the `Hunter83` dataset in `metaSEM`. The dataset is again a list containing (1) 14 correlation matrices for resilience, emotion regulation, dysfunctional coping and depressive symptoms extracted from 14 independent studies and (2) the $N$ of each study (see [previous chapter](#matrix_structure) for more details on the dataset structure required). Let us have a look at the matrix for the fictitious Devegvar et al. (1992) study:
+For this example, we ill use the fictitious `dat.med` dataset, which was adapted from the `Hunter83` dataset in `metaSEM`. The data can be downloaded [here](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/dat_med.rda). The dataset is again a list containing (1) 14 correlation matrices for resilience, emotion regulation, dysfunctional coping and depressive symptoms extracted from 14 independent studies and (2) the $N$ of each study (see [previous chapter](#matrix_structure) for more details on the dataset structure required). Let us have a look at the matrix for the fictitious Devegvar et al. (1992) study:
 
 ```{r, echo=FALSE}
-load("dat_med.rda")
+load("_data/dat_med.rda")
 ```
 
 
@@ -607,9 +616,9 @@ is.pd(dat.med$data)
 
 We get `TRUE` for all studies, so everything is fine and we can continue.
 
-#### Stage 1
+### Stage 1
 
-Now let's proceed to **pooling the correlation matrices in the first step**. For a more detailed description of this step, please refer to the [previous chapter](#stage1). This time, we use a fixed-effects model.
+Now let us proceed to **pooling the correlation matrices in the first step**. For a more detailed description of this step, please refer to the [previous subchapter](#stage1). This time, we use a fixed-effects model.
 
 ```{r, echo=FALSE}
 set.seed(13)
@@ -626,7 +635,7 @@ summary(med1)
 
 The optimization status is `0`, so the estimates are trustworthy. If you do not get a status of `0` or `1`, plug the model into the `rerun()` function to try fitting it again.
 
-#### Stage 2
+### Stage 2
 
 Now that we have the pooled correlation matrix available in `med1`, we can proceed by specifying our proposed mediation model. Again, we specify the $\mathbf{A}$ and $\mathbf{S}$ matrices. The $\mathbf{F}$ is not specified, because all of the variables in are model are **observed** (i.e., there are no latent variables). We will omit the details behind the matrix specification here; for more details please refer to the [first subchapter](#sem_about) for the general structure of the matrices, and the [last subchapter](#matrices) on how the matrices are specified in *R*. 
 
@@ -660,6 +669,8 @@ $$~$$
 
 **$\mathbf{S}$ Matrix** 
 
+We use starting values of $0.1$.
+
 ```{r}
 # Build matrix
 S <- Diag(c(1, "0.1*ErrVarE", "0.1*ErrVarC", "0.1*ErrVarD"))
@@ -674,7 +685,7 @@ $$~$$
 
 **Model Fitting**
 
-We can now proceed to fitting the model. In mediation model, we also want to **estimate the indirect effect** from resilience to depression taking all mediation paths into account. To do this, we can simply add all the mediation paths together. In our model, this would look like this:
+We can now proceed to fitting the model. In a mediation model, we also want to **estimate the indirect effect** from resilience to depression, taking all mediation paths into account. To do this, we can simply add all the mediation paths together. In our model, this would look like this:
 
 $$\beta_{indirect_{Res-Dep}}  = (\beta_{Res-Cop} \times \beta_{Cop-Dep}) + (\beta_{Res-EmR} \times \beta_{EmR-Cop} \times \beta_{Cop-Dep}) + (\beta_{Res-EmR} \times \beta_{Emr-Dep}) $$
 
@@ -705,10 +716,10 @@ med2 <- rerun(med2)
 summary(med2)
 ```
 
-Because we told the `tssem2()` to use **likelihood-based** intervals, the Wald-type $p$-values are not displayed. We see that the proposed model fits the data closely, with $\chi^{2}_{1,3975} = 9.4$ ($p=0.002$) and the $RMSEA = 0.046$ being close to $0.05$. Please note however, that we used the **fixed-effect model** in stage 1 to pool the correlations, which may not be appropriate if the between-study heterogeneity is substantial. The estimate of the indirect effect from resilience to depression assuming our moderation model is $0.17$, which is significant ($95\%CI: 0.15-0.19$).
+Because we told the `tssem2()` function to use **likelihood-based** intervals, the Wald-type $p$-values are not displayed. We see that the proposed model fits the data closely, with $\chi^{2}_{1,3975} = 9.4, p=0.002$) and the $RMSEA = 0.046$ being close to $0.05$. Please note however, that we used the **fixed-effect model** in stage 1 to pool the correlations, which may not be appropriate if the between-study heterogeneity is substantial. The estimate of the indirect effect from resilience to depression assuming our moderation model is $0.17$, which is significant ($95\%CI: 0.15-0.19$).
 
 
-#### Plotting the Model
+### Plotting the Model
 
 Again, we can plot our model using the `semPaths()` function in the `semPlot` package. 
 

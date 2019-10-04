@@ -1,6 +1,6 @@
 # Between-study Heterogeneity {#heterogeneity}
 
-![](schiffchen.jpg)
+![](_figs/schiffchen.jpg)
 
 By now, we have already shown you how to pool effect sizes in a meta-analysis. In meta-analytic pooling, we aim to **synthesize the effects of many different studies into one single effect**. However, this makes only sense if we aren't comparing **Apples and Oranges**. For example, it could be the case that while the overall effect we calculate in the meta-analysis is **small**, there are still a few studies which report **very high** effect sizes. Such information is lost in the aggregate effect, but it is very important to know if all studies, or interventions, yield small effect sizes, or if there are exceptions.
 
@@ -83,9 +83,9 @@ library(tidyverse)
 library(knitr)
 library(meta)
 library(metafor)
-load("Meta_Analysis_Data.RData")
+load("_data/Meta_Analysis_Data.RData")
 madata<-Meta_Analysis_Data
-load("metacont_data.RData")
+load("_data/metacont_data.RData")
 metacont$Ne<-as.numeric(metacont$Ne)
 metacont$Me<-as.numeric(metacont$Me)
 metacont$Se<-as.numeric(metacont$Se)
@@ -330,21 +330,21 @@ Now, let's have a look at the output.
 ```{r,echo=FALSE,fig.align='center',fig.cap="Influence Analyses", fig.height=7}
 library(png)
 library(grid)
-img <- readPNG("inflA1.png")
+img <- readPNG("_figs/inflA1.png")
 grid.raster(img)
 ```
 
 ```{r,echo=FALSE, fig.align='center',fig.cap="Baujat Plot",fig.height=6}
 library(png)
 library(grid)
-img <- readPNG("inflA2.png")
+img <- readPNG("_figs/inflA2.png")
 grid.raster(img)
 ```
 
 ```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by effect size"}
 library(png)
 library(grid)
-img <- readPNG("inflA3.png")
+img <- readPNG("_figs/inflA3.png")
 grid.raster(img)
 
 
@@ -356,7 +356,7 @@ library(grid)
 
 
 
-img <- readPNG("inflA4.png")
+img <- readPNG("_figs/inflA4.png")
 grid.raster(img)
 ```
 
@@ -410,6 +410,94 @@ All in all, the results of our **outlier and influence analysis** in this exampl
 
 
 <br><br>
+
+## GOSH Plot Analysis
+
+In the previous [subchapter](#influenceanalyses), we explored the robustness of our meta-analysis results using influence analyses and the leave-one-out method. An even more sophisticated way to explore the patterns of effect sizes and heterogeneity in our data are so-called **Graphic Display of Heterogeneity** (**GOSH**) plots [@olkin2012gosh]. For those plots, we fit the same meta-analysis model to **all possible subsets** of our included studies. In constrast to the leave-one-out method, we therefore not only fit $K-1$ models, but all $2^{k-1}$ possible study combinations. This means that creating GOSH plot can become quite computationally intensive when the number of included studies is large. The *R* implementation we cover here therefore only fits a maximum of 1 million randomly selected models. 
+
+Once the models are calculated, we can plot them, displaying the **pooled effect size** on the **x-axis** and the **between-study heterogeneity** at the **y-axis**. This allows us to look for specific patterns, for example subclusters with different effect sizes. This would indicate that there is in fact more than one "population" of effect sizes in our data, warranting a subgroup analysis. If the effect sizes in our sample are homogeneous, the GOSH plot should form a **symmetric distribution with one peak**.
+
+To generate GOSH plots, we can use the `gosh` function in the `metafor` package. If you have not installed the package yet, install it and then load it from your library.
+
+```{r, message=F, error=F}
+library(metafor)
+```
+
+I will generate plots for my `m.hksj` meta-analysis object. Before we can generate the plot, we have to **"transform"** this object created by the `meta` package into a `metafor` meta-analysis object which can be used for the `gosh` function. To do this, i can simply use the data stored in `m.hksj`. The function to perform a meta-analysis in `metafor` is called `rma()`. I only have to provide the function with the effect size (`TE`), Standard Error (`seTE`), and between-study heterogeneity estimator (`method.tau`) stored in `m.hksj`. Because i want to replicate the results completely, i also use Knapp-Hartung adjustments in `rma()` by setting `test = "knha"`.
+
+```{r}
+m.rma <- rma(yi = m.hksj$TE, 
+             sei = m.hksj$seTE,
+             method = m.hksj$method.tau,
+             test = "knha")
+```
+
+Please note that if you use the fixed-effect model, you have to set `method = "FE"`.
+
+**We can then use this object to generate the GOSH plot object.** Depending on the number of studies in your analysis, this can take some time, up to a few hours. I save it as `dat.gosh`.
+
+```{r, echo=FALSE}
+load("_data/dat.gosh.rda")
+```
+
+```{r, eval=FALSE}
+dat.gosh <- gosh(m.rma)
+```
+
+I can then display the the GOSH plot by pluggin the `dat.gosh` object into the `plot()` function. 
+
+```{r}
+plot(dat.gosh, alpha= 0.1, col = "blue")
+```
+
+Interestingly, we see that there are **two patterns** in our data: one which lower effect sizes and lower heterogeneity, and one with higher effects, but considerable between-study heterogeneity: it seems like there are **two subclusters in our data**.
+
+Now that we know the **effect size-heterogeneity** patterns in our data, the really important question of course is: which studies cause those patterns, and may thus belong to which subcluster? To answer this question we have developed the `gosh.diagnostics` function. This function uses **three clustering (also known as supervised machine learning) algorithms** to detect clusters in the GOSH plot data and determine which studies contribute the most to them automatically. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
+
+```{r, eval=FALSE}
+library(dmetar)
+```
+
+If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/gosh.diagnostics.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `dplyr`, `cluster`, `mvtnorm`, `factoextra`, `fpc`, `cowplot`, `reshape2`, and `flexmix` package installed and loaded in your library to function properly. We will use the default settings for the function here, but many more are available (see [documentation](https://dmetar.protectlab.org/reference/gosh.diagnostics.html)). We simply plug the `dat.gosh` object into the function. Again, as the there is a lot of data to process, the function may take need some time before it is finished. 
+
+```{r, echo=FALSE, message=F, error=F}
+source("dmetar/gosh.diagnostics.R")
+library(dplyr)
+library(cluster)
+library(mvtnorm)
+library(factoextra)
+library(fpc)
+library(cowplot)
+library(reshape2)
+library(flexmix)
+set.seed(123)
+
+```
+
+```{r}
+gosh.diagnostics(dat.gosh)
+```
+
+We see that the **three algorithms**, $k$-means, DBSCAN and the Gaussian Mixture Model, have detected **three studies** which might potentially contribute to the **cluster imbalance**: study 3, study 10, and study 16. These studies seem to nearly fully account for the second high-effect size, high-heterogeneity cluster we found.
+
+**Let us see what happens if we rerun the meta-analysis, this time removing these three studies.**  
+
+```{r}
+metagen(TE,
+        seTE,
+        data=madata,
+        studlab=paste(Author),
+        comb.fixed = FALSE,
+        comb.random = TRUE,
+        method.tau = "SJ",
+        hakn = TRUE,
+        prediction=TRUE,
+        sm="SMD",
+        exclude = c(3, 10, 16))
+```
+
+We see that the between-study heterogeneity has **dropped to** $0\%$, indicating that the studies we are now analyzing **stem from one homogeneous (sub)population**, the lower cluster in our GOSH plot.
+
 
 ---
 

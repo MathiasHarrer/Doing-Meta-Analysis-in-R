@@ -1,6 +1,6 @@
 # Risk of Bias summary
 
-![A finished Risk of Bias summary](robplot.png)
+![A finished Risk of Bias summary](_figs/robplot.png)
 
 In this Chapter, we will describe how to create a RevMan style Risk of Bias summary in *R*.
 
@@ -12,7 +12,7 @@ In many Meta-Analyses, you will also want to have a look at the quality of inclu
 
 Furthermore, the quality of the Risk of Bias (RoB) summary figures in RevMan are of suboptimal picture quality. Many journals will require figures with better quality, or figures saved in another format (such as **.svg** or **.pdf**).
 
-![This is the output created by RevMan.](robsummaryrevman.png)
+![This is the output created by RevMan.](_figs/robsummaryrevman.png)
 
 To avoid all of this, you can easily plot the **RoB Summary in RStudio yourself**.
 To do this, we again have to prepare an Excel sheet in which we store our RoB data. In [Chapter 3.1.1](#excel_preparation), we already described how the preparation and import of Excel sheets into RStudio works in general. For this data sheet, you need to follow a few guidelines:
@@ -30,7 +30,7 @@ To do this, we again have to prepare an Excel sheet in which we store our RoB da
 To plot the summary, we have to import our dataset first. We describe how to do this in [Chapter 3.2](#import_excel). I simply called my dataset `rob`.
 
 ```{r,echo=FALSE}
-load("rob.RData")
+load("_data/rob.RData")
 rob<-rob_e
 rob$Author<-rob$Study_ID
 rob$Study_ID<-NULL
@@ -101,14 +101,14 @@ rob.summary(rob, studies = rob$Author, table = TRUE)
 ```{r, echo=FALSE, fig.width=7, fig.align="center"}
 library(png)
 library(grid)
-img <- readPNG("robs1.png")
+img <- readPNG("_figs/robs1.png")
 grid.raster(img)
 ```
 
 ```{r, echo=FALSE, fig.width=8, fig.align="center"}
 library(png)
 library(grid)
-img <- readPNG("robs2.png")
+img <- readPNG("_figs/robs2.png")
 grid.raster(img)
 ```
 

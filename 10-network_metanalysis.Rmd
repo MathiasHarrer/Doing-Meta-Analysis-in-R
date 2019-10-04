@@ -2,7 +2,7 @@
 
 # Network Meta-Analysis
 
-![](networks.jpg)
+![](_figs/networks.jpg)
 
 Often when performing a meta-analysis on the effectiveness of certain interventions, we are less interested in the question if **one particular intervention is effective** (e.g., because it is quite well established that the intervention is efficacious), but weather **one intervention is more or less effective than another type of intervention for some condition or population**. Yet, once we are interested in **head-to-head** comparisons between two treatments, we often face the problem that **only very few, if any, randomized controlled trials have compared the effects of two interventions directly**. This makes it very hard, if not impossible to conduct conventional meta-analyses to answer questions on the comparative effects of two or more interventions for one indication or outcome (e.g., different types of psychotherapy for major depression).
 
@@ -16,19 +16,19 @@ These meta-analysis methods are also referred to as **network meta-analyses** [@
 
 First, we have to understand what meta-analysts **mean** when they talk about a "network" of treatments. Let us first consider a simple **pairwise comparison** between two conditions. The example we present here is no different from the kind of data we discussed in [Chapter 4](#fixed), where we showed how to perform a conventional meta-analysis. Let us assume we have a randomized controlled trial $i$, which **compared the effect of one treatment A** (e.g., Cognitive Behavioral Therapy for depression) to **another condition B** (e.g., a waitlist control group). We can illustrate this comparison in a graphical way like this:
 
-![](graph1.png)
+![](_figs/graph1.png)
 
 The form in which the treatment comparison is displayed here is called a **graph**. Graphs are structures used to model **how different objects relate to each other**, and there is an entire subfield of mathematics devoted to it: **Graph theory**. The graph has two core components. First, the two blue points (so-called **nodes**), which represent the **two conditions $A$ and $B$** in trial $i$. The second component is the **line** connecting the two nodes, which is called an **edge**. This edge represents how $A$ and $B$ relate to each other. In our case, the interpretation of this line is quite straightforward: we can describe the relationship between $A$ and $B$ as the **effect size** $\hat\theta_{i,A,B}$ we observe for the comparison between $A$ and $B$. This effect size can be expressed through different metrics, such as the **standardized mean difference (SMD)**, **Hedges' g**, **Odds Ratio**, **Incidence Rate Ratio**, and so forth, depending on the context. 
 
 Now let us proceed by assuming that we also have **data of another study** $j$. In this trial, the condition $B$ (which we imagined to be a waitlist control group) was also included. But instead of using treatment $A$, like in the first study, this study **used another treatment $C$** (e.g., psychodynamic therapy), which was compared to $B$. We can add this information to our graph:
 
-![](graph2.png)
+![](_figs/graph2.png)
 
 This creates our first small network. We can see now that we have **two effect size estimates** in this network: $\hat\theta_{i,A,B}$, comparing $A$ to $B$, and $\hat\theta_{j,C,B}$, the comparison between $C$ and $B$. Since we took both of these effect size estimates from **actual comparisons which were made in "real" randomized trials**, we call such information **direct evidence**. Thus, we can formalize these effect sizes as $\hat\theta_{B,A}^{direct}$ and $\hat\theta_{B,C}^{direct}$. Notice how $B$ comes first in this notation because we determine this condition to be our **reference condition**, since both effect size estimates contain this condition.
 
 In this first graph, all nodes (conditions) are either **directly or indirectly connected**. The $B$ condition (our waitlist control group), is directly connected to all other nodes, i.e., it takes only one "step" on the graph to get from $B$ to all the other nodes $A$ and $C$: $B \rightarrow A, B \rightarrow C$. $A$ and $C$ both have only one direct connection, and they both connect to $B$: $A \rightarrow B$ and $C \rightarrow B$. However, there is an **indirect connection** between $A$ and $C$, where $B$ serves as the **link**, or **"brige"** between the two conditions: $A \rightarrow B \rightarrow C$. This indirect connection means that we have **indirect evidence** for the relationship between $A$ and $C$, which we can infer from the information the entire network provides us with:     
 
-![](graph3.png)
+![](_figs/graph3.png)
 
 Using the information from our direct evidence, we can therefore calculate the **indirect evidence** $\hat\theta_{A,C}^{indirect}$, the effect size between **$A$ and $C$** (e.g., Cognitive-Behavioral Therapy and Psychodynamic Therapy) like this:
 
@@ -77,11 +77,11 @@ Several methods have been proposed to evaluate inconsistency in network meta-ana
 
 Above, we described the **basic theory and assumptions of network meta-analysis models**. We illustrated these properties using a simple network with three nodes and edges. In practice, however, the **number of treatments** we as meta-analysts want to include in a network meta-analysis **may be much higher**, resulting in much more **complex network**, which may look more like this:
 
-![](graph4.png)
+![](_figs/graph4.png)
 
 However, with an increasing number of treatments $S$ in our network, the number of (direct and indirect) pairwise comparisons $C$ we have to estimate skyrockets [@diasbook]:
 
-![](vis_dias.png)
+![](_figs/vis_dias.png)
 
 We therefore need a **computational model** which allows us to efficiently pool all available network data in a coherent and internally consistent manner. Several statistical approaches have been developed for network meta-analysis [@efthimiou2016getreal]. In the following subchapters, we will discuss two major approaches, a **frequentist** as well as a **bayesian hierarchical model**, and how they can be implemented in R.  
 
@@ -96,7 +96,7 @@ In practice, a useful strategy may also be to choose one approach as the main an
 
 ## Frequentist Network Meta-Analysis
 
-![](frequentist.jpg)
+![](_figs/frequentist.jpg)
 
 In the following, we will describe how to **perform a network meta-analysis** using the `netmeta` package [@schwarzer2015meta; @rucker2015package]. This package allows to estimate network meta-analysis models within a **frequentist framework**, with its statistical approach derived from graph theoretical methods developed for electrical networks [@rucker2012network].
 
@@ -319,7 +319,7 @@ direct.evidence.plot(x = m.netmeta)
 ```{r, echo=FALSE, fig.width=10, fig.align="center"}
 library(png)
 library(grid)
-img <- readPNG("directevidence.png")
+img <- readPNG("_figs/directevidence.png")
 grid.raster(img)
 ```
 
@@ -419,7 +419,7 @@ forest(netsplit(m.netmeta))
 ```
 
 ```{r, echo=FALSE, out.width="70%", fig.align="center"}
-knitr::include_graphics('nodesplit_fp.png')
+knitr::include_graphics('_figs/nodesplit_fp.png')
 ```
 
 #### Comparison-adjusted Funnel Plots
@@ -453,7 +453,7 @@ funnel <- funnel(m.netmeta,
                  cex.studlab = 0.7)
 ```
 
-![](adj_funnel.png)
+![](_figs/adj_funnel.png)
 
 If our hypothesis is true, we would expect that studies with a **small sample**, and thus a higher **standard error** would by asymmetrically distributed around the zero line in our funnel plot. This is because we would expect that small studies comparing a novel treatment to an older one, yet finding that the new treatment is not better, are less likely to get published. In our plot, and from the p-value for Egger's Test ($p=0.93$), however, we see that such funnel asymmetry is **not present**. Therefore, we cannot say that publication bias is present in our network because of "innovative" treatments with favorable trial effect being more likely to get published.
 
@@ -467,7 +467,7 @@ In the next subchapter, we will address how to perform network meta-analysis usi
 
 ## Bayesian Network Meta-Analysis
 
-![](bayesian2.jpg)
+![](_figs/bayesian2.jpg)
 
 In the following, we will describe how to perform a network meta-analysis based on a **bayesian hierarchical** framework. The R package we will use to do this is the `gemtc` package [@van2012automating]. But first, let us consider the idea behind bayesian in inference in general, and the bayesian hierarchical model for network meta-analysis in particular.
 
@@ -492,7 +492,7 @@ In this equation, we now have $P(\theta)$, the **prior** distribution of $\theta
 
 **Here is a visualisation of the three distributions we described above, and how they might look like in a specific example:**
 
-![](prior.png)
+![](_figs/prior.png)
 
 A big asset of bayesian approaches is that the distributions do not have to follow a **bell curve distribution** like the ones in our visualization; any other kind of (more complex) distribution can be modeled. A disadvantage of bayesian inference, however, is that generating the (joint) distribution parameters from our collected data can be very computationally intensive; special **Markov Chain Monte Carlo** simulation procedures, such as the **Gibbs sampling** algorithm have thus been developed to generate posterior distributions. Markov Chain Monte Carlo is also used in the `gemtc` package to build our bayesian network meta-analysis model [@van2012automating]. 
 ```
@@ -591,7 +591,7 @@ Now, let us restructure our data so that functions of the `gemtc` package can pr
 However, we had to tweak the structure of our data little to conform with `gemtc`s requirements. The original dataset contains the **Mean Difference** (TE) between two treatments, with each **row representing one comparison**. However, for the `gemtc` package, we need to reshape our data so that **each row represents a single treatment arm**. Furthermore, we have to specify which treatment arm was the **reference group** for the effect size calculated for a comparison by giving it the label **"NA"**. Here is how our reshaped dataset looks like, which we again called `data`:
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-load("senn2013_reshape.rda")
+load("_data/senn2013_reshape.rda")
 rownames(dat) = 1:nrow(dat)
 dat = dat[-45,]
 rownames(dat) = 1:nrow(dat)
@@ -672,8 +672,8 @@ mcmc2 <- mtc.run(model, n.adapt = 5000, n.iter = 100000, thin = 10)
 ```
 
 ```{r, echo=FALSE}
-load("mcmc1.rda")
-load("mcmc2.rda")
+load("_data/mcmc1.rda")
+load("_data/mcmc2.rda")
 ```
 
 #### Assessing the convergence
@@ -682,17 +682,17 @@ To see if our simulations have resulted in the **convergence** of the algorithm,
 
 **Here is the time series plot for** `mcmc1`.
 
-<img src="mcmc_plot1.png" width="500" align="middle">
+<img src="_figs/mcmc_plot1.png" width="500" align="middle">
 
 **And this is the time series plot for** `mcmc2`.
 
-<img src="mcmc_plot2.png" width="500" align="middle">
+<img src="_figs/mcmc_plot2.png" width="500" align="middle">
 
 When comparing earlier iterations to later iterations in both plots, we see that there is much more **discontinuity**, and that the moving averages of the four different chains (the four solid lines) **differ in their course** when moving from the first half to the second half of the plot. The plot for our second simulation, on the other hand, is **much smoother**, which delivers a first indication that the settings of `mcmc2` are **more adequate**.
 
 We can continue with our convergence evaluation by looking at the **density plots** of our posterior effect size estimate. We see that while the distribution resulting from `mcmc1` still diverges considerably from a smooth normal distribution, the result of `mcmc2` looks much more like this.
 
-![](mcmc_plot34.png)
+![](_figs/mcmc_plot34.png)
 
 Another highly helpful method to assess convergence is the **Gelman-Rubin-Brooks** plot. This plot shows the so-called **Potential Scale Reduction Factor** (PSRF), which compares the variation within each chain in simulation to the variation between chains, and how it develops over time. In case of convergence, the PRSF should gradually shrink down to zero with increasing numbers of interations, and should at least be below 1.05 in the end. To produce this plot, we simply have to plug in the `mtc.run()` object into the `gelman.plot()` function. Here is there result for both simulations.
 
@@ -701,7 +701,7 @@ gelman.plot(mcmc1)
 gelman.plot(mcmc2)
 ```
 
-![](gelman12.png)
+![](_figs/gelman12.png)
 
 We can also directly access the **overall PSRF** of our model results using this code:
 
@@ -728,7 +728,7 @@ nodesplit <- mtc.nodesplit(network,
 ```
 
 ```{r, echo=FALSE}
-load("nodesplit.rda")
+load("_data/nodesplit.rda")
 ```
 
 The best way to interpret the results of our nodesplit model is to plug it into the `summary` function.
@@ -745,7 +745,7 @@ The function output shows us the results for the effects of different comparison
 plot(summary(nodesplit))
 ```
 
-![](forest_nodesplit.png)
+![](_figs/forest_nodesplit.png)
 
 ### Generating the network meta-analysis results
 
@@ -766,7 +766,7 @@ Additionally, we can also produce a forest plot of our results using the `forest
 forest(relative.effect(mcmc2, t1 = "Placebo"))
 ```
 
-![](forest_bayesian.png)
+![](_figs/forest_bayesian.png)
 
 In the chapter on frequentist network meta-analysis, we already covered the **P-score** as a metric to evaluate which treatment in a network is likely to be the most efficacious. An equivalent to the **P-score** is the **Surface Under the Cumulative RAnking** (SUCRA) score, which can be calculated like this [@salanti2011graphical]:
 

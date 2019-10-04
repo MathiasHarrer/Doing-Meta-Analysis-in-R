@@ -21,7 +21,7 @@
 #'   algorithm. Default is 3.
 #' @param db.eps The distance radius \eqn{\epsilon} used to determine clusters
 #'   (DBSCAN). Default is 0.15.
-#' @param db.min.pts The mininum number of points \eqn{minPts} required within
+#' @param db.min.pts The minimum number of points \eqn{minPts} required within
 #'   \eqn{\epsilon} used to determine clusters. Default is 20.
 #' @param gmm.diag Logical. Should the covariance matrix of the components be
 #'   restricted to diagonal matrices? Default is TRUE.
@@ -83,7 +83,7 @@
 #'   which can be tuned using the \code{gmm.tolerance} and \code{gmm.itermax}
 #'   parameters. }
 #'
-#'   To assess which studies predominantely contribute to a detected cluster,
+#'   To assess which studies predominantly contribute to a detected cluster,
 #'   the function calculates the cluster imbalance of a specific study using the
 #'   difference between (i) the expected share of subsets containing a specific
 #'   study if the cluster makeup was purely random (viz., representative for the
@@ -141,552 +141,552 @@ gosh.diagnostics = function(data,
                             gmm.diag = TRUE, gmm.clusters = 2, gmm.tolerance = 1e-16, gmm.itermax = 10000,
                             seed = 123) {
 
-    # Redefine Variables
-    data = data
-    km.centers = km.centers
-    eps = db.eps; rm(db.eps)
-    sav = data
-    min.pts = db.min.pts; rm(db.min.pts)
-    do.km = km; rm(km)
-    do.db = db; rm(db)
-    do.gmm = gmm; rm(gmm)
+  # Redefine Variables
+  data = data
+  km.centers = km.centers
+  eps = db.eps; rm(db.eps)
+  sav = data
+  min.pts = db.min.pts; rm(db.min.pts)
+  do.km = km; rm(km)
+  do.db = db; rm(db)
+  do.gmm = gmm; rm(gmm)
 
-    # set seed
-    set.seed(seed)
+  # set seed
+  set.seed(seed)
 
-    # Check input
-    if (class(data) != "gosh.rma"){
-      stop("Argument 'data' provided does not have class 'gosh.rma'.")
+  # Check input
+  if (class(data) != "gosh.rma"){
+    stop("Argument 'data' provided does not have class 'gosh.rma'.")
+  }
+  if (do.km == FALSE & do.db == FALSE & do.gmm == FALSE){
+    stop("At least one of 'km', 'db', or 'gmm' must be set to TRUE.")
+  }
+
+
+  # Start loading bar
+  cat(" ", "\n", "Perform Clustering...", "\n")
+
+  cat("[===========")
+
+
+  # Create full dataset from gosh output
+  dat.full = sav$res
+  dat.full = cbind(dat.full, sav$incl)
+
+  cat("=========")
+
+  # Create dataset for k-Means
+  dat.km = data.frame(scale(dat.full$I2, center = TRUE, scale = TRUE), scale(dat.full$estimate, center = TRUE,
+                                                                             scale = TRUE))
+  colnames(dat.km) = c("I2", "estimate")
+
+  # Create dataset for DBSCAN DBSCAN can become too computationally intensive for very large GOSH data.  For
+  # N_gosh > 10.000, N = 10.000 data points are therefore randomly sampled.
+
+  if (nrow(dat.full) < 10000) {
+    dat.db.full = dat.full
+  } else {
+    dat.db.full = dat.full[sample(1:nrow(dat.full), 10000), ]  #Sample 10.000 rows
+  }
+
+  dat.db = data.frame(scale(dat.db.full$I2, center = TRUE, scale = TRUE), scale(dat.db.full$estimate, center = TRUE,
+                                                                                scale = TRUE))
+  colnames(dat.db) = c("I2", "estimate")
+
+  cat("=========")
+
+  # K-Means
+  km = kmeans(dat.km, centers = km.centers)  # Kmeans
+
+  # Only use 5000 rows for plotting to increase speed
+  if (length(as.numeric(km$cluster)) > 5000){
+    km.plot.mask = sample(1:length(as.numeric(km$cluster)), 5000)
+    km.plot = km
+    km.plot$cluster = km$cluster[km.plot.mask]
+    dat.km.plot = dat.km[km.plot.mask,]
+  } else {
+    km.plot = km
+    dat.km.plot = dat.km
+  }
+
+  km.clusterplot = fviz_cluster(km.plot, data = dat.km.plot, stand = FALSE, ellipse = FALSE, show.clust.cent = FALSE,
+                                geom = "point", ggtheme = theme_minimal(), shape = 16, ylab = "Effect Size (z-score)", xlab = "I-squared (z-score)",
+                                main = "K-means Algorithm", pointsize = 0.5) + coord_flip()
+
+  cat("=========")
+
+  # DBSCAN
+  db = fpc::dbscan(dat.db, eps = eps, MinPts = min.pts)
+
+  # Only use 5000 rows for plotting to increase speed
+  if (length(as.numeric(db$cluster)) > 5000){
+    db.plot.mask = sample(1:length(as.numeric(db$cluster)), 5000)
+    db.plot = db
+    db.plot$cluster = db$cluster[db.plot.mask]
+    dat.db.plot = dat.db[db.plot.mask,]
+  } else {
+    db.plot = db
+    dat.db.plot = dat.db
+  }
+
+  db.clusterplot = fviz_cluster(db.plot, data = dat.db.plot, stand = FALSE, ellipse = FALSE, show.clust.cent = FALSE,
+                                shape = 16, geom = "point", ggtheme = theme_minimal(), ylab = "Effect Size (z-score)", xlab = "I-squared (z-score)",
+                                main = "DBSCAN Algorithm (black dots are outliers)") + coord_flip()
+
+  cat("=========")
+
+
+  # GMM
+  # Use same data as used for DBSCAN
+  dat.gmm.full = dat.db.full
+  dat.gmm = dat.db
+  gmm = flexmix::flexmix(cbind(I2, estimate) ~ 1,
+                         k = gmm.clusters,
+                         data = dat.gmm,
+                         model = FLXMCmvnorm(diagonal = gmm.diag),
+                         control = list(tolerance = gmm.tolerance,
+                                        iter.max = gmm.itermax))
+
+
+
+  # Only use 5000 rows for plotting to increase speed
+  if (length(as.numeric(gmm@cluster)) > 5000){
+    gmm.plot.mask = sample(1:length(as.numeric(gmm@cluster)), 5000)
+    dat.gmm.plot = dat.gmm[gmm.plot.mask,]
+    dat.gmm.plot$cluster = gmm@cluster[gmm.plot.mask]
+  } else {
+    dat.gmm.plot = dat.gmm
+    dat.gmm.plot$cluster = gmm@cluster
+  }
+
+  gmm.clusterplot = ggplot(data = dat.gmm.plot, aes(x = estimate,
+                                                    y = I2,
+                                                    color = as.factor(cluster))) +
+    geom_point(alpha=0.6) +
+    theme_minimal() +
+    xlab("Effect Size (z-score)") +
+    ylab("I-squared (z-score)") +
+    ggtitle("Gaussian Mixture Model") +
+    guides(color=guide_legend(title="Cluster"))
+
+  cat("=========")
+
+
+  # Add to dfs
+  dat.km.full = dat.full
+  dat.km.full$cluster = km$cluster
+  dat.db.full$cluster = db$cluster
+  dat.gmm.full$cluster = gmm@cluster
+
+
+  ####################################################
+  # Extract the Percentages###########################
+  # K-Means############################################
+
+  dat.km.full$cluster = as.factor(dat.km.full$cluster)
+  n.levels.km = nlevels(dat.km.full$cluster)
+
+  # Loop for the total n of studies
+
+  dat.km.full.total = dat.km.full[, -c(1:6, ncol(dat.km.full))]
+  n.cluster.tots = apply(dat.km.full.total, 2, sum)
+  n.cluster.tots = data.frame(unlist(as.matrix(n.cluster.tots)))
+  colnames(n.cluster.tots) = c("n.tots")
+
+  cat("=========")
+
+
+  # Loop for the cluster-wise n of studies
+
+  n = sapply(split(dat.km.full.total, dat.km.full$cluster), function(x) apply(x, 2, sum))
+
+
+  # Calculate Percentages
+
+  deltas = as.data.frame(apply(n, 2, function(x) (x/n.cluster.tots$n.tots) - mean(x/n.cluster.tots$n.tots)))
+
+  # Generate the plot
+
+  Study = rep(1:nrow(deltas), n.levels.km)
+  delta.df = suppressMessages(reshape2::melt(deltas))
+  delta.df[, 3] = Study
+  delta.df$variable = as.factor(delta.df$variable)
+  colnames(delta.df) = c("Cluster", "Delta_Percentage", "Study")
+
+  cat("=========")
+
+  km.plot = ggplot(data = delta.df, aes(x = Study, y = Delta_Percentage, group = Cluster)) + geom_line(aes(color = Cluster)) +
+    geom_point(aes(color = Cluster)) + scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas),
+                                                                                       1)) + scale_y_continuous(name = "Delta Percentage") + theme(axis.text = element_text(size = 5)) +
+    ggtitle("Cluster imbalance (K-Means algorithm)") + geom_hline(yintercept = 0, linetype = "dashed")
+
+
+  ####################################################
+  # Cook's Distance Plot###########################
+  # K-Means############################################
+
+  m.cd.km = by(delta.df, as.factor(delta.df$Cluster), function(x) lm(Delta_Percentage ~ 1, data = x))
+  m.cd.km$`0` = NULL
+  m.cd.km = lapply(m.cd.km, cooks.distance)
+  m.cd.km.df = data.frame(Cooks.Distance = matrix(unlist(m.cd.km)))
+  m.cd.km.df$Cluster = as.factor(rep(1:(n.levels.km), each = nrow(deltas)))
+  m.cd.km.df$Study = rep(1:nrow(deltas), times = (n.levels.km))
+  outlier.cd.km = 3 * mean(m.cd.km.df$Cooks.Distance)
+
+  if (n.levels.km <= 2){
+
+    m.cd.km.df[m.cd.km.df$Cluster=="2", "Cooks.Distance"] = m.cd.km.df[m.cd.km.df$Cluster=="2", "Cooks.Distance"] + 0.01
+
+    km.cd.plot = ggplot(data = m.cd.km.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
+      geom_line(aes(color=Cluster), alpha = 0.5) +
+      geom_point(aes(color = Cluster)) +
+      scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
+      scale_y_continuous(name = "Cook's Distance") +
+      theme(axis.text = element_text(size = 5)) +
+      ggtitle("Cluster imbalance (Cook's Distance)") +
+      geom_hline(yintercept = outlier.cd.km, linetype = "dashed") +
+      geom_hline(yintercept = 0, linetype = "dashed")
+
+
+  } else {
+
+    km.cd.plot = ggplot(data = m.cd.km.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
+      geom_line(aes(color=Cluster), alpha = 0.5) +
+      geom_point(aes(color = Cluster)) +
+      scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
+      scale_y_continuous(name = "Cook's Distance") +
+      theme(axis.text = element_text(size = 5)) +
+      ggtitle("Cluster imbalance (Cook's Distance)") +
+      geom_hline(yintercept = outlier.cd.km, linetype = "dashed") +
+      geom_hline(yintercept = 0, linetype = "dashed")
+
+  }
+
+
+  ####################################################
+  # Extract the Percentages###########################
+  # DBSCAN############################################
+
+  dat.db.full$cluster = as.factor(dat.db.full$cluster)
+  n.levels.db = nlevels(dat.db.full$cluster)
+
+  # Loop for the total n of studies
+
+  dat.db.full.total = dat.db.full[, -c(1:6, ncol(dat.db.full))]
+
+  n.cluster.tots = apply(dat.db.full.total, 2, sum)
+  n.cluster.tots = data.frame(unlist(as.matrix(n.cluster.tots)))
+  colnames(n.cluster.tots) = c("n.tots")
+
+
+  # Loop for the cluster-wise n of studies
+
+  n = sapply(split(dat.db.full.total, dat.db.full$cluster), function(x) apply(x, 2, sum))
+
+
+  # Calculate Percentages
+
+  deltas = as.data.frame(apply(n, 2, function(x) (x/n.cluster.tots$n.tots) - mean(x/n.cluster.tots$n.tots)))
+
+  # Generate the plot
+
+  Study = rep(1:nrow(deltas), n.levels.db)
+  delta.df = suppressMessages(reshape2::melt(deltas))
+  delta.df[, 3] = Study
+  delta.df$variable = as.factor(delta.df$variable)
+  colnames(delta.df) = c("Cluster", "Delta_Percentage", "Study")
+  delta.df = filter(delta.df, !Cluster == 0)  #Zero Class (Outliers are removed)
+
+  db.plot = ggplot(data = delta.df, aes(x = Study, y = Delta_Percentage, group = Cluster)) + geom_line(aes(color = Cluster)) +
+    geom_point(aes(color = Cluster)) + scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas),
+                                                                                       1)) + scale_y_continuous(name = "Delta Percentage") + theme(axis.text = element_text(size = 5)) +
+    ggtitle("Cluster imbalance (Density-Based Clustering)") + geom_hline(yintercept = 0, linetype = "dashed")
+
+
+  ####################################################
+  # Cook's Distance Plot###########################
+  # DBSCAN############################################
+
+  m.cd.db = by(delta.df, as.factor(delta.df$Cluster), function(x) lm(Delta_Percentage ~ 1, data = x))
+  m.cd.db$`0` = NULL
+  m.cd.db = lapply(m.cd.db, cooks.distance)
+  m.cd.db.df = data.frame(Cooks.Distance = matrix(unlist(m.cd.db)))
+  m.cd.db.df$Cluster = as.factor(rep(1:(n.levels.db - 1), each = nrow(deltas)))
+  m.cd.db.df$Study = rep(1:nrow(deltas), times = (n.levels.db - 1))
+  outlier.cd.db = 3 * mean(m.cd.db.df$Cooks.Distance)
+
+  if (n.levels.db <= 2){
+
+    m.cd.db.df[m.cd.db.df$Cluster=="2", "Cooks.Distance"] = m.cd.db.df[m.cd.db.df$Cluster=="2", "Cooks.Distance"] + 0.01
+
+    db.cd.plot = ggplot(data = m.cd.db.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
+      geom_line(aes(color=Cluster), alpha = 0.5) +
+      geom_point(aes(color = Cluster)) +
+      scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
+      scale_y_continuous(name = "Cook's Distance") +
+      theme(axis.text = element_text(size = 5)) +
+      ggtitle("Cluster imbalance (Cook's Distance)") +
+      geom_hline(yintercept = outlier.cd.db, linetype = "dashed") +
+      geom_hline(yintercept = 0, linetype = "dashed")
+
+
+  } else {
+
+    db.cd.plot = ggplot(data = m.cd.db.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
+      geom_line(aes(color=Cluster), alpha = 0.5) +
+      geom_point(aes(color = Cluster)) +
+      scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
+      scale_y_continuous(name = "Cook's Distance") +
+      theme(axis.text = element_text(size = 5)) +
+      ggtitle("Cluster imbalance (Cook's Distance)") +
+      geom_hline(yintercept = outlier.cd.db, linetype = "dashed") +
+      geom_hline(yintercept = 0, linetype = "dashed")
+
+  }
+
+  ####################################################
+  # Extract the Percentages###########################
+  # GMM   ############################################
+
+  dat.gmm.full$cluster = as.factor(dat.gmm.full$cluster)
+  n.levels.gmm = nlevels(dat.gmm.full$cluster)
+
+  # Loop for the total n of studies
+
+  dat.gmm.full.total = dat.gmm.full[, -c(1:6, ncol(dat.gmm.full))]
+  n.cluster.tots = apply(dat.gmm.full.total, 2, sum)
+  n.cluster.tots = data.frame(unlist(as.matrix(n.cluster.tots)))
+  colnames(n.cluster.tots) = c("n.tots")
+
+  cat("=========")
+
+
+  # Loop for the cluster-wise n of studies
+
+  n = sapply(split(dat.gmm.full.total, dat.gmm.full$cluster), function(x) apply(x, 2, sum))
+
+
+  # Calculate Percentages
+
+  deltas = as.data.frame(apply(n, 2, function(x) (x/n.cluster.tots$n.tots) - mean(x/n.cluster.tots$n.tots)))
+
+  # Generate the plot
+
+  Study = rep(1:nrow(deltas), n.levels.gmm)
+  delta.df = suppressMessages(reshape2::melt(deltas))
+  delta.df[, 3] = Study
+  delta.df$variable = as.factor(delta.df$variable)
+  colnames(delta.df) = c("Cluster", "Delta_Percentage", "Study")
+
+  cat("===========] DONE ", "\n")
+
+  gmm.plot = ggplot(data = delta.df, aes(x = Study, y = Delta_Percentage, group = Cluster)) + geom_line(aes(color = Cluster)) +
+    geom_point(aes(color = Cluster)) + scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas),
+                                                                                       1)) + scale_y_continuous(name = "Delta Percentage") + theme(axis.text = element_text(size = 5)) +
+    ggtitle("Cluster imbalance (GMM)") + geom_hline(yintercept = 0, linetype = "dashed")
+
+
+  ####################################################
+  # Cook's Distance Plot###########################
+  # GMM ############################################
+
+  m.cd.gmm = by(delta.df, as.factor(delta.df$Cluster), function(x) lm(Delta_Percentage ~ 1, data = x))
+  m.cd.gmm$`0` = NULL
+  m.cd.gmm = lapply(m.cd.gmm, cooks.distance)
+  m.cd.gmm.df = data.frame(Cooks.Distance = matrix(unlist(m.cd.gmm)))
+  m.cd.gmm.df$Cluster = as.factor(rep(1:(n.levels.gmm), each = nrow(deltas)))
+  m.cd.gmm.df$Study = rep(1:nrow(deltas), times = (n.levels.gmm))
+  outlier.cd.gmm = 3 * mean(m.cd.gmm.df$Cooks.Distance)
+
+  if (n.levels.gmm <= 2){
+
+    m.cd.gmm.df[m.cd.gmm.df$Cluster=="2", "Cooks.Distance"] = m.cd.gmm.df[m.cd.gmm.df$Cluster=="2", "Cooks.Distance"] + 0.01
+
+    gmm.cd.plot = ggplot(data = m.cd.gmm.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
+      geom_line(aes(color=Cluster), alpha = 0.5) +
+      geom_point(aes(color = Cluster)) +
+      scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
+      scale_y_continuous(name = "Cook's Distance") +
+      theme(axis.text = element_text(size = 5)) +
+      ggtitle("Cluster imbalance (Cook's Distance)") +
+      geom_hline(yintercept = outlier.cd.gmm, linetype = "dashed") +
+      geom_hline(yintercept = 0, linetype = "dashed")
+
+
+  } else {
+
+    gmm.cd.plot = ggplot(data = m.cd.gmm.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
+      geom_line(aes(color=Cluster), alpha = 0.5) +
+      geom_point(aes(color = Cluster)) +
+      scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
+      scale_y_continuous(name = "Cook's Distance") +
+      theme(axis.text = element_text(size = 5)) +
+      ggtitle("Cluster imbalance (Cook's Distance)") +
+      geom_hline(yintercept = outlier.cd.gmm, linetype = "dashed") +
+      geom_hline(yintercept = 0, linetype = "dashed")
+
+  }
+
+  #######################
+  # Generate Output Plot#
+  #######################
+
+  if (do.km == TRUE){
+    print(plot_grid(km.clusterplot, plot_grid(km.plot, km.cd.plot, nrow=2), nrow=1))
+    cat("\n","Number of k-means clusters used:", n.levels.km, "\n")
+  }
+
+  if (do.db == TRUE){
+    print(plot_grid(db.clusterplot, plot_grid(db.plot, db.cd.plot, nrow=2), nrow=1))
+    cat("\n","Number of DBSCAN clusters detected:", n.levels.db-1, "\n")
+  }
+
+  if (do.gmm == TRUE){
+    print(plot_grid(gmm.clusterplot, plot_grid(gmm.plot, gmm.cd.plot, nrow=2), nrow=1))
+    cat("\n","Number of GMM clusters detected:", n.levels.gmm, "\n")
+  }
+
+  ############################################
+  # Plot GOSH for potential outlying studies #
+  ############################################
+
+  # Get outlying studies
+
+  # Kmeans
+  outlier.studies.km.df = m.cd.km.df[m.cd.km.df$Cooks.Distance>outlier.cd.km,]
+  outlier.studies.km = unique(outlier.studies.km.df$Study)
+
+  # DBSCAN
+  outlier.studies.db.df = m.cd.db.df[m.cd.db.df$Cooks.Distance>outlier.cd.db,]
+  outlier.studies.db = unique(outlier.studies.db.df$Study)
+
+  # GMM
+  outlier.studies.gmm.df = m.cd.gmm.df[m.cd.gmm.df$Cooks.Distance>outlier.cd.gmm,]
+  outlier.studies.gmm = unique(outlier.studies.gmm.df$Study)
+
+  # Use all identified outliers
+  outlier.studies.all = unique(c(outlier.studies.km, outlier.studies.db, outlier.studies.gmm))
+  outlier.studies.all.mask = outlier.studies.all + 6 # Add 6 to use as mask
+
+  cat("\n", "Identification of potential outliers", "\n", "---------------------------------", "\n")
+
+  # Get plotting dataset and only choose outlier studies as mask, use db data
+  if (length(as.numeric(db$cluster)) > 5000){
+
+    dat.all.outliers = dat.db.full[db.plot.mask, c(3,6, outlier.studies.all.mask)]
+
+  } else {
+
+    dat.all.outliers = dat.db.full[,c(3,6, outlier.studies.all.mask)]
+
+  }
+
+  if (length(outlier.studies.all) > 0){
+
+    # Loop through all identified outliers
+    for (i in 1:length(outlier.studies.all)){
+
+      outlier.plot = ggplot(data = dat.all.outliers, aes(x = estimate,
+                                                         y = I2,
+                                                         color = dat.all.outliers[,i+2])) +
+        geom_point(alpha=0.8) +
+        scale_color_manual(values = c("lightgrey", "#00BFC4")) +
+        theme_minimal() +
+        theme(legend.position = "none",
+              plot.title = element_text(hjust = 0.5, face = "bold")) +
+        xlab("Effect Size") +
+        ylab("I-squared")
+
+
+
+      density.db.upper = ggplot(data = dat.all.outliers, aes(x = estimate,
+                                                             fill = dat.all.outliers[,i+2])) +
+        geom_density(alpha = 0.5) +
+        theme_classic() +
+        theme(axis.title.x = element_blank(),
+              axis.text.x = element_blank(),
+              axis.ticks = element_blank(),
+              legend.position = "none",
+              plot.background = element_blank(),
+              axis.line.x = element_blank(),
+              axis.title.y = element_text(color="white"),
+              axis.text.y = element_text(color="white"),
+              axis.line.y = element_line(color="white")
+        ) +
+        scale_fill_manual(values = c("lightgrey", "#00BFC4"))
+
+      blankPlot = ggplot()+geom_blank(aes(1,1))+
+        theme(plot.background = element_blank(),
+              panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(),
+              panel.border = element_blank(),
+              panel.background = element_blank(),
+              axis.title.x = element_blank(),
+              axis.title.y = element_blank(),
+              axis.text.x = element_blank(),
+              axis.text.y = element_blank(),
+              axis.ticks = element_blank(),
+              axis.line.x = element_blank(),
+              axis.line.y = element_blank()
+        )
+
+      density.db.right = ggplot(data = dat.all.outliers, aes(x = I2,
+                                                             fill = dat.all.outliers[,i+2])) +
+        geom_density(alpha = 0.5) +
+        theme_classic() +
+        theme(axis.title.y = element_blank(),
+              axis.text.y = element_blank(),
+              axis.ticks = element_blank(),
+              legend.position = "none",
+              plot.background = element_blank(),
+              axis.line.y = element_blank(),
+              axis.title.x = element_text(color="white"),
+              axis.text.x = element_text(color="white"),
+              axis.line.x = element_line(color="white")
+        ) +
+        scale_fill_manual(values = c("lightgrey", "#00BFC4")) +
+        coord_flip()
+
+      print(plot_grid(density.db.upper,
+                      blankPlot,
+                      outlier.plot,
+                      density.db.right,
+                      nrow = 2,
+                      rel_heights = c(1,5),
+                      rel_widths = c(4,1),
+                      labels = c(paste("Study ", outlier.studies.all[i]),
+                                 "", "", "")))
+
     }
-    if (do.km == FALSE & do.db == FALSE & do.gmm == FALSE){
-      stop("At least one of 'km', 'db', or 'gmm' must be set to TRUE.")
-    }
 
-
-    # Start loading bar
-    cat(" ", "\n", "Perform Clustering...", "\n")
-
-    cat("[===========")
-
-
-    # Create full dataset from gosh output
-    dat.full = sav$res
-    dat.full = cbind(dat.full, sav$incl)
-
-    cat("=========")
-
-    # Create dataset for k-Means
-    dat.km = data.frame(scale(dat.full$I2, center = TRUE, scale = TRUE), scale(dat.full$estimate, center = TRUE,
-        scale = TRUE))
-    colnames(dat.km) = c("I2", "estimate")
-
-    # Create dataset for DBSCAN DBSCAN can become too computationally intensive for very large GOSH data.  For
-    # N_gosh > 10.000, N = 10.000 data points are therefore randomly sampled.
-
-    if (nrow(dat.full) < 10000) {
-        dat.db.full = dat.full
-    } else {
-        dat.db.full = dat.full[sample(1:nrow(dat.full), 10000), ]  #Sample 10.000 rows
-    }
-
-    dat.db = data.frame(scale(dat.db.full$I2, center = TRUE, scale = TRUE), scale(dat.db.full$estimate, center = TRUE,
-        scale = TRUE))
-    colnames(dat.db) = c("I2", "estimate")
-
-    cat("=========")
-
-    # K-Means
-    km = kmeans(dat.km, centers = km.centers)  # Kmeans
-
-    # Only use 5000 rows for plotting to increase speed
-    if (length(as.numeric(km$cluster)) > 5000){
-      km.plot.mask = sample(1:length(as.numeric(km$cluster)), 5000)
-      km.plot = km
-      km.plot$cluster = km$cluster[km.plot.mask]
-      dat.km.plot = dat.km[km.plot.mask,]
-    } else {
-      km.plot = km
-      dat.km.plot = dat.km
-    }
-
-    km.clusterplot = fviz_cluster(km.plot, data = dat.km.plot, stand = FALSE, ellipse = FALSE, show.clust.cent = FALSE,
-        geom = "point", ggtheme = theme_minimal(), shape = 16, ylab = "Effect Size (z-score)", xlab = "I-squared (z-score)",
-        main = "K-means Algorithm", pointsize = 0.5) + coord_flip()
-
-    cat("=========")
-
-    # DBSCAN
-    db = fpc::dbscan(dat.db, eps = eps, MinPts = min.pts)
-
-    # Only use 5000 rows for plotting to increase speed
-    if (length(as.numeric(db$cluster)) > 5000){
-      db.plot.mask = sample(1:length(as.numeric(db$cluster)), 5000)
-      db.plot = db
-      db.plot$cluster = db$cluster[db.plot.mask]
-      dat.db.plot = dat.db[db.plot.mask,]
-    } else {
-      db.plot = db
-      dat.db.plot = dat.db
-    }
-
-    db.clusterplot = fviz_cluster(db.plot, data = dat.db.plot, stand = FALSE, ellipse = FALSE, show.clust.cent = FALSE,
-        shape = 16, geom = "point", ggtheme = theme_minimal(), ylab = "Effect Size (z-score)", xlab = "I-squared (z-score)",
-        main = "DBSCAN Algorithm (black dots are outliers)") + coord_flip()
-
-    cat("=========")
-
-
-    # GMM
-    # Use same data as used for DBSCAN
-    dat.gmm.full = dat.db.full
-    dat.gmm = dat.db
-    gmm = flexmix::flexmix(cbind(I2, estimate) ~ 1,
-                           k = gmm.clusters,
-                           data = dat.gmm,
-                           model = FLXMCmvnorm(diagonal = gmm.diag),
-                           control = list(tolerance = gmm.tolerance,
-                                          iter.max = gmm.itermax))
-
-
-
-    # Only use 5000 rows for plotting to increase speed
-    if (length(as.numeric(gmm@cluster)) > 5000){
-      gmm.plot.mask = sample(1:length(as.numeric(gmm@cluster)), 5000)
-      dat.gmm.plot = dat.gmm[gmm.plot.mask,]
-      dat.gmm.plot$cluster = gmm@cluster[gmm.plot.mask]
-    } else {
-      dat.gmm.plot = dat.gmm
-      dat.gmm.plot$cluster = gmm@cluster
-    }
-
-    gmm.clusterplot = ggplot(data = dat.gmm.plot, aes(x = estimate,
-                                                      y = I2,
-                                                      color = as.factor(cluster))) +
-      geom_point(alpha=0.6) +
-      theme_minimal() +
-      xlab("Effect Size (z-score)") +
-      ylab("I-squared (z-score)") +
-      ggtitle("Gaussian Mixture Model") +
-      guides(color=guide_legend(title="Cluster"))
-
-    cat("=========")
-
-
-    # Add to dfs
-    dat.km.full = dat.full
-    dat.km.full$cluster = km$cluster
-    dat.db.full$cluster = db$cluster
-    dat.gmm.full$cluster = gmm@cluster
-
-
-    ####################################################
-    # Extract the Percentages###########################
-    # K-Means############################################
-
-    dat.km.full$cluster = as.factor(dat.km.full$cluster)
-    n.levels.km = nlevels(dat.km.full$cluster)
-
-    # Loop for the total n of studies
-
-    dat.km.full.total = dat.km.full[, -c(1:6, ncol(dat.km.full))]
-    n.cluster.tots = apply(dat.km.full.total, 2, sum)
-    n.cluster.tots = data.frame(unlist(as.matrix(n.cluster.tots)))
-    colnames(n.cluster.tots) = c("n.tots")
-
-    cat("=========")
-
-
-    # Loop for the cluster-wise n of studies
-
-    n = sapply(split(dat.km.full.total, dat.km.full$cluster), function(x) apply(x, 2, sum))
-
-
-    # Calculate Percentages
-
-    deltas = as.data.frame(apply(n, 2, function(x) (x/n.cluster.tots$n.tots) - mean(x/n.cluster.tots$n.tots)))
-
-    # Generate the plot
-
-    Study = rep(1:nrow(deltas), n.levels.km)
-    delta.df = suppressMessages(reshape2::melt(deltas))
-    delta.df[, 3] = Study
-    delta.df$variable = as.factor(delta.df$variable)
-    colnames(delta.df) = c("Cluster", "Delta_Percentage", "Study")
-
-    cat("=========")
-
-    km.plot = ggplot(data = delta.df, aes(x = Study, y = Delta_Percentage, group = Cluster)) + geom_line(aes(color = Cluster)) +
-        geom_point(aes(color = Cluster)) + scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas),
-        1)) + scale_y_continuous(name = "Delta Percentage") + theme(axis.text = element_text(size = 5)) +
-        ggtitle("Cluster imbalance (K-Means algorithm)") + geom_hline(yintercept = 0, linetype = "dashed")
-
-
-    ####################################################
-    # Cook's Distance Plot###########################
-    # K-Means############################################
-
-    m.cd.km = by(delta.df, as.factor(delta.df$Cluster), function(x) lm(Delta_Percentage ~ Study, data = x))
-    m.cd.km$`0` = NULL
-    m.cd.km = lapply(m.cd.km, cooks.distance)
-    m.cd.km.df = data.frame(Cooks.Distance = matrix(unlist(m.cd.km)))
-    m.cd.km.df$Cluster = as.factor(rep(1:(n.levels.km), each = nrow(deltas)))
-    m.cd.km.df$Study = rep(1:nrow(deltas), times = (n.levels.km))
-    outlier.cd.km = 3 * mean(m.cd.km.df$Cooks.Distance)
-
-    if (n.levels.km <= 2){
-
-      m.cd.km.df[m.cd.km.df$Cluster=="2", "Cooks.Distance"] = m.cd.km.df[m.cd.km.df$Cluster=="2", "Cooks.Distance"] + 0.01
-
-      km.cd.plot = ggplot(data = m.cd.km.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
-        geom_line(aes(color=Cluster), alpha = 0.5) +
-        geom_point(aes(color = Cluster)) +
-        scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
-        scale_y_continuous(name = "Cook's Distance") +
-        theme(axis.text = element_text(size = 5)) +
-        ggtitle("Cluster imbalance (Cook's Distance)") +
-        geom_hline(yintercept = outlier.cd.km, linetype = "dashed") +
-        geom_hline(yintercept = 0, linetype = "dashed")
-
-
-    } else {
-
-      km.cd.plot = ggplot(data = m.cd.km.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
-        geom_line(aes(color=Cluster), alpha = 0.5) +
-        geom_point(aes(color = Cluster)) +
-        scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
-        scale_y_continuous(name = "Cook's Distance") +
-        theme(axis.text = element_text(size = 5)) +
-        ggtitle("Cluster imbalance (Cook's Distance)") +
-        geom_hline(yintercept = outlier.cd.km, linetype = "dashed") +
-        geom_hline(yintercept = 0, linetype = "dashed")
-
-    }
-
-
-    ####################################################
-    # Extract the Percentages###########################
-    # DBSCAN############################################
-
-    dat.db.full$cluster = as.factor(dat.db.full$cluster)
-    n.levels.db = nlevels(dat.db.full$cluster)
-
-    # Loop for the total n of studies
-
-    dat.db.full.total = dat.db.full[, -c(1:6, ncol(dat.db.full))]
-
-    n.cluster.tots = apply(dat.db.full.total, 2, sum)
-    n.cluster.tots = data.frame(unlist(as.matrix(n.cluster.tots)))
-    colnames(n.cluster.tots) = c("n.tots")
-
-
-    # Loop for the cluster-wise n of studies
-
-    n = sapply(split(dat.db.full.total, dat.db.full$cluster), function(x) apply(x, 2, sum))
-
-
-    # Calculate Percentages
-
-    deltas = as.data.frame(apply(n, 2, function(x) (x/n.cluster.tots$n.tots) - mean(x/n.cluster.tots$n.tots)))
-
-    # Generate the plot
-
-    Study = rep(1:nrow(deltas), n.levels.db)
-    delta.df = suppressMessages(reshape2::melt(deltas))
-    delta.df[, 3] = Study
-    delta.df$variable = as.factor(delta.df$variable)
-    colnames(delta.df) = c("Cluster", "Delta_Percentage", "Study")
-    delta.df = filter(delta.df, !Cluster == 0)  #Zero Class (Outliers are removed)
-
-    db.plot = ggplot(data = delta.df, aes(x = Study, y = Delta_Percentage, group = Cluster)) + geom_line(aes(color = Cluster)) +
-        geom_point(aes(color = Cluster)) + scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas),
-        1)) + scale_y_continuous(name = "Delta Percentage") + theme(axis.text = element_text(size = 5)) +
-        ggtitle("Cluster imbalance (Density-Based Clustering)") + geom_hline(yintercept = 0, linetype = "dashed")
-
-
-    ####################################################
-    # Cook's Distance Plot###########################
-    # DBSCAN############################################
-
-    m.cd.db = by(delta.df, as.factor(delta.df$Cluster), function(x) lm(Delta_Percentage ~ Study, data = x))
-    m.cd.db$`0` = NULL
-    m.cd.db = lapply(m.cd.db, cooks.distance)
-    m.cd.db.df = data.frame(Cooks.Distance = matrix(unlist(m.cd.db)))
-    m.cd.db.df$Cluster = as.factor(rep(1:(n.levels.db - 1), each = nrow(deltas)))
-    m.cd.db.df$Study = rep(1:nrow(deltas), times = (n.levels.db - 1))
-    outlier.cd.db = 3 * mean(m.cd.db.df$Cooks.Distance)
-
-    if (n.levels.db <= 2){
-
-      m.cd.db.df[m.cd.db.df$Cluster=="2", "Cooks.Distance"] = m.cd.db.df[m.cd.db.df$Cluster=="2", "Cooks.Distance"] + 0.01
-
-      db.cd.plot = ggplot(data = m.cd.db.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
-        geom_line(aes(color=Cluster), alpha = 0.5) +
-        geom_point(aes(color = Cluster)) +
-        scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
-        scale_y_continuous(name = "Cook's Distance") +
-        theme(axis.text = element_text(size = 5)) +
-        ggtitle("Cluster imbalance (Cook's Distance)") +
-        geom_hline(yintercept = outlier.cd.db, linetype = "dashed") +
-        geom_hline(yintercept = 0, linetype = "dashed")
-
-
-    } else {
-
-      db.cd.plot = ggplot(data = m.cd.db.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
-        geom_line(aes(color=Cluster), alpha = 0.5) +
-        geom_point(aes(color = Cluster)) +
-        scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
-        scale_y_continuous(name = "Cook's Distance") +
-        theme(axis.text = element_text(size = 5)) +
-        ggtitle("Cluster imbalance (Cook's Distance)") +
-        geom_hline(yintercept = outlier.cd.db, linetype = "dashed") +
-        geom_hline(yintercept = 0, linetype = "dashed")
-
-    }
-
-    ####################################################
-    # Extract the Percentages###########################
-    # GMM   ############################################
-
-    dat.gmm.full$cluster = as.factor(dat.gmm.full$cluster)
-    n.levels.gmm = nlevels(dat.gmm.full$cluster)
-
-    # Loop for the total n of studies
-
-    dat.gmm.full.total = dat.gmm.full[, -c(1:6, ncol(dat.gmm.full))]
-    n.cluster.tots = apply(dat.gmm.full.total, 2, sum)
-    n.cluster.tots = data.frame(unlist(as.matrix(n.cluster.tots)))
-    colnames(n.cluster.tots) = c("n.tots")
-
-    cat("=========")
-
-
-    # Loop for the cluster-wise n of studies
-
-    n = sapply(split(dat.gmm.full.total, dat.gmm.full$cluster), function(x) apply(x, 2, sum))
-
-
-    # Calculate Percentages
-
-    deltas = as.data.frame(apply(n, 2, function(x) (x/n.cluster.tots$n.tots) - mean(x/n.cluster.tots$n.tots)))
-
-    # Generate the plot
-
-    Study = rep(1:nrow(deltas), n.levels.gmm)
-    delta.df = suppressMessages(reshape2::melt(deltas))
-    delta.df[, 3] = Study
-    delta.df$variable = as.factor(delta.df$variable)
-    colnames(delta.df) = c("Cluster", "Delta_Percentage", "Study")
-
-    cat("===========] DONE ", "\n")
-
-    gmm.plot = ggplot(data = delta.df, aes(x = Study, y = Delta_Percentage, group = Cluster)) + geom_line(aes(color = Cluster)) +
-      geom_point(aes(color = Cluster)) + scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas),
-                                                                                         1)) + scale_y_continuous(name = "Delta Percentage") + theme(axis.text = element_text(size = 5)) +
-      ggtitle("Cluster imbalance (GMM)") + geom_hline(yintercept = 0, linetype = "dashed")
-
-
-    ####################################################
-    # Cook's Distance Plot###########################
-    # GMM ############################################
-
-    m.cd.gmm = by(delta.df, as.factor(delta.df$Cluster), function(x) lm(Delta_Percentage ~ Study, data = x))
-    m.cd.gmm$`0` = NULL
-    m.cd.gmm = lapply(m.cd.gmm, cooks.distance)
-    m.cd.gmm.df = data.frame(Cooks.Distance = matrix(unlist(m.cd.gmm)))
-    m.cd.gmm.df$Cluster = as.factor(rep(1:(n.levels.gmm), each = nrow(deltas)))
-    m.cd.gmm.df$Study = rep(1:nrow(deltas), times = (n.levels.gmm))
-    outlier.cd.gmm = 3 * mean(m.cd.gmm.df$Cooks.Distance)
-
-    if (n.levels.gmm <= 2){
-
-      m.cd.gmm.df[m.cd.gmm.df$Cluster=="2", "Cooks.Distance"] = m.cd.gmm.df[m.cd.gmm.df$Cluster=="2", "Cooks.Distance"] + 0.01
-
-      gmm.cd.plot = ggplot(data = m.cd.gmm.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
-        geom_line(aes(color=Cluster), alpha = 0.5) +
-        geom_point(aes(color = Cluster)) +
-        scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
-        scale_y_continuous(name = "Cook's Distance") +
-        theme(axis.text = element_text(size = 5)) +
-        ggtitle("Cluster imbalance (Cook's Distance)") +
-        geom_hline(yintercept = outlier.cd.gmm, linetype = "dashed") +
-        geom_hline(yintercept = 0, linetype = "dashed")
-
-
-    } else {
-
-      gmm.cd.plot = ggplot(data = m.cd.gmm.df, aes(x = Study, y = Cooks.Distance, group = Cluster)) +
-        geom_line(aes(color=Cluster), alpha = 0.5) +
-        geom_point(aes(color = Cluster)) +
-        scale_x_continuous(name = "Study", breaks = seq(0, nrow(deltas), 1)) +
-        scale_y_continuous(name = "Cook's Distance") +
-        theme(axis.text = element_text(size = 5)) +
-        ggtitle("Cluster imbalance (Cook's Distance)") +
-        geom_hline(yintercept = outlier.cd.gmm, linetype = "dashed") +
-        geom_hline(yintercept = 0, linetype = "dashed")
-
-    }
-
-    #######################
-    # Generate Output Plot#
-    #######################
+    cat(" ", "\n", "Studies identified as potential outliers:", "\n")
 
     if (do.km == TRUE){
-      print(plot_grid(km.clusterplot, plot_grid(km.plot, km.cd.plot, nrow=2), nrow=1))
-      cat("\n","Number of k-means clusters used:", n.levels.km, "\n")
+      cat("\n", "- K-means:", outlier.studies.km, "\n")
     }
-
     if (do.db == TRUE){
-      print(plot_grid(db.clusterplot, plot_grid(db.plot, db.cd.plot, nrow=2), nrow=1))
-      cat("\n","Number of DBSCAN clusters detected:", n.levels.db-1, "\n")
+      cat("\n", "- DBSCAN:", outlier.studies.db, "\n")
     }
-
     if (do.gmm == TRUE){
-      print(plot_grid(gmm.clusterplot, plot_grid(gmm.plot, gmm.cd.plot, nrow=2), nrow=1))
-      cat("\n","Number of GMM clusters detected:", n.levels.gmm, "\n")
+      cat("\n", "- Gaussian Mixture Model:", outlier.studies.gmm, "\n")
     }
 
-    ############################################
-    # Plot GOSH for potential outlying studies #
-    ############################################
+  } else {
 
-    # Get outlying studies
+    cat("\n", "No potential outliers detected.")
 
-    # Kmeans
-    outlier.studies.km.df = m.cd.km.df[m.cd.km.df$Cooks.Distance>outlier.cd.km,]
-    outlier.studies.km = unique(outlier.studies.km.df$Study)
+  }
 
-    # DBSCAN
-    outlier.studies.db.df = m.cd.db.df[m.cd.db.df$Cooks.Distance>outlier.cd.db,]
-    outlier.studies.db = unique(outlier.studies.db.df$Study)
-
-    # GMM
-    outlier.studies.gmm.df = m.cd.gmm.df[m.cd.gmm.df$Cooks.Distance>outlier.cd.gmm,]
-    outlier.studies.gmm = unique(outlier.studies.gmm.df$Study)
-
-    # Use all identified outliers
-    outlier.studies.all = unique(c(outlier.studies.km, outlier.studies.db, outlier.studies.gmm))
-    outlier.studies.all.mask = outlier.studies.all + 6 # Add 6 to use as mask
-
-    cat("\n", "Identification of potential outliers", "\n", "---------------------------------", "\n")
-
-    # Get plotting dataset and only choose outlier studies as mask, use db data
-    if (length(as.numeric(db$cluster)) > 5000){
-
-      dat.all.outliers = dat.db.full[db.plot.mask, c(3,6, outlier.studies.all.mask)]
-
-    } else {
-
-      dat.all.outliers = dat.db.full[,c(3,6, outlier.studies.all.mask)]
-
-    }
-
-    if (length(outlier.studies.all) > 0){
-
-      # Loop through all identified outliers
-      for (i in 1:length(outlier.studies.all)){
-
-        outlier.plot = ggplot(data = dat.all.outliers, aes(x = estimate,
-                                                           y = I2,
-                                                           color = dat.all.outliers[,i+2])) +
-          geom_point(alpha=0.8) +
-          scale_color_manual(values = c("lightgrey", "#00BFC4")) +
-          theme_minimal() +
-          theme(legend.position = "none",
-                plot.title = element_text(hjust = 0.5, face = "bold")) +
-          xlab("Effect Size") +
-          ylab("I-squared")
-
-
-
-        density.db.upper = ggplot(data = dat.all.outliers, aes(x = estimate,
-                                                               fill = dat.all.outliers[,i+2])) +
-          geom_density(alpha = 0.5) +
-          theme_classic() +
-          theme(axis.title.x = element_blank(),
-                axis.text.x = element_blank(),
-                axis.ticks = element_blank(),
-                legend.position = "none",
-                plot.background = element_blank(),
-                axis.line.x = element_blank(),
-                axis.title.y = element_text(color="white"),
-                axis.text.y = element_text(color="white"),
-                axis.line.y = element_line(color="white")
-          ) +
-          scale_fill_manual(values = c("lightgrey", "#00BFC4"))
-
-        blankPlot = ggplot()+geom_blank(aes(1,1))+
-          theme(plot.background = element_blank(),
-                panel.grid.major = element_blank(),
-                panel.grid.minor = element_blank(),
-                panel.border = element_blank(),
-                panel.background = element_blank(),
-                axis.title.x = element_blank(),
-                axis.title.y = element_blank(),
-                axis.text.x = element_blank(),
-                axis.text.y = element_blank(),
-                axis.ticks = element_blank(),
-                axis.line.x = element_blank(),
-                axis.line.y = element_blank()
-          )
-
-        density.db.right = ggplot(data = dat.all.outliers, aes(x = I2,
-                                                               fill = dat.all.outliers[,i+2])) +
-          geom_density(alpha = 0.5) +
-          theme_classic() +
-          theme(axis.title.y = element_blank(),
-                axis.text.y = element_blank(),
-                axis.ticks = element_blank(),
-                legend.position = "none",
-                plot.background = element_blank(),
-                axis.line.y = element_blank(),
-                axis.title.x = element_text(color="white"),
-                axis.text.x = element_text(color="white"),
-                axis.line.x = element_line(color="white")
-          ) +
-          scale_fill_manual(values = c("lightgrey", "#00BFC4")) +
-          coord_flip()
-
-        print(plot_grid(density.db.upper,
-                        blankPlot,
-                        outlier.plot,
-                        density.db.right,
-                        nrow = 2,
-                        rel_heights = c(1,5),
-                        rel_widths = c(4,1),
-                        labels = c(paste("Study ", outlier.studies.all[i]),
-                                   "", "", "")))
-
-      }
-
-      cat(" ", "\n", "Studies identified as potential outliers:", "\n")
-
-      if (do.km == TRUE){
-        cat("\n", "- K-means:", outlier.studies.km, "\n")
-      }
-      if (do.db == TRUE){
-        cat("\n", "- DBSCAN:", outlier.studies.db, "\n")
-      }
-      if (do.gmm == TRUE){
-        cat("\n", "- Gaussian Mixture Model:", outlier.studies.gmm, "\n")
-      }
-
-    } else {
-
-      cat("\n", "No potential outliers detected.")
-
-    }
-
-    invisible(list(km.clusters = n.levels.km,
-                   db.clusters = n.levels.db-1,
-                   gmm.clusters = n.levels.gmm,
-                   k = ncol(dat.db.full)-7,
-                   outliers.km = outlier.studies.km,
-                   outliers.dbscan = outlier.studies.db,
-                   outliers.gmm = outlier.studies.gmm,
-                   km.plot = plot_grid(km.clusterplot, plot_grid(km.plot, km.cd.plot, nrow=2), nrow=1),
-                   dbscan.plot = plot_grid(db.clusterplot, plot_grid(db.plot, db.cd.plot, nrow=2), nrow=1),
-                   gmm.plot = plot_grid(gmm.clusterplot, plot_grid(gmm.plot, gmm.cd.plot, nrow=2), nrow=1)))
+  invisible(list(km.clusters = n.levels.km,
+                 db.clusters = n.levels.db-1,
+                 gmm.clusters = n.levels.gmm,
+                 k = ncol(dat.db.full)-7,
+                 outliers.km = outlier.studies.km,
+                 outliers.dbscan = outlier.studies.db,
+                 outliers.gmm = outlier.studies.gmm,
+                 km.plot = plot_grid(km.clusterplot, plot_grid(km.plot, km.cd.plot, nrow=2), nrow=1),
+                 dbscan.plot = plot_grid(db.clusterplot, plot_grid(db.plot, db.cd.plot, nrow=2), nrow=1),
+                 gmm.plot = plot_grid(gmm.clusterplot, plot_grid(gmm.plot, gmm.cd.plot, nrow=2), nrow=1)))
 
 }
 

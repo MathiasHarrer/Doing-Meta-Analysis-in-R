@@ -1,6 +1,6 @@
 # Getting your data into R {#importing}
 
-![](chappool.jpg)
+![](_figs/chappool.jpg)
 
 ```{block,type='rmdinfo'}
 This chapter will tell you about how you can **import** your effect size data in RStudio. We will also show you a few commands which make it easier to **manipulate data** directly in *R*.
@@ -177,7 +177,7 @@ To function properly, you have to set a working directory for RStudio first. The
 ```{r, echo=FALSE, fig.width=4,fig.height=3}
 library(png)
 library(grid)
-img <- readPNG("snippet.PNG")
+img <- readPNG("_figs/snippet.PNG")
 grid.raster(img)
 ```
 
@@ -193,7 +193,7 @@ grid.raster(img)
 ```{r, echo=FALSE, fig.width=7,fig.height=3}
 library(png)
 library(grid)
-img <- readPNG("snippet_3.PNG")
+img <- readPNG("_figs/snippet_3.PNG")
 grid.raster(img)
 ```
 
@@ -202,7 +202,7 @@ As you can see, the on the top-right pane **Environment**, your file is now list
 3. I also want to give my data a shorter name ("madata"). To rename it, i use the following code:
 
 ```{r, echo=FALSE}
-load("Meta_Analysis_Data.RData")
+load("_data/Meta_Analysis_Data.RData")
 ```
 
 ```{r}

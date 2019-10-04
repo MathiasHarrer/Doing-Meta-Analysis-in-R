@@ -1,6 +1,6 @@
 # Publication Bias
 
-![](publicationbias.jpg)
+![](_figs/publicationbias.jpg)
 
 In the last chapters, we have showed you how to **pool effects** in meta-analysis, choose the **right pooling model**, assess the **heterogeneity** of your effect estimate, and determine sources of heterogeneity through **outlier, influence, and subgroup analyses**.
 
@@ -52,7 +52,7 @@ We can generate a funnel plot for our `m.hksj` meta-analysis output using the `f
 
 ```{r,echo=FALSE,message=FALSE}
 library(meta)
-load("Meta_Analysis_Data.RData")
+load("_data/Meta_Analysis_Data.RData")
 madata<-Meta_Analysis_Data
 
 m.hksj<-metagen(TE,
@@ -99,7 +99,7 @@ legend(1.4, 0, c("p < 0.05", "p<0.025", "< 0.01"),bty = "n",
 ```{r, echo=FALSE, fig.width=7}
 library(png)
 library(grid)
-img <- readPNG("funnel.PNG")
+img <- readPNG("_figs/funnel.PNG")
 grid.raster(img)
 ```
 
@@ -118,7 +118,7 @@ library(dmetar)
 If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/eggers.test.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function requires the `meta` package to work.
 
 
-```{r}
+```{r, echo=FALSE}
 source("dmetar/eggers.test.R")
 ```
 
@@ -262,7 +262,7 @@ pcurve(m.hksj, effect.estimation = TRUE, N = N.m.hksj, dmin = 0, dmax = 1)
 ```{r, echo=FALSE, fig.width=6,fig.height=6, fig.align="center"}
 library(png)
 library(grid)
-img <- readPNG("pcurve_es.png")
+img <- readPNG("_figs/pcurve_es.png")
 grid.raster(img)
 ```
 

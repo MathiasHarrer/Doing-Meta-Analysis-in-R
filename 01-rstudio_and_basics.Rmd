@@ -1,6 +1,6 @@
 # RStudio & Basics
 
-![](chap2.jpg)
+![](_figs/chap2.jpg)
 
 ```{block,type='rmdinfo'}
 Before we start with our meta-analysis, we have to download and prepare a **computer program** which allows us to use *R* for statistical analyses. 
@@ -22,7 +22,7 @@ Especially if you have **never used R before, we would like to consider this Cha
 ```{r, echo=FALSE, fig.width=3,fig.height=2}
 library(png)
 library(grid)
-img <- readPNG("rstudiologo.PNG")
+img <- readPNG("_figs/rstudiologo.PNG")
 grid.raster(img)
 ```
 
@@ -61,7 +61,7 @@ In RStudio, you simply have to type in the code displayed above into the the **C
 ```{r, echo=FALSE, fig.width=6,fig.height=4,fig.align='center'}
 library(png)
 library(grid)
-img <- readPNG("install_packages_tut.png")
+img <- readPNG("_figs/install_packages_tut.png")
 grid.raster(img)
 ```
 
@@ -103,7 +103,7 @@ more likely to find help for English error messages.)
 ```{r, echo=FALSE, fig.width=4,fig.height=2}
 library(png)
 library(grid)
-img <- readPNG("dmetar_head.png")
+img <- readPNG("_figs/dmetar_head.png")
 grid.raster(img)
 ```
 
@@ -188,11 +188,11 @@ It is best to first choose `n` (no). If the installation fails with these strate
 
 After having installed `devtools`, and then proceeding with the installation of the `dmetar` package, it is possible that the installation does not start and that you get the following error message:
 
-![](error_server_timeout.png){width=500px}
+![](_figs/error_server_timeout.png){width=500px}
 
 This error message can have various reasons, depending on your internet connection, location, operating system, and/or *R* version (see [thread](https://github.com/IRkernel/IRkernel/issues/493) for a similar issue). If you get this error message, you can try to download the `dmetar` package directly from [GitHub](https://github.com/MathiasHarrer/dmetar). On the GitHub site, click on the button **Clone or download**, and then on **Download ZIP**.
 
-![](github_download.png){width=250px}
+![](_figs/github_download.png){width=250px}
 
 After downloading, unzip the ZIP-folder, and drag the **dmetar-master** folder inside to a meaningful location on your computer. You can then install the `dmetar` package directly from your computer using the code shown below.
 

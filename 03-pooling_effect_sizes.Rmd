@@ -2,7 +2,7 @@
 
 # Pooling Effect Sizes {#pool}
 
-![](pooling.jpg)
+![](_figs/pooling.jpg)
 
 Now, let's get to the core of every Meta-Analysis: **pooling your effect sizes** to get one overall effect size estimate of the studies.
 
@@ -55,7 +55,7 @@ In [Chapter 3.1](#excel_preparation), we have described two ways your Excel spre
 The functions to pool the results with a fixed-effect-model **differ depending on which data format you used**, but not much. First, let's assume you already have a dataset with the **calucated effect sizes and SE** for each study. In my case, this is my `madata` dataset.
 
 ```{r,echo=FALSE}
-load("Meta_Analysis_Data.RData")
+load("_data/Meta_Analysis_Data.RData")
 madata<-Meta_Analysis_Data
 ```
 
@@ -148,7 +148,7 @@ kable(ms2)
 ```
 
 ```{r,echo=FALSE,warning=FALSE}
-load("metacont_data.RData")
+load("_data/metacont_data.RData")
 metacont$Ne<-as.numeric(metacont$Ne)
 metacont$Me<-as.numeric(metacont$Me)
 metacont$Se<-as.numeric(metacont$Se)
@@ -228,7 +228,7 @@ While the random-effects-model assumes that, in addition, there is **a second so
 ```{r, echo=FALSE, fig.width=6,fig.height=4,fig.align='center'}
 library(png)
 library(grid)
-img <- readPNG("density.png")
+img <- readPNG("_figs/density.png")
 grid.raster(img)
 ```
 
@@ -318,7 +318,7 @@ library(metafor)
 Now, let's code our random-effects-model meta-analysis. Remember, as our effect size data are precalculated, i'll use the `meta::metagen()` function.
 
 ```{r,echo=FALSE}
-load("Meta_Analysis_Data.RData")
+load("_data/Meta_Analysis_Data.RData")
 madata<-Meta_Analysis_Data
 ```
 
@@ -379,7 +379,7 @@ forest(m.frst,xlim = c(0.34,0.85))
 I we use raw effect size data, such as the one stored in my `metacont` dataset, we can use the `meta::metacont()` function again. The parameters stay the same as before. I will name the meta-analysis results `m.hksj.raw` this time.
 
 ```{r,echo=FALSE,warning=FALSE}
-load("metacont_data.RData")
+load("_data/metacont_data.RData")
 metacont$Ne<-as.numeric(metacont$Ne)
 metacont$Me<-as.numeric(metacont$Me)
 metacont$Se<-as.numeric(metacont$Se)
@@ -412,7 +412,7 @@ m.hksj.raw
 
 ## Binary outcomes {#binary}
 
-![](compare.jpg)
+![](_figs/compare.jpg)
 
 In some cases, researchers will have to work with **binary outcome data** (e.g., dead/alive, Depressive Disorder/no Depressive Disorder) instead of continuous outcome data. In such a case, you will probably be more interested in outcomes like the pooled **Odd's Ratio**, the **Relative Risk**, or the **Incidence Rate Ratio**. There are two common types of binary outcome data:
 
@@ -479,7 +479,7 @@ kable(m)
 
 I'll use my dataset `binarydata`, which also has this format
 ```{r}
-load("binarydata.RData")
+load("_data/binarydata.RData")
 str(binarydata)
 ```
 
@@ -565,7 +565,7 @@ To conduct meta-analyses using incidence rate data, so-called **person-time** da
 As an example, i will use my `IRR.data.RData` dataset, in which the person-time (in my case, person-year) is stored in the `time.e` and `time.c` column for the experimental and control group, respectively. The `event.e` and `event.c` column contains the number of **events** (in my case, depression onsets) for both groups.
 
 ```{r, echo=FALSE}
-load("IRR.data.RData")
+load("_data/IRR.data.RData")
 IRR.data
 ```
 
@@ -615,7 +615,7 @@ We can also synthesize pre-calculated effect sizes based on binary outcome data 
 To get effect sizes on a natural scale, it is common to **log-transform** the effect sizes first before they are pooled. While this is done automatically in the `metabin` and `metainc` function, we have to do this step ourselves once we use the `metagen` function. Let's have a look at my `bin.metagen` dataset:
 
 ```{r, echo=FALSE}
-load("bin.metagen.rda")
+load("_data/bin.metagen.rda")
 ```
 
 ```{r}
@@ -657,7 +657,7 @@ Please be aware that the `metagen` function can only use the generic inverse-var
 
 ## Correlations
 
-![](birds.jpg)
+![](_figs/birds.jpg)
 
 ```{block,type='rmdinfo'}
 Performing a meta-analysis of **correlations** is not too different from the methods we described before. Commonly, the **generic inverse-variance pooling** method is also used to combine correlations from different studies into one pooled correlation estimate. When pooling correlations, it is advised to perform **Fisher's $z$-transformation** to obtain accurate weights for each study. Luckily, we do not have to do this transformation ourselves. There is an additional function for meta-analyses of correlations included in the `meta` package, the `metacor` function, which does most of the calculations for us.

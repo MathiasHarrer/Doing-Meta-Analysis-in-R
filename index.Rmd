@@ -33,15 +33,15 @@ favicon: "favicon.ico"
 
 # About this Guide
 
-![](coverbild.jpg)
+![](_figs/coverbild.jpg)
 
 ```{block,type='rmdinfo'}
 This guide shows you how to conduct Meta-Analyses in R from scratch. The focus of this guide is primarily on clinical outcome research in psychology. It was designed for staff and collaborators of the [**PROTECT Lab**](https://www.protectlab.org), which is headed by **Prof. Dr. David D. Ebert**.
 ```
 
 <br></br>
-<img width="40%" src="protectlogo.PNG"/>
-<img width="15%" src="hexagon.png"/>
+<img width="40%" src="_figs/protectlogo.PNG"/>
+<img width="15%" src="_figs/hexagon.png"/>
 
 
 ---
@@ -60,7 +60,9 @@ This guide shows you how to conduct Meta-Analyses in R from scratch. The focus o
 * Calculate the **power** of a meta-analysis
 * **Convert effect sizes** reported in original studies to the ones you need for your meta-analysis.
 * Do advanced types of meta-analyses, such as 
-    + **multilevel meta-analyses** or 
+    + **multilevel meta-analyses**
+    + **multivariate meta-analyses**
+    + **meta-analytic structural equation modeling** or
     + **network meta-analyses**.
   
 
@@ -84,7 +86,7 @@ It is also beyond the scope of this guide to advise in detail which meta-analyti
 ````{block,type='rmdinfo'}
 **How to get the R code for this guide**
 
-![](githublogo.png)
+![](_figs/githublogo.png)
 
 All code behind this book is available online on **GitHub**. We have created a website containing a **download link** for all codes, and a **quick guide** on how to get the code running on your computer. The site can be found [here](https://mathiasharrer.github.io/Doing-Meta-Analysis-in-R/).
 ```

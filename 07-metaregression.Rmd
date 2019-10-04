@@ -1,6 +1,6 @@
 # Meta-Regression {#metareg}
 
-![](regressionbild.jpg)
+![](_figs/regressionbild.jpg)
 
 
 Conceptually, **Meta-Regression** does not differ much from a **subgroup analysis**. In fact, subgroup analyses with more than two groups are nothing more than a meta-regression with categorial covariates. However, meta-regression does also allow us to use **continuous data** as covariates and check weather values of this variable are associated with effect size.
@@ -35,7 +35,7 @@ In this case, we assume the same **regression line**, which is simply "shifted" 
 ```{r, echo=FALSE, fig.width=6,fig.cap="Visualisation of a Meta-Regression with dummy-coded categorial predictors",fig.align='center'}
 library(png)
 library(grid)
-img <- readPNG("dummy.PNG")
+img <- readPNG("_figs/dummy.PNG")
 grid.raster(img)
 ```
 
@@ -90,7 +90,7 @@ Let's assume i want to check if the **publication year** is associated with effe
 **Now, i can use this predictor in a meta-regression.**
 
 ```{r,echo=FALSE}
-load("Meta_Analysis_Data.RData")
+load("_data/Meta_Analysis_Data.RData")
 madata<-Meta_Analysis_Data
 madata$pub_year<-c(2001,2002,2011,2013,2013,2014,1999,2018,2001,2002,2011,2013,2013,2014,1999,2018,2003,2005)
 madata$pub_year<-as.numeric(madata$pub_year)
@@ -114,7 +114,7 @@ As you can see from the output, `pub_year` was now included as a **predictor**, 
 ```{r, echo=FALSE, fig.width=4,fig.cap="A finished bubble plot",fig.align='center'}
 library(png)
 library(grid)
-img <- readPNG("metareg.PNG")
+img <- readPNG("_figs/metareg.PNG")
 grid.raster(img)
 ```
 
@@ -139,7 +139,7 @@ bubble(output.metareg,
 
 ## Multiple Meta-Regression
 
-![](mvreg.jpg)
+![](_figs/mvreg.jpg)
 
 In the beginning of [Chapter 8](#metareg), we already introduced the basic idea behind meta-regression. We showed that, in general, a meta-regression has the following form:
 
@@ -180,7 +180,7 @@ $$\hat \theta_k = \theta + \beta_1x_{1k} + \beta_2x_{2k} + \epsilon_k + \zeta_k$
 
 Let's assume that, overall, higher publication year ($x_1$) is associated with higher effect sizes (i.e., reported effect sizes have risen over the years). We could now ask ourselves if this positive relationship **varies** depending on the quality of the studies ($x_2$). For example, maybe this rise in effect sizes was strongest for high-quality studies, while effect sizes stayed mostly the same over the years for studies of lower quality? We can visualize our assumed relationship between effect size ($\hat \theta_k$), publication year ($x_1$) and study quality ($x_2$) the following way:
 
-![](vis2.png)
+![](_figs/vis2.png)
 
 To examine such questions, we can add an **interaction term** to our meta-regression model. This interaction term lets predictions of $x_1$ vary for different values of $x_2$ (and vice versa). We can denote this additional interactional relationship in our model by introducing a third predictor, $\beta_3$, which captures this interaction $x_{1k}x_{2k}$ we want to test in our model:
 
@@ -199,7 +199,7 @@ As we have mentioned before, multiple meta-regression, while **very useful when 
 
 To better understand the risks of (multiple) meta-regression models, we have to understand the concept of **overfitting**. Overfitting occurs when we build a statistical model which fits the data **too closely**. In essence, this means that we build a statistical model which can predict the data at hand very well, but performs bad at predicting future data it has never seen before. This happens if our model assumes that some variation in our data **stems from a true "signal" in our data, when in fact we only model random noise** [@iniesta2016machine]. As a result, our statistical model produces **false positive results**: it sees relationships where there are none.
 
-![Illustration of an overfitted model vs. model with a good fit](overfitting.png)
+![Illustration of an overfitted model vs. model with a good fit](_figs/overfitting.png)
 
 Regression methods, which usually utilize minimization or maximization procedures such as Ordinary Least Squares or Maximum Likelihood estimatation, can be prone to overfitting [@gigerenzer2004mindless; @gigerenzer2008rationality]. Unfortunately, the risk of building a **non-robust model, which produces false-positive results**, is **even higher** once we go from conventional regression to **meta-regression** [@higgins2004controlling]. There are several reasons for this:
 
@@ -250,7 +250,7 @@ library(metafor)
 For our multiple meta-regression examples, i will use my `mvreg.data` dataset. This is a "toy" dataset, which we simulated for illustrative purposes. **Let's have a look at the structure of my data:** 
 
 ```{r, echo=FALSE}
-load("mvreg_data.rda")
+load("_data/mvreg_data.rda")
 levels(mvreg.data$continent)[levels(mvreg.data$continent)==0] = "Europe"
 levels(mvreg.data$continent)[levels(mvreg.data$continent)==1] = "North America"
 mvreg.data$continent = as.character(mvreg.data$continent)
@@ -441,7 +441,7 @@ kable(ms)
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 source("dmetar/mreg.multimodel.inference.R")
-load("mvreg_data.rda")
+load("_data/mvreg_data.rda")
 library(MuMIn)
 library(metafor)
 library(ggplot2)
