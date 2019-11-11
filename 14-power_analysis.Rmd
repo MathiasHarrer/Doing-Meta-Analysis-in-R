@@ -366,7 +366,7 @@ We therefore built a online **Power Calculator Tool**, which you can find below.
 
 [View in full page mode](https://mathiasharrer.shinyapps.io/power_calculator_meta_analysis/)
 
-```{r,echo=FALSE}
+```{r chunk5,echo=FALSE}
 knitr::include_app("https://mathiasharrer.shinyapps.io/power_calculator_meta_analysis/", height = "1500px")
 ```
 

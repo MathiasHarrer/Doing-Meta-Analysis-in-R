@@ -167,8 +167,12 @@ library(ggplot2)
 
 We only have to specify one parameter: `x`, the model we just fitted using `rma.mv`. Let's have a look:
 
-```{r, fig.height=6, fig.width=6, fig.align="center"}
+```{r, fig.height=6, fig.width=6, fig.align="center", eval=F}
 mlm.variance.distribution(x = full.model)
+```
+
+```{r, fig.height=6, fig.width=6, fig.align="center", echo=F}
+dmetar::mlm.variance.distribution(x = full.model)
 ```
 
 From the outputs, we see that about 8.94% of the overall variance can be attributed to level 1, 23.92% to level 2, and as much as 67.15% to level 3. The variance proportions at level 2 and 3 are equivalent to the between-study heterogeneity $I^2$ we covered in [Chapter 6](#heterogeneity). However, in the context of three-level meta-analysis models, there are three types of $I^2$ values: $I^2_{Level2}$, which describes the amount of within-cluster heterogeneity, $I^2_{Level3}$, representing the amount of between-cluster heterogeneity, and $I^2_{total}$, which is the total amount of heterogeneity not attributable to sampling error. $I^2_{total}$ is simply the sum of the $I^2$ values at level 2 and level 3.
@@ -224,7 +228,7 @@ We see the same pattern here, suggesting that overall, our three-level model is 
 
 Once our **three-level meta-analytic model** is set, it is easy to also check for moderators of the overall effect, i.e. conduct subgroup analyses. To do this, we can use the `mods` parameter in `rma.mv`. The subgroup/moderator can be specified by putting a tilde (`~`) in front of it. In our case, we want to check if dissertations report higher  or lower effect sizes, so we use `mods = ~ dissertation`. Here's the full code:
 
-```{r}
+```{r, chunk2}
 model.mods<-rma.mv(y, 
                    v, 
                    random = list(~ 1 | ID_2, 

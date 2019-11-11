@@ -430,7 +430,7 @@ se.from.p(effect.size = 0.71,
 
 Assuming we have a study with $N=200$ participants reporting an effect size of $OR=0.91$ with $p=0.05$, we can calculate the standard error like this:
 
-```{r}
+```{r chunk 4}
 se.from.p(effect.size = 0.91, 
           p = 0.05, 
           N = 200,

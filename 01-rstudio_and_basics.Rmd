@@ -3,15 +3,9 @@
 ![](_figs/chap2.jpg)
 
 ```{block,type='rmdinfo'}
-Before we start with our meta-analysis, we have to download and prepare a **computer program** which allows us to use *R* for statistical analyses. 
+Before we start with our meta-analysis, we have to download and prepare a **computer program** which allows us to use *R* for statistical analyses. Probably the best option for this at the moment is **RStudio**. This program gives us a user interface which makes it easier to handle our data, packages and output. The best part is that RStudio is **completely free** and can be downloaded anytime. 
 
-Probably the best option for this at the moment is **RStudio**. This program gives us a user interface which makes it easier to handle our data, packages and output. The best part is that RStudio is **completely free** and can be downloaded anytime.
-
-In this Chapter, we'll focus on how you can install RStudio on your computer. We'll also provide some general information on *R*, and how you can get help if you get error messages.
-
-If you already have RStudio installed on your computer, and if you're an experienced *R* user already, all of this might be nothing new for you. You may **skip** this chapter then.
-
-Especially if you have **never used R before, we would like to consider this Chapter essential**, as it gives you some input on how R works, and how we can use it for our data analyses.
+In this chapter, we'll focus on how you can install RStudio on your computer. We'll also provide some general information on *R*, and how you can get help if you get error messages. If you already have RStudio installed on your computer, and if you're an experienced *R* user already, all of this might be nothing new for you. You may **skip** this chapter then. Especially if you have **never used *R* before, however, we would like to consider this Chapter essential**, as it gives you some input on how *R* works, and how we can use it for our data analyses.
 ```
 
 <br><br>
@@ -19,28 +13,28 @@ Especially if you have **never used R before, we would like to consider this Cha
 ---
 
 ## Getting RStudio to run on your computer {#RStudio}
-```{r, echo=FALSE, fig.width=3,fig.height=2}
+```{r chunk rstudio, echo=FALSE, fig.width=3,fig.height=2}
 library(png)
 library(grid)
 img <- readPNG("_figs/rstudiologo.PNG")
 grid.raster(img)
 ```
 
-As a prerequisite for this guide, you need to have **RStudio** and a few essential **R packages** installed.
+As a prerequisite for this guide, you need to have **RStudio** and a few essential ***R* packages** installed.
 
 **You have to follow these steps to get your RStudio version set.**
    
 1. Download RStudio on the **RStudio** Website ([Link](https://www.rstudio.com/products/rstudio/download/)). It's free!
-2. If you do not have **R** installed yet, you will have to install the latest R Version before you can use RStudio. You can get the latest R version [here](https://cran.r-project.org/bin/windows/base/). You have to choose the right *R* version depending on the operating system you use (i.e., Windows or Mac).
+2. If you do not have *R* installed yet, you will have to install the latest *R* Version before you can use RStudio. You can get the latest *R* version [here](https://cran.r-project.org/bin/windows/base/). You have to choose the right *R* version depending on the operating system you use (i.e., Windows or Mac).
 3. Once RStudio is running, open the **Console** on the bottom left corner of your screen.
-4. We will now install a few packages using R Code. Here's an overview of the packages, and why we need them:
+4. We will now install a few packages using *R* code. Here's an overview of the packages, and why we need them:
 
 ```{r,echo=FALSE}
 library(kableExtra)
 Package<-c("tidyverse","meta","metafor")
 Description<-c("This is a large bundle of packages which make it easy to manipulate and visualize data in R. Functions included in the tidyverse have become very popular in the R community in recent years, and are used by many researchers, programmers and data scientists. If you want to learn more about the tidyverse, you can click on this link: https://www.tidyverse.org/.", 
-               "This package contains functions which make it easy to run different types of meta-analyses. We will primarily focus on this package in the guide, because it is easy to use, well documentated, and very versatile. More info on the meta package can be found here: http://www.imbi.uni-freiburg.de/lehre/lehrbuecher/meta-analysis-with-r.", 
-               "The metafor package is also dedicted to conducting meta-analyses, and a true 'powerhouse' in terms of functionality. The package also provides more advanced tools, but may be a little involved for first time R users. However, because we will use this package at times in later chapters, and because metafor is used by the meta package for many applications, it is best to have it installed. The metafor package also has an excellent documentation for various meta-analysis-related topics, which can be found here: http://www.metafor-project.org/doku.php/metafor.")
+               "This package contains functions which make it easy to run different types of meta-analyses. We will primarily focus on this package in the guide, because it is easy to use, well documented, and very versatile. More info on the meta package can be found here: http://www.imbi.uni-freiburg.de/lehre/lehrbuecher/meta-analysis-with-r.", 
+               "The metafor package is also dedicated to conducting meta-analyses, and a true 'powerhouse' in terms of functionality. The package also provides more advanced tools, but may be a little involved for first time R users. However, because we will use this package at times in later chapters, and because metafor is used by the meta package for many applications, it is best to have it installed. The metafor package also has an excellent documentation for various meta-analysis-related topics, which can be found here: http://www.metafor-project.org/doku.php/metafor.")
 m<-data.frame(Package,Description)
 names<-c("Package", "Description")
 colnames(m)<-names
@@ -87,12 +81,13 @@ Gladly, once you've reached this point successfully, these three things are set 
 ### Getting Help
 As you start to apply the functions described in this guide to your data you will soon find questions that the guide does not answer. This section describes a few tips on how to get help.
 
-* If you get stuck somewhere, the best way is to start with **Google**. Google is particularly useful for error messages. If you get an error message and you have no idea what to do with it, try googling it first. The *R* community is very large, and chances are that someone else has been confused by it in the past, and there will
+* A great asset of working with *R* is that most packages come with great documentation material showing you how to use functions. In RStudio, it is very easy to access the documentation: in the **Console**, simply put a **question mark** in front of the function you want to use, and then hit **Enter**. If a documentation file for the function exists, a page should open in the **Help** (bottom-right corner) pane of your RStudio window. This page will then show the arguments required to use the function, and what the function does. As an example, you can write `?sum` into your Console. If you then hit Enter, the documentation for the `sum()` function should be displayed in the Help pane.
+* If you get stuck somewhere, the best way is to start with **Google**. Google is particularly useful for error messages. If you get an error message and you have no idea what to do with it, try googling it first. The *R* community is large, and chances are that there will
 be help somewhere on the web. (If the error message isn’t in English,
-run `Sys.setenv(LANGUAGE = "en")` and re-run the code; you’re
-more likely to find help for English error messages.)
-* If Google doesn’t help, try [stackoverflow](https://stackoverflow.com). Start by spending a little time searching for an existing answer; including [R] restricts your search to questions and answers that use R. 
+run `Sys.setenv(LANGUAGE = "en")` and re-run the code. It is
+more likely that you will find help for error messages in English.)
 * Lastly, if you stumble upon an error (or typos!) in this guide's text or *R* syntax, feel free to contact **Mathias Harrer** at **mathias.harrer@fau.de**.
+
 
 <br><br>
 
@@ -198,13 +193,13 @@ After downloading, unzip the ZIP-folder, and drag the **dmetar-master** folder i
 
 ```
 
-**For Windows:**
+* **For Windows:**
 
 ```{r, eval=FALSE}
 devtools::install("C:\\Path\\To\\The\\Folder\\dmetar-master")
 ```
 
-**For Mac:**
+* **For Mac:**
 
 ```{r, eval=FALSE}
 devtools::install("~/Path/To/The/Folder/dmetar-master")

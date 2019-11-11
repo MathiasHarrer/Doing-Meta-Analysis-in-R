@@ -7,13 +7,16 @@ bookdown::gitbook:
       after: |
         <li><a href="https://www.protectlab.org/meta-analysis-in-r" target="blank">How to cite this guide</a></li>
         <li><a href="https://dmetar.protectlab.org" target="blank">Get the <i>dmetar</i> package</a></li>
+        <li><a href="https://www.protectlab.org/meta-analysis-in-r" target="blank">PDF Download</a></li>
       toc_depth: 3
       toc_float:
         collapsed: false
     edit: https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/%s
-    download: ["pdf"]
+    download: no
     fontsettings:
       size: 1
+    toolbar:
+      search: yes
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex

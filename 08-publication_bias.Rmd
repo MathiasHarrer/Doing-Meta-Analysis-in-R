@@ -217,11 +217,16 @@ First, let's use the `pcurve` function with `effect.estimation` set to `FALSE`. 
 source("dmetar/pcurve2.R")
 library(poibin)
 library(stringr)
+library(dmetar)
+```
+
+```{r, fig.width=7, fig.height=7, fig.align="center", eval=FALSE}
+pcurve(m.hksj)
 ```
 
 
-```{r, fig.width=7, fig.height=7, fig.align="center"}
-pcurve(m.hksj)
+```{r, fig.width=7, fig.height=7, fig.align="center", echo=FALSE}
+dmetar::pcurve(m.hksj)
 ```
 
 **The function produces a large output, so let us go through it one by one:**

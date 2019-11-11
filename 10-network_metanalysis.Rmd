@@ -787,8 +787,12 @@ library(ggplot2)
 library(forcats)
 ```
 
+```{r, fig.align="center", fig.width=5, eval=FALSE}
+rank.probability <- rank.probability(mcmc2)
+sucra(rank.probability, lower.is.better = TRUE)
+```
 
-```{r, fig.align="center", fig.width=5}
+```{r, fig.align="center", fig.width=5, echo=FALSE, fig.cap="SUCRA Score"}
 rank.probability <- rank.probability(mcmc2)
 sucra(rank.probability, lower.is.better = TRUE)
 ```
@@ -798,7 +802,7 @@ Looking at the SUCRA values of each treatment, we again see that **Rosiglitazone
 
 A last thing we also often want to report in our research paper is the effect size estimate for **each treatment comparison**, based on our model. We can easily export such a matrix using the `relative.effect.table()` function. We can save the results of this function in an object, such as `result`, which we can then save to .csv file for later usage. The `relative.effect.table()` automatically creates a treatment comparison matrix containing the **estimated effect**, as well as the **credibility intervals** for each comparison. Here is how we can do this:
 
-```{r, eval=FALSE}
+```{r chunk1, eval=FALSE}
 results <- relative.effect.table(mcmc2)
 save(results, file = "results.csv")
 ```

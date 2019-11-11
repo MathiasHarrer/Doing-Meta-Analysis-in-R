@@ -3,26 +3,26 @@
 ![](_figs/regressionbild.jpg)
 
 
-Conceptually, **Meta-Regression** does not differ much from a **subgroup analysis**. In fact, subgroup analyses with more than two groups are nothing more than a meta-regression with categorial covariates. However, meta-regression does also allow us to use **continuous data** as covariates and check weather values of this variable are associated with effect size.
+Conceptually, **Meta-Regression** does not differ much from a **subgroup analysis**. In fact, subgroup analyses with more than two groups are nothing more than a meta-regression with categorial predictors. However, meta-regression does also allow us to use **continuous data** as predictors and check whether these variables are associated with effect size differences.
 
 ```{block,type='rmdinfo'}
 **The idea behind meta-regression**
 
-You may have already performed regressions in regular data where participants or patients are the **unit of analysis**. In typical Meta-Analyses, we do not have the individual data for each participant available, but only the **aggregated effects**, which is why we have to perform meta-regressions with covariates at the **study level**. This also means that while we conduct analyses on participant samples much larger than usual in single studies, it is still very likely that **we don't have enough studies for a meta-regression to be sensible**. In [Chapter 7](#subgroup), we told you that subgroup analyses make no sense when *k*<10. For **meta-regression**, Borenstein and colleages [@borenstein2011] recommend that **each covariate should at least contain ten studies**, although this should not be seen as clear rule.
+You may have already performed regressions in regular data where participants or patients are the **unit of analysis**. In typical meta-analyses, we do not have the individual data for each participant available, but only the **aggregated effects**, which is why we have to perform meta-regressions with predictors on a **study level**. This also means that while we conduct analyses on participant samples much larger than usual for single studies, it is still very likely that **we do not have enough data for a meta-regression to be sensible**. In [Chapter 7](#subgroup), we told you that subgroup analyses make no sense when $k<10$. For **meta-regression**, Borenstein and colleages [@borenstein2011] recommend that **each covariate should at least contain ten studies**, although this should not be seen as an iron-clad rule. 
 
 In a conventional regression, we want to estimate a parameter $y$ using a covariate $x_i$ with $n$ regression coefficients $\beta$. A standard regression equation therefore looks like this:
 
 $$y=\beta_0 + \beta_1x_1 + ...+\beta_nx_n$$
 
-In a meta-regression, we want to estimate the **effect size** $\theta$ for different values of the covariate(s), so our regression looks like this:
+In a meta-regression, we want to estimate the **effect size** $\theta$ for different values of the predictor(s), so our regression looks like this:
 
 $$\hat \theta_k = \theta + \beta_1x_{1k} + ... + \beta_nx_{nk} + \epsilon_k + \zeta_k$$
 
-You might have seen that when estimating the effect size $\theta_k$ of a study $k$ in our regression model, there are two **extra terms in the equation**, $\epsilon_k$ and $\zeta_k$. The same terms can also be found in the equation for the random-effects-model in [Chapter 4.2](#random). The two terms signify two types of **independent errors** which cause our regression prediction to be **imperfect**. The first one, $\epsilon_k$, is the sampling error through which the effect size of the study deviates from its "true" effect. The second one, $\zeta_k$, denotes that even the true effect size of the study is only sampled from **an overarching distribution of effect sizes** (see the Chapter on the [Random-Effects-Model](#random) for more details). In a **fixed-effect-model**, we assume that all studies actually share the **same true effect size** and that the **between-study heterogeneity** $\tau^2 = 0$. In this case, we do not consider $\zeta_k$ in our equation, but only $\epsilon_k$.
+You might have seen that when estimating the effect size $\theta_k$ of a study $k$ in our regression model, there are two **extra terms in the equation**, $\epsilon_k$ and $\zeta_k$. The same terms can also be found in the equation for the random-effects-model in [Chapter 4.2](#random). The two terms signify two types of **independent errors** which cause our regression prediction to be **imperfect**. The first one, $\epsilon_k$, is the sampling error through which the effect size of the study deviates from its "true" effect. The second one, $\zeta_k$, denotes that even the true effect size of the study is only sampled from **an overarching distribution of effect sizes** (see the chapter on the [Random-Effects Model](#random) for more details). In a **fixed-effect model**, we assume that all studies actually share the **same true effect size** and that the **between-study heterogeneity** $\tau^2 = 0$. In this case, we do not consider $\zeta_k$ in our equation, but only $\epsilon_k$.
 
-As the equation above has includes **fixed effects** (the $\beta$ coefficients) as well as **random effects** ($\zeta_k$), the model used in meta-regression is often called **a mixed-effects-model**. Mathematically, this model is identical to the **mixed-effects-model** we described in [Chapter 7](#subgroup) where we explained how **subgroup analyses** work.
+As the equation above includes **fixed effects** (the $\beta$ coefficients) as well as **random effects** ($\zeta_k$), the model used in meta-regression is often called **a mixed-effects-model**. Mathematically, this model is identical to the **mixed-effects-model** we described in [Chapter 7](#subgroup) where we explained how **subgroup analyses** work. 
 
-Indeed **subgroup analyses with more than two subgroups** are nothing else than a **meta-regression** with a **categorical predictor**. For meta-regression, these subgroups are then **dummy-coded**, e.g.
+Indeed, as mentioned above, **subgroup analyses** are nothing else than a **meta-regression** with a **categorical predictor**. For meta-regression, these subgroups are then **dummy-coded**, e.g.
 
 $$ D_k =  \{\begin{array}{c}0:ACT \\1:CBT \end{array}$$
 
@@ -48,9 +48,7 @@ To evaluate the **statistical significance of a predictor**, we a **t-test** of 
 
 $$ t=\frac{\beta}{SE_{\beta}}$$
 
-Which provides a $p$-value telling us if a variable significantly predicts effect size differences in our regression model.
-
-If we fit a regression model, our aim is to find a model **which explains as much as possible of the current variability in effect sizes** we find in our data.
+Which provides a $p$-value telling us if a variable significantly predicts effect size differences in our regression model. If we fit a regression model, our aim is to find a model **which explains as much as possible of the current variability in effect sizes** we find in our data. 
 
 In conventional regression, $R^2$ is commonly used to quantify the **goodness of fit** of our model in percent (0-100%). As this measure is commonly used, and many researchers know how to to interpret it, we can also calculate a $R^2$ analog for meta-regression using this formula:
 
@@ -65,7 +63,7 @@ Where $\hat\tau^2_{REM}$ is the estimated total heterogenetiy based on the rando
 
 ## Calculating meta-regressions in R
 
-Meta-regressions can be conducted in R using the `metareg` function in `meta`. To show the similarity between `subgroup` analysis and `meta-regression` with categorical predictors, i'll first conduct a meta-regression with my variable "Control" as predictor again.
+Meta-regressions can be conducted in *R* using the `metareg` function in `meta`. To show the similarity between `subgroup` analysis and `meta-regression` with categorical predictors, I will first conduct a meta-regression with my variable `Control` as a predictor again.
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE}
 library(meta)
@@ -77,17 +75,17 @@ library(meta)
 metareg(m.hksj,Control)
 ```
 
-We see in the output that the `metareg` function uses the values of "Control" (i.e, the three different types of control groups) as a **moderator**. It takes **"information only"** as a dummy-coded *reference group*, and **"no intervention"** and **"WLC"** as dummy-coded **predictors**. Under `Test of Moderators`, we can see that control groups are not significantly associated with effect size differences $F_{2,15}=0.947$, $p=0.41$. Our regression model does not explain any of the variability in our effect size data ($R^2=0\%$). 
+We see in the output that the `metareg` function uses the values of `Control` (i.e, the three different types of control groups) as a **moderator**. It takes **"information only"** as a dummy-coded *reference group*, and **"no intervention"** and **"WLC"** as dummy-coded **predictors**. Under `Test of Moderators`, we can see that control groups are not significantly associated with effect size differences $F_{2,15}=0.947$, $p=0.41$. Our regression model does not explain any of the variability in our effect size data ($R^2=0\%$). 
 
-Below `Model Results`, we can also see the $\beta$-values (`estimate`) of both predictors, and their significance level `pval`. As we can see, both predictors were not significant.
+Below `Model Results`, we can also see the $\beta$-values (`estimate`) of both predictors, and their significance level `pval`. As we can see, both predictors are not significant.
 
 <br><br>
 
 **Continuous variables**
 
-Let's assume i want to check if the **publication year** is associated with effect size. I have stored the variable `pub_year`, containing the publication year of every study in my dataset, and conducted the meta-analysis with it. I stored my meta-analysis output in the `m.pubyear` output.
+Let us assume I want to check if the **publication year** of a study is associated with effect size differences. I have stored the variable `pub_year`, containing the publication year of every study in my dataset, and conducted the meta-analysis with it. I stored my meta-analysis output in the `m.pubyear` output. 
 
-**Now, i can use this predictor in a meta-regression.**
+**Now, I can use this predictor in a meta-regression.**
 
 ```{r,echo=FALSE}
 load("_data/Meta_Analysis_Data.RData")
@@ -150,18 +148,18 @@ Where $\hat \theta_k$ is the estimate of our effect size of a study $k$ and $\be
 ```{block,type='rmdinfo'}
 **The idea behind multiple meta-regression**
 
-Previously, we only considered the scenario in which we use **one predictor** $\beta_1x_1$ in our meta-regression (e.g., we want to check if the effect size a study reports depends on the year it was published). But imagine another scenario. Let's assume that we have made the experience in our previous research that the effect sizes we find in a research field for a certain study depends on how prestigious the journal in which the study was published is (e.g., higher effects are reported in journals with a high reputation). On the other hand, it also seems quite logical that journals with a good reputation publish studies of high quality, which may also be associated with higher effect sizes. So to check if journal reputation is indeed associated with higher effect sizes, we have to make sure that this relationship is not **confounded** by the fact that prestigious journals publish studies of higher quality, which may be the true reason we find this relationship between journal reputation and effect size. This means we have to **control** for study quality (e.g., rated on a scale from 0 to 10) when we examine the relationship between journal prestige (e.g., operationalized as the [impact factor](https://en.wikipedia.org/wiki/Impact_factor) of a journal) and effect size.
+Previously, we only considered the scenario in which we use **one predictor** $\beta_1x_1$ in our meta-regression (e.g., we want to check if the effect size a study reports depends on the year it was published). But imagine another scenario. Let us assume that we have made the experience in our previous research that the effect sizes we find for a certain study in some research field depends on the prestige of the journal in which the study was published (e.g., higher effects are reported in journals with a high reputation). On the other hand, it also seems apriori reasonable that journals with a good reputation publish studies of high quality, which may also be associated with higher effect sizes. So to check if journal reputation is indeed associated with higher effect sizes, we have to make sure that this relationship is not **confounded** by the fact that prestigious journals publish studies of higher quality, which may be the true reason we find this relationship between journal reputation and effect size. This means we have to **control** for study quality (e.g., rated on a scale from 0 to 10) when we examine the relationship between journal prestige (e.g., operationalized as the [impact factor](https://en.wikipedia.org/wiki/Impact_factor) of a journal) and effect size.
 
-This, and many other possible scenarios can be dealt with using **multiple meta-regression**. In multiple meta-regression we use several predictors (variables) to predict (differences in) effect sizes. When we look back at the **general meta-regression** formula we defined before, we actually see that the formula already provides us with this feature through the $\beta_nx_{nk}$ part. Here, the parameter $n$ denotes that we can include $n$ more predictors/variables into our meta-regression, making it a multiple meta-regression.
+This, and many other possible scenarios can be dealt with using **multiple meta-regression**. In multiple meta-regression we use several predictors (variables) to predict (differences in) effect sizes. When we look back at the **general meta-regression** formula we defined before, we actually see that the formula already provides us with this feature through the $\beta_nx_{nk}$ part. Here, the parameter $n$ denotes that we can include $n$ more predictors/variables into our meta-regression, making it a multiple meta-regression. 
 
-While, statistically speaking, the $n$ parameter gives us the possibility to include as many predictors into our multiple meta-regression model as we wish to, things are a little more tricky in reality. In the following, we will discuss a few important pitfalls in multiple meta-regression and how we can build multiple meta-regression models which are robust and trustworthy. But first, let's cover another important feature of multiple meta-regression: **interactions**.
+While, statistically speaking, the $n$ parameter gives us the possibility to include as many predictors into our multiple meta-regression model as we wish to, things are a little more tricky in reality. In the following, we will discuss a few important pitfalls in multiple meta-regression and how we can build multiple meta-regression models which are robust and trustworthy. But first, let us cover another important feature of multiple meta-regression: **interactions**.
 
 ```
 
 ```{block,type='rmdinfo'}
 **Interactions**
 
-So far, in our multiple meta-regression model, we only considered the case where we have multiple predictor variables $x_1,x_2, ... x_n$, and along with their predictor estimates $\beta_n$, **add them together** to calculate our estimate of the true effect size $\hat \theta_k$ for each study $k$. In multiple meta-regression models, however, we can not only model such **additive relationships**. We can also model so-called **interactions**. Interactions mean that the **relationship** between one **predictor variable** (e.g., $x_1$) and the **estimated effect size** is different for different values of another predictor variable (e.g. $x_2$).
+So far, in our multiple meta-regression model, we only considered the case where we have multiple predictor variables $x_1,x_2, ... x_n$, and along with their predictor estimates $\beta_n$, **add them together** to calculate our estimate of the true effect size $\hat \theta_k$ for each study $k$. In multiple meta-regression models, however, we can not only model such **additive relationships**. We can also model so-called **interactions**. Interactions mean that the **relationship** between one **predictor variable** (e.g., $x_1$) and the **estimated effect size** changes for different values of another predictor variable (e.g. $x_2$). 
 
 Imagine a scenario where we want to model two predictors and their relationship to the effect size: the **publication year** ($x_1$) of a study and the **quality** ($x_2$) of a study, which we rate like this:
 
@@ -178,7 +176,7 @@ As we described before, we can now imagine a meta-regression model in which we c
 
 $$\hat \theta_k = \theta + \beta_1x_{1k} + \beta_2x_{2k} + \epsilon_k + \zeta_k$$
 
-Let's assume that, overall, higher publication year ($x_1$) is associated with higher effect sizes (i.e., reported effect sizes have risen over the years). We could now ask ourselves if this positive relationship **varies** depending on the quality of the studies ($x_2$). For example, maybe this rise in effect sizes was strongest for high-quality studies, while effect sizes stayed mostly the same over the years for studies of lower quality? We can visualize our assumed relationship between effect size ($\hat \theta_k$), publication year ($x_1$) and study quality ($x_2$) the following way:
+Let us assume that, overall, higher publication year ($x_1$) is associated with higher effect sizes (i.e., reported effect sizes have risen over the years). We could now ask ourselves if this positive relationship **varies** depending on the quality of the studies ($x_2$). For example, maybe this rise in effect sizes was strongest for high-quality studies, while effect sizes stayed mostly the same over the years for studies of lower quality? We can visualize our assumed relationship between effect size ($\hat \theta_k$), publication year ($x_1$) and study quality ($x_2$) the following way:
 
 ![](_figs/vis2.png)
 
@@ -203,14 +201,14 @@ To better understand the risks of (multiple) meta-regression models, we have to 
 
 Regression methods, which usually utilize minimization or maximization procedures such as Ordinary Least Squares or Maximum Likelihood estimatation, can be prone to overfitting [@gigerenzer2004mindless; @gigerenzer2008rationality]. Unfortunately, the risk of building a **non-robust model, which produces false-positive results**, is **even higher** once we go from conventional regression to **meta-regression** [@higgins2004controlling]. There are several reasons for this:
 
-1.  In Meta-Regression, our **sample of data is mostly small**, as we can only use the synthesized data of all analyzed studies $k$.
+1.  In meta-regression, our **sample of data is mostly small**, as we can only use the synthesized data of all analyzed studies $k$.
 2.  As our meta-analysis aims to be a **comprehensive overview of all evidence**, we have no **additional data** on which we can "test" how well our regression model can predict high or low effect sizes.
 3.  In meta-regressions, we have to deal with the potential presence of effect size heterogeneity ([see Chapter 6](#heterogeneity)). Imagine a case in which we have to studies with different effect sizes and non-overlapping confidence intervals. Every variable which has different values for the different studies might be a potential explanation for effect size difference we find, while it seems straightforward that **most of such explanations are spurious** [@higgins2004controlling].
 4.  Meta-regression as such, and multiple meta-regression in particular, make it very easy to **"play around" with predictors**. We can test numerous meta-regression models, include many more predictors or remove them in an attempt to explain the heterogeneity in our data. Such an approach is of course tempting, and often found in practice, because we, as meta-analysts, want to find a significant model which explains why effect sizes differ [@higgins2002statistical]. However, such behavior has been shown to massively **increase the risk of spurious findings** [@higgins2004controlling], because we can change parts of our model indefinitely until we find a significant model, which is then very likely to be overfitted (i.e., it mostly models statistical noise).
 
 **Some guidelines have been proposed to avoid an excessive false positive rate when building meta-regression models:**
 
-- Minimize the number of investigated predictors. In multiple meta-regression, this translates to the concept of **parsimony**, or simplicity: when evaluating the fit of a meta-regression model, we prefer models which achieve a good fit with less predictors. Estimators such as the *Akaike* and *Bayesian information criterion* can help with such decisions. We will get to this topic again below.
+- Minimize the number of investigated predictors. In multiple meta-regression, this translates to the concept of **parsimony**, or simplicity: when evaluating the fit of a meta-regression model, we prefer models which achieve a good fit with less predictors. Estimators such as the *Akaike* and *Bayesian Information Criterion* can help with such decisions. We will get to this topic again below.
 - Predictor selection should be based on **predefined scientific or theoretical questions** we want to answer in our meta-regression.
 - When the number of studies is low (which is very likely to be the case), and we want to compute the significance of a predictor, we should use the [Knapp-Hartung adjustment](#random) to obtain more reliable estimates [@higgins2002statistical].
 - We can use **permutation** to assess the robustness of our model in resampled data. We will describe the details of this method later.
@@ -232,16 +230,16 @@ Multicollinearity means that one or more predictor in our regression model can b
 
 When building a multiple regression model, there are **different approaches through which we can select and insert predictors** into our model. Here, we discuss the most important ones along with their strengths and weaknesses:
 
-- **Forced entry.** In forced entry methods, all relevant predictors are forced into the regression model simultaneously. In most functions in R, this is the default setting. Although this is a generally recommended procedure [@field2012discovering], keep in mind that all predictors to use in forced entry should still be based on a predefined, theory-led decision.
+- **Forced entry.** In forced entry methods, all relevant predictors are forced into the regression model simultaneously. In most functions in *R*, this is the default setting. Although this is a generally recommended procedure [@field2012discovering], keep in mind that all predictors to use in forced entry should still be based on a predefined, theory-led decision.
 - **Hierarchical.** Hierchical multiple regression means including predictors into our regression model stepwise, but based on a clearly defined scientific rationale. First, only predictors which have been associated with effect size differences in previous research are included in the order of their importance. After this step, novel predictors can be added to explore if these variables explain heterogeneity which has not yet been captured by the known predictors.
-- **Stepwise.** Stepwise methods mean that variables/predictors are added to the model one after another. At first glance, this sounds a lot like hierarchical regression, but there is a crucial difference: stepwise regression methods select predictors based on a *statistical* criterion. In a procedure called **forward selection**, the variable explaining the largest amount of variability in the data is used as the first predictor. This processes is then repeated for the remaining variables, each time selecting the variable which explains most of the *remaining* (unexplained) variability in the data as the next predictor, which is then added to the model. Furthermore, there is a procedure called **backward selection**, in which all variables are used as predictors in the model first, and then removed successively based on a predefined statistical criterion. There is an extensive literature discouraging the usage of stepwise methods [@whittingham2006we; @chatfield1995model], and if we recall the common [pitfalls](#pitfalls) of multiple regression models we presented above, it becomes clear that these methods have high risk of producing spurious findings. Nevertheless, stepwise methods are still frequently used in practice, making it important to know that these procedures exist. If we use stepwise methods ourselves, however, it is advised to primarily do so in an exploratory fashion and keep the limitations of this procedure in mind.
-- **Multimodel inference.** Multi-model methods differ from stepwise methods as they do not try to successively build the "best" one model explaining most of the variance. Instead, in this procedure, *all* possible combinations of a predifined selection of predictors are modeled, and evaluated using a criterion such as Akaike's Information Criterion, which rewards simpler models. This enables a full eximination of all possible models, and how they perform. A common finding using this procedure is that there are many different kinds of predictor combinations within a model which lead to a good fit. In multimodel inference, the estimated coefficients of predictors can then be synthesized across all possible models to infer how important certain predictors are overall.  
+- **Stepwise.** Stepwise methods mean that variables/predictors are added to the model one after another. At first glance, this sounds a lot like hierarchical regression, but there is a crucial difference: stepwise regression methods select predictors based on a *statistical* criterion. In a procedure called **forward selection**, the variable explaining the largest amount of variability in the data is used as the first predictor. This processes is then repeated for the remaining variables, each time selecting the variable which explains most of the *remaining* (unexplained) variability in the data as the next predictor, which is then added to the model. Furthermore, there is a procedure called **backward selection**, in which all variables are used as predictors in the model first, and then removed successively based on a predefined statistical criterion. There is an extensive literature discouraging the usage of stepwise methods [@whittingham2006we; @chatfield1995model], and if we recall the common [pitfalls](#pitfalls) of multiple regression models we presented above, it becomes clear that these methods have high risk of producing spurious findings. Nevertheless, stepwise methods are still frequently used in practice, making it important to know that these procedures exist. If we use stepwise methods ourselves, however, it is advised to primarily do so in an exploratory fashion and to keep the limitations of this procedure in mind.
+- **Multimodel inference.** Multimodel methods differ from stepwise methods as they do not try to successively build the "best" one model explaining most of the variance. Instead, in this procedure, *all* possible combinations of a predifined selection of predictors are modeled, and evaluated using a criterion such as Akaike's Information Criterion, which rewards simpler models. This enables a full eximination of all possible models, and how they perform. A common finding using this procedure is that there are many different kinds of predictor combinations within a model which lead to a good fit. In multimodel inference, the estimated coefficients of predictors can then be synthesized across all possible models to infer how important certain predictors are overall.  
 
 <br></br>
 
 ### Using `metafor` to compute Multiple Meta-Regressions
 
-After all this input, it is now **time to fit our first multiple regression models**. To do this, we will not use the `meta` package we have used so far. Instead, we will use the `metafor` package [@viechtbauer2010conducting]. This package provides a vast array of advanced functionalities for meta-analysis, along with great [documentation](http://www.metafor-project.org/doku.php/). We will also use this package in a later chapter where we focus on **Multilevel Meta-Analysis**, so it is worth getting accustomed to the inner workings of this package. So, to begin, let's make sure we have `metafor` installed and loaded in our library.
+After all this input, it is now **time to fit our first multiple regression models**. To do this, we will not use the `meta` package we have used so far. Instead, we will use the `metafor` package [@viechtbauer2010conducting]. This package provides a vast array of advanced functionalities for meta-analysis, along with great [documentation](http://www.metafor-project.org/doku.php/). We will also use this package in a later chapter where we focus on **Multilevel Meta-Analysis**, so it is worth getting accustomed to the inner workings of this package. So, to begin, let us make sure we have `metafor` installed and loaded in our library.
 
 ```{r, eval=FALSE}
 library(metafor)
@@ -274,7 +272,7 @@ mvreg.data$continent = factor(mvreg.data$continent)
 
 #### Checking for multicollinearity
 
-As we mentioned before, we have to check for multicollinearity of our predictors to make sure that our meta-regression model coefficient estimates are robust. A quick way to check for high intercorrelation is to calculate a **intercorrelation matrix** for all continuous variables with the following code:
+As we mentioned before, we have to check for multicollinearity of our predictors to make sure that our meta-regression model coefficient estimates are robust. A quick way to check for high correlation is to calculate a **intercorrelation matrix** for all continuous variables with the following code:
 
 ```{r}
 cor(mvreg.data[,3:5])
@@ -293,14 +291,14 @@ We see that our variables are indeed correlated, but probably not to a degree th
 
 #### Fitting a meta-regression model without interaction terms
 
-Now, let's fit our first meta-regression model, for now without assuming any interactions between predictors. Previously, we wanted to explore if a high **reputation** of the journal a study was published predicts higher effect sizes. Let's also assume we already know very well from previous literature that the **quality** of a study is also associated with differences in effects. We can now perform a hierarchical regression where we first include our known predictor `quality`, and then check if `reputation` explains heterogeneity beyond that while taking `quality` into account.
+Now, let us fit our first meta-regression model, for now without assuming any interactions between predictors. Previously, we wanted to explore if a high **reputation** of the journal a study was published in predicts higher effect sizes. Let us also assume we already know very well from previous literature that the **quality** of a study is also associated with differences in effects. We can now perform a hierarchical regression where we first include our known predictor `quality`, and then check if `reputation` explains heterogeneity beyond that while taking `quality` into account. 
 
-To do this, we use the `rma` function in `metafor` to perform a **random-effects meta-regression**. This function has countless parameters, but we will only concentrate on the following (to see all parameters, type `?rma` into your console):
+To do this, we use the `rma` function in `metafor` to perform a **random-effects meta-regression**. This function has countless parameters, but we will only concentrate on the following (to see all parameters, type `?rma` into your Console):
 
 ```{r,echo=FALSE}
 i<-c("yi","sei","data", "method","mods","test")
-ii<-c("The column of our dataset in which the effect sizes for each study are stored.",
-      "The column of our dataset in which the standard error of the effect sizes for each study is stored.",
+ii<-c("The column of our dataset in which the effect size for each study is stored.",
+      "The column of our dataset in which the standard error of the effect size for each study is stored.",
       "The dataset with our meta-analysis data.",
       "The estimator for tau-squared we want to use. For meta-regression models, it is advised to use the 
       maximum likelihood ('ML') or restricted maximum likelihood ('REML') estimator.",
@@ -312,27 +310,28 @@ colnames(ms)<-names
 kable(ms) 
 ```
 
-First, let's perform a meta-regression using only `quality` as the predictor along with Knapp-Hartung adjustments. **We save the results as `model1`, and then inspect the output**.
+First, let us perform a meta-regression using only `quality` as the predictor along with Knapp-Hartung adjustments. **We save the results as `model1`, and then inspect the output**.
+
 
 
 ```{r, warning=FALSE, message=FALSE}
-model1 <- rma(yi=yi, 
-              sei=sei, 
-              data=mvreg.data, 
+model1 <- rma(yi = yi, 
+              sei = sei, 
+              data = mvreg.data, 
               method = "ML", 
               mods = ~ quality, 
-              test="knha")
+              test = "knha")
 model1
 ```
 
 From the output, we can see the results for our predictor `quality` under `Model Results` and the values for our regression intercept (`intrcpt`). We see that the $p$ value for our predictor is non-significant $p=0.0688$, but only marginally so. Under `Test of Moderators (coefficient(s) 2)`, we can see the overall test results for our regression model ($F_{1,34}=3.68, p=0.0688$). Because we only included one predictor, the $p$-value reported there is identical to the one we saw before. In total, our model explains $R^2=2.23\%$ of the heterogeneity in our data, which we can see next to the `R^2 (amount of heterogeneity accounted for)` line in our output. 
 
-**Now, let's check if we can improve our model by including `reputation` as predictor. We add `+ reputation` in our argument to `mods` and save the output to `model2`.**
+**Now, let us check if we can improve our model by including `reputation` as predictor. We add `+ reputation` in our argument to `mods` and save the output to `model2`.**
 
 ```{r, warning=FALSE, message=FALSE}
-model2 <- rma(yi=yi, 
-              sei=sei, 
-              data=mvreg.data, 
+model2 <- rma(yi = yi, 
+              sei = sei, 
+              data = mvreg.data, 
               method = "ML", 
               mods = ~ quality + reputation, 
               test="knha")
@@ -347,7 +346,7 @@ We now see that a new line appears under `Model Results` displaying the results 
 anova(model1, model2)
 ```
 
-This function performs a model test and provides us with several statistics to assess if `model2` has a better fit than `model1`. Here we compare our `full` model, `model2`, which includes both `quality` and `reputation`, with our `Reduced` model, which only uses `quality` as a predictor.
+This function performs a model test and provides us with several statistics to assess if `model2` has a better fit than `model1`. Here we compare our `full` model, `model2`, which includes both `quality` and `reputation`, with our `Reduced` model, which only uses `quality` as a predictor. 
 
 The `anova` function performs a **Likelihood Ratio Test**, the results of which we can see in the `LRT` column. The test is highly significant ($\chi^2_1=19.50, p<0.001$), which means that that our full model indeed provides a better fit. Another important statistic is reported in the `AICc` column. This provides us with the *Akaike's Information Criterion*, corrected for small samples. As we mentioned before, AICc penalizes complex models with more predictors to avoid overfitting. It is important to note that **lower values of AIC(c) mean that a model performs better**. Interestingly, in our output, we see that the full model ($AICc=20.77$) has a better AIC value than our reduced model ($AICc=37.73$), despite having more predictors. All of this suggests that our multiple regression **does indeed provide a good fit** to our data.
 
@@ -355,7 +354,7 @@ The `anova` function performs a **Likelihood Ratio Test**, the results of which 
 
 #### Modeling interaction terms
 
-Let's say we want to model an **interaction hypothesis** with our additional predictors `pubyear` (publication year) and `continent`, where we assume that the relationship between publication year and effect size differs for Europe and North America. To model this in our `rma` function, we have to **connect our predictors** with `*` in the `mods` parameter. Because we do not want to compare the models directly using the `anova` function, we specify the $\tau^2$ estimator to be `"REML"` (restricted maximum likelihood) this time:
+Let us say we want to model an **interaction hypothesis** with our additional predictors `pubyear` (publication year) and `continent`, where we assume that the relationship between publication year and effect size differs for Europe and North America. To model this in our `rma` function, we have to **connect our predictors** with `*` in the `mods` parameter. Because we do not want to compare the models directly using the `anova` function, we specify the $\tau^2$ estimator to be `"REML"` (restricted maximum likelihood) this time:
 
 ```{r, warning=FALSE, message=FALSE}
 interaction.model <- rma(yi=yi,
@@ -376,17 +375,17 @@ The last line, `pubyear:continentNorth America`, is the coefficient for our inte
 ```{block,type='rmdinfo'}
 **The idea behind permutation**
 
-Permutation is a **mathematical operation** in which we take a **set** containing numbers or objects, and iteratively draw elements from this set to put them in a sequential order. When we already have a ordered set of numbers, this equals a process in which we **rearrange**, or **shuffle**, the order of our data. As an example, imagine we have a set $S$ containing **three numbers**: $S=\{1,2,3 \}$. One possible permutation of this set is $(2,1,3)$; another is $(3,2,1)$. We see that the permuted results both contain **all three numbers from before**, but in a different order.
+Permutation is a **mathematical operation** in which we take a **set** containing numbers or objects, and iteratively draw elements from this set to put them in a sequential order. When we already have a ordered set of numbers, this equals a process in which we **rearrange**, or **shuffle**, the order of our data. As an example, imagine we have a set $S$ containing **three numbers**: $S=\{1,2,3 \}$. One possible permutation of this set is $(2,1,3)$; another is $(3,2,1)$. We see that the permuted results both contain **all three numbers from before**, but in a different order. 
 
-Permutation can also be used to perform **permutation tests**, which is a specific form of **resampling methods**. Broadly speaking, resampling methods are used to validate the **robustness** of a statistical model by providing it with (slightly) different data sampled from the same data source or generative process [@good2013permutation]. This is a way to better **assess if the coeffients in our model indeed capture a true pattern underlying our data**, or if we overfitted our model, thereby falsely assuming patterns in our data when they are in fact statistical noise.
+Permutation can also be used to perform **permutation tests**, which is a specific form of **resampling methods**. Broadly speaking, resampling methods are used to validate the **robustness** of a statistical model by providing it with (slightly) different data sampled from the same data source or generative process [@good2013permutation]. This is a way to better **assess if the coeffients in our model indeed capture a true pattern underlying our data**, or if we overfitted our model, thereby falsely assuming patterns in our data when they are in fact statistical noise. 
 
-Permutation tests do not require us to have a spare "test" dataset on which we can evaluate how our meta-regression actually performs in predicting effect sizes. For this reason, among others, permutation tests have been **recommended** to assess the robustness of our meta-regression models [@higgins2004controlling].
+Permutation tests do not require us to have a spare "test" dataset on which we can evaluate how our meta-regression actually performs in predicting effect sizes. For this reason, among others, permutation tests have been **recommended** to assess the robustness of our meta-regression models [@higgins2004controlling]. 
 
 We will not go too much into the **details of how a permutation test is performed for meta-regression** models, but the most important part is that we **re-calculate** the **p-values** of our overall meta-regression model and its coefficients based on the test statitics obtained across all possible, or many randomly selected, permutations of our original dataset (or, to be more precise, our meta-regression model matrix $X_{ij}$). The crucial indicator here is **how often the test statistic we obtain from in our permuted data is equal or greater than our original test statistic**. For example, if our test statistic is greater or equal to the original test statistic in 50 of 1000 permuted datasets, we get a p-value of $p=0.05$ [@viechtbauer2015comparison].
 
 ```
 
-To **perform a permutation test** on our meta-regression model, we can use `metafors` in-built `permutest` function. As an example, i will now recalculate the results of my `model2` model we fitted above. We only have to supply the `permutest` function with the `rma` object, but **be aware that the permutation test can be computationally intensive, especially for large datasets, so the function might need some time to run**.
+To **perform a permutation test** on our meta-regression model, we can use `metafors` in-built `permutest` function. As an example, I will now recalculate the results of my `model2` model we fitted above. We only have to supply the `permutest` function with the `rma` object, but **be aware that the permutation test can be computationally intensive, especially for large datasets, so the function might need some time to run**.
 
 ```{r, eval=FALSE}
 permutest(model2)
@@ -396,7 +395,7 @@ permutest(model2)
 permutest(model2, progbar=FALSE)
 ```
 
-We again see our **familiar output** including the **results for all predictors**. Looking at the `pval*` column, we see that our p-value for the `reputation` predictor has decreased from $p<0.0001$ to $p^*=0.001$. The p-value of our overall model has decreased from $p=0.0001$ to $p^*=0.001$. However, as both of these p-values are still highly significant, this indicates that our model might indeed capture a real pattern underlying our data. It has been **recommended** to always use this **permutation test on our meta-regression model before we report a meta-regression model** to be significant in our research [@higgins2004controlling]. 
+We again see our **familiar output** including the **results for all predictors**. Looking at the `pval*` column, we see that our p-value for the `reputation` predictor has decreased from $p<0.0001$ to $p^*=0.001$. As this $p$-value is still highly significant, this indicates that our model might indeed capture a real pattern underlying our data. It has been **recommended** to always use this **permutation test on our meta-regression model before we report a meta-regression model** to be significant in our research [@higgins2004controlling].  
 
 ```{block,type='rmdachtung'}
 **Permutation tests in small datasets**
@@ -408,7 +407,7 @@ Please note that when the **number of studies** $k$ included in our model is **s
 
 #### Multimodel Inference
 
-Previously, we already described that one can also try to **model all possible predictor combinations** in a procedure called **multimodel inference** to examine which possible predictor combinations provide the best fit, and which predictors are the most important ones overall.
+Previously, we already described that one can also try to **model all possible predictor combinations** in a procedure called **multimodel inference** to examine which possible predictor combinations provide the best fit, and which predictors are the most important ones overall. 
 
 To perform multimodel inference, you can use the `multimodel.inference` function we prepared for you. This function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
@@ -426,9 +425,9 @@ ii<-c(
 "The precalculated effect size for each study. Must be supplied as the name of the effect size column in the dataset (in quotation marks; e.g. TE = 'effectsize').",
 "The precalculated standard error for each study. Must be supplied as the name of the standard error column in the dataset (in quotation marks; e.g. seTE = 'se').",
 "A data.frame containing columns for the effect size, standard error and meta-regression predictors of each study/effect.",
-"A concentenated array of characters specifying the predictors to be used for multimodel inference. Names of the predictors must be identical to the names of the column names of the data.frame supplied to data.",
+"A concantenated array of characters specifying the predictors to be used for multimodel inference. Names of the predictors must be identical to the names of the column names of the data.frame supplied to data.",
 "Meta-analysis model to use for pooling effect sizes. Use 'FE' for the fixed-effect model. Different random-effect models are available: 'DL', 'HE', 'SJ', 'ML', 'REML', 'EB', 'HS', 'GENQ'. If 'FE' is used, the test argument is automatically set to 'z', as the Knapp-Hartung method is not meant to be used with fixed-effect models. Default is 'REML', and it is strongly advised to remain with this option to use a standard (mixed-effects) meta-regression model.",
-"Method to use to compute test statistics and confidence intervals. Default is 'knha' which uses the Knapp-Hartung (Knapp & Hartung, 2003) adjustment method. 'Conventional' Wald-type tests and CIs are calculated by setting this argument to 'z'. When method='FE', this argument is set to 'z' automatically as the Knapp-Hartung method was not meant to be used with fixed-effect models.",
+"Method to use for computing test statistics and confidence intervals. Default is 'knha' which uses the Knapp-Hartung (Knapp & Hartung, 2003) adjustment method. 'Conventional' Wald-type tests and CIs are calculated by setting this argument to 'z'. When method='FE', this argument is set to 'z' automatically as the Knapp-Hartung method was not meant to be used with fixed-effect models.",
 "Evaluation criterion to sort the multiple models by. Can be either 'AICc' (default; corrected Akaike's Information Criterion), 'AIC' (Akaike's Information Criterion) or 'BIC' (Bayesian Information Criterion).",
 "If set to FALSE (default), no interactions between predictors are considered. Setting this parameter to TRUE means that all interactions are modeled.")
 ms<-data.frame(i,ii)
@@ -437,7 +436,7 @@ colnames(ms)<-names
 kable(ms) 
 ```
 
-**Now, let's perform multimodelling for all possible predictor combinations using all predictors in the `mvreg.data` dataset, excluding all interaction terms**. Be aware that this can take some time, especially if the number of predictors is large.
+**Now, let us perform multimodelling for all possible predictor combinations using all predictors in the `mvreg.data` dataset, excluding all interaction terms**. Be aware that this can take some time, especially if the number of predictors is large.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 source("dmetar/mreg.multimodel.inference.R")
@@ -459,9 +458,10 @@ multimodel.inference(TE = "yi",
 **Let's go through the output one after another:**
 
 - `Multimodel Inference: Final Results`. This part of the output provides us with details about the fitted models. We see that the total number of $2^4=16$ possible models have been fitted. We also see that the function used the corrected AIC (`aicc`) to compare the models.
-- `Best 5 Models`. Displayed here are the **five models with the lowest AICc**, sorted from low to high. Predictors are displayed as columns of the table, and models as rows. A number (weight) or `+` sign (for categorical predictors) indicates that a predictor/interaction term was used for the model, while empty cells indicate that the predictor was omitted in this model. We see that `TE ~ 1 + continent + pubyear + reputation` shows the best fit ($AICc=6.0$). But we also see that the other models including other predictors which are presented here come very close to this value. Thus, it is hard to say which model really is the "best" model. Nevertheless, we see that all of the best five models contain the predictor `pubyear`, suggesting that this variable might be particularly important.
+- `Best 5 Models`. Displayed here are the **five models with the lowest AICc**, sorted from low to high. Predictors are displayed as columns of the table, and models as rows. A number (weight) or `+` sign (for categorical predictors) indicates that a predictor/interaction term was used for the model, while empty cells indicate that the predictor was omitted in this model. We see that `TE ~ 1 + continent + pubyear + reputation` shows the best fit ($AICc=6.0$). But we also see that the other models including other predictor combinations come very close to this value. Thus, it is hard to say which model really is the "best" model. Nevertheless, we see that all of the best five models contain the predictor `pubyear`, suggesting that this variable might be particularly important.
 - `Multimodel Inference Coefficients`. Here, we can see the **coefficients of all predictors** we used for our models **aggregated** over all models in which they appear. We see that the coefficient `Estimate` is largest for `pubyear` ($b=0.378$), which corroborates our finding from before. Approximate confidence intervals can be obtained by subtracting and adding the value stored in `Std.Error`, multiplied by 1.96, from/to `Estimate`.
 - **Model-averaged importance of terms plot**. In the plot, we see the averaged importance of each predictor across all models displayed as a bar chart. We again see that `pubyear` is the most important predictor, followed by `reputation`, `continent`, and `quality`.
+
 
 ```{block,type='rmdinfo'}
 This example should make clear that Multimodel Inference can be a useful way to obtain a **comprehensive look on which predictors are more or less important** for predicting differences in effect sizes. Despite avoiding some of the problems of stepwise regression methods, it should be noted that this method should still be rather seen as **exploratory**, and may be used when we have no prior knowledge on how our predictors are related to effect sizes in the research field we meta-analyze. If you decide to build a meta-regression model using the information from multimodel inference, it is **essential to report that you have used this procedure before building the model**, because your model will then not be based on an apriori hypothesis, but on statistical properties.

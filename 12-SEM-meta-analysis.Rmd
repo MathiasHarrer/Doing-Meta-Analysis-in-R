@@ -153,10 +153,18 @@ For my multivariate meta-analysis, i will use the `dat.da` dataset. This is a fi
 
 ```{r, echo=FALSE}
 load("_data/dat_da.rda")
+
+dat.da = as.data.frame(dat.da)
+
+for (i in 2:5){
+  
+  dat.da[,i] = as.numeric(dat.da[,i])
+}
+
 ```
 
 
-```{r}
+```{r, chunk dat.da}
 dat.da
 ```
 
@@ -192,17 +200,56 @@ set.seed(123)
 
 I will save my meta-analysis model as `m.mv`. My code then looks like this:
 
-```{r}
+```{r, chunk meta, eval=FALSE}
 m.mv <- meta(y = cbind(Depression, Anxiety), 
              v = cbind(Depression_var, Covariance, Anxiety_var),
              data = dat.da)
 ```
 
+```{r, echo=FALSE}
+load("_data/m.mv.rda")
+```
+
 To get the results, i have to plug the `m.mv` object into the `summary()` function.
 
-```{r}
+```{r, eval=FALSE}
 summary(m.mv)
 ```
+
+```
+Call:
+meta(y = cbind(Depression, Anxiety), v = cbind(Depression_var, 
+    Covariance, Anxiety_var), data = dat.da)
+
+95% confidence intervals: z statistic approximation
+Coefficients:
+              Estimate   Std.Error      lbound      ubound z value  Pr(>|z|)    
+Intercept1  0.50321391  0.01466266  0.47447563  0.53195220 34.3194 < 2.2e-16 ***
+Intercept2  0.45553567  0.01748527  0.42126518  0.48980617 26.0525 < 2.2e-16 ***
+Tau2_1_1    0.00459325  0.00186286  0.00094210  0.00824439  2.4657  0.013675 *  
+Tau2_2_1    0.00287809  0.00167184 -0.00039865  0.00615483  1.7215  0.085158 .  
+Tau2_2_2    0.00783290  0.00254639  0.00284206  0.01282374  3.0761  0.002097 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Q statistic on the homogeneity of effect sizes: 223.8427
+Degrees of freedom of the Q statistic: 72
+P value of the Q statistic: 0
+
+Heterogeneity indices (based on the estimated Tau2):
+                             Estimate
+Intercept1: I2 (Q statistic)   0.6079
+Intercept2: I2 (Q statistic)   0.7220
+
+Number of studies (or clusters): 37
+Number of observed statistics: 74
+Number of estimated parameters: 5
+Degrees of freedom: 69
+-2 log likelihood: -140.7221 
+OpenMx status1: 0 ("0" or "1": The optimization is considered fine.
+Other values may indicate problems.)
+```
+
 
 ### Evaluating the Output
 
@@ -216,14 +263,14 @@ In the output, the two pooled effect sizes are shown as `Intercept1` and `Interc
 
 The direct estimates of the between study heterogeneity $\tau^2$ are also provided. We see that there are not only two estimates, but three. To understand what this means, we can extract the `"random"` values from the `m.mv` object first.
 
-```{r}
+```{r, last}
 tau.coefs <- coef(m.mv, select = "random")
 ```
 
 Then, we can use the `vec2symMat()` function on the coefficients to create a matrix. We then give the matrix rows and columns the names of our variables, Depression and Anxiety
 
 ```{r}
-tc.mat <- vec2symMat(tau.coefs)
+tc.mat <- metaSEM::vec2symMat(tau.coefs)
 dimnames(tc.mat)[[1]] <- dimnames(tc.mat)[[2]] <- c("Depression", "Anxiety")
 
 tc.mat
@@ -262,8 +309,16 @@ m.mv <- meta(y = cbind(Depression, Anxiety),
 
 To plot the multivariate meta-analysis model, we can simply use the `plot()` function. I will make some additional specifications here to change the appearance of the plot slightly. If you want to see all styling options, you can paste `?metaSEM::plot.meta()` into the Console and then hit Enter.
 
-```{r, fig.height=7, fig.width=7, fig.align="center"}
+```{r, fig.height=7, fig.width=7, fig.align="center", eval=FALSE}
 plot(m.mv, 
+     axis.labels = c("Depression", "Anxiety"), 
+     randeff.ellipse.col = "black",
+     univariate.arrows.col = "black", 
+     univariate.polygon.col = "blue")
+```
+
+```{r, fig.height=7, fig.width=7, fig.align="center", echo=FALSE}
+metaSEM::plot.meta(m.mv, 
      axis.labels = c("Depression", "Anxiety"), 
      randeff.ellipse.col = "black",
      univariate.arrows.col = "black", 
@@ -374,6 +429,8 @@ To specify our CFA model, we will have to use the **RAM specification** and the 
 At the first stage, we pool the correlation matrices using the `tssem1()` function. There are 3-4 important parameters we have to specify in the function. 
 
 ```{r,echo=FALSE, warning=FALSE, message=FALSE}
+load("_data/cfa1.rda")
+
 library(knitr)
 Code<-c("Cov", "n", "method", "RE.type")
 
@@ -390,7 +447,7 @@ set.seed(123)
 
 For this step, i will assume a random-effects model, and use `RE.type = "Diag"`. I will save the model as `cfa1`, and then call the `summary()` function on it to retrieve the output. Here is the code for that:
 
-```{r}
+```{r, eval=FALSE}
 cfa1 <- tssem1(dat.cfa$data, 
                dat.cfa$n, 
                method="REM",
@@ -398,6 +455,67 @@ cfa1 <- tssem1(dat.cfa$data,
 
 summary(cfa1)
 ```
+```
+
+Call:
+meta(y = ES, v = acovR, RE.constraints = Diag(paste0(RE.startvalues, 
+    "*Tau2_", 1:no.es, "_", 1:no.es)), RE.lbound = RE.lbound, 
+    I2 = I2, model.name = model.name, suppressWarnings = TRUE, 
+    silent = silent, run = run)
+
+95% confidence intervals: z statistic approximation
+Coefficients:
+               Estimate   Std.Error      lbound      ubound z value  Pr(>|z|)    
+Intercept1   0.38971904  0.05429257  0.28330757  0.49613052  7.1781 7.068e-13 ***
+Intercept2   0.43265876  0.04145136  0.35141559  0.51390194 10.4377 < 2.2e-16 ***
+Intercept3   0.04945626  0.06071079 -0.06953470  0.16844722  0.8146   0.41529    
+Intercept4   0.09603706  0.04478711  0.00825593  0.18381818  2.1443   0.03201 *  
+Intercept5   0.42724237  0.03911621  0.35057601  0.50390873 10.9224 < 2.2e-16 ***
+Intercept6   0.11929310  0.04106204  0.03881299  0.19977321  2.9052   0.00367 ** 
+Intercept7   0.19292421  0.04757961  0.09966988  0.28617853  4.0548 5.018e-05 ***
+Intercept8   0.22690159  0.03240893  0.16338126  0.29042192  7.0012 2.538e-12 ***
+Intercept9   0.18105563  0.04258855  0.09758361  0.26452765  4.2513 2.126e-05 ***
+Intercept10  0.43614968  0.03205961  0.37331400  0.49898536 13.6043 < 2.2e-16 ***
+Tau2_1_1     0.03648373  0.01513055  0.00682838  0.06613907  2.4113   0.01590 *  
+Tau2_2_2     0.01963097  0.00859789  0.00277942  0.03648253  2.2832   0.02242 *  
+Tau2_3_3     0.04571437  0.01952285  0.00745030  0.08397845  2.3416   0.01920 *  
+Tau2_4_4     0.02236122  0.00995083  0.00285794  0.04186449  2.2472   0.02463 *  
+Tau2_5_5     0.01729073  0.00796404  0.00168149  0.03289996  2.1711   0.02992 *  
+Tau2_6_6     0.01815482  0.00895896  0.00059557  0.03571407  2.0264   0.04272 *  
+Tau2_7_7     0.02604880  0.01130265  0.00389601  0.04820160  2.3047   0.02119 *  
+Tau2_8_8     0.00988761  0.00513713 -0.00018098  0.01995620  1.9247   0.05426 .  
+Tau2_9_9     0.01988243  0.00895052  0.00233973  0.03742514  2.2214   0.02633 *  
+Tau2_10_10   0.01049222  0.00501578  0.00066148  0.02032297  2.0918   0.03645 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Q statistic on the homogeneity of effect sizes: 1220.333
+Degrees of freedom of the Q statistic: 130
+P value of the Q statistic: 0
+
+Heterogeneity indices (based on the estimated Tau2):
+                              Estimate
+Intercept1: I2 (Q statistic)    0.9326
+Intercept2: I2 (Q statistic)    0.8872
+Intercept3: I2 (Q statistic)    0.9325
+Intercept4: I2 (Q statistic)    0.8703
+Intercept5: I2 (Q statistic)    0.8797
+Intercept6: I2 (Q statistic)    0.8480
+Intercept7: I2 (Q statistic)    0.8887
+Intercept8: I2 (Q statistic)    0.7669
+Intercept9: I2 (Q statistic)    0.8590
+Intercept10: I2 (Q statistic)   0.8193
+
+Number of studies (or clusters): 14
+Number of observed statistics: 140
+Number of estimated parameters: 20
+Degrees of freedom: 120
+-2 log likelihood: -112.4196 
+OpenMx status1: 0 ("0" or "1": The optimization is considered fine.
+Other values may indicate problems.)
+
+```
+
 
 A look at the `OpenMx status1` shows the the model estimates are trustworthy. To make the results more easily digestable, we can extract the **fixed effects** (our estimated pooled correlations) using the `coef()` function. We then make a symmetrical matrix out of the coefficients using `vec2symMat()`, and add the dimension names for easier interpretation.
 
@@ -535,7 +653,7 @@ cfa2 <- tssem2(cfa1,
 summary(cfa2)
 ```
 
-We again see that the `OpenMx status1` is `0`, meaning that the optimization worked fine. We get the estimates for the different paths between the latent variables and the observed symptoms, such as $0.69$ for $Lassitude \rightarrow  Daytime Dysfunction$ (`Las_D`). The important part, however, it to check **how well the assumed model fits our data**. We can have a look at the second, third and fourth row of the `Goodness-of-fit indices`, where we see that the **goodness of fit** test is $\chi^{2}_{4,4496} = 7.82$, which is **not significant** $p=0.098$. On the other hand, we see that the **Root Mean Square Error of Approximation** (**RMSEA**; @steiger1980statistically) value is $RMSEA=0.0146$. As a rule of thumb, a model can be considered to fit the data well when the $RMSEA$ is close to $0.05$ and smaller than $0.10$. The indices for this model are therefore somewhat **conflicting**, but generally indicate that the model may **not fit all of the data closely**. A potential way to explore this would be to conduct a **subgroup analysis**, in which the model is fitted to subgroups of studies which share some kind of characteristic (e.g. age group, country of origin, etc.) to see if there might be subclusters in which the model fits better than others.
+We again see that the `OpenMx status1` is `0`, meaning that the optimization worked fine. We get the estimates for the different paths between the latent variables and the observed symptoms, such as $0.68$ for $Lassitude \rightarrow  Daytime Dysfunction$ (`Las_D`). The important part, however, it to check **how well the assumed model fits our data**. We can have a look at the second, third and fourth row of the `Goodness-of-fit indices`, where we see that the **goodness of fit** test is $\chi^{2}_{4,4496} = 7.82$, which is **not significant** $p=0.098$. On the other hand, we see that the **Root Mean Square Error of Approximation** (**RMSEA**; @steiger1980statistically) value is $RMSEA=0.0146$. As a rule of thumb, a model can be considered to fit the data well when the $RMSEA$ is close to $0.05$ and smaller than $0.10$. The indices for this model are therefore somewhat **conflicting**, but generally indicate that the model may **not fit all of the data closely**. A potential way to explore this would be to conduct a **subgroup analysis**, in which the model is fitted to subgroups of studies which share some kind of characteristic (e.g. age group, country of origin, etc.) to see if there might be subclusters in which the model fits better than others.
 
 ```{block, type='rmdachtung'}
 Please be aware that a common problem in SEM studies is that researchers often only focus on their **one proposed model**, and if it fits the data well. If it is found that the model has a close fit for the data, it is often directly assumed that the data prove the underlying structure or theory. This is **problematic**, because for the same data, more than one model can achieve a good fit at the same time. It is therefore necessary to also check for **alternative model hypotheses** and structures. If the alternative model fits the data well too, it becomes less clear if our proposed structure really is the "correct" one.
@@ -620,7 +738,7 @@ We get `TRUE` for all studies, so everything is fine and we can continue.
 
 Now let us proceed to **pooling the correlation matrices in the first step**. For a more detailed description of this step, please refer to the [previous subchapter](#stage1). This time, we use a fixed-effects model.
 
-```{r, echo=FALSE}
+```{r, chunk-tssem-med, echo=FALSE}
 set.seed(13)
 ```
 
@@ -681,6 +799,11 @@ dimnames(S)[[1]] <- dimnames(S)[[2]] <- c("Resilience", "EmotReg", "Coping", "De
 S
 ```
 
+```{r}
+S <- as.mxMatrix(S)
+```
+
+
 $$~$$
 
 **Model Fitting**
@@ -698,8 +821,13 @@ list(indirectEffect = mxAlgebra(Res_Cop*Cop_Dep + Res_EmR*EmR_Cop*Cop_Dep + Res_
 
 We can use this code as the argument for the `mx.algebra` parameter in our call to `tssem2()`. Because this is a mediation model, we also have to specify `diag.constraints = TRUE`. Here is the code:
 
+```{r, echo=FALSE}
+load("_data/med1.rda")
+```
 
-```{r, message=FALSE, warning=FALSE}
+
+
+```{r, message=FALSE, warning=FALSE, eval=FALSE}
 med2 <- tssem2(med1, 
                Amatrix = A, 
                Smatrix = S, 
@@ -715,15 +843,68 @@ med2 <- rerun(med2)
 
 summary(med2)
 ```
+```
+Call:
+wls(Cov = coef.tssem1FEM(tssem1.obj), aCov = vcov.tssem1FEM(tssem1.obj), 
+    n = sum(tssem1.obj$n), Amatrix = Amatrix, Smatrix = Smatrix, 
+    Fmatrix = Fmatrix, diag.constraints = diag.constraints, cor.analysis = tssem1.obj$cor.analysis, 
+    intervals.type = intervals.type, mx.algebras = mx.algebras, 
+    model.name = model.name, suppressWarnings = suppressWarnings, 
+    silent = silent, run = run)
+
+95% confidence intervals: Likelihood-based statistic
+Coefficients:
+        Estimate Std.Error   lbound   ubound z value Pr(>|z|)
+EmR_Cop 0.411161        NA 0.377782 0.444676      NA       NA
+Res_Cop 0.217913        NA 0.183661 0.252118      NA       NA
+Cop_Dep 0.131068        NA 0.091942 0.170226      NA       NA
+EmR_Dep 0.218838        NA 0.180424 0.257309      NA       NA
+Res_EmR 0.513365        NA 0.488406 0.538309      NA       NA
+ErrVarC 0.691468        NA 0.664472 0.717400      NA       NA
+ErrVarD 0.904928        NA 0.885399 0.922669      NA       NA
+ErrVarE 0.736457        NA 0.710223 0.761460      NA       NA
+
+mxAlgebras objects (and their 95% likelihood-based CIs):
+                       lbound  Estimate    ubound
+indirectEffect[1,1] 0.1498335 0.1685701 0.1878938
+
+Goodness-of-fit indices:
+                                               Value
+Sample size                                3975.0000
+Chi-square of target model                    9.4087
+DF of target model                            1.0000
+p value of target model                       0.0022
+Number of constraints imposed on "Smatrix"    3.0000
+DF manually adjusted                          0.0000
+Chi-square of independence model           2697.6496
+DF of independence model                      6.0000
+RMSEA                                         0.0460
+RMSEA lower 95% CI                            0.0226
+RMSEA upper 95% CI                            0.0748
+SRMR                                          0.0161
+TLI                                           0.9813
+CFI                                           0.9969
+AIC                                           7.4087
+BIC                                           1.1209
+OpenMx status1: 0 ("0" or "1": The optimization is considered fine.
+Other values indicate problems.)
+```
+
 
 Because we told the `tssem2()` function to use **likelihood-based** intervals, the Wald-type $p$-values are not displayed. We see that the proposed model fits the data closely, with $\chi^{2}_{1,3975} = 9.4, p=0.002$) and the $RMSEA = 0.046$ being close to $0.05$. Please note however, that we used the **fixed-effect model** in stage 1 to pool the correlations, which may not be appropriate if the between-study heterogeneity is substantial. The estimate of the indirect effect from resilience to depression assuming our moderation model is $0.17$, which is significant ($95\%CI: 0.15-0.19$).
 
 
 ### Plotting the Model
 
-Again, we can plot our model using the `semPaths()` function in the `semPlot` package. 
+Again, we can plot our model using the `semPaths()` function in the `semPlot` package.
 
-```{r}
+```{r, echo=FALSE}
+load("_data/med2.rda")
+
+```
+
+
+```{r, chunk3}
 # Convert to semPlot
 sem.plot <- meta2semPlot(med2)
 

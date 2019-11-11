@@ -1,3 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:700');
+
+h1, h2, h3, h4, h5, h6, .book-summary {
+  font-family: 'Lato', sans-serif;
+  color: #277DB0;
+}
+
+#header .subtitle em {
+  font-style: normal;
+  font-size: 1em;
+  color: #777;
+  margin-bottom: -40px;
+}
+
+#header .title {
+  font-size: 3em;
+  margin-bottom: -40px;
+}
+
+#header .author em {
+  font-size: 1em;
+  font-style: normal;
+}
+
+#header .date em {
+  font-size: 0.9em;
+}
+
 p.caption {
   color: #777;
   margin-top: 10px;
@@ -58,3 +86,22 @@ pre code {
     position:absolute;
     font-size: 45px;
  }
+
+div.sourceCode {
+  position: relative;
+}
+
+.copy-to-clipboard-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  visibility: hidden;
+}
+
+.copy-to-clipboard-button:focus {
+  outline: 0;
+}
+
+div.sourceCode:hover > .copy-to-clipboard-button {
+  visibility: visible;
+}
