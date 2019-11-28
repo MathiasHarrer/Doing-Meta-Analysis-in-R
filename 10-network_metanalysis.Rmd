@@ -1,6 +1,6 @@
 # (PART) Advanced Topics {-}
 
-# Network Meta-Analysis
+# Network Meta-Analysis in R
 
 ![](_figs/networks.jpg)
 
@@ -39,7 +39,7 @@ Using the information from our direct evidence, we can therefore calculate the *
 \end{align}
 
 
-This is a crucial component of network meta-analytical models. This equation effectively lets us calculate an **estimate of the effect size of a comparison, even if the two conditions were never directly compared in an RCT**. Network Meta-Analysis in general means that we can combine both direct and indirect evidence in one model to estimate the effect sizes resulting from several treatment comparisons. This also means that even if there is direct evidence for a specific comparison (e.g. $A-B$), we can also **add information from indirect evidence** to further "fortify" our model and make our effect sizes estimations **even more precise** (thus the name **mixed-treatment comparison meta-analysis**). The example we gave you here should illustrate the great strength of network meta-analytical models: 
+This is a crucial component of network meta-analytical models. This equation effectively lets us calculate an **estimate of the effect size of a comparison, even if the two conditions were never directly compared in an RCT**. Network Meta-Analysis in general means that we can combine both direct and indirect evidence in one model to estimate the effect sizes resulting from several treatment comparisons. This also means that even if there is direct evidence for a specific comparison (e.g. $A-B$), we can also **add information from indirect evidence** to further strengthen our model and make our effect sizes estimations **even more precise** (thus the name **mixed-treatment comparison meta-analysis**). The example we gave you here should illustrate the great strength of network meta-analytical models: 
 
 * They allow us to pool **all available information** in a set of connected studies in one analysis. Imagine how we would usually deal in pairwise meta-analysis with trials comparing different treatments to, say, a placebo. We would have to pool each comparison (e.g. treatment $A$ compared to a placebo, treatment $B$ compared to a placebo, treatment $A$ compared to treatment $B$) in a seperate meta-analysis.
 * They allow us to incorporate **indirect evidence** in a network, which we have to discard in conventional meta-analysis. Usually in pairwise meta-analysis, we can only pool direct evidence from comparisons which were actually conducted and reported in randomized controlled trials. 
@@ -197,7 +197,7 @@ data
 We see that the data has 28 rows, representing the treatment comparisons, and **seven columns**, some of which may already seem familiar to you if you have worked yourself through previous chapters. 
 
 * The first column, **TE**, contains the **effect size** of each comparison, and **seTE** contains the respective **standard error**. In case you do not have precalculated effect size data for each comparison, you can first use the `metacont` ([Chapter 4.1.2](#fixed.raw)) or `metabin` function ([Chapter 4.3](#binary)), and then extract the calculated effect sizes from the meta-analysis object you created using the `$TE` and `$seTE` selector. Another, more flexible approach may be to use the **effect size calculators** we describe in [Chapter 13](#effectsizecalculator). 
-* **treat1.long**, **treat2.long**, **treat1** and **treat2** represent the **two treatments being compared**. Variables **treat1** and **treat2** simply simply contain a shortened name of the original treatment name, and are thus redundant.
+* **treat1.long**, **treat2.long**, **treat1** and **treat2** represent the **two treatments being compared**. Variables **treat1** and **treat2** simply contain a shortened name of the original treatment name, and are thus redundant.
 * The **studlab** column contains the **unique study label**, signifying in which study the specific treatment comparison was made. We can easily check if we have **multiarm studies** contributing more than one comparison by using the `summary()` function.
 
 ```{r,message=FALSE}
@@ -246,7 +246,14 @@ m.netmeta
 * The next table shows us the fitted values for each comparison in our network meta-analysis model. The `Q` column in this table is usually very interesting, because it tells us which comparison may contribute substantially to the overall inconsistency in our network. For example, we see that the `Q` value of `DeFronzo1995` is rather high, with $Q=30.89$.
 * We then get to the core of our network model: the `Treatment estimate`s. As specified, the effects of all treatments are displayed in comparison to the placebo condition, which is why there is no effect shown for `plac`.
 * We also see that the `heterogeneity/inconsistency` in our network model is very high, with $I^2 = 81.4\%$. This means that a random-effects model may be warranted, and that we should rerun the function setting `comb.random` to `TRUE`.
-* The last part of the output (`Tests of heterogeneity`) breaks down the total heterogeneity in our network into heterogeneity attributable to within and between-design variation, respectively. The heterogeneity between treatment designs reflects the actual inconsistency in our network, and is highly significant ($p=0.0021$). The ("conventional") within-designs heterogeneity is also highly significant. The information provided here is yet another sign that the random-effects model may be indicated for our network meta-analysis model. 
+* The last part of the output (`Tests of heterogeneity`) breaks down the total heterogeneity in our network into heterogeneity attributable to within and between-design variation, respectively. The heterogeneity between treatment designs reflects the actual inconsistency in our network, and is highly significant ($p=0.0021$). The ("conventional") within-designs heterogeneity is also highly significant. The information provided here is yet another sign that the random-effects model may be indicated for our network meta-analysis model. To directly check this, we can calculate the total inconsistency from the **full design-by-treatment interaction random-effects model** [@higgins2012consistency]. To do this, we only have to plug the `m.netmeta` object into the `decomp.design` function.
+
+```{r}
+decomp.design(m.netmeta)
+```
+
+In the output, we are first presented with the `Q statistics to assess homogeneity / consistency` again. The important part of the output is in the last section (`Q statistic to assess consistency under the assumption of a full design-by-treatment interaction random effects model`). This test shows us that, assuming a random-effects model, the (between-design) inconsistency is non-significant ($Q = 2.19,p=0.9483$), again suggesting that a random-effects model may be indicated.   
+
 
 #### Further examination of the network model
 
@@ -676,19 +683,20 @@ load("_data/mcmc1.rda")
 load("_data/mcmc2.rda")
 ```
 
+
 #### Assessing the convergence
 
-To see if our simulations have resulted in the **convergence** of the algorithm, and to check which settings are preferable, we can evaluate some of the outputs of our `mcmc1` and `mcmc2` objects. A good start is to use the `plot()` function. This provides us with a time-series plot for each treatment comparison over all iterations. For now, we only focus on the comparison **Placebo vs. Benfluorex**. 
+To see if our simulations have resulted in the **convergence** of the algorithm, and to check which settings are preferable, we can evaluate some of the outputs of our `mcmc1` and `mcmc2` objects. A good start is to use the `plot()` function. This provides us with a "time series", commonly referred to as a **trace plot**, for each treatment comparison over all iterations. For now, we only focus on the comparison **Placebo vs. Benfluorex**. 
 
-**Here is the time series plot for** `mcmc1`.
+**Here is the trace plot for** `mcmc1`.
 
 <img src="_figs/mcmc_plot1.png" width="500" align="middle">
 
-**And this is the time series plot for** `mcmc2`.
+**And this is the trace plot for** `mcmc2`.
 
 <img src="_figs/mcmc_plot2.png" width="500" align="middle">
 
-When comparing earlier iterations to later iterations in both plots, we see that there is much more **discontinuity**, and that the moving averages of the four different chains (the four solid lines) **differ in their course** when moving from the first half to the second half of the plot. The plot for our second simulation, on the other hand, is **much smoother**, which delivers a first indication that the settings of `mcmc2` are **more adequate**.
+When comparing earlier iterations to later iterations in the first plots, we see that there is some **discontinuity** in the overall trend of the time series, and that the estimates of the four different chains (the four solid lines) **differ in their course** when moving from the first half to the second half of the plot. In the plot for our second simulation, on the other hand, we see much more rapid up-and-down variation, but no real long-term trend. This delivers a first indication that the settings of `mcmc2` are **more adequate**.
 
 We can continue with our convergence evaluation by looking at the **density plots** of our posterior effect size estimate. We see that while the distribution resulting from `mcmc1` still diverges considerably from a smooth normal distribution, the result of `mcmc2` looks much more like this.
 
@@ -806,6 +814,84 @@ A last thing we also often want to report in our research paper is the effect si
 results <- relative.effect.table(mcmc2)
 save(results, file = "results.csv")
 ```
+
+
+### Network Meta-Regression
+
+One big asset of the `gemtc` package is that it allows us to conduct **network meta-regressions**. Much like conventional meta-regression (see [Chapter 8](#metareg)), we can use this functionality to determine if specific study characteristics influence the magnitude of effect sizes found in our network. It can also be a helpful tool to check if controlling, for example, for methodological differences between the studies, leads to less inconsistency in our estimates. 
+
+Let us assume that in our network meta-analysis, we want to check if the **Risk of Bias** of a study has an influence on the effect sizes. For example, it could be the case that studies with a high risk of bias generally report higher effects compared to the control group or the alternative treatment. By including risk of bias as a covariate, we can control for this and check if risk of bias affects the effect sizes.
+
+The procedure for a network meta-regression is largely similar to the one for a normal network meta-analysis. We start by generating a `mtc.network` object. To do this, we again use our `data` dataset. However, for a network meta-regression, we need to prepare a second dataframe in which information on the **covariate** we want to analyse is stored. I called this dataframe `studies.df`. It contains one column `study` with the name of each included study, and another column `low.rob`, in which it is specified if the study received a low risk of bias rating or not. For the second column, we used a **binary** coding scheme, in which 0 refers to high, and 1 to low risk of bias. If you analyze a categorical predictor, your subgroup codes must follow this scheme. For a continuous covariate, one can simply use the value each study has on the covariate. Here is my `studies.df` dataframe:
+
+```{r, echo=FALSE}
+load("_data/studies_df.rda")
+studies.df
+```
+
+We can now define the network using the `mtc.network` function. We provide the function with the dataframe containing the effect sizes, and the study and covariate dataframe (argument `studies`). We save the output as `network.mr`.
+
+```{r}
+network.mr <- mtc.network(data.re = data,
+                          studies = studies.df)
+```
+
+Now, we can define the **regressor** we want to include in our network meta-analysis model. This can be done by generating a `list` object with three elements:
+
+* **`coefficient`**: We set this element to `'shared'`, because we want to estimate one shared coefficient for the effect of (low) risk of bias across all treatments included in our network meta-analysis.
+* **`variable`**: Here, we specify the name of the variable we want to use as the covariate (in this case, `low.rob`).
+* **`control`**: We also have to specify the treatment which we want to use as the control against which the other treatments are compared.
+
+```{r}
+regressor <- list(coefficient = 'shared',
+                  variable = 'low.rob',
+                  control = 'Placebo')
+```
+
+Next, we can define the model we want to fit. We provide the `mtc.model` function with the network we just generated, set the `type` of our model to `"regression"`, and provide the function with the regressor object we just generated (argument `regressor`). We save the output as `model.mr`.
+
+```{r, warning=FALSE, message=FALSE}
+model.mr <- mtc.model(network.mr,
+                      type = "regression",
+                      regressor = regressor)
+```
+
+After this step, we can proceed to estimating the model parameters via the **Markov Chain Monte Carlo** algorithm using the `mtc.run` function. We use the same specifications as in the `mcmc2` model. The results are saved as `mcmc3`.
+
+```{r, eval=FALSE}
+mcmc3 <- mtc.run(model.mr, 
+                 n.adapt = 5000, 
+                 n.iter = 100000, 
+                 thin = 10)
+```
+
+```{r, echo=FALSE}
+load("_data/mcmc3.rda")
+```
+
+We can analyze the results by pluggin the `mcmc3` object into the `summary` function.
+
+```{r}
+summary(mcmc3)
+```
+
+The results for our covariate are reported under `B`. Because of the binary (i.e. 0 and 1) coding scheme, the value reported for `B` **represents the change in effects associated with a study having a low risk of bias**. In the second table (`Quantiles for each variable`), we see that the **median** for low risk of bias is $-0.2183$, and that the **95% Credibility Interval** ranges from $-0.64$ to $0.21$, including zero. We can explore the effect size differences further by generating two forest plots for the relative effects of each treatment compared to placebo, separately for studies with a low vs. high risk of bias. We can do this by using the `relative.effect` function, and specifying the `covariate` value. As said before, 0 represents studies with a high, and 1 studies with a low risk of bias.
+
+```{r, fig.height=3}
+forest(relative.effect(mcmc3, t1 = "Placebo", covariate = 1))
+forest(relative.effect(mcmc3, t1 = "Placebo", covariate = 0))
+```
+
+By comparing the forest plots, we can see that there is a **pattern**, with effects for low risk of bias studies being higher (i.e., more negative). This corresponds with the value `B` we found previously, although the credibility interval of this estimate does include zero.
+
+Lastly, we can also examine if the network meta-regression model we generated **fits the data more closely** than the "normal" network meta-analysis model without the covariate we fitted before. To do this, we can compare the **Deviance Information Criterion** ($DIC$), which can be seen as an equivalent to the $AIC$ or $BIC$ typically used for conventional meta-regression. We can access the $DIC$ of both the `mcmc3` and `mcmc2` model using this code. 
+
+```{r}
+summary(mcmc3)$DIC
+summary(mcmc2)$DIC
+```
+
+We see from the output that the $DIC$ of our meta-regression model ($39.45$) is lower than the one of our previous model which did not control for risk of bias ($DIC = 49.56$). Lower $DIC$ values mean better fit. Given that the difference in $DIC$s is around ten, we can conclude that the `mcmc3` model fits the data better than our previous model (a rough rule of thumb for when to consider a $DIC$ difference as substantial can be found [here](https://www.mrc-bsu.cam.ac.uk/software/bugs/the-bugs-project-dic/#q9)). 
 
 
 ### Summary

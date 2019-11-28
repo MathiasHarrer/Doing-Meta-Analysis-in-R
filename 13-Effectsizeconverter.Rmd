@@ -22,7 +22,7 @@ $$g \simeq d\times(1-\frac{3}{4(n_1+n_2)-9}) $$
 ```{block,type='rmdachtung'}
 Hedges' g is **commonly used in meta-analysis**, and it's the standard output format in **RevMan**. Therefore, we highly recommend that you also use this measure in you meta-analysis.
 
-In `meta`'s `metabin` and `metacont` function, Hedges' g is automatically calculated for each study if we set `sm="SMD"`. If you use the `metgen` function, however, you should calculate Hedges' g for each study yourself first.
+In `meta`'s `metabin` and `metacont` function, Hedges' g is automatically calculated for each study if we set `sm="SMD"`. If you use the `metagen` function, however, you should calculate Hedges' g for each study yourself first.
 ```
 
 To calculate the effect sizes, we will use Daniel Lüdecke's extremely helpful `esc` package [@esc]. So, please **install this package first** using the `install.packages("esc")` command, and then load it in you library.

@@ -29,7 +29,7 @@ As a prerequisite for this guide, you need to have **RStudio** and a few essenti
 3. Once RStudio is running, open the **Console** on the bottom left corner of your screen.
 4. We will now install a few packages using *R* code. Here's an overview of the packages, and why we need them:
 
-```{r,echo=FALSE}
+```{r,echo=FALSE, message=FALSE, warning=FALSE}
 library(kableExtra)
 Package<-c("tidyverse","meta","metafor")
 Description<-c("This is a large bundle of packages which make it easy to manipulate and visualize data in R. Functions included in the tidyverse have become very popular in the R community in recent years, and are used by many researchers, programmers and data scientists. If you want to learn more about the tidyverse, you can click on this link: https://www.tidyverse.org/.", 

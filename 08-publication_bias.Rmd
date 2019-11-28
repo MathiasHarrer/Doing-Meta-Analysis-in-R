@@ -8,45 +8,45 @@ Nevertheless, even the most thoroughly conducted meta-analysis can only work wit
 
 Such **missing studies** with low effect sizes, it is assumed, thus never get published and therefore cannot be integrated into our meta-analysis. This leads to **publication bias**, as the pooled effect we estimate in our meta-analysis might be higher than the **true effect size** because we did not consider the missing studies with lower effects due to the simple fact that they were never published.
 
-Although this practice is gradually changing [@nelson2018psychology], weather a study is published or not heavily depends on the **statistical significance** ($p<0.05$) of its results [@dickersin2005publication]. For any sample size, a result is more likely to become **statistically significant** if its **effect size is high**. This is particularly true for **small studies**, for which very large effect sizes are needed to attain a statisitcally significant result.
+Although this practice is gradually changing [@nelson2018psychology], whether a study is published or not heavily depends on the **statistical significance** ($p<0.05$) of its results [@dickersin2005publication]. For any sample size, a result is more likely to become **statistically significant** if its **effect size is high**. This is particularly true for **small studies**, for which very large effect sizes are needed to attain a statisitcally significant result.
 
-In the [following chapter](#smallstudyeffects), we will describe the **idea behind statistical models for publication bias** in further depth. We termed these concepts and methods **small-study effect methods**, as it is small studies that they mostly focus on. These methods assume that publication bias is primarily driven by **effect size** and because researchers **immediately put every study in the file drawer once the results are not significant**.
+In the [following chapter](#smallstudyeffects), we will describe the **idea behind statistical models for publication bias** in further depth. We call these concepts and methods **small sample bias methods**, as it is small studies that they mostly focus on. These methods assume that publication bias is primarily driven by **effect size** and because researchers **immediately put every study in the file drawer once the results are not significant**.
 
 Recently, it has been argued that these **assumptions may not be true**, and that publication bias is mostly caused by **significance levels** and **p-hacking** [@simonsohn2014p]. An alternative method called **P-Curve** has therefore been suggested to examine **publication bias**. We will present this method in the [last chapter](#pcurve) of this section.
 
 ```{block,type='rmdinfo'}
 **Which method should i use for my meta-analysis?**
 
-While recent research suggests that the conventional **small-study effect methods** may have substantial **limitations**, and that **p-Curve** may be able to estimate the true effect with less bias [@simonsohn2014p;@simonsohn2015better;@simonsohn2014pb], please note that both methods are based on different **theoretical assumptions** about the origin of publication bias. As we cannot ultimately decide which assumption is the **"true"** one in specific research fields, and, in practice **the true effect is unkown when doing meta-analysis**, we argue that you may use **both methods** and compare results as **sensitivity analyses** [@harrer2019internet].
+While recent research suggests that the conventional **small sample bias methods** may have substantial **limitations**, and that **p-Curve** may be able to estimate the true effect with less bias [@simonsohn2014p;@simonsohn2015better;@simonsohn2014pb], please note that both methods are based on different **theoretical assumptions** about the origin of publication bias. As we cannot ultimately decide which assumption is the **"true"** one in specific research fields, and, in practice **the true effect is unkown when doing meta-analysis**, we argue that you may use **both methods** and compare results as **sensitivity analyses** [@harrer2019internet].
 
 **P-curve** was developed with **full-blown experimental psychological research in mind**, in which researchers often have **high degrees of "researcher freedom"** [@simmons2011false] in deleting outliers and performing statistical test on their data.
 
-We argue that this looks slightly different for **clinical psychology** and the medical field, where researchers conduct **randomized controlled trials** whith a clear **primary outcome**: the difference between the control and the intervention group after the treatment. While it is also true for **medicine and clinical psychology that statistical significance plays an important role**, the **effect size** of an intervention is often of greater interest, as **treatments are often compared in terms of their treatment effects** in this field. Furthermore, best practice for randomized controlled trials is to perform **intention-to-treat** analyses, in which all collected data in a trial has to be considered, giving researchers less space to "play around" with their data and perform p-hacking. While we certainly do not want to insinuate that **outcome research in clinical psychology** is free from p-hacking and bad data analysis practices, this should be seen as a **caveat** that the assumptions of the small-study effects methods may be more adequate for clinical psychology than other fields within psychology, especially when **the risk of bias for each study is also taken into account*.
+We argue that this looks slightly different for **clinical psychology** and the medical field, where researchers conduct **randomized controlled trials** whith a clear **primary outcome**: the difference between the control and the intervention group after the treatment. While it is also true for **medicine and clinical psychology that statistical significance plays an important role**, the **effect size** of an intervention is often of greater interest, as **treatments are often compared in terms of their treatment effects** in this field. Furthermore, best practice for randomized controlled trials is to perform **intention-to-treat** analyses, in which all collected data in a trial has to be considered, giving researchers less space to "play around" with their data and perform p-hacking. While we certainly do not want to insinuate that **outcome research in clinical psychology** is free from p-hacking and bad data analysis practices, this should be seen as a **caveat** that the assumptions of the small sample bias methods may be more adequate for clinical psychology than other fields within psychology, especially when **the risk of bias for each study is also taken into account*.
 Facing this uncertainty, we think that conducting both analyses and reporting them in our research paper may be the most adequate approach until meta-scientific research gives us more certainty about which **assumption actually best reflects the field of clinical psychology**. 
 
 ```
 
 
-## Small-study effect methods {#smallstudyeffects}
+## Small Sample Bias methods {#smallstudyeffects}
 
-The **small-study effect methods** we present here have been conventional for many years. Thus various methods to assess and control for publication bias have been developed, but we will only focus on the most important ones here.
+The **small sample bias methods** we present here have been conventional for many years. Thus various methods to assess and control for publication bias have been developed, but we will only focus on the most important ones here.
 
 ```{block,type='rmdinfo'}
-**The model behind small-study effects methods**
+**The model behind small sample bias methods**
 
-According to Borenstein et al. [@borenstein2011]. The model behind the most common small-study effects methods has these core **assumptions**:
+According to Borenstein et al. [@borenstein2011], the models behind the most common small sample bias methods have these core **assumptions**:
 
-1.  Because they involve large commitment of ressources and time, **large studies are likely to get published**, weather the results are significant or not
-2.  Moderately sized studies are at **greater risk of missing**, but with a moderate sample size even moderately sized effects are likely to become significant, which means that only some studies will be missing
+1.  Because they involve large commitment of ressources and time, **large studies are likely to get published**, whether the results are significant or not.
+2.  Moderately sized studies are at **greater risk of not being published**, but with a moderate sample size even moderately sized effects are likely to become significant, which means that only some studies will be missing.
 3.  Small studies are **at greatest risk** for being non-significant, and thus being missing. Only small studies with a very large effect size become significant, and will be found in the published literature.
 
-In accordance with these assumptions, the methods we present here particularly focus **on small studies with small effect sizes, and wheather they are missing**.
+In accordance with these assumptions, the methods we present here particularly focus **on small studies with small effect sizes, and whether they are missing**.
 
 ```
 
 ### Funnel plots
 
-The best way to visualize weather **small studies with small effect sizes are missing** is through **funnel plots**.
+The best way to visualize whether **small studies with small effect sizes are missing** is through **funnel plots**.
 
 We can generate a funnel plot for our `m.hksj` meta-analysis output using the `funnel()` function in `meta`.
 
@@ -109,7 +109,7 @@ We can see in the plot that while **some studies have statistically significant 
 
 **Egger's test of the intercept** [@egger1997bias] quantifies the funnel plot asymmetry and performs a statistical test.
 
-We have prepared a function called `eggers.test` for you, which allows you to perform Egger's test of the intercept in *R*. The function is a wrapper for the `metabias` function in `meta`. The `eggers.test function is part if the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
+We have prepared a function called `eggers.test` for you, which allows you to perform Egger's test of the intercept in *R*. The function is a wrapper for the `metabias` function in `meta`. The `eggers.test` function is part if the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
 ```{r, eval=FALSE}
 library(dmetar)
@@ -169,7 +169,7 @@ funnel(m.hksj.trimfill,xlab = "Hedges' g")
 
 ## *P*-Curve {#pcurve}
 
-In the last chapter, we showed you how you can apply **Egger's test of the intercept**, **Duval & Tweedie's trim and fill procedure**, and inspect **Funnel plots** in *R*.
+In the last chapter, we showed how you can apply **Egger's test of the intercept**, **Duval & Tweedie's trim and fill procedure**, and inspect **Funnel plots** in *R*.
 
 As we have mentioned before, recent research has shown that the assumptions of the small-effect study methods may be inaccurate in many cases. The **Duval & Tweedie trim-and-fill procedure** in particular has been shown to be prone to providing **inaccurate effect size estimates** [@simonsohn2014pb].
 

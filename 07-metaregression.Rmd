@@ -52,9 +52,9 @@ Which provides a $p$-value telling us if a variable significantly predicts effec
 
 In conventional regression, $R^2$ is commonly used to quantify the **goodness of fit** of our model in percent (0-100%). As this measure is commonly used, and many researchers know how to to interpret it, we can also calculate a $R^2$ analog for meta-regression using this formula:
 
-$$R_2=\frac{\hat\tau^2_{REM}-\hat\tau^2_{MEM}}{\hat\tau^2_{REM}}$$
+$$R^2=\frac{\hat\tau^2_{REM}-\hat\tau^2_{MEM}}{\hat\tau^2_{REM}}$$
 
-Where $\hat\tau^2_{REM}$ is the estimated total heterogenetiy based on the random-effects-model and $\hat\tau^2_{REM}$ the total heterogeneity of our mixed-effects regression model.
+Where $\hat\tau^2_{REM}$ is the estimated total heterogeneity based on the random-effects-model and $\hat\tau^2_{REM}$ the total heterogeneity of our mixed-effects regression model.
 ```
 
 <br><br>
@@ -107,7 +107,7 @@ As you can see from the output, `pub_year` was now included as a **predictor**, 
 ---
 
 
-## Plotting regressions
+## Plotting Regressions
 
 ```{r, echo=FALSE, fig.width=4,fig.cap="A finished bubble plot",fig.align='center'}
 library(png)
@@ -209,7 +209,7 @@ Regression methods, which usually utilize minimization or maximization procedure
 **Some guidelines have been proposed to avoid an excessive false positive rate when building meta-regression models:**
 
 - Minimize the number of investigated predictors. In multiple meta-regression, this translates to the concept of **parsimony**, or simplicity: when evaluating the fit of a meta-regression model, we prefer models which achieve a good fit with less predictors. Estimators such as the *Akaike* and *Bayesian Information Criterion* can help with such decisions. We will get to this topic again below.
-- Predictor selection should be based on **predefined scientific or theoretical questions** we want to answer in our meta-regression.
+- Predictor selection should be based on **predefined scientific or theoretical questions** we want to answer in our meta-regression. Therefore it is crucial to define in the protocol before the start of the study, which predictors will be examined in the metaregression analyses.
 - When the number of studies is low (which is very likely to be the case), and we want to compute the significance of a predictor, we should use the [Knapp-Hartung adjustment](#random) to obtain more reliable estimates [@higgins2002statistical].
 - We can use **permutation** to assess the robustness of our model in resampled data. We will describe the details of this method later.
 
@@ -324,7 +324,7 @@ model1 <- rma(yi = yi,
 model1
 ```
 
-From the output, we can see the results for our predictor `quality` under `Model Results` and the values for our regression intercept (`intrcpt`). We see that the $p$ value for our predictor is non-significant $p=0.0688$, but only marginally so. Under `Test of Moderators (coefficient(s) 2)`, we can see the overall test results for our regression model ($F_{1,34}=3.68, p=0.0688$). Because we only included one predictor, the $p$-value reported there is identical to the one we saw before. In total, our model explains $R^2=2.23\%$ of the heterogeneity in our data, which we can see next to the `R^2 (amount of heterogeneity accounted for)` line in our output. 
+From the output, we can see the results for our predictor `quality` under `Model Results` and the values for our regression intercept (`intrcpt`). We see that the $p$ value for our predictor is non-significant $p=0.0688$, but that there is a trend for an association, because $p<0.1$. Under `Test of Moderators (coefficient(s) 2)`, we can see the overall test results for our regression model ($F_{1,34}=3.68, p=0.0688$). Because we only included one predictor, the $p$-value reported there is identical to the one we saw before. In total, our model explains $R^2=2.23\%$ of the heterogeneity in our data, which we can see next to the `R^2 (amount of heterogeneity accounted for)` line in our output. 
 
 **Now, let us check if we can improve our model by including `reputation` as predictor. We add `+ reputation` in our argument to `mods` and save the output to `model2`.**
 

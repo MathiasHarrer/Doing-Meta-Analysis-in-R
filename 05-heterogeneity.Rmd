@@ -180,12 +180,12 @@ It should be noted that they are **many methods** to spot **outliers and influen
 
 ### Searching for extreme effect sizes (outliers) {#outliers}
 
-A common method to detect outliers directly is to define a study as an outlier if the **study's confidence interval does not overlap with the confidence interval of the pooled effect**. This means that we define a study as an outlier when its effect size estimate is **so extreme that we have high certainty that the study cannot be part of the "population" of effect size we determined when pooling our results** (i.e., the individual study differs significantly from the overall effect). To detect such outliers in our dataset, the `filter` function in the `dplyr` package we introduced in [Chapter 3.3.3](#filter) comes in handy again. Using this function, we can search for all studies:
+A common method to detect outliers directly is to define a study as an outlier if the **study's confidence interval does not overlap with the confidence interval of the pooled effect**. This means that we define a study as an outlier when its effect size estimate is **so extreme that we have high certainty that the study cannot be part of the "population" of effect sizes we actually pool in our meta-analysis** (i.e., the individual study differs significantly from the overall effect). To detect such outliers in our dataset, we can search for all studies:
 
 * for which the **upper bound of the 95% confidence interval is lower than the lower bound of the pooled effect confidence interval** (i.e., extremely small effects)
 * for which the **lower bound of the 95% confidence interval is higher than the upper bound of the pooled effect confidence interval** (i.e., extremely large effects)
 
-Here, I will use my `m.hksj` meta-analysis output from [Chapter 4.2.2 ](#random.precalc) again. Let's see what the **upper and lower bound of my pooled effect confidence interval** is. As I performed a **random-effect meta-analysis in this example**, I will use the value stored under `$lower.random` and `$upper.random`. If you performed a **fixed-effect meta-analysis**, the objects would be `$lower.fixed` and `$upper.fixed`, respectively.
+Here, I will use my `m.hksj` meta-analysis output from [Chapter 4.2.2 ](#random.precalc) again. Let us see what the **upper and lower bound of my pooled effect confidence interval** is. As I performed a **random-effect meta-analysis in this example**, I will use the value stored under `$lower.random` and `$upper.random`. If you performed a **fixed-effect meta-analysis**, the objects would be `$lower.fixed` and `$upper.fixed`, respectively.
 
 ```{r}
 m.hksj$lower.random
@@ -194,68 +194,29 @@ m.hksj$upper.random
 
 Here we go. I now see that my **pooled effect confidence interval** stretches from $g = 0.389$ to $g = 0.798$. We can use these values to filter out outliers now. 
 
-To filter out outliers **automatically**, we have prepared two **functions** for you, `spot.outliers.random` and `spot.outliers.fixed`. Both need the `dplyr` package (see [Chapter 3.3.3](#select)) to function, so we need to need to have this package **installed** and **loaded into our library**.
+To do this, we have prepared a **function** called `find.outliers` for you. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
-```{r}
-library(dplyr)
+```{r, message=FALSE, warning=FALSE}
+library(dmetar)
 ```
 
-The function we will use in the case of my `m.hksj` dataset is `spot.outliers.random`, because we conducted a **random-effect meta-analysis to get this output object**. *R* doesn't know this function yet, so we have to let *R* learn it by copying and pasting the code underneath **in its entirety** into the **console** on the bottom left pane of RStudio, and then hit **Enter ⏎**.
+If you do not want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/find.outliers.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `meta` and `metafor` package to work. 
 
-```{r}
-spot.outliers.random<-function(data){
-data<-data
-Author<-data$studlab
-lowerci<-data$lower
-upperci<-data$upper
-m.outliers<-data.frame(Author,lowerci,upperci)
-te.lower<-data$lower.random
-te.upper<-data$upper.random
-dplyr::filter(m.outliers,upperci < te.lower)
-dplyr::filter(m.outliers,lowerci > te.upper)
-}
-```
+The only thing we have to provide the `find.outliers` function with is the **meta-analysis object** that we want to check for outliers. In my case, this is `m.hksj`.
 
-Now, the function is ready to be used. The only thing we have to tell the `spot.outliers.random` function is the **meta-analysis output** that we want to check for outliers, which is defined by `data`. In my case, this is `m.hksj`.
-
-```{r,eval=FALSE}
-spot.outliers.random(data=m.hksj)
+```{r,eval=FALSE, message=FALSE, warning=FALSE}
+find.outliers(m.hksj)
 ```
 
 This is the output we get from the function:
 
 ```{r,echo=FALSE}
-spot.outliers.random(data=m.hksj)
+find.outliers(m.hksj)
 ```
 
-We see that the function has detected **two outliers**. Looking at the `lowerci` value, the lower bound of the two studies' confidence intervals, we see that both have extremely high positive effects, because the lower bounds are both much higher than the **higher bound of the confidence interval of our pooled effect**, which was $g = 0.798$.
+We see that the function has detected **two outliers**, "DanitzOrsillo" and "Shapiro". Conveniently, the `find.outliers` function has also automatically rerun our initial analysis, this time excluding the identified outliers. From the output, we see that the $I^2$-heterogeneity shrinks considerably when the two studies are excluded, from $I^2 = 62\%$ to $24.8\%$, which is not significant anymore ($p = 0.1739$).
 
-Thus, we can conduct a **sensitivity analysis** in which we **exclude these two outliers**. We can do this with the `update.meta` function in `meta`. This creates an update of our meta-analysis output `m.hksj` without the outliers.
-
-```{r,message=FALSE,warning=FALSE}
-m.hksj.outliers<-update.meta(m.hksj,
-                             subset = Author != c("DanitzOrsillo",
-                                                  "Shapiro et al."))
-m.hksj.outliers
-```
-
-The entire procedure works the same if you **conducted a fixed-effect meta-analysis**. However, you need to copy and paste the code for the `spot.outliers.fixed` function then, which can be found **below**.
-
-```{r}
-spot.outliers.fixed<-function(data){
-data<-data
-Author<-data$studlab
-lowerci<-data$lower
-upperci<-data$upper
-m.outliers<-data.frame(Author,lowerci,upperci)
-te.lower<-data$lower.fixed
-te.upper<-data$upper.fixed
-dplyr::filter(m.outliers,upperci < te.lower)
-dplyr::filter(m.outliers,lowerci > te.upper)
-}
-```
-
-<br><br>
+<br></br>
 
 ---
 

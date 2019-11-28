@@ -20,7 +20,7 @@ $$ ~ $$
 
 Structural Equation Modeling (SEM) is a statistical technique to model and test hypotheses about the relationship of **manifest** (observed) and (usually) **latent** (unobserved or unobservable) variables [@kline2015principles]. Latent variables, as said, are either not observed or observable (personality, for example, is a latent construct which can only be measured indirectly, for example through different items in a questionnaire). In SEM, the assumed relationship between the manifest and latent variables (the "structure") can be modeled using the manifest, measured variables while taking their measurement error into account. 
 
-SEM analysis is somewhat different to "conventional" statistical tests (e.g., $t$-tests). Usually, for example in a $t$-test, the researcher tests against a null hypthesis, such as $H_0:\mu_1 = \mu_2$ (where $\mu_1$ and $\mu_1$ are the means of two groups). The researchers "aims" to *reject* the null hypothesis to conclude that the two groups differ. In SEM, a specific model is proposed beforehand instead, and the researcher "aims" to *accept* this model if the **goodness of fit** is sufficient [@cheung2015meta]. 
+SEM analysis is somewhat different to "conventional" statistical tests (e.g., $t$-tests). Usually, for example in a $t$-test, the researcher tests against a null hypthesis, such as $H_0:\mu_1 = \mu_2$ (where $\mu_1$ and $\mu_2$ are the means of two groups). The researchers "aims" to *reject* the null hypothesis to conclude that the two groups differ. In SEM, a specific model is proposed beforehand instead, and the researcher "aims" to *accept* this model if the **goodness of fit** is sufficient [@cheung2015meta]. 
 
 ```
 
@@ -554,7 +554,7 @@ mat
 
 $$~$$
 
-**$\mathbf{A}$ Matrix** {#matrices}
+**$\mathbf{A}$ Matrix**
 
 In the $\mathbf{A}$ matrix, we specify the asymmetrical (i.e. single) arrows in our model. The logic, again, is that the arrow starts at the **column variable** and ends where the column meets with the entry of the **row variable**. All other fields which do not represent arrows are filled with `0`. We specify that an arrow has to be "estimated" by providing a character string. This character string starts with a **starting value** for the optimiztion procedure (usually somewhere between $0.1$ and $0.3$) followed by `*`. After the `*` symbol, we specify a **label** for the value. If two fields in the $\mathbf{A}$ matrix have the same label, this means that we assume that the fields have the **same value**. We assume a starting value of $0.3$ for all estimated arrows, and label the fields according to the graph from above. We can do this like this:
 
@@ -891,7 +891,7 @@ Other values indicate problems.)
 ```
 
 
-Because we told the `tssem2()` function to use **likelihood-based** intervals, the Wald-type $p$-values are not displayed. We see that the proposed model fits the data closely, with $\chi^{2}_{1,3975} = 9.4, p=0.002$) and the $RMSEA = 0.046$ being close to $0.05$. Please note however, that we used the **fixed-effect model** in stage 1 to pool the correlations, which may not be appropriate if the between-study heterogeneity is substantial. The estimate of the indirect effect from resilience to depression assuming our moderation model is $0.17$, which is significant ($95\%CI: 0.15-0.19$).
+Because we told the `tssem2()` function to use **likelihood-based** intervals, the Wald-type $p$-values are not displayed. We see that the proposed model fits the data closely, with $\chi^{2}_{1,3975} = 9.4, p=0.002$) and the $RMSEA = 0.046$ being smaller than $0.05$. Please note however, that we used the **fixed-effect model** in stage 1 to pool the correlations, which may not be appropriate if the between-study heterogeneity is substantial. The estimate of the indirect effect from resilience to depression assuming our moderation model is $0.17$, which is significant ($95\%CI: 0.15-0.19$).
 
 
 ### Plotting the Model

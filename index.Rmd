@@ -72,13 +72,13 @@ This guide shows you how to conduct meta-analyses in *R* from scratch. The focus
 
 Although this guide will provide some information on the statistics behind meta-analysis, it will not give you an **in-depth introduction** into how meta-analyses are calculated statistically.
   
-It is also beyond the scope of this guide to advise in detail which meta-analytical strategy is suited best in which contexts, and on how the search, study inclusion and reporting of meta-analyses should be conducted. The [*Cochrane Handbook for Systematic Reviews of Interventions*](http://handbook-5-1.cochrane.org/), however, should be a great source to find more information on these topics.
+It is also beyond the scope of this guide to advise in detail which meta-analytical strategy is suited best in which contexts, and on how the search, study inclusion and reporting of meta-analyses should be conducted. The [*Cochrane Handbook for Systematic Reviews of Interventions*](http://handbook-5-1.cochrane.org/), however, should be a great source to find more information on these topics. 
 
 ---
 
 #### Other sources to recommend when conducting Meta-Analyses {-}
   
-* If you're looking for a easily digestable, hands-on introduction on how Meta-Analyses are conducted, we can recommend **Pim Cuijpers' online courses on meta-analysis**. The courses are freely available on YouTube. To have a look, click [here](https://www.youtube.com/watch?v=pP7_VBrG_TY&list=PL-h5cI5Bkvt0J-O0kq_9J9_aksWFPgR7s).
+* If you're looking for a easily digestable, hands-on introduction on how Meta-Analyses are conducted, we can recommend **Pim Cuijpers' online courses on meta-analysis**. The courses are freely available on YouTube. To have a look, click [here](https://www.youtube.com/watch?v=pP7_VBrG_TY&list=PL-h5cI5Bkvt0J-O0kq_9J9_aksWFPgR7s). The course is based on a **book** [@cuijpers2016meta], which you can download for free [here](http://bit.do/meta-analysis).
 * If you're interested in more details on how to conduct meta-analyses in *R*, you can either have a look at Wolfgang Viechtbauer's webpage for the `metafor` package ([Link](http://metafor-project.org)). Or you can consult a book written by Schwarzer and colleagues on the `meta` package [@schwarzer2015meta]. We can also recommend a book written by **Terri Pigott**, which focuses more on the theoretical background of and advances in meta-analytic techniques [@pigott2012advances]. 
 
 <br><br>
