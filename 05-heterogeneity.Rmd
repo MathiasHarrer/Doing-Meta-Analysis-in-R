@@ -196,7 +196,7 @@ Here we go. I now see that my **pooled effect confidence interval** stretches fr
 
 To do this, we have prepared a **function** called `find.outliers` for you. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message = FALSE, warning = FALSE}
 library(dmetar)
 ```
 
@@ -368,7 +368,7 @@ In the previous [subchapter](#influenceanalyses), we explored the robustness of 
 
 Once the models are calculated, we can plot them, displaying the **pooled effect size** on the **x-axis** and the **between-study heterogeneity** at the **y-axis**. This allows us to look for specific patterns, for example subclusters with different effect sizes. This would indicate that there is in fact more than one "population" of effect sizes in our data, warranting a subgroup analysis. If the effect sizes in our sample are homogeneous, the GOSH plot should form a **symmetric distribution with one peak**. To generate GOSH plots, we can use the `gosh` function in the `metafor` package. If you have not installed the package yet, install it and then load it from your library.
 
-```{r, message=F, error=F}
+```{r, message=FALSE, error=FALSE}
 library(metafor)
 ```
 
@@ -409,7 +409,7 @@ library(dmetar)
 
 If you don't want to use the `dmetar` package, you can find the source code for this function [here](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/gosh.diagnostics.R). In this case, *R* doesn't know this function yet, so we have to let *R* learn it by **copying and pasting** the code **in its entirety** into the **console** in the bottom left pane of RStudio, and then hit **Enter ⏎**. The function then requires the `dplyr`, `cluster`, `mvtnorm`, `factoextra`, `fpc`, `cowplot`, `reshape2`, and `flexmix` package installed and loaded in your library to function properly. We will use the default settings for the function here, but many more are available (see [documentation](https://dmetar.protectlab.org/reference/gosh.diagnostics.html)). We simply plug the `dat.gosh` object into the function. Again, as the there is a lot of data to process, the function may take need some time before it is finished. 
 
-```{r, echo=FALSE, message=F, error=F}
+```{r, echo=FALSE, message=FALSE, error=FALSE}
 source("dmetar/gosh.diagnostics.R")
 library(dplyr)
 library(cluster)
