@@ -5,8 +5,9 @@ author:
 - Mathias Harrer, M.Sc.¹ 
 - Prof. Dr. Pim Cuijpers²
 - Prof. Dr. Toshi A. Furukawa³
+- Luke A. McGuinness, M.Sc.⁴
 - Assoc. Prof. Dr. David D. Ebert²
-date: "¹Friedrich-Alexander-University Erlangen-Nuremberg, ²Vrije Universiteit Amsterdam, ³Kyoto University"
+date: "¹Friedrich-Alexander-University Erlangen-Nuremberg, ²Vrije Universiteit Amsterdam, ³Kyoto University, ⁴University of Bristol"
 github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
 site: bookdown::bookdown_site
 output: 
