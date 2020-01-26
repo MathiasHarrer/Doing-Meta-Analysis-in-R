@@ -115,7 +115,7 @@ However installing the `dmetar` package beforehand is **much more convenient**, 
 
 <br></br>
 
-### Installation of the `dmetar` package
+### Installation of the `dmetar` package {#install-dmetar}
 
 
 #### Current R version
@@ -140,7 +140,7 @@ install.packages("devtools")
 
 <br></br>
 
-#### Installation process
+#### Installation process 
 
 You can then install `dmetar` using this line of code:
 

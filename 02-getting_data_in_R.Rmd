@@ -149,7 +149,7 @@ kable(m.cma)
 
 ---
 
-## Importing the Spreadsheet into Rstudio {#import_excel}
+## Importing the Spreadsheet into Rstudio {#import-excel}
 
 To get our data into *R*, we need to **save our data in a format and at a place where RStudio can open it**.
 
@@ -181,7 +181,7 @@ grid.raster(img)
 
 **Your file, and the working directory, are now where they should be!**
 
-### Loading the data
+### Loading the data {#load-the-data}
 
 1. To import the data, simply **click on the file** in the bottom-right pane. Then click on **Import Dataset...**
 2. An **import assistant** should now pop up, which is also loading a preview of your data. This can be time-consuming sometimes, so you can skip this step if you want to, and klick straight on **"Import"**
