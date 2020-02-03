@@ -216,6 +216,15 @@ find.outliers(m.hksj)
 
 We see that the function has detected **two outliers**, "DanitzOrsillo" and "Shapiro". Conveniently, the `find.outliers` function has also automatically rerun our initial analysis, this time excluding the identified outliers. From the output, we see that the $I^2$-heterogeneity shrinks considerably when the two studies are excluded, from $I^2 = 62\%$ to $24.8\%$, which is not significant anymore ($p = 0.1739$).
 
+We can also produce an updated forest plot in which the outliers are excluded by plugging the results of the `find.outliers` function into the `forest` function (this only works if you have already loaded the `meta` and `metafor` package from your library). The appearance of the resulting forest plot can be changed using arguments of the `forest` function in `meta` (these arguments are covered in detail in [Chapter 5](#forest)).
+
+```{r}
+fo <- find.outliers(m.hksj)
+forest(fo, col.predict = "blue")
+```
+
+In the resulting forest plot, the outlying studies are still displayed. However, their **weight** in the meta-analysis has been set to 0\% (as shown in the column to the right), meaning that they are excluded from pooling.
+
 <br></br>
 
 ---
@@ -252,7 +261,7 @@ colnames(m)<-names
 kable(m)
 ```
 
-This is how the function code looks for my `m.hksj` data:
+This is how the function code looks for my `m.hksj` data. I will save the output of the function as `inf.analysis`.
 
 ```{r, echo=FALSE, message=FALSE, error=FALSE}
 
@@ -270,13 +279,26 @@ source("dmetar/influence.analysis.R")
 ```
 
 
-```{r,eval=FALSE}
-InfluenceAnalysis(x = m.hksj,
-                  random = TRUE)
+```{r}
+inf.analysis <- InfluenceAnalysis(x = m.hksj,
+                                  random = TRUE)
 ```
 
-Now, let us have a look at the output.
+Now, let us have a look at the output, using the `summary` function.
 
+```{r}
+summary(inf.analysis)
+```
+
+We can also conveniently generate the difference influence plots by using `plot`, and specifying the plot we want to generate in the second argument. Let us interpret them one by one.
+
+<br><br>
+
+**Influence Analyses**
+
+```{r, eval=FALSE}
+plot(inf.analysis, "influence")
+```
 
 ```{r,echo=FALSE,fig.align='center',fig.cap="Influence Analyses", fig.height=7}
 library(png)
@@ -285,37 +307,6 @@ img <- readPNG("_figs/inflA1.png")
 grid.raster(img)
 ```
 
-```{r,echo=FALSE, fig.align='center',fig.cap="Baujat Plot",fig.height=6}
-library(png)
-library(grid)
-img <- readPNG("_figs/inflA2.png")
-grid.raster(img)
-```
-
-```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by effect size"}
-library(png)
-library(grid)
-img <- readPNG("_figs/inflA3.png")
-grid.raster(img)
-
-
-```
-
-```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by heterogeneity"}
-library(png)
-library(grid)
-
-
-
-img <- readPNG("_figs/inflA4.png")
-grid.raster(img)
-```
-
-As you can see, the `influence.analysis` function gives us various types of **plots** as output. Let's interpret them one by one.
-
-<br><br>
-
-**Influence Analyses**
 
 In the first analysis, you can see different influence measures, for which we can see **graphs including each individual study of our meta-analysis**. This type of **influence analysis** has been proposed by Viechtbauer and Cheung [@viechtbauer2010outlier]. Let us discuss the most important subplots here:
 
@@ -343,13 +334,54 @@ In these analyses, we found that the studies "Danitz-Orsillo" and "Shapiro et al
 
 **Baujat Plot**
 
+```{r, eval=FALSE}
+plot(inf.analysis, "baujat")
+```
+
+```{r,echo=FALSE, fig.align='center',fig.cap="Baujat Plot",fig.height=6}
+library(png)
+library(grid)
+img <- readPNG("_figs/inflA2.png")
+grid.raster(img)
+```
+
 The Baujat Plot [@baujat2002graphical] is a diagnostic plot to detect studies **overly contributing to the heterogeneity of a meta-analysis**. The plot shows the contribution of each study to the overall heterogeneity as measured by Cochran's $Q$ on the **horizontal axis**, and its **influence on the pooled effect size** on the vertical axis. As we want to assess heterogeneity and studies contributing to it, all studies **on the right side of the plot are important to look at**, as this means that they cause much of the heterogeneity we observe. **This is even more important when a study contributes much to the overall heterogeneity, while at the same time being not very influential concerning the overall pooled effect** (e.g., because the study had a very small sample size). Therefore, **all studies on the right side of the Baujat plot**, especially in the **lower part**, are important for us. 
 
 As you might have already recognized, the only two **studies we find in this region of the plot are the two studies we already detected before** (Danitz & Orsillo, Shapiro et al.). These studies do not have a large impact on the overall results (presumably because they are very small), but they do **add substantially to the heterogeneity we found in the meta-analysis**.
 
+
 <br><br>
 
 **Leave-One-Out Analyses**
+
+```{r}
+plot(inf.analysis, "es")
+```
+
+
+```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by effect size"}
+library(png)
+library(grid)
+img <- readPNG("_figs/inflA3.png")
+grid.raster(img)
+
+
+```
+
+```{r}
+plot(inf.analysis, "i2")
+```
+
+```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by heterogeneity"}
+library(png)
+library(grid)
+
+
+
+img <- readPNG("_figs/inflA4.png")
+grid.raster(img)
+```
+
 
 In these to forest plots, we see the **pooled effect recalculated, with one study omitted each time**. There are two plots, which provide the same data, but are ordered by different values. 
 

@@ -1,4 +1,6 @@
-# Risk of bias plots
+# Risk of Bias Plots
+
+*by Luke A. McGuinness*
 
 ``` {r, echo=FALSE}
 ggplot2::ggsave(
@@ -95,6 +97,8 @@ head(robvis::data_robins)
 
 
 These example datasets are used to create the plots presented through the remainder of this guide.
+
+<br></br>
 
 ## Summary plots 
 
@@ -275,6 +279,8 @@ When defining your own colour scheme, you must ensure that the number of discret
 ### Saving your plot
 See Section \@ref(save-rob-plots) for detailed instructions on how to save your plot.
 
+<br></br>
+
 
 ## Traffic light plots
 
@@ -434,6 +440,8 @@ ggplot2::ggsave(
 ### Saving your plot
 See Section \@ref(save-rob-plots) for detailed instructions on how to save your plot.
 
+<br></br>
+
 ## The "ROB1" generic template {#rob1-template}
 
 ### Motivation
@@ -521,9 +529,11 @@ ggplot2::ggsave(
 
 ![](_figs/rob1tf+domainname.png)
 
+<br></br>
+
 ## Customizing and saving your risk of bias plots {#save-rob-plots}
 
-### The ggplot2 package
+### The `ggplot2` package
 
 Both `robvis` functions (`rob_summary()` and `rob_traffic_light()`) produce a `ggplot` object, and so can be customized and saved using functions from the `ggplot2` package. Use the following code to load this package:
 
@@ -629,6 +639,8 @@ ggsave(plot = rob_barplot,
 ```
 
 
+<br></br>
+
 ## Web app
 
 In an effort to allow users to quickly explore the functionality of `robvis`, a web application was created which provides a graphically interface to the `robvis` package.
@@ -684,6 +696,6 @@ You can customize the plot using the following options:
 
 As with the traffic light plot tab, you can download your plot by selecting the required format and clicking the "Download plot" button. 
 
-
+<br></br>
 
 

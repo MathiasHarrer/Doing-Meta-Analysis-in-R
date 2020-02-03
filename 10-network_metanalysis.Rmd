@@ -1,6 +1,6 @@
 # (PART) Advanced Topics {-}
 
-# Network Meta-Analysis in R
+# Network Meta-Analysis in R {#netwma}
 
 ![](_figs/networks.jpg)
 
@@ -94,7 +94,7 @@ In practice, a useful strategy may also be to choose one approach as the main an
 ```
 
 
-## Frequentist Network Meta-Analysis
+## Frequentist Network Meta-Analysis {#frequentist}
 
 ![](_figs/frequentist.jpg)
 
@@ -472,7 +472,7 @@ In the next subchapter, we will address how to perform network meta-analysis usi
 
 
 
-## Bayesian Network Meta-Analysis
+## Bayesian Network Meta-Analysis {#bayesnma}
 
 ![](_figs/bayesian2.jpg)
 
@@ -684,7 +684,7 @@ load("_data/mcmc2.rda")
 ```
 
 
-#### Assessing the convergence
+#### Assessing the convergence {#mcmcconv}
 
 To see if our simulations have resulted in the **convergence** of the algorithm, and to check which settings are preferable, we can evaluate some of the outputs of our `mcmc1` and `mcmc2` objects. A good start is to use the `plot()` function. This provides us with a "time series", commonly referred to as a **trace plot**, for each treatment comparison over all iterations. For now, we only focus on the comparison **Placebo vs. Benfluorex**. 
 

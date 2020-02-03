@@ -5,9 +5,8 @@ author:
 - Mathias Harrer, M.Sc.¹ 
 - Prof. Dr. Pim Cuijpers²
 - Prof. Dr. Toshi A. Furukawa³
-- Luke A. McGuinness, M.Sc.⁴
 - Assoc. Prof. Dr. David D. Ebert²
-date: "¹Friedrich-Alexander-University Erlangen-Nuremberg, ²Vrije Universiteit Amsterdam, ³Kyoto University, ⁴University of Bristol"
+date: "¹Friedrich-Alexander-University Erlangen-Nuremberg, ²Vrije Universiteit Amsterdam, ³Kyoto University"
 github-repo: "MathiasHarrer/Doing-Meta-Analysis-in-R"
 site: bookdown::bookdown_site
 output: 
@@ -79,8 +78,8 @@ It is also beyond the scope of this guide to advise in detail which meta-analyti
 
 #### Other sources to recommend when conducting Meta-Analyses {-}
   
-* If you're looking for a easily digestable, hands-on introduction on how Meta-Analyses are conducted, we can recommend **Pim Cuijpers' online courses on meta-analysis**. The courses are freely available on YouTube. To have a look, click [here](https://www.youtube.com/watch?v=pP7_VBrG_TY&list=PL-h5cI5Bkvt0J-O0kq_9J9_aksWFPgR7s). The course is based on a **book** [@cuijpers2016meta], which you can download for free [here](http://bit.do/meta-analysis).
-* If you're interested in more details on how to conduct meta-analyses in *R*, you can either have a look at Wolfgang Viechtbauer's webpage for the `metafor` package ([Link](http://metafor-project.org)). Or you can consult a book written by Schwarzer and colleagues on the `meta` package [@schwarzer2015meta]. We can also recommend a book written by **Terri Pigott**, which focuses more on the theoretical background of and advances in meta-analytic techniques [@pigott2012advances]. 
+* If you are looking for an easily digestable, hands-on introduction on how Meta-Analyses are conducted, we can recommend **Pim Cuijpers' online courses on meta-analysis**. The courses are freely available on YouTube. To have a look, click [here](https://www.youtube.com/watch?v=pP7_VBrG_TY&list=PL-h5cI5Bkvt0J-O0kq_9J9_aksWFPgR7s). The course is based on a **book** [@cuijpers2016meta], which you can download for free [here](http://bit.do/meta-analysis).
+* If you are interested in more details on how to conduct meta-analyses in *R*, you can either have a look at Wolfgang Viechtbauer's webpage for the `metafor` package ([Link](http://metafor-project.org)). Or you can consult a book written by Schwarzer and colleagues on the `meta` package [@schwarzer2015meta]. We can also recommend a book written by **Terri Pigott**, which focuses more on the theoretical background of and advances in meta-analytic techniques [@pigott2012advances]. 
 
 <br><br>
 
@@ -96,7 +95,7 @@ All code behind this book is available online on **GitHub**. We have created a w
 
 #### How to cite this guide {-}
 
-Harrer, M., Cuijpers, P., Furukawa, T.A, & Ebert, D. D. (2019). Doing Meta-Analysis in R: A Hand-on Guide. [https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
+Harrer, M., Cuijpers, P., Furukawa, T.A, & Ebert, D. D. (2019). Doing Meta-Analysis in R: A Hands-on Guide. [https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
 [![DOI](https://zenodo.org/badge/152492192.svg)](https://zenodo.org/badge/latestdoi/152492192). [Citation Download](www.protectlab.org/meta-analysis-in-r)
 
 
@@ -116,6 +115,13 @@ install.packages("bookdown")
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Doing Meta-Analysis in R: A Hands-On Guide</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R" property="cc:attributionName" rel="cc:attributionURL">Mathias Harrer, Pim Cuijpers, Toshi Furukawa and David Ebert</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
 
+### Contributors {-}
+
+This guide is an open project, and we owe special thanks to our expert contributors who provided additional content in some of the sections of this guide.
+
+* [**Luke A. McGuinness, M.Sc.**](https://twitter.com/mcguinlu), University of Bristol: Chapter 9, Publication Bias.
+
+Want to contribute to this guide yourself? Feel free to send **Mathias** (mathias.harrer@fau.de) an E-mail and tell us about your proposed additions.
 
 <br><br>
 

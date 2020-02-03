@@ -1,0 +1,29 @@
+# Datasets {-}
+
+Here are the **links** to the datasets used in this guide. You can download the data set on the GitHub page, drag it into your working directory folder, and then **click** on it in the file viewer in RStudio to import them into your environment.
+
+* `bin.metagen`: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/bin.metagen.rda)
+* `binarydata`: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/binarydata.RData)
+* `dat.gosh`: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/dat.gosh.rda)
+* `dat.cfa`$^1$: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/dat_cfa.rda)
+* `dat.da`$^1$: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/dat_da.rda)
+* `dat.med`$^1$: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/dat_med.rda)
+* `IRR.data`: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/IRR.data.RData)
+* `madata`: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/Meta_Analysis_Data.RData)
+* `metacont`: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/metacont_data.RData)
+* `mlm.data`: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/mlm.data.RData)
+* `mvreg.data`: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/mvreg_data.rda)
+* `Senn2013`(reshaped for `gemtc`)$^2$: [link](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/blob/master/_data/senn2013_reshape.rda)
+* `data_rob2`$^3$: [link](https://github.com/mcguinlu/robvis/blob/master/data/data_rob2.rda)
+* `data_robins`$^3$: [link](https://github.com/mcguinlu/robvis/blob/master/data/data_robins.rda)
+* `data_quadas`$^3$: [link](https://github.com/mcguinlu/robvis/blob/master/data/data_quadas.rda)
+* `data_rob1`$^3$: [link](https://github.com/mcguinlu/robvis/blob/master/data/data_rob1.rda)
+
+$^1$Adapted from datasets contained in the [`metaSEM`](https://www.google.com/search?q=metasem+package&oq=metasem+package&aqs=chrome..69i57j35i39l2j69i60l3.2287j0j1&sourceid=chrome&ie=UTF-8) package [@cheung2015metasem].
+
+$^2$Adapted from the `Senn2013` dataset contained in the [`meta`](https://cran.r-project.org/web/packages/meta/meta.pdf) package [@schwarzer2007meta].
+
+$^3$Sourced from the [`robvis`](https://github.com/mcguinlu/robvis) package.
+
+$$~$$
+

@@ -108,7 +108,15 @@ subgroup.analysis.mixed.effects(x = m.hksj,
 
 The results of the subgroup analysis are displayed under `Subgroup Results`. We also see that, while the **pooled effects of the subgroups differ quite substantially** ($g$ = 0.41-0.78), this difference is **not statistically significant**. 
 
-This can be seen under `Test for subgroup differences (mixed/fixed-effects (plural) model)` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper.
+This can be seen under `Test for subgroup differences (mixed/fixed-effects (plural) model)` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper. We can also produce a forest plot for the subgroup analysis using `forest`.
+
+```{r}
+sgame <- subgroup.analysis.mixed.effects(x = m.hksj,
+                                subgroups = madata$Control)
+
+forest(sgame)
+```
+
 
 <br><br>
 

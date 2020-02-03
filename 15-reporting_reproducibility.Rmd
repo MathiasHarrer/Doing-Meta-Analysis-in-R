@@ -7,7 +7,7 @@ In the previous chapters, we covered various techniques, approaches and strategi
 * You find an **error** in your meta-analysis *R* code, and therefore have to **replicate some steps** of your analysis with a few changes,
 * Collaborators or reviewers suggest using a **different approach or model**, or performing a **sensitivity analysis** on your data,
 * You want to **delegate** some parts of the analysis to one of your collaborators, and have to send her/him the current status of your analysis,
-* You have to **stop working** on your project for some time, which means that might forget some of the steps of your analysis before you return to the project,
+* You have to **stop working** on your project for some time, which means that you might forget some of the steps of your analysis before you return to the project,
 * You want to **share results** of your analysis with project collaborators, but they may not know *R* and thus may not have RStudio installed.
 
 ```{block,type='rmdinfo'}
