@@ -115,11 +115,13 @@ install.packages("bookdown")
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Doing Meta-Analysis in R: A Hands-On Guide</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R" property="cc:attributionName" rel="cc:attributionURL">Mathias Harrer, Pim Cuijpers, Toshi Furukawa and David Ebert</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
 
+$$~$$
+
 ### Contributors {-}
 
 This guide is an open project, and we owe special thanks to our expert contributors who provided additional content in some of the sections of this guide.
 
-* [**Luke A. McGuinness, M.Sc.**](https://twitter.com/mcguinlu), University of Bristol: Chapter 9, Publication Bias.
+* [**Luke A. McGuinness, M.Sc.**](https://twitter.com/mcguinlu), University of Bristol: Chapter 10, Risk of Bias Plots.
 
 Want to contribute to this guide yourself? Feel free to send **Mathias** (mathias.harrer@fau.de) an E-mail and tell us about your proposed additions.
 

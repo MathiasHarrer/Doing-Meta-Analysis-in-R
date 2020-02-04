@@ -106,7 +106,7 @@ If you don't want to use the `dmetar` package, you can download the `madata` dat
 
 Before we fit the model, let us first **define the priors** for the true pooled effect size $\mu$ and the between-study heterogeneity $\tau$. Previously, we specified that $\mu \sim \mathcal{N}(0,1)$ and $\tau \sim \mathcal{HC}(0,0.5)$. We can use the `prior` function to specify priors. The function takes two arguments: in the first argument, we specify the distribution we want to assume for our prior, including the distribution parameters. In the second argument, we have to define the `class` of the prior. For $\mu$, the appropriate class is `Intercept`, since it is a fixed population-level effect. For $\tau$, the class is `sd`, because it is a variance. We can define both priors using the `prior` function, then concatenate them using `c()`, and save the resulting object as `priors`. The code then looks like this:
 
-```{r}
+```{r, eval=F}
 priors <- c(prior(normal(0,1), class = Intercept),
             prior(cauchy(0,0.5), class = sd))
 ```

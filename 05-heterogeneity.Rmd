@@ -218,7 +218,7 @@ We see that the function has detected **two outliers**, "DanitzOrsillo" and "Sha
 
 We can also produce an updated forest plot in which the outliers are excluded by plugging the results of the `find.outliers` function into the `forest` function (this only works if you have already loaded the `meta` and `metafor` package from your library). The appearance of the resulting forest plot can be changed using arguments of the `forest` function in `meta` (these arguments are covered in detail in [Chapter 5](#forest)).
 
-```{r}
+```{r, fig.width=9, fig.height=6}
 fo <- find.outliers(m.hksj)
 forest(fo, col.predict = "blue")
 ```
@@ -359,28 +359,10 @@ plot(inf.analysis, "es")
 ```
 
 
-```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by effect size"}
-library(png)
-library(grid)
-img <- readPNG("_figs/inflA3.png")
-grid.raster(img)
-
-
-```
-
 ```{r}
 plot(inf.analysis, "i2")
 ```
 
-```{r,echo=FALSE, fig.align='center',fig.cap="Leave-One-Out-Analyses, sorted by heterogeneity"}
-library(png)
-library(grid)
-
-
-
-img <- readPNG("_figs/inflA4.png")
-grid.raster(img)
-```
 
 
 In these to forest plots, we see the **pooled effect recalculated, with one study omitted each time**. There are two plots, which provide the same data, but are ordered by different values. 

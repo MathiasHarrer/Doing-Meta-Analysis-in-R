@@ -369,7 +369,7 @@ m.frst<-metagen(TE,
         comb.random = FALSE,
         hakn = FALSE,
         prediction=FALSE)
-forest(m.frst,xlim = c(0.34,0.85))
+meta::forest.meta(m.frst,xlim = c(0.34,0.85))
 
 ```
 

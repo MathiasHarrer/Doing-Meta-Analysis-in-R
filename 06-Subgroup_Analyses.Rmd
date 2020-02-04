@@ -110,10 +110,9 @@ The results of the subgroup analysis are displayed under `Subgroup Results`. We 
 
 This can be seen under `Test for subgroup differences (mixed/fixed-effects (plural) model)` in the `Between groups` row. We can see that $Q=3.03$ and $p=0.2196$. This information can be reported in our meta-analysis paper. We can also produce a forest plot for the subgroup analysis using `forest`.
 
-```{r}
+```{r, fig.height=8, fig.align="center"}
 sgame <- subgroup.analysis.mixed.effects(x = m.hksj,
                                 subgroups = madata$Control)
-
 forest(sgame)
 ```
 
