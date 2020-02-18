@@ -188,7 +188,7 @@ grid.raster(img)
 To access OSF directly via *R*, we can use the `osfr` package [@osfr]. To install the package and load it from your library, use the following code:
 
 ```{r, eval=FALSE}
-devtools::install_github('CenterForOpenScience/osfr')
+install.packages('osfr')
 library(osfr)
 ```
 
