@@ -121,19 +121,16 @@ kable(m)
 
 **Setting up the formula**
 
-Under the `random` parameter, we feed `rma.mv` with the formula for our model. As we actually have two formulas in three-level models, we have to bundle them together in a `list()`. The notation for `rma.mv` is very similar to other packages specialized for mixed-effects models such as `lme4` [@lme4]. 
-
-Within the `list()`, formulae are separated with commas. Within the formula, we first define the random effects variance as `~ 1`, followed by a **vertical bar** `|`. Behind the vertical bar, we assign this random effect to a **grouping variable** such as studies, measures, regions and so forth. We only have to define the formulae for **level 2** and **level 3**, as the sampling error in level 1 is assumed to be known. We type in the formulae in the order of our multilevel model. As in our example, ID_2 is nested in ID_1, we first define level 2 as `~ 1 | ID_2` and then level 3 as `~ 1 | ID_1`. Now, let's put it all together:
+Under the `random` parameter, we feed `rma.mv` with the formula for our model. The notation for `rma.mv` is quite similar to other packages specialized for mixed-effects models such as `lme4` [@lme4]. We start defining the random effects by using `~ 1`, followed by a **vertical bar** `|`. Behind the vertical bar, we assign a random effect to a **grouping variable** such as studies, measures, regions or the like. This grouping variable often called a **random intercept**, because it tells our model to assume different values (intercepts) for each grouping. We have described before that in the multilevel model, we have two grouping variables: the one on **level 2**, and the one on **level 3**. We assume that these grouping variables are **nested**, in the sense that several effect sizes on level 2 (represented by `ID_2`) together make up a larger cluster on level 3 (represented by `ID_1`). There is a special way through which we can tell `rma.mv` that we assume that our random effects have a nested structure. This is achieved by using a slash (`/`) to seperate the higher- and lower-order grouping variables. Left to `/`, we define the higher-order variable or cluster (here, `ID_1`). To the right, we define the lower-order variable which is nested in the larger cluster (in our example, `ID_2`). All in all, our formula therefore looks like this: `~ 1 | ID_1/ID_2`. The full code for our call to `rma.mv` looks like this:  
 
 
 ```{r}
-full.model<-rma.mv(y, 
-                   v, 
-                   random = list(~ 1 | ID_2, 
-                                 ~ 1 | ID_1), 
-                   tdist = TRUE, 
-                   data = mlm.data,
-                   method = "REML")
+full.model <- rma.mv(y, 
+                     v, 
+                     random = ~ 1 | ID_1/ID_2, 
+                     tdist = TRUE, 
+                     data = mlm.data,
+                     method = "REML")
 
 ```
 
@@ -143,7 +140,7 @@ To see the results of our model, we can use the `summary()` function.
 summary(full.model)
 ```
 
-Let's go through the output one by one. First, let's have a look at the `Variance Components`. Here, we see the variance calculated for each level of our model, $\sigma^2_1$ (level 2) and $\sigma^2_2$ (level 3). Under `nlvls`, we see the number of levels (i.e., subgroups) on each level. For `ID_2`, this is 80 because each effect size has its own ID. 
+Let's go through the output one by one. First, let us have a look at the `Variance Components`. Here, we see the random-effects variance calculated for each level of our model, $\sigma^2_1$ (level 3, `ID_1`) and $\sigma^2_2$ (level 2, `ID_2` nested in `ID_1`). Under `nlvls`, we see the number of levels (i.e., subgroups) on each level. For `ID_1/ID_2`, this is 80 because each effect size has its own ID. 
 
 Under `Model Results`, we see the `estimate` of our pooled effect, which is 0.4345. As our `y` column contained effect sizes expressed as Hedges' g, the effect is therefore $g = 0.4545$, with a confidence interval of $0.20-0.67$. 
 
@@ -152,7 +149,7 @@ Under `Test for Heterogeneity`, we see that the variance of effect sizes within 
 
 ### Distribution of total variance
 
-As mentioned before, what we're actually interested in is the **distribution of variance over the three levels of our model**. Cheung (2014) provides a formula to estimate the sampling variance, which is needed to calculate the variance proportions for each level. We have have prepared a function called `mlm.variance.distribution`, which implements this formula. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
+As mentioned before, what we're actually interested in is the **distribution of variance over the three levels of our model**. Viechtbauer ([2019](http://www.metafor-project.org/doku.php/tips:i2_multilevel_multivariate)) provides a formula to estimate the sampling variance, which is needed to calculate the variance proportions for each level. We have have prepared a function called `mlm.variance.distribution`, which implements this formula. The function is part of the [`dmetar`](#dmetar) package. If you have the package installed already, you have to load it into your library first.
 
 ```{r, eval=FALSE}
 library(dmetar)
@@ -181,19 +178,18 @@ From the outputs, we see that about 8.94% of the overall variance can be attribu
 
 Of course, when fitting a three-level model, we are interested if this model actually **captures the variability in our data better than a two-level model**. `metafor` allows us to easily do this by comparing models **in which one of the levels is removed**.
 
-To do this, we can use the `rma.mv` function again, but this time, we hold the variance component $\sigma^2$ of one level constant. This can be done by specifying the `sigma2` parameter. The parameter can be specified by providing a vector telling the function which level to hold constant, with the generic version being `c(level 2, level3)`. So, if we want to hold level 2 constant while leaving the rest as is, we use `sigma2 = c(0,NA)`, and vice verse for the third level.
+To do this, we can use the `rma.mv` function again, but this time, we hold the variance component $\sigma^2$ of one level constant. This can be done by specifying the `sigma2` parameter. The parameter can be specified by providing a vector telling the function which level to hold constant, with the generic version being `c(level 3, level 2)`. So, if we want to hold level 2 constant while leaving the rest as is, we use `sigma2 = c(NA, 0)`, and vice verse for the third level.
 
 **Model without level 2**
 
 ```{r}
 model.l2.removed<-rma.mv(y, 
                    v, 
-                   random = list(~ 1 | ID_2, 
-                                 ~ 1 | ID_1), 
+                   random = ~ 1 | ID_1/ID_2, 
                    tdist = TRUE, 
                    data = mlm.data,
                    method = "REML",
-                   sigma2 = c(0, NA))
+                   sigma2 = c(NA, 0))
 summary(model.l2.removed)
 ```
 
@@ -203,19 +199,18 @@ We see that the `Model Results` have changed, but does the second level in fact 
 anova(full.model, model.l2.removed)
 ```
 
-We see that the `Full` model compared to the `Reduced` model does indeed have a better fit, with the **Akaike Information Criterion** (`AIC`) and the **Bayesian Information Criterion** (`BIC`) being lower for this model. The difference is significant ($p<0.0001$), suggesting that it was a good idea to include this level into our analysis. Now, let's do the same when holding level 3 constant.
+We see that the `Full` model compared to the `Reduced` model does indeed have a better fit, with the **Akaike Information Criterion** (`AIC`) and the **Bayesian Information Criterion** (`BIC`) being lower for this model. The difference is significant ($p<0.0001$), suggesting that it was a good idea to include this level into our analysis. Now, let us do the same when holding level 3 constant.
 
 **Model without level 3**
 
 ```{r}
 model.l3.removed<-rma.mv(y, 
                    v, 
-                   random = list(~ 1 | ID_2, 
-                                 ~ 1 | ID_1), 
+                   random = ~ 1 | ID_1/ID_2, 
                    tdist = TRUE, 
                    data = mlm.data,
                    method = "REML",
-                   sigma2 = c(NA, 0))
+                   sigma2 = c(0, NA))
 summary(model.l3.removed)
 
 anova(full.model, model.l2.removed)
@@ -231,8 +226,7 @@ Once our **three-level meta-analytic model** is set, it is easy to also check fo
 ```{r, chunk2}
 model.mods<-rma.mv(y, 
                    v, 
-                   random = list(~ 1 | ID_2, 
-                                 ~ 1 | ID_1), 
+                   random = ~ 1 | ID_1/ID_2, 
                    tdist = TRUE, 
                    data = mlm.data,
                    method = "REML",

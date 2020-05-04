@@ -218,10 +218,18 @@ We see that the function has detected **two outliers**, "DanitzOrsillo" and "Sha
 
 We can also produce an updated forest plot in which the outliers are excluded by plugging the results of the `find.outliers` function into the `forest` function (this only works if you have already loaded the `meta` and `metafor` package from your library). The appearance of the resulting forest plot can be changed using arguments of the `forest` function in `meta` (these arguments are covered in detail in [Chapter 5](#forest)).
 
-```{r, fig.width=9, fig.height=6}
+```{r, eval=F}
 fo <- find.outliers(m.hksj)
 forest(fo, col.predict = "blue")
 ```
+
+```{r, fig.width=9, fig.height=6, echo=F, message=F}
+library(meta)
+library(metafor)
+fo <- find.outliers(m.hksj)
+dmetar:::forest.find.outliers(fo, col.predict = "blue")
+```
+
 
 In the resulting forest plot, the outlying studies are still displayed. However, their **weight** in the meta-analysis has been set to 0\% (as shown in the column to the right), meaning that they are excluded from pooling.
 
