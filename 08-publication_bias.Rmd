@@ -92,7 +92,7 @@ An even better way to inspect the funnel plot is through **contour-enhanced funn
 ```{r,message=FALSE,warning=FALSE,eval=FALSE}
 funnel(m.hksj, xlab="Hedges' g", 
        contour = c(.95,.975,.99),
-       col.contour=c("darkblue","blue","lightblue"))+
+       col.contour=c("darkblue","blue","lightblue"))
 legend(1.4, 0, c("p < 0.05", "p<0.025", "< 0.01"),bty = "n",
        fill=c("darkblue","blue","lightblue"))
 ```
