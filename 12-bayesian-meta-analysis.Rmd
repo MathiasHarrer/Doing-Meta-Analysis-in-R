@@ -20,7 +20,7 @@ Here, we use $\mathcal{N}$ to indicate that distributions from which effects wer
 
 $$ \hat\theta_k | \mu, \tau, \sigma_k \sim \mathcal{N}(\mu,\sigma_k^2 + \tau^2)$$
 
-You may have already detected that these formulae look a lot like the ones we defined before when discussing multilevel models. Indeed, there is nothing particularly bayesian about this formulation; the same model is assumed in the previous meta-analytic techniques we have covered. The make it bayesian, we add the following term to our model [@williams2018bayesian]:
+You may have already detected that these formulae look a lot like the ones we defined before when discussing multilevel models. Indeed, there is nothing particularly bayesian about this formulation; the same model is assumed in the previous meta-analytic techniques we have covered. To make it bayesian, we add the following term to our model [@williams2018bayesian]:
 
 $$(\mu, \tau^2) \sim p(.)$$
 $$ \tau^2 > 0 $$
