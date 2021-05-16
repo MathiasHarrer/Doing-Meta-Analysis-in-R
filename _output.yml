@@ -17,10 +17,41 @@ bookdown::gitbook:
       size: 1
     toolbar:
       search: yes
+
 bookdown::pdf_book:
   includes:
     in_header: preamble.tex
   latex_engine: xelatex
   citation_package: natbib
   keep_tex: yes
+
 bookdown::epub_book: default
+
+bookdown::bs4_book:
+  theme:
+    fg: "black"
+    bg: "#FFFEFA"
+    primary: "#277DB0"
+    secondary: "#277DB0"
+    success: "#277DB0"
+    info: "#277DB0"
+    warning: "#277DB0"
+    danger: "#277DB0"
+    base_font: !expr bslib::font_google("Roboto")
+    code_font: !expr bslib::font_google("Roboto Mono")
+    heading_font: !expr bslib::font_google("Roboto", wght = 700)
+    headings-font-weight: "700"
+    lead-font-weight: "700"
+    box-shadow: "none"
+    border: "0px"
+  #repo: https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/
+  twitter-handle: MathiasHarrer
+  includes:
+    in_header: [style.html]
+  favicon: "favicon.ico"
+
+
+
+
+
+

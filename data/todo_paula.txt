@@ -1,0 +1,38 @@
+1. Install:
+
+# Vorher R neu Starten
+remotes::install_github("rstudio/bslib")
+install.packages("downlit")
+remotes::install_github("rstudio/bookdown")
+# Nachher: R neu Starten
+
+2. Regeln:
+
+- _Kursiver_ Text (zur Vorherhebung) wird **fett**
+- \textsf{R} --> _R_
+- _{package}_ --> **{package}**
+- Boxen müssen in blocks übertragen werden:
+  ```{block, type='boxinfo'}.
+  - 'boxinfo': Glühbirne
+  - 'boximportant': Ausrufezeichen
+  - 'boxquestion': Fragenblock
+  - 'boxdmetar': "dmetar" Symbol
+  - 'boxreport': Reporting
+  - Auf zwei Zeilen verteilte Blocks: alles in einen block, ! entfernen.
+- Formeln funktionieren in ^[Fußnoten] nicht; wenn möglich
+  normalen Text kursiv (z.B. _p_ statt $p$). Wenn nicht möglich,
+  Fußnoten als neuen 'boxinfo' Block direkt darunter adden.
+- Leere Zeilen, sofern nötig, mit "<br></br>" einfügen.
+- Neue Kapitel: neues Rmd, "leeres Dokument", dann Inhalte reinkopieren.
+  Titel muss mit Zahl + "-" beginnen; Titel wie in Original übernehmen und
+  Kapitelzahl anpassen (anders als in Buchversion).
+- Bilder: hier nutzen wir Bilder in Farbe. Diese befinden sich auch in "images".
+  Man muss nur "_col" hinzufügen zum Titel.
+- Coverbilder: jedes Kapitel bekommt ein Cover. Kann von pexels.com geholt werden,
+  oder vom derzeitigen Online-Guide: https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/
+  Bild passend zuschneiden: 3342x1338 pixel. In "_figs" speichern!
+- \vspace: rausnehmen, das ist nur LaTeX-relevant!
+- <br></br> vor jeder großen Überschrift (# oder ##)
+- Tabellen: müssen wir mit kableExtra machen, gib Bescheid wenn die 1. kommt :)
+  http://haozhu233.github.io/kableExtra/awesome_table_in_html.html#Overview
+

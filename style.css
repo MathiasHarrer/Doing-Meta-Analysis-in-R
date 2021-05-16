@@ -87,21 +87,11 @@ pre code {
     font-size: 45px;
  }
 
-div.sourceCode {
+
+
+blockquote {
   position: relative;
 }
-
-.copy-to-clipboard-button {
-  position: absolute;
-  right: 0;
-  top: 0;
-  visibility: hidden;
-}
-
-.copy-to-clipboard-button:focus {
-  outline: 0;
-}
-
-div.sourceCode:hover > .copy-to-clipboard-button {
+blockquote:hover > .copy-to-clipboard-button {
   visibility: visible;
 }

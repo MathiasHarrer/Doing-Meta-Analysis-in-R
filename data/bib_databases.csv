@@ -1,0 +1,13 @@
+Database,Description,Website,Type
+PubMed,Openly accessible database of the US National Library of Medicine. Primarily contains biomedical research.,ncbi.nlm.nih.gov/ pubmed ,Core Database
+PsycInfo,Database of the American Psychological Association. Primarily covers research in the social and behavioral sciences. Allows for a 30-day free trial.,apa.org/pubs/ databases/psycinfo ,Core Database
+Cochrane Central Register of Controlled Trials (CENTRAL) ,Openly accessible database of the Cochrane Collaboration. Primarily covers health-related topics.,cochranelibrary.com/ central,Core Database
+Embase,Database of biomedical research maintained by the large scientific publisher Elsevier. Requires a license.,elsevier.com/solutions/ embase-biomedical-research ,Core Database
+ProQuest International Bibliography of the Social Sciences,Database of social science research. Requires a license.,about.proquest.com/ products-services/ibss-set-c.html,Core Database
+Education Resources Information Center (ERIC),Openly accessible database on education research.,eric.ed.gov,Core Database
+Web of Science,Interdisciplinary citation database maintained by Clarivate Analytics. Requires a license.,webofknowledge.com,Citation Database
+Scopus,Interdisciplinary citation database maintained by Elsevier. Requires a license.,scopus.com,Citation Database
+Google Scholar,Openly accessible citation database maintained by Google. Has only limited search and reference retrieval functionality.,scholar.google.com,Citation Database
+ProQuest Dissertations,Database of dissertations. Requires a license,about.proquest.com/ products-services/dissertations/,Dissertations
+WHO International Clinical Trials Registry Platform (ICTRP),Openly accessible database of clinical trial registrations worldwide. Can be used to identify studies that have not (yet) been published.,www.who.int/ictrp,Trial Registry
+OSF Registries,Openly accessible interdisciplinary database of study registrations. Can be used to identify studies that have not (yet) been published.,osf.io/registries,Trial Registry

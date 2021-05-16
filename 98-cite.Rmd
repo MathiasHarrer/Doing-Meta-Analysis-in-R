@@ -1,0 +1,16 @@
+# Citing this Guide {-}
+
+---
+
+<br></br>
+
+This suggested citation is:
+
+```{block, type='boxempty'}
+**Harrer, M., Cuijpers, P., Furukawa, T.A., & Ebert, D.D.** (2021). _Doing Meta-Analysis with R: A Hands-On Guide_. Boca Raton, FL and London: Chapmann & Hall/CRC Press. ISBN 978-0-367-61007-4.
+```
+
+Download the reference as [BibTeX](https://www.protectlab.org/meta-analysis-in-r/data/citation.bib) or [.ris](https://www.protectlab.org/meta-analysis-in-r/data/citation.ris).
+
+
+<br></br>

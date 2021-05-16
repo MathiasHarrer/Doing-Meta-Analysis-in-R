@@ -1,0 +1,259 @@
+# Preface {-}
+
+---
+
+<br></br>
+
+> "The problems are solved, not by giving new information,
+> but by arranging what we have known since long."
+> 
+> -- **Ludwig Wittgenstein**, [**Philosophical Investigations**](https://plato.stanford.edu/entries/wittgenstein/#PhilInve)
+
+<br></br>
+
+<span class="firstcharacter">I</span>
+t is a trivial observation that our world is complex. Scientific research is no exception; in most research fields, we are often faced with a seemingly insurmountable body of previous research. Evidence from different studies can be conflicting, and it can be difficult to make sense out of various sources of information. 
+
+**Evidence synthesis** methods therefore play a crucial role in many disciplines, for example the social sciences, medicine, biology, or econometrics. **Meta-analysis**, the statistical procedure used to combine results of various studies or analyses, has become an indispensable tool in many research areas. Meta-analyses can be of enormous importance, especially if they guide practical decision-making, or future research efforts. Many applied researchers therefore have some meta-analysis skills in their "statistical toolbox", while others want to learn how to perform them in their own research field. Meta-analysis has become so ubiquitous that many graduate and undergraduate students already learn how to perform meta-analyses as part of their curriculum -- sometimes with varying levels of enthusiasm. 
+
+The way meta-analyses can be performed, like statistical computing as a whole, has seen major shifts in the last decades. This has a lot to do with the rise of open source, collaborative statistical software, primarily in the form of the _R_ Statistical Programming Language and Environment. The _R_ ecosystem allows researchers and statisticians everywhere to build their own **packages**, and to make them available to everyone, for free. This has lead to a spectacular rise in readily available statistical software for the _R_ language. While we are writing this, the [CRAN Task View](https://cran.r-project.org/web/views/MetaAnalysis.html) lists more than 130 packages dedicated to meta-analysis alone. 
+
+In _R_, you can do **anything** -- literally. It is a full programming language, so if you do not find a function for something you want to do, you can easily write it yourself. For meta-analyses, however, there is hardly any need to do this anymore. Just a small collection of _R_ packages already provide all the functionality you can find in current "state-of-the-art" meta-analysis programs -- for free. Even more so, there are many novel meta-analysis methods that can currently **only** be applied in _R_. In short: the _R_ environment gives researchers much more tools for their meta-analyses. In the best case, this allows us to draw more robust conclusions from our data, and thus better inform decision-making.
+
+This raises the question why not everyone is using _R_ for meta-analyses. We think there are two main reasons: **convenience** and **anxiety** (and sometimes a mixture of both). Both reasons are very understandable. Most meta-analysts are applied researchers; not statisticians or programmers. The thought of learning an obscure and complicated-seeming programming language can act as a deterrent. The same is true for meta-analytic methods, with their special theoretical background, their myriad of analytic choices, and different statistics that need to be interpreted correctly. 
+
+With this guide, we want to show that many of these concerns are unfounded, and that learning how to do a meta-analysis in _R_ is worth the effort. We hope that the guide will help you to learn the skills needed to master your own meta-analysis project in _R_. We also hope that this guide will make it easier for you to not only learn **what** meta-analytic methods to apply when, but also **why** we apply them. Last but not least, we see this guide as an attempt to show you that meta-analysis methods and _R_ programming are not mere inconveniences, but a fascinating topic to explore.
+
+<br></br>
+
+## This Book Is for Mortals {-}
+
+---
+
+This guide was not written for meta-analysis experts or statisticians. We do not assume that you have any special background knowledge on meta-analytic methods. Only basic knowledge of fundamental mathematical and statistical concepts is needed. For example, we assume that you have heard before what things like a "mean", "standard deviation", "correlation", "regression", "$p$-value" or a "normal distribution" are. If these terms ring a bell, you should be good to go. If you are really starting from scratch, you may want to first have a look at Robert Stinerock's statistics beginner's guide [@stinerock2018statistics] for a thorough introduction including hands-on examples in _R_--or some other introductory statistics textbook of your choice.
+
+Although we tried to keep it as minimal as possible, we will use mathematical formulas and statistical notation at times. But do not panic. Formulas and greek letters can seem confusing at first glance, but they are often a very good way to precisely describe the idea behind some meta-analysis methods. Having seen those formulas, and knowing what they represent, will also make it easier for you to understand more advanced texts you may want to read further down the line. And of course, we tried our best to always explain in detail what certain symbols or letters stand for, and what a specific formula **wants to tell us**. In appendix \@ref(symbollist) of this book, you can find a list of the symbols we use, and what they stand for. In later chapters, especially the Advanced Methods section, we need to become a little more technical to explain the idea behind some of the applied techniques. Nevertheless, we made sure to always include some background information on the mathematical and statistical concepts used in these sections.
+
+No prior knowledge of _R_ (or programming in general) is required. In the guide, we try to provide a gentle introduction into basic _R_ skills you need to code your own meta-analysis. We also provide references to adequate resources to keep on learning. Furthermore, we will show you how you can set up a free computer program which allows you use _R_ conveniently on your PC or Mac.
+
+As it says in the title, our book focuses on the "doing" part of meta-analysis. Our guide aims to be an accessible resource which meets the needs of applied researchers, students and data scientists who want to get going with their analyses using _R_. Meta-analysis, however, is a vast and multi-faceted topic, so it is natural that not everything can be covered in this guide. For this book, limitations particularly pertain to three areas:
+
+- Although we provide a short primer on these topics, we do not cover **in detail** how to define research questions, systematically search and include studies for your meta-analysis, as well as how to assess their quality. Each of these topics merits books of their own, and luckily many helpful resources already exist. We therefore only give an overview of important considerations and pitfalls when collecting the data for your meta-analysis, and will refer you to adequate resources dealing with the nitty-gritty details. 
+
+- The second limitation of this guide pertains to its level of technicality. This book is decidedly written for "mortals". We aim to show you when, how and why to apply certain meta-analytic techniques, along with their pitfalls. We also try to provide an easily accessible, conceptual understanding of the techniques we cover, resorting to more technical details only if it benefits this mission. Quite naturally, this means that some parts of the guide will not contain a deep dive into technicalities that expert-level meta-analysts and statisticians may desire. Nevertheless, we include references to more advanced resources and publications in each chapter for the interested reader.
+
+- Contents of a book will always to some extent reflect the background and experience of its authors. We are confident that the methods we cover here are applicable and relevant to a vast range of research areas and disciplines. Nevertheless, we wanted to disclose that the four authors of this book are primarily versed in current research in psychology, psychiatry, medicine, and intervention research. "Real-world" use cases and examples we cover in the book therefore concentrate on topics where we know our way around. The good news is that meta-analytic methods (provided some assumptions, which we will cover) are largely agnostic to the research field from which data stem from, and can be used for various types of outcome measures. Nonetheless, and despite our best intentions to make this guide as broadly applicable to as many applied research disciplines as possible, it may still be possible that some of the methods covered in this book are more relevant for some research areas than others.
+
+<br></br>
+
+## Topics Covered in the Book {-}
+
+---
+
+Among other things, this guide will cover the following topics:
+
+* What a meta-analysis is, and why it was **invented**.
+
+* **Advantages** and **common problems** with meta-analysis.
+
+* How **research questions** for meta-analyses are specified, and how the **search for studies** can be conducted.
+
+* How you can set up _R_, and a **computer program** which allows you to use _R_ in a convenient way.
+
+* How you can **import** your meta-analysis data into _R_, and how to **manipulate** it through code.
+
+* What **effect sizes** are, and how they are calculated.
+
+* How to **pool effect sizes** in fixed-effect and random-effects meta-analyses.
+
+* How to analyze the **heterogeneity** of your meta-analysis, and how to explore it using **subgroup analyses** and **meta-regression**.
+
+* Problems with **selective outcome reporting**, and how to tackle them.
+
+* How to perform **advanced types** of meta-analytic techniques, such as "multilevel" meta-analysis, meta-analytic structural equation modeling, network meta-analysis, or Bayesian meta-analysis.
+
+* How to **report** your meta-analysis results, and make them **reproducible**.
+
+
+<br></br>
+
+## How to Use This Book {-}
+
+---
+
+### Work Flow {-}
+
+---
+
+This book is intended to be read in a "linear" fashion. We recommend that you start with the first chapters on meta-analysis and _R_ basics, and then keep on working yourself through the book one chapter after another. Jumping straight to the hands-on chapters may be tempting, but it is not generally recommended. Teaching students and researchers how to perform their first meta-analyses, we found that a basic familiarity with this technique, as well as the R Studio environment, is a necessary evil to avoid frustrations later on. This is particularly true if you have no previous experience with meta-analysis **and** _R_ programming. Experienced _R_ users may skip Chapter \@ref(discovering-R), which introduces _R_ and R Studio. However, it will certainly do no harm to work through the chapter anyway as a quick refresher.
+
+While all chapters are virtually self-contained, we do sometimes make references to topics covered in previous chapters. Chapters in the Advanced Methods section in particular assume that you are familiar with theoretical concepts we have covered before. 
+
+The last section of this book contains helpful tools for your meta-analysis. This does not mean that these topics are the final things you have to consider when performing a meta-analysis. We simply put these chapters in the end because they primarily serve as reference works for your own meta-analysis projects. We link to these tools throughout the book in sections where they are thematically relevant.
+
+<br></br>
+
+
+
+### Companion _R_ Package {-}
+
+---
+
+This book comes with a companion _R_ package called **{dmetar}**. This package mainly serves two functions. First, it aims to make your life easier. Although there are fantastic _R_ packages for meta-analysis out there with a vast range of functionality, there are still a few things which are currently not easy to implement in _R_, at least for beginners. 
+
+The **{dmetar}** package aims to bridge this gap by providing a few extra functions facilitating exactly those things. Secondly, the package also contains all the data sets we are using for the hands-on examples shown in this book. In chapter \@ref(dmetar), the **{dmetar}** package is introduced in detail, and we show you how to install the package step by step. Although we will make sure that there are no substantial changes, **{dmetar}** is still under active development, so it may be helpful to have a look at the [package website](dmetar.protectlab.org) now and then to check if there are new or improved functionalities which you can use for your meta-analysis. 
+
+Although advised, it is not essential that you install the package. Wherever we make use of **{dmetar}** in the book, we will also provide you with the raw code for the function, or a download link to the data set we are using.
+
+
+<br></br>
+
+### Text Boxes {-}
+
+---
+
+Throughout the book, a set of text boxes is used.
+
+```{block, type='boxinfo'}
+**General Note**
+
+General notes contain relevant background information, insights, anecdotes, considerations or take-home messages pertaining to the covered topic.
+```
+
+```{block, type='boximportant'}
+**Important Information**
+
+These boxes contain information on caveats, problems, drawbacks or pitfalls you have to keep in mind.
+```
+
+```{block, type='boxquestion'}
+**Questions**
+
+After each chapter, this box will contain a few questions through which you can test your knowledge. Answers to these questions can be found at the end of the book in [Appendix A](#qanda).
+```
+
+```{block, type='boxdmetar'}
+**{dmetar} Note**
+
+The **{dmetar}** note boxes appear whenever functions or data sets contained in the companion _R_ package are used. These boxes also contain URLs to the function code, or data set download links for readers who did not install the package.
+```
+
+```{block, type='boxreport'}
+**How Can I Report This?**
+
+These boxes contain recommendations on how you can report _R_ output in your thesis or research article.
+```
+
+
+<br></br>
+
+## Conventions {-}
+
+---
+
+A few conventions are followed throughout the book.
+
+$$~$$
+
+**{packages}**
+
+All _R_ packages are written in bold and are put into curly brackets. This is a common way to write package names in the _R_ community.
+
+$$~$$
+
+`R Code`
+
+All _R_ code or objects we define in _R_ are written in this monospace font.
+
+$$~$$
+
+`## R Output`
+
+The same monospace font is used for the output we receive after running _R_ code. However, we use two number signs (hashes) to differentiate it from _R_ input.
+
+$$~$$
+
+$Formula$
+
+This serif font is reserved for formulas, statistics, and other forms of mathematical notation.
+
+<br></br>
+
+
+## What to Do When You Are Stuck {-}
+
+---
+
+Undeniably, the road to doing meta-analyses in _R_ can be a rocky path at times. Although we think this is sometimes exaggerated, _R_'s learning curve **is** steep. Statistics **is** hard. We did our best to make your experience of learning how to perform meta-analyses using _R_ as painless as possible. Nevertheless, this will not shield you from being frustrated sometimes. This is all but natural. We all had to start from scratch somewhere down the line. From our own experience, we can you assure that we have never met anyone who was **not** able to learn _R_, or how to do a meta-analysis. It only takes practice, and the understanding that there will be no point in time when you are "done" learning. We believe in you. 
+
+If you are looking for something a little more practical than this motivational message: here are a few things you can do once you stumble upon things that this guide cannot answer.
+
+<br></br>
+
+### Do Not Panic {-}
+
+---
+
+Making their first steps in _R_, many people are terrified when the first red error messages start popping up. That is not necessary. **Everyone** gets error messages **all the time**. Instead of becoming panicky or throwing your computer out the window, take a deep breath and take a closer look at the error message. Very often, it only takes a few tweaks to make the error messages disappear. Have you misspelled something in your code? Have you forgotten to close a bracket, or to put something into quotation marks? 
+
+Also, make sure that your output actually **is** an error message. _R_ distinguishes between `Error`s, `Warning`s, and plain messages. Only the first means that your code could not be executed. `Warning`s mean that your code did run, but that something **may** have gone awry. Messages mean that your code did run completely, and are usually shown when a function simply wants to bring your attention to something it has done for you under the hood. For this reason, they are also called **diagnostic messages**.
+
+
+<br></br>
+
+### Google {-}
+
+---
+
+A software developer friend once told the first author this joke about his profession: "A programmer is someone who can google better than Average Joe". This observation certainly also applies to _R_ programming. If you find yourself in a situation in which you cannot make sense out of an error or warning message you receive, do not hesitate to simply copy and paste it, and do a Google search. Adding "R" to your search is often helpful to improve the results. Most content on the Internet is in English; so if your error message in _R_ is in another language, run `Sys.setenv(LANGUAGE = "en")` and then rerun your code again. 
+
+There is a large _R_ community out there, and it is very likely that someone had the same problem as you before. Google is also helpful if there is something specific you want to do with your data, but do not know what _R_ commands you can use to do this. Even for experts, it is absolutely normal to use Google **dozens** of times when writing _R_ code. Do not hesitate to do the same whenever you get stuck.
+
+<br></br>
+
+### _StackOverflow_ & _CrossValidated_ {-}
+
+---
+
+When searching for _R_-related questions on Google, you will soon find out that many of the first hits will link you to a website called [StackOverflow](https://stackoverflow.com/). StackOverflow is a large community-based forum for questions related to programming in general. On StackOverflow, everyone (including you) can ask and answer questions. 
+
+In contrast to many other forums on the Internet, answers you get on StackOverflow are usually goal-oriented and helpful. If searching Google did not help you to solve your problem, addressing it there might be a good solution. However, there are a few things to keep in mind. First, when asking a question, always tag your question with `[R]` so that people know which programming language you are talking about. Also, run `sessionInfo()` in _R_ and attach the output you get to your question. This lets people know which _R_ and package versions you are using, and might be helpful to locate the problem. 
+
+Lastly, do not expect overwhelming kindness. Many StackOverflow users are experienced programmers who may be willing to point you at certain solutions; but do not expect anyone to solve your problem for you. It is also possible that someone will simply inform you that this topic has already been covered elsewhere, send you the link, and then move on. Nevertheless, using StackOverflow **is** usually the best way to get high-quality support for specific problems you are dealing with. 
+
+StackOverflow, by the way, is primarily for questions on programming. If your question also has a statistics background, you can use [CrossValidated](https://stats.stackexchange.com/) instead. CrossValidated works like StackOverflow, but is primarily used by statistics and machine learning experts.
+
+
+<br></br>
+
+### Contact Us {-}
+
+---
+
+If you have the feeling that your problem has something to do with this guide itself, you can also contact us. This particularly pertains to issues with the companion _R_ package for this guide, **{dmetar}**. If you have trouble installing the package, or using some if its functions, you can go to our [website](https://www.protectlab.org/meta-analysis-in-r), where you can find ways to report your issue. When certain problems come up frequently, we usually try to have a look at them and search for fixes. Known issues will also be displayed in the Corrections & Remarks section in the online version of the guide (see **Work Flow** section). Please do not be disappointed if we do not answer your question personally, or if takes long until we get back to you. We receive many questions related to meta-analysis and our package every day, so it is sometimes not possible to directly answer each and every one.
+
+<br></br>
+
+## Acknowledgments {-}
+
+---
+
+We would like to thank David Grubbs and Chapmann & Hall/CRC Press for approaching us with the wonderful idea of turning our online guide into the printed book you are reading right now, and for their invaluable editorial support.
+
+Many researchers and students have shared their feedback and experiences working with this guide with us since we began writing a preliminary online version of it in late 2018. This feedback has been incredibly valuable, and has helped us considerably to tailor this book further to the needs of the ones reading it. Thank you to all of you. 
+
+We owe a great debt of gratitude to all researchers involved in the development of the _R_ meta-analysis infrastructure presented in this guide; but first and foremost to Guido Schwarzer and Wolfgang Viechtbauer, maintainers of the **{meta}** and **{metafor}** package, respectively. This guide, like the whole _R_ meta-analysis community, would not exist without your effort and dedication.
+
+Furthermore, particular thanks go to Luke McGuinness, author of the gorgeous **{robvis}** package, for writing an additional chapter on Risk of Bias visualization, which you can find on this book's companion website. Luke, we are incredibly grateful for your continuous support for this project.
+
+Last but not least, we want to thank Lea Schuurmans and Paula Kuper for supporting us in the development and compilation of this book. 
+
+
+<br></br>
+
+Erlangen, Amsterdam, Kyoto and Munich
+
+<p style="text-align:right;"><strong>Mathias, Pim, Toshi & David</strong></p>
+
+<br></br>
+

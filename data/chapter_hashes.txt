@@ -1,0 +1,187 @@
+\@ref(XXX)
+
+# (PART) Getting Started {-}
+
+# Introduction {#intro}
+
+## What are Meta-Analyses? {#what-are-mas}
+## "Exercises in Mega-Silliness": A Historical Anecdote {#history}
+## Apples and Oranges: A Quick Tour of Meta-Analysis Pitfalls {#pitfalls}
+## Problem Specification, Study Search and Coding {#spec-search-coding}
+### Defining the Research Question {#research-question}
+### Analysis Plan and Preregistration {#analysis-plan}
+### Study Search {#study-search}
+### Study Selection {#study-selection}
+### Data Extraction and Coding {#data-extraction}
+
+
+# Discovering \textsf{R} {#discovering-R}
+
+## Installing \textsf{R} and R Studio {#install-R}
+## Packages {#packages}
+## The _{dmetar}_ Package {#dmetar}
+## Data Preparation & Import {#data-prep-R}
+## Data Manipulation {#data-manip-R}
+### Class Conversion {#class-conversion}
+### Data Slicing {#data-slicing}
+### Data Transformation {#data-transform}
+### Saving Data {#saving-data}
+
+
+# Effect Sizes {#effects}
+
+## What is an Effect Size? {#what-is-es}
+## Measures and Effect Sizes in Single Group Designs {#single-group-es}
+### Means {#means}
+### Proportions {#props}
+### Correlations {#cors}
+#### Pearson Product-Moment Correlation {#pearson-cors}
+#### Point-Biserial Correlation {#pb-cors}
+### (Standardized) Mean Differences {#s-md}
+#### Between-Group Mean Difference {#b-group-md}
+#### Between-Group Standardized Mean Difference {#b-group-smd}
+#### Within-Group (Standardized) Mean Difference {#w-group-smd}
+### Risk & Odds Ratios {#ratios}
+#### Risk Ratio {#rr}
+#### Odds Ratio {#or}
+### Incidence Rate Ratios {#irr}
+## Effect Size Correction {#es-correction}
+### Small Sample Bias {#hedges-g}
+### Unreliability {#unrealiable}
+### Range Restriction {#range}
+### Different Effect Size Data Formats {#es-formats-different}
+### The Unit-of-Analysis Problem {#unit-of-analysis}
+
+
+
+# Pooling Effect Sizes {#pooling-es}
+
+## The Fixed-Effect and Random-Effects Model {#fem-rem}
+### The Fixed-Effect Model {#fem}
+### The Random-Effects Model {#rem}
+#### Estimators of the Between-Study Heterogeneity {#tau-estimators}
+#### Knapp-Hartung Adjustments {#knapp-hartung}
+## Effect Size Pooling in \textsf{R} {#pooling-es-r}
+### Pre-Calculated Effect Size Data {#pre-calculated-es}
+### (Standardized) Mean Differences {#pooling-smd}
+#### Risk & Odds Ratios {#pooling-or-rr}
+##### The Mantel-Haenszel Method {#mantel-haenszel}
+#### Incidence Rate Ratios {#pooling-irr}
+### Correlations {#pooling-cor}
+### Means {#pooling-mean}
+### Proportions {#pooling-props}
+
+
+
+# Between-Study Heterogeneity {#heterogeneity}
+
+## Measures of Heterogeneity {#het-measures}
+### Cochran's $Q$ {#cochran-q}
+### Higgins' & Thompsons' $I^2$ Statistic {#i-squared}
+### Heterogeneity Variance $\tau^2$ and Standard Deviation $\tau$ {#tau}
+## Which Measure Should I Use? {#het-measure-which}
+## Assessing Heterogeneity in \textsf{R} {#het-R}
+## Outliers & Influential Cases {#outliers}
+### Basic Outlier Removal {#basic-outlier}
+### Influence Analysis {#influence-analysis}
+#### Baujat Plot {#baujat}
+#### Influence Diagnostics {#inf-diags}
+#### Leave-One-Out Meta-Analysis Results {#loo-ma}
+### GOSH Plot Analysis {#gosh}
+
+
+# Forest Plots {#forest}
+
+## Forest Plots in \textsf{R} {#forest-R}
+## Drapery Plots {#drapery}
+
+
+# Subgroup Analyses {#subgroup}
+
+## The Fixed-Effects (Plural) Model {#fixed-effect-plural}
+## Limitations & Pitfalls of Subgroup Analyses {#limits-subgroup}
+## Subgroup Analysis in \textsf{R} {#subgroup-R}
+
+
+# Meta-Regression {#metareg}
+
+## The Meta-Regression Model {#the-metareg-model}
+## Meta-Regression in \textsf{R} {#metareg-R}
+## Multiple Meta-Regression {#multiple-metareg}
+### Interactions {#interact}
+### Common Pitfalls in Multiple Meta-Regression {#limits-metareg}
+### Multiple Meta-Regression in \textsf{R} {#multiple-metareg-R}
+#### Multi-Model Inference {#multimodel-inference}
+
+
+# Publication Bias {#pub-bias}
+
+## What is Publication Bias? {#types-of-pub-biases}
+## Addressing Publication Bias in Meta-Analyses {#addressing-pubbias}
+### Small-Study Effects Methods {#small-study-effects}
+#### The Funnel Plot {#funnel-plot}
+#### Egger's Regression Test {#eggers-test}
+#### Peters' Regression Test {#peters-test}
+#### Duval & Tweedie Trim and Fill Method {#duval-and-tweedie}
+#### PET-PEESE {#pet-peese}
+#### Rücker's Limit Meta-Analysis Method {#rucker-ma}
+### P-Curve {#p-curve}
+#### P-Curve Effect Size Estimation {#p-curve-es}
+### Selection Models {#selection-models}
+#### Step Function Selection Models {#step-function-selmodels}
+##### Three-Parameter Selection Model {#three-param-selmodel}
+##### Fixed Weights Selection Model {#fixed-weights-selmodel}
+## Which Method Should I Use? {#pub-bias-which-method}
+
+
+# "Multilevel" Meta-Analysis {#multilevel-ma}
+
+## The Multilevel Nature of Meta-Analysis {#multilevel-nature}
+## Fitting Three-Level Meta-Analysis Models in \textsf{R} {#multilevel-R}
+
+
+
+# Structural Equation Modeling Meta-Analysis {#sem}
+
+## What Is Meta-Analytic Structural Equation Modeling? {#what-is-meta-sem}
+## Multivariate Meta-Analysis {#multivariate-ma}
+## Confirmatory Factor Analysis {#cfa}
+
+
+# Network Meta-Analysis {#netwma}
+
+## What Are Network Meta-Analyses? {#what-is-net-ma}
+### Direct and Indirect Evidence {#direct-indirect-evidence}
+### Transitivity & Consistency {#transitivity-consistency}
+### Network Meta-Analysis Models {#netw-which-model}
+## Frequentist Network Meta-Analysis {#frequentist-ma}
+##### The Net Heat Plot {#net-heat-plot}
+## Bayesian Network Meta-Analysis {#bayesian-net-ma}
+### Bayesian Inference {#bayesian-inference}
+### The Bayesian Network Meta-Analysis Model {#bayesian-net-ma-model}
+
+
+# Bayesian Meta-Analysis {#bayesian-ma}
+
+## The Bayesian Hierarchical Model {#bayes-hierarchical-model}
+## Setting Prior Distributions {#priors}
+## Bayesian Meta-Analysis in \textsf{R} {#bayes-ma-R}
+
+
+# Power Analysis {#power}
+
+# Risk of Bias Plots {#rob-plots}
+
+
+# Reporting & Reproducibility {#reporting-reproducibility}
+## OSF Repositories {#osf}
+### Collaboration, Open Access & Pre-Registration {#pre-registration}
+
+# Effect Size Calculation & Conversion {#es-calc}
+## Number Needed To Treat {#nnt}
+## Multi-Arm Studies {#pool-groups}
+## Correlations {#convert-corr}
+
+
+
+

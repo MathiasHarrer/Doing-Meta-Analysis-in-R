@@ -1,0 +1,357 @@
+# (PART) Helpful Tools {-}
+
+# Power Analysis {#power}
+
+---
+
+<img src="_figs/power_analysis.jpg" />
+
+<br></br>
+
+\index{Power Analysis}
+
+<span class="firstcharacter">O</span>
+ne of the reasons why meta-analysis can be so helpful is because it allows us to combine several **imprecise** findings into a more **precise** one. In most cases, meta-analyses produce estimates with narrower confidence intervals than any of the included studies. This is particularly useful when the true effect is small. While primary studies may not be able to ascertain the significance of a small effect, meta-analytic estimates can often provide the statistical power needed to verify that such a small effect exists. 
+
+\index{Potential Scale Reduction Factor}
+\index{Cochrane}
+
+Lack of statistical power, however, may still play an important role--even in meta-analysis. The number of included studies in many meta-analyses is small, often below $K=$ 10. The median number of studies in Cochrane systematic reviews, for example, is six [@borenstein2011introduction]. This becomes even more problematic if we factor in that meta-analyses often include subgroup analyses and meta-regression, for which even more power is required. Furthermore, many meta-analyses show high between-study heterogeneity. This also reduces the overall precision and thus the statistical power.
+
+We already touched on the concept of statistical power in Chapter \@ref(p-curve-es), where we learned about the p-curve method. The idea behind statistical power is derived from classical hypothesis testing. It is directly related to the two types of **errors** that can occur in a hypothesis test. The first error is to accept the alternative hypothesis (e.g. $\mu_1 \neq \mu_2$) while the null hypothesis ($\mu_1 = \mu_2$) is true. This leads to a **false positive**, also known as a **Type I** or $\alpha$ error. Conversely, it is also possible that we accept the null hypothesis, while the alternative hypothesis is true. This generates a **false negative**, known as a **Type II** or $\beta$ error.
+ 
+\index{Power} 
+
+The power of a test directly depends on $\beta$. It is defined as Power = $1 - \beta$. Suppose that our null hypothesis states that there is no difference between the means of two groups, while the alternative hypothesis postulates that a difference (i.e. an "effect") exists. The statistical power can be defined as the probability that the test will detect an effect (i.e. a mean difference), **if** it exists:
+
+\begin{equation}
+\text{Power} = P(\text{reject H}_0~|~\mu_1 \neq \mu_2) = 1 - \beta
+(\#eq:pow1)
+\end{equation}
+ 
+It is common practice to assume that a type I error is more grave than a type II error. Thus, the $\alpha$ level is conventionally set to 0.05 and the $\beta$ level to 0.2. This leads to a threshold of  $1-\beta$ = 1 - 0.2 = 80%, which is typically used to determine if the statistical power of a test is adequate or not. When researchers plan a new study, they usually select a sample size that guarantees a power of 80%. It is easier to obtain statistically significant results when the true effect is large. Therefore, when the power is fixed at 80%, the required sample size only depends on the size of the true effect. The smaller the assumed effect, the larger the sample size needed to ascertain 80% power.
+ 
+Researchers who conduct a primary study can plan the size of their sample **a priori**, based on the effect size they expect to find. The situation is different in meta-analysis, where we can only work with the published material. However, we have some control over the number and type of studies we include in our meta-analysis (e.g. by defining more lenient or strict inclusion criteria). This way, we can also adjust the overall power. There are several factors that can influence the statistical power in meta-analyses:
+
+* The total **number** of included or eligible studies, and their **sample size**. How many studies do we expect, and are they rather small or large?
+
+* The effect size we want to find. This is particularly important, as we have to make assumptions about how big an effect size has to be to still be meaningful. For example, one study calculated that for depression interventions, even effects as small as SMD = 0.24 may still be meaningful to patients [@cuijpers2014threshold]. If we want to study negative effects of an intervention (e.g. death or symptom deterioration), even very small effect sizes are extremely important and should be detected.
+
+* The expected between-study heterogeneity. Substantial heterogeneity affects the precision of our meta-analytic estimates, and thus our potential to find significant effects.
+
+Besides that, it is also important to think about other analyses, such as subgroup analyses, that we want to conduct. How many studies are there for each subgroup? What effects do we want to find in each group? 
+
+\index{Power Approach Paradox}
+
+```{block, type='boximportant'}
+**Post-Hoc Power Tests: "The Abuse of Power"**
+
+\vspace{2mm}
+
+Please note that power analyses should always be conducted **a priori**, meaning **before** you perform the meta-analysis.
+
+\vspace{2mm}
+
+Power analyses conducted **after** an analysis ("post-hoc") are based on a logic that is deeply flawed [@hoenig2001abuse]. First, post-hoc power analyses are **uniformative**--they tell us nothing that we do not already know. When we find that an effect is not significant based on our collected sample, the calculated post-hoc power will be, by definition, insufficient (i.e. 50% or lower). When we calculate the post-hoc power of a test, we simply "play around" with a power function that is directly linked to the $p$-value of the result. 
+
+There is nothing in the post-hoc power estimate that the $p$-value would not already tell us. Namely that, based on the effect and sample size of our test, the power is insufficient to ascertain statistical significance. 
+
+\vspace{2mm}
+
+When we interpret the post-hoc power, this can also lead to the **power approach paradox** (PAP). This paradox arises because an analysis yielding no significant effect is thought to show **more** evidence that the null hypothesis is true when the p-value is **smaller**, since then, the power to detect a true effect would be **higher**.
+
+```
+
+<br></br>
+
+## Fixed-Effect Model
+
+---
+
+\index{Fixed-Effect Model}
+
+To determine the power of a meta-analysis under the fixed-effect model, we have to specify a distribution which represents that our alternative hypothesis is correct. To do this, however, it is not sufficient to simply say that $\theta \neq 0$ (i.e. that **some** effect exists). We have to assume a **specific** true effect that we want to be able to detect with sufficient (80%) power. For example SMD = 0.29. 
+
+We already covered previously (see Chapter \@ref(metareg-continuous)) that dividing an effect size through its standard error creates a $z$ score. These $z$ scores follow a standard normal distribution, where a value of $|z| \geq$ 1.96 means that the effect is significantly different from zero ($p<$ 0.05). This is exactly what we want to achieve in our meta-analysis: no matter how large the exact effect size and standard error of our result, the value of $|z|$ should be at least 1.96, and thus statistically significant: 
+
+\begin{equation}
+z  = \frac{\theta}{\sigma_{\theta}}~~~\text{where}~~~|z| \geq 1.96.
+(\#eq:pow2)
+\end{equation}
+
+The value of $\sigma_{\theta}$, the standard error of the pooled effect size, can be calculated using this formula:
+
+\begin{equation}
+\sigma_{\theta}=\sqrt{\frac{\left(\frac{n_1+n_2}{n_1n_2}\right)+\left(\frac{\theta^2}{2(n_1+n_2)}\right)}{K}}
+(\#eq:pow3)
+\end{equation}
+
+Where $n_1$ and $n_2$ stand for the sample sizes in group 1 and group 2 of a study, where $\theta$ is the assumed effect size (expressed as a standardized mean difference), and $K$ is the total number of studies in our meta-analysis. Importantly, as a simplification, this formula assumes that the sample sizes in both groups are identical across all included studies.
+
+The formula is very similar to the one used to calculate the standard error of a standardized mean difference, with one exception. We now divide the the standard error by $K$. This means that the standard error of our pooled effect is reduced by factor $K$, representing the total number of studies in our meta-analysis. Put differently, when assuming a fixed-effect model, pooling the studies leads to a $K$-fold increase in the precision of our overall effect^[Note that this statement is, of course, only correct because we are using the simplified formula in equation \@ref(eq:pow3).]. 
+
+After we defined $\theta$ and calculated $\sigma_{\theta}$, we end up with a value of $z$. This $z$ score can be used to obtain the power of our meta-analysis, given a number of studies $K$ with group sizes $n_1$ and $n_2$:
+
+\begin{align}
+\text{Power} &= 1-\beta \notag \\
+             &= 1-\Phi(c_{\alpha}-z)+\Phi(-c_{\alpha}-z) \notag \\
+             &= 1-\Phi(1.96-z)+\Phi(-1.96-z). (\#eq:pow4)
+\end{align}
+
+
+\index{Cumulative Distribution Function (CDF)}
+
+Where $c_{\alpha}$ is the critical value of the standard normal distribution, given a specified $\alpha$ level. The $\Phi$ symbol represents the **cumulative distribution function** (CDF) of a standard normal distribution, $\Phi(z)$. In _R_, the CDF of the standard normal distribution is implemented in the `pnorm` function.
+
+We can now use these formulas to calculate the power of a fixed-effect meta-analysis. Imagine that we expect $K=$ 10 studies, each with approximately 25 participants in both groups. We want to be able to detect an effect of SMD = 0.2. What power does such a meta-analysis have?
+
+```{r}
+# Define assumptions
+theta <- 0.2
+K <- 10
+n1 <- 25
+n2 <- 25
+
+# Calculate pooled effect standard error
+sigma <- sqrt(((n1+n2)/(n1*n2)+(theta^2/(2*n1+n2)))/K)
+
+# Calculate z
+z = theta/sigma
+
+# Calculate the power
+1 - pnorm(1.96-z) + pnorm(-1.96-z)
+
+
+```
+
+We see that, with 60.6%, such a meta-analysis would be **underpowered**, even though 10 studies were included. A more convenient way to calculate the power of a (fixed-effect) meta-analysis is to use the `power.analysis` function.
+
+\index{dmetar Package}
+
+```{block, type='boxdmetar'}
+**The "power.analysis" Function**
+
+\vspace{4mm}
+
+The `power.analysis` function is included in the **{dmetar}**  package. Once **{dmetar}** is installed and loaded on your computer, the function is ready to be used. If you did **not** install **{dmetar}**, follow these instructions:
+
+\vspace{2mm}
+
+1. Access the source code of the function [online](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/power.analysis.R). 
+2. Let _R_ "learn" the function by copying and pasting the source code in its entirety into the console (bottom left pane of R Studio), and then hit "Enter".
+3. Make sure that the **{ggplot2}** package is installed and loaded.
+
+```
+
+
+The `power.analysis` function contains these arguments:
+
+* **`d`**. The hypothesized, or plausible overall effect size, expressed as the standardized mean difference (SMD). Effect sizes must be positive numeric values.
+
+* **`OR`**. The assumed effect of a treatment or intervention compared to control, expressed as an odds ratio (OR). If both `d` and `OR` are specified, results will only be computed for the value of `d`.
+
+* **`k`**. The expected number of studies included in the meta-analysis.
+
+* **`n1`**, **`n2`**. The expected average sample size in group 1 and group 2 of the included studies.
+
+* **`p`**. The alpha level to be used. Default is $\alpha$=0.05.
+
+* **`heterogeneity`**. The level of between-study heterogeneity. Can either be `"fixed"` for no heterogeneity (fixed-effect model), `"low"` for low heterogeneity, `"moderate"` for moderate-sized heterogeneity, or `"high"` for high levels of heterogeneity. Default is `"fixed"`.
+
+
+Let us try out this function, using the same input as in the example from before.
+
+```{r, eval=F}
+library(dmetar)
+power.analysis(d = 0.2, 
+               k = 10, 
+               n1 = 25, 
+               n2 = 25, 
+               p = 0.05)
+```
+
+
+
+
+```{r, echo=F, fig.width=4, fig.height=3, fig.align='center', out.width="55%"}
+#source("data/power.analysis.bw.R")
+dmetar::power.analysis(d = 0.2, 
+               k = 10, 
+               n1 = 25, 
+               n2 = 25, 
+               p = 0.05) 
+```
+
+<br></br>
+
+## Random-Effects Model
+
+---
+
+\index{Random-Effects Model}
+
+For power analyses assuming a random-effects model, we have to take the between-study heterogeneity variance $\tau^2$ into account. Therefore, we need to calculate an adapted version of the standard error, $\sigma^*_{\theta}$:
+
+
+\begin{equation}
+\sigma^*_{\theta}=\sqrt{\frac{\left(\frac{n_1+n_2}{n_1n_2}\right)+\left(\frac{\theta^2}{2(n_1+n_2)}\right)+\tau^2}{K}}
+(\#eq:pow5)
+\end{equation}
+
+
+The problem is that the value of $\tau^2$ is usually not known before seeing the data. Hedges and Pigott [-@hedges2001power], however, provide guidelines that may be used to model either low, moderate or large between-study heterogeneity:
+
+\vspace{2mm}
+
+**Low heterogeneity:**
+
+\begin{equation}
+\sigma^*_{\theta} = \sqrt{1.33\times\dfrac{\sigma^2_{\theta}}{K}}
+(\#eq:pow6)
+\end{equation}
+
+\vspace{2mm}
+
+**Moderate heterogeneity:**
+
+\begin{equation}
+\sigma^*_{\theta} = \sqrt{1.67\times\dfrac{\sigma^2_{\theta}}{K}}
+(\#eq:pow7)
+\end{equation}
+
+\vspace{2mm}
+
+**Large heterogeneity:**
+
+\begin{equation}
+\sigma^*_{\theta} = \sqrt{2\times\dfrac{\sigma^2_{\theta}}{K}} 
+(\#eq:pow8)
+\end{equation}
+
+\vspace{2mm}
+
+The `power.analysis` function can also be used for random-effects meta-analyses. The amount of assumed between-study heterogeneity can be controlled using the `heterogeneity` argument. Possible values are `"low"`, `"moderate"` and `"high"`. Using the same values as in the previous example, let us now calculate the expected power when the between-study heterogeneity is moderate. 
+
+\vspace{2mm}
+
+```{r, eval=F}
+power.analysis(d = 0.2, 
+               k = 10, 
+               n1 = 25, 
+               n2 = 25, 
+               p = 0.05,
+               heterogeneity = "moderate")
+```
+
+```
+## Random-effects model used (moderate heterogeneity assumed). 
+## Power: 40.76%
+```
+
+We see that the estimated power is 40.76%. This is lower than the normative 80% threshold. It is also lower than the 60.66% we obtain we assuming a fixed-effect model. This is because between-study heterogeneity decreases the precision of our pooled effect estimate, resulting in a drop in statistical power. 
+
+Figure \@ref(fig:power) visualizes the effect of the true effect size, number of studies, and amount of between-study heterogeneity on the power of a meta-analysis.^[If you want to quickly check the power of a meta-analysis under varying assumptions, you can also use a **power calculator tool** developed for this purpose. The tool is based on the same _R_ function that we cover in this chapter. It can be found online: https://mathiasharrer.shinyapps.io/power_calculator_meta_analysis/.] 
+
+\vspace{2mm}
+
+```{r power,fig.width=5,fig.height=4, fig.align='center',echo=FALSE,fig.cap="Power of random-effects meta-analyses ($n$=50 in each study). Darker colors indicate higher between-study heterogeneity.", message=FALSE, warning=F, out.width="55%"}
+library(ggplot2)
+library(reshape)
+source("data/power.analysis.random.R")
+
+
+k <- seq(0, 50, length=1000)
+pow.vals01<-lapply(k,function(k) power.analysis.random(d=0.10,k=k,n1=25,n2=25,p=0.05,heterogeneity = "moderate"))
+pow.vals02<-lapply(k,function(k) power.analysis.random(d=0.20,k=k,n1=25,n2=25,p=0.05,heterogeneity = "moderate"))
+pow.vals03<-lapply(k,function(k) power.analysis.random(d=0.30,k=k,n1=25,n2=25,p=0.05,heterogeneity = "moderate"))
+pow.vals01<-as.numeric(pow.vals01)
+pow.vals02<-as.numeric(pow.vals02)
+pow.vals03<-as.numeric(pow.vals03)
+data1<-data.frame(k,pow.vals01,pow.vals02,pow.vals03)
+k <- seq(0, 50, length=1000)
+pow.vals01<-lapply(k,function(k) power.analysis.random(d=0.10,k=k,n1=25,n2=25,p=0.05,heterogeneity = "low"))
+pow.vals02<-lapply(k,function(k) power.analysis.random(d=0.20,k=k,n1=25,n2=25,p=0.05,heterogeneity = "low"))
+pow.vals03<-lapply(k,function(k) power.analysis.random(d=0.30,k=k,n1=25,n2=25,p=0.05,heterogeneity = "low"))
+pow.vals01<-as.numeric(pow.vals01)
+pow.vals02<-as.numeric(pow.vals02)
+pow.vals03<-as.numeric(pow.vals03)
+data2<-data.frame(k,pow.vals01,pow.vals02,pow.vals03)
+k <- seq(0, 50, length=1000)
+pow.vals01<-lapply(k,function(k) power.analysis.random(d=0.10,k=k,n1=25,n2=25,p=0.05,heterogeneity = "high"))
+pow.vals02<-lapply(k,function(k) power.analysis.random(d=0.20,k=k,n1=25,n2=25,p=0.05,heterogeneity = "high"))
+pow.vals03<-lapply(k,function(k) power.analysis.random(d=0.30,k=k,n1=25,n2=25,p=0.05,heterogeneity = "high"))
+pow.vals01<-as.numeric(pow.vals01)
+pow.vals02<-as.numeric(pow.vals02)
+pow.vals03<-as.numeric(pow.vals03)
+data3<-data.frame(k,pow.vals01,pow.vals02,pow.vals03)
+ggplot()+
+  geom_line(data = data1, aes(x = k, y = pow.vals01), color = "dodgerblue3",size=0.9) +
+  geom_line(data = data1, aes(x = k, y = pow.vals02), color = "firebrick3",size=0.9) +
+  geom_line(data = data1, aes(x = k, y = pow.vals03), color = "springgreen3",size=0.9) +
+  geom_line(data = data2, aes(x = k, y = pow.vals01), color = "dodgerblue1",size=0.9) +
+  geom_line(data = data2, aes(x = k, y = pow.vals02), color = "firebrick1",size=0.9) +
+  geom_line(data = data2, aes(x = k, y = pow.vals03), color = "springgreen1",size=0.9) +
+  geom_line(data = data3, aes(x = k, y = pow.vals01), color = "dodgerblue4",size=0.9) +
+  geom_line(data = data3, aes(x = k, y = pow.vals02), color = "firebrick4",size=0.9) +
+  geom_line(data = data3, aes(x = k, y = pow.vals03), color = "springgreen4",size=0.9) +
+  xlab('Number of Studies') +
+  ylab('Power')+
+  scale_x_continuous(expand = c(0, 0), limits = c(1, 50), breaks = c(1, 10, 20, 30, 40, 50)) +
+  scale_y_continuous(labels = scales::percent)+
+  theme(
+        axis.line= element_line(color = "black",size = 0.5,linetype = "solid"),
+        legend.position = "bottom",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill = "#FFFEFA", size = 0),
+        plot.background = element_rect(fill = "#FFFEFA", size = 0),
+        legend.background = element_rect(linetype="solid",
+                                         colour ="black"),
+        legend.title = element_blank(),
+        legend.key.size = unit(0.75,"cm"),
+        legend.text=element_text(size=14))+
+annotate("text", x = 6, y = 0.9, label = expression(theta==0.3),size=5, parse = T)+
+  annotate("text", x = 25, y = 0.6, label = expression(theta==0.2),size=5)+
+  annotate("text", x = 20, y = 0.13, label = expression(theta==0.1),size=5)+
+  geom_hline(yintercept=0.8,linetype="dotted") 
+```
+
+<br></br>
+
+## Subgroup Analyses {#power-subgroup}
+
+---
+
+\index{Subgroup Analysis}
+
+When planning subgroup analyses, it can be relevant to know how large the difference between two groups must be so that we can detect it, given the number of studies at our disposal. This is where a power analysis for subgroup differences can be applied. A subgroup power analysis can be conducted in _R_ using the `power.analysis.subgroup` function, which implements an approach described by Hedges and Pigott [-@hedges2004power].
+
+```{block, type='boxdmetar'}
+**The "power.analysis.subgroup" Function**
+
+\vspace{2mm}
+
+The `power.analysis.subgroup` function is included in the **{dmetar}**  package. Once **{dmetar}** is installed and loaded on your computer, the function is ready to be used. If you did **not** install **{dmetar}**, follow these instructions:
+
+1. Access the source code of the function [online](https://raw.githubusercontent.com/MathiasHarrer/dmetar/master/R/power.analysis.subgroup.R). 
+2. Let _R_ "learn" the function by copying and pasting the source code in its entirety into the console (bottom left pane of R Studio), and then hit "Enter".
+3. Make sure that the **{ggplot2}** package is installed and loaded.
+
+```
+
+
+Let us assume that we expect the first group to show an effect of SMD = 0.3 with a standard error of 0.13, while the second group has an effect of SMD = 0.66, and a standard error of 0.14. We can use these assumptions as input to our call to the function:
+
+```{r, fig.width=4, fig.height=3, fig.align='center', out.width="55%"}
+power.analysis.subgroup(TE1 = 0.30, TE2 = 0.66, 
+                        seTE1 = 0.13, seTE2 = 0.14)
+
+```
+
+
+
+In the output, we can see that the power of our imaginary subgroup test (47%) would not be sufficient. The output also tells us that, all else being equal, the effect size difference needs to be at least 0.54 in order to reach sufficient power.
+
+$$\tag*{$\blacksquare$}$$
+
+

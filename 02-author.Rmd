@@ -1,0 +1,32 @@
+# About the Authors {-}
+
+---
+
+<br></br>
+
+<img src="images/harrer.jpg" width="130" align="right" alt="" class="cover" /> [**Mathias Harrer**](https://www.protectlab.org/en/author/mathias-harrer-msc/) is a research associate at the Friedrich-Alexander-University Erlangen-Nuremberg. Mathias' research focuses on biostatistical and technological methods in psychotherapy research, methods for clinical research synthesis, and on the development of statistical software.
+
+[![Twitter URL](https://img.shields.io/badge/@MathiasHarrer-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/MathiasHarrer)
+[![GitHub followers](https://img.shields.io/badge/MathiasHarrer-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MathiasHarrer)
+
+---
+
+<img src="images/cuijpers.jpg" width="130" align="right" alt="" class="cover" /> [**Pim Cuijpers**](https://www.pimcuijpers.com/blog/) is professor of Clinical Psychology at the VU University Amsterdam. He is specialized in conducting randomized controlled trials and meta-analyses, with a focus on the prevention and treatment of common mental disorders. Pim has published more than 800 articles in international peer-reviewed scientific journals; many of which are meta-analyses of clinical trials. 
+
+[![Twitter URL](https://img.shields.io/badge/@pimcuijpers-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/pimcuijpers)
+
+---
+
+<img src="images/furukawa.jpg" width="130" align="right" alt="" class="cover" /> [**Toshi A. Furukawa**](http://ebmh.med.kyoto-u.ac.jp/professor.html) is professor of Health Promotion and Human Behavior at the Kyoto University School of Public Health. His seminal research focuses both on theoretical aspects of research synthesis and meta-analysis, as well as their application in evidence-based medicine.
+
+[![Twitter URL](https://img.shields.io/badge/@Toshi_FRKW-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/Toshi_FRKW)
+
+---
+
+<img src="images/ebert.jpg" width="130" align="right" alt="" class="cover" /> [**David D. Ebert**](https://www.protectlab.org/en/author/prof.-dr.-david-daniel-ebert/) is professor of Psychology and Behavioral Health Technology at the Technical University of Munich. David's research focuses internet-based intervention, clinical epidemiology, as well as applied research synthesis in this field.
+
+[![Twitter URL](https://img.shields.io/badge/@DDEbert-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/DDEbert)
+
+---
+
+<br></br>

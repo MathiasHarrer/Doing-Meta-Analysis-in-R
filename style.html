@@ -1,0 +1,160 @@
+<style>
+
+.inline-figure {
+  border: 0;
+  box-shadow: none;
+}
+
+.boxinfo {
+  padding: 1em 1em 1em 3em;
+  margin-bottom: 10px;
+  background: #f5f5f5;
+  position:relative;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #eeeeee;
+  border-radius: .25rem;
+}
+
+.boxinfo:before {
+    content: '\f0eb';
+    font-family: FontAwesome;
+    left:20px;
+    position:absolute;
+    font-size: 30px;
+    color: #277DB0;
+ }
+
+ .boxempty {
+  padding: 1em 1em 1em 1.1em;
+  margin-bottom: 10px;
+  background: #f5f5f5;
+  position:relative;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #eeeeee;
+  border-radius: .25rem;
+}
+
+.boxempty:before {
+    content: '\f0eb';
+    font-family: FontAwesome;
+    left:0px;
+    position:absolute;
+    font-size: 30px;
+    color: #f5f5f5;
+ }
+
+.boximportant {
+  padding: 1em 1em 1em 3em;
+  margin-bottom: 10px;
+  background: #f5f5f5;
+  position:relative;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #eeeeee;
+  border-radius: .25rem;
+}
+
+.boximportant:before {
+    content: '\f06a';
+    font-family: FontAwesome;
+    left:13px;
+    position:absolute;
+    font-size: 30px;
+    color: #277DB0;
+ }
+
+.boxreport {
+  padding: 1em 1em 1em 3em;
+  margin-bottom: 10px;
+  background: #f5f5f5;
+  position:relative;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #eeeeee;
+  border-radius: .25rem;
+}
+
+.boxreport:before {
+    content: '\f570';
+    font-family: FontAwesome;
+    left:15px;
+    position:absolute;
+    font-size: 30px;
+    color: #277DB0;
+ }
+
+.boxdmetar {
+  padding: 1em 1em 1em 3em;
+  margin-bottom: 10px;
+  background: #f5f5f5;
+  position:relative;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #eeeeee;
+  border-radius: .25rem;
+}
+
+.boxdmetar:before {
+    content: '\f4f7';
+    font-family: FontAwesome;
+    left:10px;
+    position:absolute;
+    font-size: 30px;
+    color: #277DB0;
+ }
+
+.boxquestion {
+  padding: 1em 1em 1em 3em;
+  margin-bottom: 10px;
+  background: #f5f5f5;
+  position:relative;
+  border-width: 3px;
+  border-style: solid;
+  border-color: #eeeeee;
+  border-radius: .25rem;
+}
+
+.boxquestion:before {
+    content: '\f059';
+    font-family: FontAwesome;
+    left:12px;
+    position:absolute;
+    font-size: 30px;
+    color: #277DB0;
+ }
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: .25rem;
+}
+
+
+.firstcharacter {
+  color: #277DB0;
+  float: left;
+  font-size: 40px;
+  line-height: 50px;
+  padding-bottom: 2px;
+  padding-right: 8px;
+  padding-left: 2px;
+}
+
+</style>
+
+<link rel="shortcut icon" href="favicon.ico" />
+
+<script type="text/x-mathjax-config">
+$('a').on("inserted.bs.popover", function() {
+
+  var popover = $(this).data("bs.popover");
+
+  if (popover)
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub], popover);
+
+});
+</script>
+
+
