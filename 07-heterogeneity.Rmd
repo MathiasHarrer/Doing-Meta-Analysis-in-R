@@ -506,7 +506,7 @@ Here is how we could report the amount of heterogeneity we found in our example:
 
 So, what do we make out of these results? Overall, our indicators tell us that moderate to substantial heterogeneity is present in our data. The effects in our meta-analysis are not completely heterogeneous, but there are clearly some differences in the true effect sizes between studies. 
 
-It may therefore be a good idea to explore what causes this heterogeneity. It is possible that there are one or two studies that do not really "fit in", because they have a much higher effect size. This could have inflated the heterogeneity in our analysis, and even worse: it may have lead to an **overestimation** of the true effect. 
+It may therefore be a good idea to explore what causes this heterogeneity. It is possible that there are one or two studies that do not really "fit in", because they have a much higher effect size. This could have inflated the heterogeneity in our analysis, and even worse: it may have led to an **overestimation** of the true effect. 
 
 On the other hand, it is also possible that our pooled effect is influenced heavily by one study with a very large sample size reporting an unexpectedly small effect size. This could mean that the pooled effect **underestimates** the true benefits of the treatment. 
 
