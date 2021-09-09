@@ -17,7 +17,7 @@ Meta-analysis can be defined as an **analysis of analyses** (definition by Glass
 
 **2. Can you name one of the founding mothers and fathers of meta-analysis? What achievement can be attributed to her or him?**
 
-Karl Pearson: combination of typhoid inoculation data across the British empire; Ronald Fisher: approaches to synthesize data of agricultural research studies; Mary Smith and Gene Glass: coined the term "meta-analysis", first meta-analysis of psychotherapy trials; John Hunter and Frank Schmidt: meta-analysis with correction of measurement artifacts (psychometric meta-analysis); Rebecca DerSimonian and Nan Laird: method to calculate random-effects model meta-analyses; Peter Elwood and Archie Cochrane: pioneer meta-analysis in medicine.
+Karl Pearson: combination of typhoid inoculation data across the British Empire; Ronald Fisher: approaches to synthesize data of agricultural research studies; Mary Smith and Gene Glass: coined the term "meta-analysis", first meta-analysis of psychotherapy trials; John Hunter and Frank Schmidt: meta-analysis with correction of measurement artifacts (psychometric meta-analysis); Rebecca DerSimonian and Nan Laird: method to calculate random-effects model meta-analyses; Peter Elwood and Archie Cochrane: pioneer meta-analysis in medicine.
 
 **3. Name three common problems of meta-analyses and describe them in one or two sentences.**
 
