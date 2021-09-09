@@ -17,19 +17,19 @@ Meta-analysis can be defined as an **analysis of analyses** (definition by Glass
 
 **2. Can you name one of the founding mothers and fathers of meta-analysis? What achievement can be attributed to her or him?**
 
-Karl Pearson: combination of typhoid inoculation data across the British empire. Ronald Fisher: approaches to synthesize data of agricultural research studies. Mary Smith and Gene Glass: coined the term "meta-analysis", first meta-analysis of psychotherapy trials; John Hunter and Frank Schmidt: meta-analysis with correction of measurement artifacts (psychometric meta-analysis); Rebecca DerSimonian and Nan Laird: method to calculate random-effects model meta-analyses; Peter Elwood and Archie Cochrane: pioneer meta-analysis in medicine.
+Karl Pearson: combination of typhoid inoculation data across the British empire; Ronald Fisher: approaches to synthesize data of agricultural research studies; Mary Smith and Gene Glass: coined the term "meta-analysis", first meta-analysis of psychotherapy trials; John Hunter and Frank Schmidt: meta-analysis with correction of measurement artifacts (psychometric meta-analysis); Rebecca DerSimonian and Nan Laird: method to calculate random-effects model meta-analyses; Peter Elwood and Archie Cochrane: pioneer meta-analysis in medicine.
 
-**3. Name three common problems of meta-analyses and describe them in one or two sentences**
+**3. Name three common problems of meta-analyses and describe them in one or two sentences.**
 
 "Apples and Oranges": studies are too different to be synthesized; "Garbage In, Garbage Out": invalid evidence is only reproduced by meta-analyses; "File Drawer": negative results are not published, leading to biased findings in meta-analyses; "Researcher Agenda": researchers can tweak meta-analyses to prove what they want to prove.
 
 **4. Name qualities that define a good research question for a meta-analysis.**
 
-FINER: feasible, interesting, novel, ethical, relevant. PICO: clearly defined population, intervention/exposure, control group/comparison, and analyzed outcome.
+FINER: feasible, interesting, novel, ethical, relevant; PICO: clearly defined population, intervention/exposure, control group/comparison, and analyzed outcome.
 
 **5. Have a look again at the eligibility criteria of the meta-analysis on sleep interventions in college students (end of Chapter 1.4.1). Can you extract the PICO from the inclusion and exclusion criteria of this study?**
 
-Population: tertiary education students. Intervention: sleep-focused psychological interventions. Comparison: passive control condition. Outcome: sleep disturbance, as measured by standardized symptom measures.
+Population: tertiary education students; Intervention: sleep-focused psychological interventions; Comparison: passive control condition; Outcome: sleep disturbance, as measured by standardized symptom measures.
 
 **6. Name a few important sources that can be used to search studies.**
 
@@ -99,7 +99,7 @@ No, there is no universally accepted definition. Some reserve the term "effect s
 
 **2. Name a primary reason why observed effect sizes deviate from the true effect size of the population. How can it be quantified?**
 
-Observed effect sizes are asssumed to deviate from the true effect size because of sampling error. The expected size of a study's sampling error can be expressed by its standard error.
+Observed effect sizes are assumed to deviate from the true effect size because of sampling error. The expected size of a study's sampling error can be expressed by its standard error.
 
 **3. Why are large studies better estimators of the true effect than small ones?**
 
