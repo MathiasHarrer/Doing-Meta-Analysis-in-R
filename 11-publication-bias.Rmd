@@ -465,9 +465,9 @@ We see that, although the exact values differ, the interpretation of the results
 
 
 ```{block2, type='boxinfo'}
-**Using the Pustejovsky-Rogers Approach Directly in `metabias`**
+**Using the Pustejovsky-Rodgers Approach Directly in `metabias`**
 
-In the latest versions of **{meta}**, the `metabias` function also contains an option to conduct Eggers' test with the corrected standard error formula proposed by Pustejovsky and Rogers. The option can be used by setting `method.bias` to `"Pustejovsky"`.
+In the latest versions of **{meta}**, the `metabias` function also contains an option to conduct Eggers' test with the corrected standard error formula proposed by Pustejovsky and Rodgers. The option can be used by setting `method.bias` to `"Pustejovsky"`.
 
 Yet, this is only possible if the **{meta}** meta-analysis object already contains the sample sizes of the experimental and control groups in elements `n.e` and `n.c`, respectively. When using `metagen` objects (like in our example above), this is not typically the case, so these values need to be added manually. Let us use our `m.gen` meta-analysis object again as an example:
 

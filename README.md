@@ -1,64 +1,70 @@
-# Doing Meta-Analysis in R <img src="_figs/hexagon.png" width="100" align="right" />
+# Doing Meta-Analysis with R: A Hands-On Guide
 
-[![DOI](https://zenodo.org/badge/152492192.svg)](https://zenodo.org/badge/latestdoi/152492192)
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/MathiasHarrer.svg?style=social&label=Follow%20%40MathiasHarrer)](https://twitter.com/MathiasHarrer)
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/pimcuijpers.svg?style=social&label=Follow%20%40pimcuijpers)](https://twitter.com/pimcuijpers)
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/pimcuijpers.svg?style=social&label=Follow%20%40Toshi_FRKW)](https://twitter.com/Toshi_FRKW)
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/DDEbert.svg?style=social&label=Follow%20%40DDEbert)](https://twitter.com/DDEbert)
+---
 
-This is a online handbook on how to perform meta-analyses in R.
-
-## How to get and run the R code for the guide
-
-We hope you're enjoying our guide on how to do [Meta-Analysis in R](https://www.protectlab.org/meta-analysis-in-r). Here's a description on how you can download the R Code to run your Meta-Analyses yourself.
-
-## Accessing the repository
-
-We have stored all R Code in a repository which you can download onto your computer. To access the repository, click **View on GitHub** on top of this page. There, you can access all code files, and copy & paste them into RStudio.
-
-You can directly download the repository on **GitHub** by clicking on **Clone or Download** and then on **Download Zip**.
-
-<img src="_figs/clone.PNG">
-
-In case you are a GitHub user already, you can **star** the repository to access it more easily in the future.
-
-## Downloading the files directly
-
-You can download the entire repository on the top of this site by clicking on **Download .zip**. This downloads a `zip` file containing all files onto your computer.
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/MathiasHarrer.svg?style=social&label=MathiasHarrer)](https://twitter.com/MathiasHarrer)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/pimcuijpers.svg?style=social&label=pimcuijpers)](https://twitter.com/pimcuijpers)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/pimcuijpers.svg?style=social&label=Toshi_FRKW)](https://twitter.com/Toshi_FRKW)
+[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/DDEbert.svg?style=social&label=DDEbert)](https://twitter.com/DDEbert)
 
 
-## Running the code
 
-Of course, you can run all code one by one if you simply copy and paste the code into RStudio and run it.
-If you want to run all code in RStudio along with reading the book, an easier way might be to access the **R Markdown** files in the download folder and run the code chunks in them. Here's how you do that.
+<a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/" target="_blank"><img src="images/cover.png" width="250" align="right" alt="" class="cover" /></a> Welcome to the GitHub repository of <a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/" target="_blank"><strong>"Doing Meta-Analysis with R: A Hands-On Guide"</strong></a>.
 
-1.  Save the downloader folder on your computer in a folder where you can easily find it.
-2.  In **R Studio**, under the **Files** pane (bottom-left corner), search for the downloaded folder **"Doing_Meta_Analysis_in_R-master"** and open it.
-3.  In the folder, click on **bookdown-demo.Rproj**. This opens the R Project with which the all analyses were conducted.
-4.  Now, you can access all the chapters in the guide. They are stored as so-called **R Markdown** files (`.Rmd`) in the same folder and have the following names:
+This book serves as an accessible introduction into how meta-analyses can be conducted in _R_. Essential steps for meta-analysis are covered, including pooling of outcome measures, forest plots, heterogeneity diagnostics, subgroup analyses, meta-regression, methods to control for publication bias, risk of bias assessments and plotting tools. 
 
-* **Chapter 1**: `index.Rmd`
-* **Chapter 2**: `01-rstudio_and_basics.Rmd`
-* **Chapter 3**: `02-getting_data_in_R.Rmd`
-* **Chapter 4**: `03-pooling_effect_sizes.Rmd`
-* **Chapter 5**: `04-forest_plots.Rmd`
-* **Chapter 6**: `05-heterogeneity.Rmd`
-* **Chapter 7**: `06-subgroup_analyses.Rmd`
-* **Chapter 8**: `07-metaregression.Rmd`
-* **Chapter 9**: `08-publication_bias.Rmd`
-* **Chapter 10**: `09-risk_of_bias_summary.Rmd`
-* **Chapter 11**: `10-network_metaanalysis.Rmd`
-* **Chapter 12**: `11-Effectsizeconverter.Rmd`
-* **Chapter 13**: `12-power_analysis.Rmd`
+Advanced, but highly relevant topics such as network meta-analysis, multi-/three-level meta-analyses, Bayesian meta-analysis approaches, SEM meta-analysis are also covered. 
 
-5. Click to open the file you want to see. You'll see that the files contain the exact same **text** and **code** as the one used in the guide, but there are a few lines of code more **which are not displayed in the guide**. These are needed, for example, to set the layout for the book.
-6. To run the **code chunks** between the text, click on the **little green arrow** on the top-right corner of each code chunk. Once you do this, the code in the chunk is run by R. 
+The programming and statistical background covered in the book are kept at a **non-expert level**. A **print version** of this book has been published with [Chapman & Hall/CRC Press](https://www.routledge.com/Doing-Meta-Analysis-with-R-A-Hands-On-Guide/Harrer-Cuijpers-Furukawa-Ebert/p/book/9780367610074) (Taylor & Francis).
 
-<img src="_figs/greenarrow.PNG">
 
-**Important: most code chunks are not independent, and draw on objects or functions which are created in preceeding chunks. Therefore, you should stick with running one chunk after another, from top to bottom.**
+<br></br>
 
-We hope these files will make it easier for you to do your on Meta-Analysis in R.
-If you're having problems with the **download**, running the **code chunks**, or if you stumble upon errors, let us now at mathias.harrer@fau.de
+## Open Source Repository 
 
-*Mathias & David*
+---
+
+The book has been built using [**{rmarkdown}**](https://rmarkdown.rstudio.com/docs/) and [**{bookdown}**](https://bookdown.org/). Formulas are rendered using [MathJax](http://docs.mathjax.org/en/latest/index.html). All materials and source code we used to compile the guide can be found in this repository. You are free to fork, share and reuse contents. However, the repository is intended to be mainly "read-only"; PRs will generally not be considered (see section below & [preface](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/preface.html#contact-us) of the book for ways to contact us).   
+
+
+
+<br></br>
+
+## Contributing 
+
+---
+
+This guide is an open source project, and we owe special thanks to our expert contributors who provided additional content in some of the sections of this guide.
+
+* [**Luke A. McGuinness**](https://twitter.com/mcguinlu), University of Bristol: Chapter 15, Risk of Bias Plots.
+
+Want to contribute to this guide yourself? Feel free to send **Mathias** (mathias.harrer@fau.de) an E-mail and tell us about your proposed additions.
+
+<br></br>
+
+## Citing the Guide 
+
+---
+
+The suggested citation is:
+
+```{block, type='boxempty'}
+Harrer, M., Cuijpers, P., Furukawa, T.A., & Ebert, D.D. (2021). _Doing Meta-Analysis with R: A Hands-On Guide_. Boca Raton, FL and London: Chapmann & Hall/CRC Press. ISBN 978-0-367-61007-4.
+```
+
+Download the reference as [BibTeX](https://www.protectlab.org/meta-analysis-in-r/data/citation.bib) or [.ris](https://www.protectlab.org/meta-analysis-in-r/data/citation.ris).
+
+
+<br></br>
+
+
+## Cite the Packages 
+
+---
+
+In the guide, we present and use various _R_ packages. The reason why all of us can use these packages for free is because experts all around the world have devoted enormous time and effort to their development, typically without pay. If you use some of the packages mentioned in this book for your own meta-analysis, we strongly encourage you to also cite them in your report. 
+
+In the guide, every time a new package is introduced, we also provide the reference through which it can be cited. It is also possible to run `citation("package")` to retrieve the preferred reference. Thanks!
+
+
+<br></br>
