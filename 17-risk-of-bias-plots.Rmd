@@ -601,7 +601,7 @@ The basic weighted summary bar plot should now appear on the right hand side of 
 
 * Choose whether or not to use weights when creating the figure
 * Include an additional bar representing distribution of overall risk of bias judgments
-* Select the colour scheme you wish to use (either “Cochrane” or “Colour-blind friendly”)-
+* Select the colour scheme you wish to use (either “Cochrane” or “Colour-blind friendly”)
 
 As with the traffic light plot tab, you can download your plot by selecting the required format and clicking the “Download plot” button.
 

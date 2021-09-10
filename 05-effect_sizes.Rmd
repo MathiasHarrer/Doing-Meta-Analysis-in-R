@@ -537,7 +537,7 @@ Where $s_{\text{pooled}}$ is calculated using the same formula (3.3) we already 
 
 The standardization has the effect that $\text{SMD}_{\text{between}}=$ 1 always means that the two groups means are one sample standard deviation away from each other (see Figure \@ref(fig:smd)); $\text{SMD}_{\text{between}}=$ 2 then represents a difference of 2 standard deviations, and so forth^[Kristoffer Magnusson developed a great interactive tool visualizing the distribution of two groups for varying values of the standardized mean difference. The tool can be found online: https://www.rpsychologist.com/d3/cohend/]. 
 
-```{r smd, fig.cap='Standardized mean difference of 1 (assuming normality and equal standard deviations in both groups).', out.width='85%', message = F, echo = F, fig.align='center'}
+```{r smd, fig.cap='Standardized mean difference of 1 (assuming normality, equal standard deviations and equal sample size in both groups).', out.width='85%', message = F, echo = F, fig.align='center'}
 library(OpenImageR)
 knitr::include_graphics('images/smd_sep.png')
 ```

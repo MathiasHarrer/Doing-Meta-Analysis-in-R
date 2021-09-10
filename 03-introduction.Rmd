@@ -16,7 +16,7 @@ At least by the numbers alone, this sentiment may be justified. Never in history
 
 The amount of published research findings is also increasing almost exponentially. The number of articles indexed for each year in one of the largest bibliographical databases, [**PubMed**](pubmed.ncbi.nlm.nih.gov/), symbolizes this in an exemplary fashion. Until the middle of the 20<sup>th</sup> century, only a few hundred research articles are listed for each year. These numbers rise substantially for the following decades, and since the beginning of the 21<sup>st</sup> century, they skyrocket (see Figure \@ref(fig:pubmed)).
 
-```{r pubmed, fig.cap='Articles indexed in PubMed by year, 1781-2019', echo=F, message=F, fig.align='center', fig.width=4.5, fig.height=3}
+```{r pubmed, fig.cap='Articles indexed in PubMed by year, 1781-2019', echo=F, message=F, warning = FALSE, fig.align='center', fig.width=4.5, fig.height=3}
 library(ggplot2)
 options(scipen = 999)
 
