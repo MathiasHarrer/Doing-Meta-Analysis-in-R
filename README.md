@@ -9,7 +9,7 @@
 
 
 
-<a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/" target="_blank"><img src="images/cover.png" width="250" align="right" alt="" class="cover" /></a> Welcome to the GitHub repository of **"Doing Meta-Analysis with R: A Hands-On Guide"**. 
+<a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/" target="_blank"><img src="images/cover.png" width="250" align="right" alt="" class="cover" /></a> Welcome to the GitHub repository of [**"Doing Meta-Analysis with R: A Hands-On Guide"**](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/). 
 
 This book serves as an accessible introduction into how meta-analyses can be conducted in _R_. Essential steps for meta-analysis are covered, including pooling of outcome measures, forest plots, heterogeneity diagnostics, subgroup analyses, meta-regression, methods to control for publication bias, risk of bias assessments and plotting tools. 
 
