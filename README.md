@@ -26,8 +26,6 @@ The programming and statistical background covered in the book are kept at a **n
 
 The book has been built using [**{rmarkdown}**](https://rmarkdown.rstudio.com/docs/) and [**{bookdown}**](https://bookdown.org/). Formulas are rendered using [MathJax](http://docs.mathjax.org/en/latest/index.html). All materials and source code we used to compile the guide can be found in this repository. You are free to fork, share and reuse contents. However, the repository is intended to be mainly "read-only"; PRs will generally not be considered (see section below & [preface](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/preface.html#contact-us) of the book for ways to contact us).   
 
-[![GitHub followers](https://img.shields.io/badge/View Repository-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R)
-
 
 
 <br></br>
