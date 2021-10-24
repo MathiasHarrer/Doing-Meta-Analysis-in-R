@@ -453,7 +453,7 @@ m.gen <- update.meta(m.gen, prediction = TRUE)
 Now we can reinspect the results:
 
 ```{r, eval=F}
-m.gen
+summary(m.gen)
 ```
 
 ```
@@ -592,27 +592,6 @@ find.outliers(m.gen)
 ##  
 ## Results with outliers removed 
 ## ----------------------------- 
-## Review:     Third Wave Psychotherapies
-##                         SMD        95%-CI %W(random) exclude
-## Call et al.            0.70 [ 0.19; 1.22]        4.4        
-## Cavanagh et al.        0.35 [-0.03; 0.73]        6.9        
-## DanitzOrsillo          1.79 [ 1.11; 2.46]        0.0       *
-## de Vibe et al.         0.18 [-0.04; 0.41]       13.1        
-## Frazier et al.         0.42 [ 0.13; 0.70]       10.4        
-## Frogeli et al.         0.63 [ 0.24; 1.01]        6.9        
-## Gallego et al.         0.72 [ 0.28; 1.16]        5.6        
-## Hazlett-Stevens & Oren 0.52 [ 0.11; 0.94]        6.2        
-## Hintz et al.           0.28 [-0.04; 0.61]        8.6        
-## Kang et al.            1.27 [ 0.61; 1.93]        2.8        
-## Kuhlmann et al.        0.10 [-0.27; 0.48]        7.0        
-## Lever Taylor et al.    0.38 [-0.06; 0.84]        5.4        
-## Phang et al.           0.54 [ 0.06; 1.01]        4.9        
-## Rasanen et al.         0.42 [-0.07; 0.93]        4.5        
-## Ratanasiripong         0.51 [-0.17; 1.20]        2.6        
-## Shapiro et al.         1.47 [ 0.86; 2.09]        0.0       *
-## Song & Lindquist       0.61 [ 0.16; 1.05]        5.6        
-## Warnecke et al.        0.60 [ 0.11; 1.08]        4.8        
-## 
 ## Number of studies combined: k = 16
 ## 
 ##                         SMD           95%-CI    t  p-value
@@ -1034,7 +1013,8 @@ The other plots show a GOSH plot again, but there are now shaded points which re
 Let us see what happens if we rerun the meta-analysis while removing the three studies that the `gosh.diagnostics` function has identified.
 
 ```{r, eval=F}
-update.meta(m.gen, exclude = c(3, 4, 16))
+update.meta(m.gen, exclude = c(3, 4, 16)) %>% 
+  summary()
 ```
 
 ```

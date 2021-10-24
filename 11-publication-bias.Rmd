@@ -451,7 +451,7 @@ ThirdWave$seTE_c <- sqrt((n1+n2)/(n1*n2))
 # Re-run 'metagen' with modified SE to get meta-analysis object
 m.gen.c <- metagen(TE = TE, seTE = seTE_c,
                    studlab = Author, data = ThirdWave, sm = "SMD", 
-                   comb.fixed = FALSE, comb.random = TRUE, 
+                   fixed = FALSE, random = TRUE, 
                    method.tau = "REML", hakn = TRUE, 
                    title = "Third Wave Psychotherapies")
 
@@ -555,7 +555,7 @@ One of the most common methods to adjust for funnel plot asymmetry is the **Duva
 
 An important caveat pertaining to the trim-and-fill method is that it does not produce reliable results when the between-study heterogeneity is large [@peters2007performance; @terrin2003adjusting; @simonsohn2014p]. When studies do not share one true effect, it is possible that even large studies deviate substantially from the average effect. This means that such studies are also trimmed and filled, even though it is unlikely that they are affected by publication bias. It is easy to see that this can lead to invalid results. 
 
-We can apply the trim and fill algorithm to our data using the `trimfill.meta` function in **{meta}**. The function has very sensible defaults, so it is sufficient to simply provide it with our meta-analysis object. In our example, we use our `m.gen` object again. However, before we start, let us first check the amount of $I^2$ heterogeneity we observed in this meta-analysis.
+We can apply the trim and fill algorithm to our data using the `trimfill` function in **{meta}**. The function has very sensible defaults, so it is sufficient to simply provide it with our meta-analysis object. In our example, we use our `m.gen` object again. However, before we start, let us first check the amount of $I^2$ heterogeneity we observed in this meta-analysis.
 
 ```{r}
 m.gen$I2
@@ -570,18 +570,18 @@ We will therefore conduct two trim and fill analyses: one with all studies, and 
 
 ```{r}
 # Using all studies
-tf <- trimfill.meta(m.gen)
+tf <- trimfill(m.gen)
 
 # Analyze with outliers removed
-tf.no.out <- trimfill.meta(update.meta(m.gen, 
-                                       subset = -c(3, 16)))
+tf.no.out <- trimfill(update(m.gen, 
+                             subset = -c(3, 16)))
 
 ```
 
 First, let us have a look at the first analysis, which includes all studies.
 
 ```{r, eval=F}
-print(tf)
+summary(tf)
 ```
 
 ```
@@ -621,7 +621,7 @@ We see that the trim and fill procedure added a total of eight studies. Trimmed 
 Now, let us compare this to the results of the analysis in which outliers were removed.
 
 ```{r, eval=F}
-print(tf.no.out)
+summary(tf.no.out)
 ```
 
 ```
@@ -641,7 +641,7 @@ print(tf.no.out)
 
 With $g=$ 0.34, the results are nearly identical. Overall, the trim and fill method indicates that the pooled effect of $g=$ 0.58 in our meta-analysis is overestimated due to small-study effects. In reality, the effect may be considerably smaller. It is likely that this overestimation has been caused by publication bias, but this is not certain. Other explanations are possible too, and this could mean that the trim and fill estimate is invalid.
 
-Lastly, it is also possible to create a funnel plot including the imputed studies. We only have to apply the `funnel.meta` function to the output of `trimfill.meta`. In the following code, we create contour-enhanced funnel plots for both trim and fill analyses (with and without outliers). Using the `par` function, we can print both plots side by side.
+Lastly, it is also possible to create a funnel plot including the imputed studies. We only have to apply the `funnel.meta` function to the output of `trimfill`. In the following code, we create contour-enhanced funnel plots for both trim and fill analyses (with and without outliers). Using the `par` function, we can print both plots side by side.
 
 \vspace{4mm}
 

@@ -584,9 +584,9 @@ dplyr 1.0.1                 esc 0.5.1
 extraDistr 1.9.1            forcats 0.5.0
 gemtc 0.8-6                 ggplot2 3.3.2       
 ggridges 0.5.2              glue 1.4.1       
-igraph 1.2.5                meta 4.15-1
+igraph 1.2.5                meta 5.0-0
 metafor 2.5-62              metaSEM 1.2.5       
-metasens 0.5-0              netmeta 1.2-1    
+metasens 0.5-0              netmeta 2.0-0    
 openxlsx 4.1.5              osfr 0.2.8
 PerformanceAnalytics 2.0.4  rjags 4-10                  
 robvis 0.3.0                semPlot 1.1.2               
@@ -631,7 +631,29 @@ Errata and remarks concerning the first edition print version of the book are di
 Last updated: `r format(Sys.time(), '%d %B, %Y')`.
 
 
-- _Nothing (yet)!_
+## Chapter 4.2 {-}
+
+A new version of **{meta}** (version 5.0-0) has recently been released. We adapted the code in this chapter accordingly to avoid deprecation messages:
+
+- The `comb.fixed` and `comb.random` arguments are now called `fixed` and `random`, respectively.
+
+- To print all studies, one now has to use `summary` method for **{meta}** meta-analysis objects.
+
+## Chapter 7.3 {-}
+
+A new version of **{meta}** (version 5.0-0) has recently been released. We adapted the code in this chapter accordingly to avoid deprecation messages:
+
+- The `byvar` argument is now called `subgroup`.
+
+- To print all studies, one now has to use `summary` method for **{meta}** meta-analysis objects.
+
+## Chapter 12.2.2 {-}
+
+A new version of **{netmeta}** (version 2.0-0) has recently been released. We adapted the code in this chapter accordingly to avoid error messages:
+
+- The latest version of **{netmeta}** resulted in non-convergence of the Fisher scoring algorithm implemented in `rma.mv`. This problem pertains to all versions of **{dmetar}** installed before 24-Oct-2021. To avoid the issue, simply [reinstall the lastest version of **{dmetar}**](https://dmetar.protectlab.org/#installation).
+
+
 
 
 <br></br>

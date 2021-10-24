@@ -217,7 +217,7 @@ The best way to avoid ecological bias is to **never, ever** use aggregate inform
 
 \index{meta Package}
 
-Time to implement what we learned in _R_. Conducting a subgroup analysis using the **{meta}** package is relatively straightforward. In every meta-analysis function in **{meta}**, the `byvar` argument can be specified. This tells the function which effect size falls into which subgroup and runs a subgroup analysis. The `byvar` argument accepts `character`, `factor`, `logical` or `numeric` variables. The only thing we have to take care of is that studies in the same subgroup have absolutely identical labels. 
+Time to implement what we learned in _R_. Conducting a subgroup analysis using the **{meta}** package is relatively straightforward. In every meta-analysis function in **{meta}**, the `subgroup` argument can be specified^[In older versions of **{meta}** (before version 5.0-0), this argument is called `byvar`.]. This tells the function which effect size falls into which subgroup and runs a subgroup analysis. The `subgroup` argument accepts `character`, `factor`, `logical` or `numeric` variables. The only thing we have to take care of is that studies in the same subgroup have absolutely identical labels. 
 
 In this example, we use our `m.gen` meta-analysis object again. The `ThirdWave` data set, which we used to calculate the meta-analysis, contains a few columns with subgroup information. Here, we want to examine if there are effect size differences between studies with a high versus low risk of bias. The risk of bias information is stored in the `RiskOfBias` column. 
 
@@ -228,7 +228,7 @@ Let us have a look at this column first. In our code, we use the `head` function
 head(ThirdWave[,c("Author", "RiskOfBias")])
 ```
 
-We see that every study in our data set has a label specifying its risk of bias assessment. When we calculated the meta-analysis using `metagen`, this information was saved internally in the `m.gen` object. To conduct a subgroup analysis, we can therefore use the `update.meta` function, provide it with the `m.gen` object, and use the `byvar` argument to specify which column in our data set contains the subgroup labels. 
+We see that every study in our data set has a label specifying its risk of bias assessment. When we calculated the meta-analysis using `metagen`, this information was saved internally in the `m.gen` object. To conduct a subgroup analysis, we can therefore use the `update.meta` function, provide it with the `m.gen` object, and use the `subgroup` argument to specify which column in our data set contains the subgroup labels. 
 
 Previously, we also covered that subgroup analyses can be conducted with or without a common estimate of $\tau^2$ across subgroups. This can be controlled in **{meta}** by setting `tau.common` to `TRUE` or `FALSE`. For now, let us use separate estimates of the between-study heterogeneity variance in each subgroup. 
 
@@ -239,17 +239,12 @@ Therefore, the resulting code looks like this:
 
 ```{r, eval=FALSE}
 update.meta(m.gen, 
-            byvar = RiskOfBias, 
+            subgroup = RiskOfBias, 
             tau.common = FALSE)
 ```
 
 ```
 ## Review:     Third Wave Psychotherapies
-##                         SMD        95%-CI %W(random) RiskOfBias
-## Call et al.            0.70 [ 0.19; 1.22]        5.0       high
-## Cavanagh et al.        0.35 [-0.03; 0.73]        6.3        low
-## DanitzOrsillo          1.79 [ 1.11; 2.46]        3.8       high
-## [...]
 ## 
 ## Number of studies combined: k = 18
 ## 
@@ -257,20 +252,17 @@ update.meta(m.gen,
 ## Random effects model 0.5771 [0.3782; 0.7760] 6.12 < 0.0001
 ## 
 ## Quantifying heterogeneity:
-##  tau^2 = 0.0820 [0.0295; 0.3533]; tau = 0.2863 [0.1717; 0.5944];
+##  tau^2 = 0.0820 [0.0295; 0.3533]; tau = 0.2863 [0.1717; 0.5944]
 ##  I^2 = 62.6% [37.9%; 77.5%]; H = 1.64 [1.27; 2.11]
-## 
-## Quantifying residual heterogeneity:
-##  I^2 = 59.3% [30.6%; 76.1%]; H = 1.57 [1.20; 2.05]
 ## 
 ## Test of heterogeneity:
 ##      Q d.f. p-value
 ##  45.50   17  0.0002
 ## 
 ## Results for subgroups (random effects model):
-##                     k    SMD       95%-CI  tau^2    tau     Q   I^2
-## RiskOfBias = high   7 0.8126 [0.28; 1.34] 0.2423 0.4922 25.89 76.8%
-## RiskOfBias = low   11 0.4300 [0.28; 0.58] 0.0099 0.0997 13.42 25.5%
+##                     k    SMD           95%-CI  tau^2    tau     Q   I^2
+## RiskOfBias = high   7 0.8126 [0.2835; 1.3417] 0.2423 0.4922 25.89 76.8%
+## RiskOfBias = low   11 0.4300 [0.2770; 0.5830] 0.0099 0.0997 13.42 25.5%
 ## 
 ## Test for subgroup differences (random effects model):
 ##                     Q d.f. p-value
@@ -279,7 +271,8 @@ update.meta(m.gen,
 ## Details on meta-analytical method:
 ## - Inverse variance method
 ## - Restricted maximum-likelihood estimator for tau^2
-## [...]
+## - Q-profile method for confidence interval of tau^2 and tau
+## - Hartung-Knapp adjustment for random effects model
 ```
 
 
@@ -292,7 +285,7 @@ But is the difference statistically significant? We can check this by looking at
 We can also check the results if were to assume a **common** $\tau^2$ estimate in both subgroups. We only have to set `tau.common` to `TRUE`.
 
 ```{r, eval=F}
-update.meta(m.gen, byvar = RiskOfBias, tau.common = TRUE)
+update.meta(m.gen, subgroup = RiskOfBias, tau.common = TRUE)
 ```
 
 
@@ -333,7 +326,7 @@ The results of subgroup analyses are usually reported in a table displaying the 
 ```{r, echo=F}
 library(kableExtra)
 m.gen.sg = update.meta(m.gen, 
-            byvar = RiskOfBias, 
+            subgroup = RiskOfBias, 
             tau.common = FALSE)
 
 dat = data.frame(g = round(m.gen.sg$TE.random.w, 2),

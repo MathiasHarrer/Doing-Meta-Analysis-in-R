@@ -407,9 +407,9 @@ We can now fit our first network meta-analysis model using the `netmeta` functio
 
 * **`sm`**. The type of effect size we are using. Can be`"RD"` (risk difference), `"RR"` (risk ratio), `"OR"` (odds ratio), `"HR"` (hazard ratio), `"MD"` (mean difference), `"SMD"` (standardized mean difference), among others. Check the function documentation (`?netmeta`) for other available measures. 
 
-* **`comb.fixed`**.	Should a fixed-effect network meta-analysis should be conducted? Must be `TRUE` or `FALSE`.
+* **`fixed`**.	Should a fixed-effect network meta-analysis should be conducted? Must be `TRUE` or `FALSE`.
 
-* **`comb.random`**.	Should a random-effects model be used? Either `TRUE` or `FALSE`.
+* **`random`**.	Should a random-effects model be used? Either `TRUE` or `FALSE`.
 
 * **`reference.group`**.	This lets us specify which treatment should be used as a reference treatment (e.g. `reference.group = "grp"`) for all other treatments.
 
@@ -431,12 +431,12 @@ m.netmeta <- netmeta(TE = TE,
                      studlab = author,
                      data = TherapyFormats,
                      sm = "SMD",
-                     comb.fixed = TRUE,
-                     comb.random = FALSE,
+                     fixed = TRUE,
+                     random = FALSE,
                      reference.group = "cau",
                      details.chkmultiarm = TRUE,
                      sep.trts = " vs ")
-m.netmeta
+summary(m.netmeta)
 ```
 
 ```
@@ -446,7 +446,7 @@ m.netmeta
 ## [...]
 ## Burgan, 2012          ind    tel -0.31 0.13   0.1390     2         
 ## Belk, 1986            ind    tel -0.17 0.08   0.0830     2         
-## Ledbetter, 1984       ind    tel -0.01 0.23   0.2310     2         
+## Ledbetter, 1984       ind    tel -0.00 0.23   0.2310     2         
 ## Narum, 1986           ind    tel  0.03 0.33   0.3380     2         
 ## Breiman, 2001         ind    wlc -0.75 0.51   0.6267     3        *
 ## [...]
@@ -478,18 +478,18 @@ m.netmeta
 ## Fixed effects model
 ## 
 ## Treatment estimate (sm = 'SMD', comparison: other treatments vs 'cau'):
-##       SMD         95%-CI
-## cau     .              .
-## grp -0.57 [-0.63; -0.52]
-## gsh -0.39 [-0.45; -0.32]
-## ind -0.64 [-0.68; -0.59]
-## tel -0.51 [-0.60; -0.41]
-## ush -0.12 [-0.21; -0.04]
-## wlc  0.25 [ 0.20;  0.31]
+##         SMD             95%-CI      z  p-value
+## cau       .                  .      .        .
+## grp -0.5767 [-0.6310; -0.5224] -20.81 < 0.0001
+## gsh -0.3940 [-0.4588; -0.3292] -11.92 < 0.0001
+## ind -0.6403 [-0.6890; -0.5915] -25.74 < 0.0001
+## tel -0.5134 [-0.6078; -0.4190] -10.65 < 0.0001
+## ush -0.1294 [-0.2149; -0.0439]  -2.97   0.0030
+## wlc  0.2584 [ 0.2011;  0.3157]   8.84 < 0.0001
 ##
 ## 
 ## Quantifying heterogeneity / inconsistency:
-## tau^2 = 0.27; tau = 0.52; I^2 = 89.6% [88.3%; 90.7%]
+## tau^2 = 0.26; tau = 0.51; I^2 = 89.6% [88.3%; 90.7%]
 ## 
 ## Tests of heterogeneity (within designs) and inconsistency (between designs):
 ##                       Q d.f.  p-value
@@ -533,16 +533,16 @@ decomp.design(m.netmeta)
 ## 
 ##    Detached design      Q df  p-value
 ##  [...]
-##         ind vs wlc  77.09 11 < 0.0001
-##         tel vs wlc  95.37 11 < 0.0001
-##         ush vs wlc  95.67 11 < 0.0001
-##  gsh vs ind vs wlc 101.71 10 < 0.0001
+##         ind vs wlc  77.23 11 < 0.0001
+##         tel vs wlc  95.45 11 < 0.0001
+##         ush vs wlc  95.81 11 < 0.0001
+##  gsh vs ind vs wlc 101.78 10 < 0.0001
 ##
 ## Q statistic to assess consistency under the assumption of
 ## a full design-by-treatment interaction random effects model
 ## 
 ##                    Q df p-value tau.within tau2.within
-## Between designs 3.83 12  0.9864     0.5403      0.2919
+## Between designs 3.82 12  0.9865     0.5403      0.2919
 ```
 
 \index{Cochran's \textit{Q}}
@@ -828,12 +828,12 @@ netsplit(m.netmeta)
 ## 
 ## Fixed effects model: 
 ## 
-##  comparison  k prop     nma  direct  indir.    Diff       z  p-value
-##  grp vs cau 21 0.58 -0.5765 -0.3727 -0.8623  0.4896  8.7074 < 0.0001
-##  gsh vs cau  8 0.22 -0.3937 -0.5684 -0.3437 -0.2247 -2.8258   0.0047
-##  ind vs cau 30 0.71 -0.6402 -0.7037 -0.4859 -0.2178 -3.9799 < 0.0001
-##  tel vs cau  6 0.35 -0.5133 -0.7471 -0.3865 -0.3606 -3.5729   0.0004
-##  ush vs cau  9 0.35 -0.1283 -0.1887 -0.0953 -0.0934 -1.0230   0.3063
+##  comparison  k prop     nma  direct  indir.    Diff     z  p-value
+##  grp vs cau 21 0.58 -0.5767 -0.3727 -0.8628  0.4901  8.72 < 0.0001
+##  gsh vs cau  8 0.22 -0.3940 -0.5684 -0.3442 -0.2243 -2.82   0.0048
+##  ind vs cau 30 0.71 -0.6403 -0.7037 -0.4863 -0.2174 -3.97 < 0.0001
+##  tel vs cau  6 0.35 -0.5134 -0.7471 -0.3867 -0.3604 -3.57   0.0004
+##  ush vs cau  9 0.35 -0.1294 -0.1919 -0.0953 -0.0966 -1.06   0.2903
 ##  [...]
 ## 
 ## Legend:

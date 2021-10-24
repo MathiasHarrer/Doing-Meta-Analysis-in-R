@@ -12,7 +12,9 @@ n the last chapter, we showed that meta-analytic models have an inherent multile
 \index{Analysis of Variance}
 \index{Subgroup Analysis}
 
-A peculiar thing about statistical methods is that they are often put into separate “boxes”. They are treated as unrelated in research and practice, when in fact they are not. For many social science students, for example, it often comes as a surprise to hear that an **analysis of variance** (ANOVA) and a dummy-coded regression are doing essentially the same thing. This often happens because these two methods are traditionally used in different contexts, and taught as separate entities.
+A peculiar thing about statistical methods is that they are often put into separate “boxes”. They are treated as unrelated in research and practice, when in fact they are not. For many social science students, for example, it often comes as a surprise to hear that an **analysis of variance** (ANOVA) and a linear regression with a categorical predictor are doing essentially the same thing^[ANOVAs are based the model $y_{ij} = \mu + \tau_i + \epsilon_{ij}$, where $\tau_i$ is the effect of the $i$th factor level/treatment, and $\epsilon_{ij}$ represents deviations due to (unexplained) random error [@montgomery, chapter 3.2]. This is nothing but a special case of a linear regression model. The primary difference is that $\tau_i$ is **effect-coded** (e.g. the treatment variable is either -1 and 1 so that the categorical treatment effects sum up to zero: $\sum_{i=1}^{a} \tau_i = 0$). In contrast, categorical predictors are usually dummy-coded (e.g. 0 and 1) in linear regression models.]. This often happens because these two methods are traditionally used in different contexts, and taught as separate entities.
+
+
 
 \index{Structural Equation Model}
 

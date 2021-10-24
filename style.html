@@ -96,6 +96,12 @@
   border-radius: .25rem;
 }
 
+.csl-entry {
+  margin-bottom: 20px;
+  padding-left: 1.5em;
+  text-indent:-1.5em;
+}
+
 .boxdmetar:before {
     content: '\f4f7';
     font-family: FontAwesome;
@@ -147,14 +153,22 @@ img {
 <link rel="shortcut icon" href="favicon.ico" />
 
 <script type="text/x-mathjax-config">
-$('a').on("inserted.bs.popover", function() {
+const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers){
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
 
-  var popover = $(this).data("bs.popover");
-
-  if (popover)
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub], popover);
-
-});
+  // Will this work with TeX on its own line?
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+  	MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+  	MathJax.Hub.Queue(function(){
+      popover.setAttribute('data-content', div.innerHTML);
+  	})
+  }
+}
 </script>
 
 

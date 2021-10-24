@@ -479,8 +479,8 @@ All meta-analysis functions in **{meta}** follow the same structure. We have to 
 
 * **`studlab`**. This argument associates each effect size with a **study label**. If we have the name or authors of our studies stored in our data set, we simply have to specify the name of the respective column (e.g. `studlab = author`). 
 * **`sm`**. This argument controls the **summary measure**, the effect size metric we want to use in our meta-analysis. This option is particularly important for functions using raw effect size data. The **{meta}** package uses codes for different effect size formats, for example `"SMD"` or `"OR"`. The available summary measures are not the same in each function, and we will discuss the most common options in each case in the following sections.
-* **`comb.fixed`**. We need to provide this argument with a logical (`TRUE` or `FALSE`), indicating if a fixed-effect model meta-analysis should be calculated.
-* **`comb.random`**. In a similar fashion, this argument controls if a random-effects model should be used. If both `comb.fixed` and `comb.random` are set to `TRUE`, both models are calculated and displayed.
+* **`fixed`**. We need to provide this argument with a logical (`TRUE` or `FALSE`), indicating if a fixed-effect model meta-analysis should be calculated^[In older versions of **{meta}** (before version 5.0-0), this argument is called `comb.fixed`.].
+* **`random`**. In a similar fashion, this argument controls if a random-effects model should be used. If both `comb.fixed` and `comb.random` are set to `TRUE`, both models are calculated and displayed^[In older versions of **{meta}** (before version 5.0-0), this argument is called `comb.random`.].
 * **`method.tau`**. This argument defines the $\tau^2$ estimator. All functions use the codes for different estimators that we already presented in the previous chapter (e.g. for the DerSimonian-Laird method: `method.tau = "DL"`).
 * **`hakn`**. This is yet another logical argument, and controls if the Knapp-Hartung adjustments should be applied when using the random-effects model.
 * **`data`**. In this argument, we provide **{meta}** with the name of our meta-analysis data set.
@@ -580,17 +580,17 @@ m.gen <- metagen(TE = TE,
                  studlab = Author,
                  data = ThirdWave,
                  sm = "SMD",
-                 comb.fixed = FALSE,
-                 comb.random = TRUE,
+                 fixed = FALSE,
+                 random = TRUE,
                  method.tau = "REML",
                  hakn = TRUE,
                  title = "Third Wave Psychotherapies")
 ```
 
-Our `m.gen` object now contains all the meta-analysis results. An easy way to get an overview is to simply call the object directly in the _R_ console.
+Our `m.gen` object now contains all the meta-analysis results. An easy way to get an overview is to use the `summary` function^[In older versions of **{meta}** (before version 5.0-0), this overview can be printed without using `summary`. Simply call your newly created meta-analysis object directly in the _R_ console.].
 
 ```{r, eval=F}
-m.gen
+summary(m.gen)
 ```
 
 ```
@@ -666,7 +666,7 @@ m.gen$TE.random
 
 \index{Fixed-Effect Model}
 
-Even when we specify `comb.fixed = FALSE`, **{meta}**'s functions always also calculate results for the fixed-effect model internally. Thus, we can also access the pooled effect assuming a fixed-effect model.
+Even when we specify `fixed = FALSE`, **{meta}**'s functions always also calculate results for the fixed-effect model internally. Thus, we can also access the pooled effect assuming a fixed-effect model.
 
 ```{r}
 m.gen$TE.fixed
@@ -747,8 +747,8 @@ m.cont <- metacont(n.e = n.e,
                    data = SuicidePrevention,
                    sm = "SMD",
                    method.smd = "Hedges",
-                   comb.fixed = FALSE,
-                   comb.random = TRUE,
+                   fixed = FALSE,
+                   random = TRUE,
                    method.tau = "REML",
                    hakn = TRUE,
                    title = "Suicide Prevention")
@@ -759,7 +759,7 @@ m.cont <- metacont(n.e = n.e,
 Let us see what the results are:
 
 ```{r}
-m.cont
+summary(m.cont)
 ```
 
 Looking at the output and comparing it to the one we received in Chapter \@ref(pre-calculated-es), we already see one of **{meta}**'s greatest assets. Although `metagen` and `metacont` are different functions requiring different data types, the structure of the output looks nearly identical. This makes interpreting the results quite easy. We see that the pooled effect according to the random-effects model is $g=$ -0.23, with the 95% confidence interval ranging from -0.09 to -0.37. The effect is significant ($p=$ 0.006). 
@@ -860,7 +860,7 @@ V_k = \frac{(a_k+b_k)(c_k+d_k)(a_k+c_k)(b_k+d_k)}{{(a_k+b_k+c_k+d_k)}^2(a_k+b_k+
 (\#eq:pes14)
 \end{equation}
 
-The inverse of the variance of $\log\hat\psi_k$ is then used as the weight when pooling the effect sizes^[The variance of the log Peto odds ratio $\log\hat\psi_k$ is defined as $\text{SE}_{\log\hat\psi_k}^2 = \widehat{\text{Var}}(\log\hat\psi_k)=V_k^{-1}$, so that the pooling weight using the Peto method is defined as $w^{\text{(Peto)}}_k=\widehat{\text{Var}}(\log\hat\psi_k)^{-1}$].
+The inverse of the variance of $\log\hat\psi_k$ is then used as the weight when pooling the effect sizes^[The variance of the log Peto odds ratio $\log\hat\psi_k$ is defined as $\text{SE}_{\log\hat\psi_k}^2 = \widehat{\text{Var}}(\log\hat\psi_k)=V_k^{-1}$, so that the pooling weight using the Peto method is defined as $w^{\text{(Peto)}}_k=\widehat{\text{Var}}(\log\hat\psi_k)^{-1}$.].
 
 <br></br>
 
@@ -971,12 +971,12 @@ m.bin <- metabin(event.e = event.e,
                  sm = "RR",
                  method = "MH",
                  MH.exact = TRUE,
-                 comb.fixed = FALSE,
-                 comb.random = TRUE,
+                 fixed = FALSE,
+                 random = TRUE,
                  method.tau = "PM",
                  hakn = TRUE,
                  title = "Depression and Mortality")
-m.bin
+summary(m.bin)
 ```
 
 ```{r, echo=F, message=F, warning=F}
@@ -989,8 +989,8 @@ m.bin <- metabin(event.e = event.e,
                  sm = "RR",
                  method = "MH",
                  MH.exact = TRUE,
-                 comb.fixed = FALSE,
-                 comb.random = TRUE,
+                 fixed = FALSE,
+                 random = TRUE,
                  method.tau = "PM",
                  hakn = TRUE,
                  title = "Depression and Mortality")
@@ -1173,11 +1173,11 @@ m.gen_bin <- metagen(TE = TE,
                      data = DepressionMortality,
                      sm = "RR",
                      method.tau = "PM",
-                     comb.fixed = FALSE,
-                     comb.random = TRUE,
+                     fixed = FALSE,
+                     random = TRUE,
                      title = "Depression Mortality (Pre-calculated)")
 
-m.gen_bin
+summary(m.gen_bin)
 ```
 
 ```
@@ -1266,13 +1266,13 @@ m.inc <- metainc(event.e = event.e,
                  data = EatingDisorderPrevention,
                  sm = "IRR",
                  method = "MH",
-                 comb.fixed = FALSE,
-                 comb.random = TRUE,
+                 fixed = FALSE,
+                 random = TRUE,
                  method.tau = "PM",
                  hakn = TRUE,
                  title = "Eating Disorder Prevention")
 
-m.inc
+summary(m.inc)
 ```
 
 We see that the pooled effect is IRR = 0.62. This effect is significant ($p=$ 0.04), albeit being somewhat closer to the conventional significance threshold than in the previous examples. Based on the pooled effect, we can say that the preventive interventions reduced the incidence of eating disorders within one year by 38%. Lastly, we see that the estimate of the heterogeneity variance $\tau^2$ is zero.
@@ -1329,12 +1329,12 @@ m.cor <- metacor(cor = cor,
                  n = n,
                  studlab = author,
                  data = HealthWellbeing,
-                 comb.fixed = FALSE,
-                 comb.random = TRUE,
+                 fixed = FALSE,
+                 random = TRUE,
                  method.tau = "REML",
                  hakn = TRUE,
                  title = "Health and Wellbeing")
-m.cor
+summary(m.cor)
 ```
 
 ```
@@ -1423,12 +1423,12 @@ m.mean <- metamean(n = n,
                    studlab = author,
                    data = BdiScores,
                    sm = "MRAW",
-                   comb.fixed = FALSE,
-                   comb.random = TRUE,
+                   fixed = FALSE,
+                   random = TRUE,
                    method.tau = "REML",
                    hakn = TRUE,
                    title = "BDI-II Scores")
-m.mean
+summary(m.mean)
 ```
 
 The pooled mean assuming a random-effects model is $m$ = 31.12. We also see that the between-study heterogeneity variance $\tau^2$ in this meta-analysis is significantly greater than zero.
@@ -1521,11 +1521,11 @@ m.prop <- metaprop(event = event,
                    data = OpioidMisuse,
                    method = "GLMM",
                    sm = "PLOGIT",
-                   comb.fixed = FALSE,
-                   comb.random = TRUE,
+                   fixed = FALSE,
+                   random = TRUE,
                    hakn = TRUE,
                    title = "Opioid Misuse")
-m.prop
+summary(m.prop)
 
 ```
 
