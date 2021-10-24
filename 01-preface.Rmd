@@ -184,7 +184,7 @@ This serif font is reserved for formulas, statistics, and other forms of mathema
 
 ---
 
-Undeniably, the road to doing meta-analyses in _R_ can be a rocky path at times. Although we think this is sometimes exaggerated, _R_'s learning curve **is** steep. Statistics **is** hard. We did our best to make your experience of learning how to perform meta-analyses using _R_ as painless as possible. Nevertheless, this will not shield you from being frustrated sometimes. This is all but natural. We all had to start from scratch somewhere down the line. From our own experience, we can you assure that we have never met anyone who was **not** able to learn _R_, or how to do a meta-analysis. It only takes practice, and the understanding that there will be no point in time when you are "done" learning. We believe in you. 
+Undeniably, the road to doing meta-analyses in _R_ can be a rocky path at times. Although we think this is sometimes exaggerated, _R_'s learning curve **is** steep. Statistics **is** hard. We did our best to make your experience of learning how to perform meta-analyses using _R_ as painless as possible. Nevertheless, this will not shield you from being frustrated sometimes. This is all but natural. We all had to start from scratch somewhere down the line. From our own experience, we can assure you that we have never met anyone who was **not** able to learn _R_, or how to do a meta-analysis. It only takes practice, and the understanding that there will be no point in time when you are "done" learning. We believe in you. 
 
 If you are looking for something a little more practical than this motivational message: here are a few things you can do once you stumble upon things that this guide cannot answer.
 
