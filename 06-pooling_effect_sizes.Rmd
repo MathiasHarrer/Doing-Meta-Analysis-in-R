@@ -1539,13 +1539,16 @@ summary(m.prop)
 ## Fiellin, 2013      0.1176 [0.1150; 0.1204]
 ## [...]
 ## 
+## 
 ## Number of studies combined: k = 15
+## Number of observations: o = 434385
+## Number of events: e = 41364
 ## 
 ##                      proportion           95%-CI
-## Random effects model     0.0944 [0.0845; 0.1055]
+## Random effects model     0.0944 [0.0836; 0.1066]
 ## 
 ## Quantifying heterogeneity:
-##  tau^2 = 0.0558; tau = 0.2362; I^2 = 99.2%; H = 11.07
+##  tau^2 = 0.0558; tau = 0.2362; I^2 = 98.3% [97.9%; 98.7%]; H = 7.74 [6.92; 8.66]
 ## 
 ## Test of heterogeneity:
 ##       Q d.f.  p-value             Test
@@ -1560,7 +1563,7 @@ summary(m.prop)
 ## - Clopper-Pearson confidence interval for individual studies
 ```
 
-In the output, we see that the pooled 12-month prevalence of prescription opioid misuse in the selected studies is 9.4%, with the confidence interval ranging from 8.45 to 10.55%. 
+In the output, we see that the pooled 12-month prevalence of prescription opioid misuse in the selected studies is 9.4%, with the confidence interval ranging from 8.36 to 10.66%. 
 
 As described before, the output does not display the individual weight of each effect. In the same vein, we get an estimate of the between-study heterogeneity ($\tau^2 =$ 0.056), but no confidence interval around it. 
 

@@ -211,7 +211,7 @@ Let us start with an example data set. Imagine that you plan to conduct a meta-a
 
 The next task is therefore to prepare an _Excel_ sheet containing all the relevant data. Table \@ref(tab:suicidedata) presents all the data we want to import. In the first row, this table also shows how we can name our columns in the _Excel_ file based on the rules we listed above. We can see that the spreadsheet lists each study in one row. For each study, the sample size ($n$), mean and standard deviation ($SD$) is included for both the intervention and control group. This is the outcome data needed to calculate effect sizes, which is something we will cover in detail in Chapter \@ref(effects). The following three columns contain variables we want to analyze later on as part of the meta-analysis. 
 
-We have prepared an _Excel_ file for you called **"SuicidePrevention.xlsx"**, containing exactly this data. The file can be downloaded from the [Internet](http://protectlab.org/meta-analysis-in-r/data/SuicidePrevention.xlsx). 
+We have prepared an _Excel_ file for you called **"SuicidePrevention.xlsx"**, containing exactly this data. The file can be downloaded from the [Internet](https://protectlab.org/en/datasets/suicide-prevention/). 
 
 ```{r suicidedata, echo=F, message=F, warning=F}
 library(openxlsx)

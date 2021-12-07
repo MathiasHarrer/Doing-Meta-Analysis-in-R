@@ -410,11 +410,11 @@ $I^2$, on the other hand, is not sensitive to changes in the number of studies i
 \index{I$^2$, Higgins \& Thompson's}
 \index{Heterogeneity}
 
-However, despite its common use in the literature, $I^2$ is not a perfect measure for heterogeneity either. It still heavily depends on the precision of the included studies [@borenstein2017basics; @rucker2008undue]. As said before, $I^2$ is simply the percentage of variability not caused by sampling error $\epsilon$. If our studies become increasingly large, the sampling error tends to zero, while at the same time, $I^2$ tends to 100%--simply because the studies have a greater sample size. 
+However, despite its common use in the literature, $I^2$ is not a perfect measure for heterogeneity either. It is not an absolute measure of heterogeneity, and its value still heavily depends on the precision of the included studies [@borenstein2017basics; @rucker2008undue]. As said before, $I^2$ is simply the percentage of variability not caused by sampling error $\epsilon$. If our studies become increasingly large, the sampling error tends to zero, while at the same time, $I^2$ tends to 100%--simply because the studies have a greater sample size. 
 
 **Only** relying on $I^2$ is therefore not a good option either. Since $H^2$ behaves similarly to $I^2$, the same caveats also apply to this statistic.
 
-The value of $\tau^2$ and $\tau$, on the other hand, is insensitive to the number of studies, **and** their precision. Yet, it is often hard to interpret how relevant $\tau^2$ is from a practical standpoint. Imagine, for example, that we found that the variance of true effect sizes in our study was $\tau^2=$ 0.08. It is often difficult for ourselves, and others, to determine if this amount of variance is meaningful or not.
+The value of $\tau^2$ and $\tau$, on the other hand, is insensitive to the number of studies, **and** their precision. It does not systematically increase as the number of studies and their size increases. Yet, it is often hard to interpret how relevant $\tau^2$ is from a practical standpoint. Imagine, for example, that we found that the variance of true effect sizes in our study was $\tau^2=$ 0.08. It is often difficult for ourselves, and others, to determine if this amount of variance is meaningful or not.
 
 \index{Prediction Interval}
 

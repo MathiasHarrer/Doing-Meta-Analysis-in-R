@@ -421,6 +421,8 @@ ECDF stands for **empirical cumulative distribution function**. ECDFs based on t
 
 ---
 
+
+
 \renewcommand{\arraystretch}{2}
 ```{r esformula, echo=F, message=F, fig.align='center'}
 library(kableExtra)
@@ -516,6 +518,8 @@ kableExtra::kable(dat, "html",
   row_spec(25, extra_css = "border-top: 1px solid")
 
 ```
+
+
 
 \renewcommand{\arraystretch}{1}
 
@@ -646,6 +650,10 @@ A new version of **{meta}** (version 5.0-0) has recently been released. We adapt
 - The `byvar` argument is now called `subgroup`.
 
 - To print all studies, one now has to use `summary` method for **{meta}** meta-analysis objects.
+
+## Chapter 12.2.1 {-}
+
+The print version contains a factual error concerning the definition of full rank in non-square (rectangular) matrices. It is stated that a "matrix is not of full rank when its rows are not all independent". This, however, only applies to square matrices and non-square matrices with less rows than columns ($m < n$). In our example, there are more rows than columns; this means that $\boldsymbol{X}$ is not full rank because its **columns** are not all independent (in $m > n$ matrices, rows are always linearly dependent). This erratum has been corrected in the online version. 
 
 ## Chapter 12.2.2 {-}
 
