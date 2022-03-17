@@ -40,7 +40,7 @@ favicon: "favicon.ico"
 
 This book serves as an accessible introduction into how meta-analyses can be conducted in _R_. Essential steps for meta-analysis are covered, including pooling of outcome measures, forest plots, heterogeneity diagnostics, subgroup analyses, meta-regression, methods to control for publication bias, risk of bias assessments and plotting tools. 
 
-Advanced, but highly relevant topics such as network meta-analysis, multi-/three-level meta-analyses, Bayesian meta-analysis approaches, SEM meta-analysis are also covered. 
+Advanced, but highly relevant topics such as network meta-analysis, multi-/three-level meta-analyses, Bayesian meta-analysis approaches, and SEM meta-analysis are also covered. 
 
 The programming and statistical background covered in the book are kept at a **non-expert level**. A **print version** of this book has been published with [Chapman & Hall/CRC Press](https://www.routledge.com/Doing-Meta-Analysis-with-R-A-Hands-On-Guide/Harrer-Cuijpers-Furukawa-Ebert/p/book/9780367610074) (Taylor & Francis).
 
@@ -78,7 +78,7 @@ Want to contribute to this guide yourself? Feel free to send **Mathias** (mathia
 The suggested citation is:
 
 ```{block, type='boxempty'}
-Harrer, M., Cuijpers, P., Furukawa, T.A., & Ebert, D.D. (2021). _Doing Meta-Analysis with R: A Hands-On Guide_. Boca Raton, FL and London: Chapmann & Hall/CRC Press. ISBN 978-0-367-61007-4.
+Harrer, M., Cuijpers, P., Furukawa, T.A., & Ebert, D.D. (2021). _Doing Meta-Analysis with R: A Hands-On Guide_. Boca Raton, FL and London: Chapman & Hall/CRC Press. ISBN 978-0-367-61007-4.
 ```
 
 Download the reference as [BibTeX](https://www.protectlab.org/meta-analysis-in-r/data/citation.bib) or [.ris](https://www.protectlab.org/meta-analysis-in-r/data/citation.ris).

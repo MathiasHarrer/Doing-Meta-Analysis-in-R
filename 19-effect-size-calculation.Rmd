@@ -449,6 +449,50 @@ pool.groups(n1 = 50,   # sample size group 1
 ```
 
 
+<br></br>
+
+## Aggregation of Effect Sizes {#aggregate-es}
+
+---
+
+The `aggregate` function in **{metafor}** can be used to aggregate several dependent, **pre-calculated effect sizes** into one estimate, for example because they are part of the same study or cluster. This is a way to avoid the **unit-of-analysis error** (see Chapter \@ref(unit-of-analysis)), but requires us to assume a value for the within-study correlation, which is typically unknown. Another (and often preferable) way to deal with effect size dependencies are (correlated) hierarchical models, which are illustrated in Chapter \@ref(multilevel-ma). 
+
+In this example, we aggregate effect sizes of the `Chernobyl` data set (see Chapter \@ref(multilevel-R)), so that each study only provides one effect size:
+
+```{r, eval=F}
+library(metafor)
+library(dmetar)
+data("Chernobyl")
+
+# Convert 'Chernobyl' data to 'escalc' object
+Chernobyl <- escalc(yi = z,           # Effect size
+                    sei = se.z,       # Standard error
+                    data = Chernobyl)
+
+# Aggregate effect sizes on study level
+# We assume a correlation of rho=0.6
+Chernobyl.agg <- aggregate(Chernobyl, 
+                           cluster = author,
+                           rho = 0.6)
+
+# Show aggregated results
+Chernobyl.agg[,c("author", "yi", "vi")]
+
+```
+
+```
+##                       author     yi     vi 
+## 1 Aghajanyan & Suskov (2009) 0.2415 0.0079 
+## 2     Alexanin et al. (2010) 1.3659 0.0012 
+## 3             Bochkov (1993) 0.2081 0.0014 
+## 4      Dubrova et al. (1996) 0.3068 0.0132 
+## 5      Dubrova et al. (1997) 0.4453 0.0110
+## [...]
+```
+
+Please note that `aggregate` returns the aggregated effect sizes `yi` as well as their *variance* `vi`, the square root of which is the standard error.
+
+
 $$\tag*{$\blacksquare$}$$
 
 

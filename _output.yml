@@ -37,11 +37,11 @@ bookdown::bs4_book:
     info: "#277DB0"
     warning: "#277DB0"
     danger: "#277DB0"
-    base_font: !expr bslib::font_google("Roboto")
+    base_font: !expr bslib::font_google("Fira Sans")
     code_font: !expr bslib::font_google("Roboto Mono")
-    heading_font: !expr bslib::font_google("Roboto", wght = 700)
-    headings-font-weight: "700"
-    lead-font-weight: "700"
+    heading_font: !expr bslib::font_google("Fira Sans")
+    headings-font-weight: "500"
+    lead-font-weight: "500"
     box-shadow: "none"
     border: "0px"
   #repo: https://github.com/MathiasHarrer/Doing-Meta-Analysis-in-R/
@@ -49,7 +49,6 @@ bookdown::bs4_book:
   includes:
     in_header: [style.html]
   favicon: "favicon.ico"
-
 
 
 

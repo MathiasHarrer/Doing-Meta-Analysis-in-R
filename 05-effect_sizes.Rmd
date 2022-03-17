@@ -363,7 +363,7 @@ It should be noted, however, that these conventions may be at best seen as rules
 
 Unfortunately, like proportions (Chapter \@ref(props)), correlations are restricted in their range, and it can introduce bias when we estimate the standard error for studies with a small sample size [@alexander1989statistical]. 
 
-In meta-analyses, correlations are therefore usually transformed into **Fisher's** $z$^[Fisher's $z$ was named after yet another famous statistician we mentioned in Chapter \@ref(history), Ronald A. Fisher.]. Like the logit-transformation, this also entails the use of the natural logarithm function to remove the range restriction and make sure that the sampling distribution is approximately normal (see Chapter \@ref(ratios) for a more detailed explanation). The formula looks like this:
+In meta-analyses, correlations are therefore usually transformed into **Fisher's** $z$^[Fisher's $z$ was named after yet another famous statistician we mentioned in Chapter \@ref(history), Ronald A. Fisher.]. Like the logit-transformation, this also entails the use of the natural logarithm function to make sure that the sampling distribution is approximately normal (see Chapter \@ref(ratios) for a more detailed explanation). The formula looks like this:
 
 
 \begin{equation}
@@ -663,7 +663,7 @@ An even better solution, proposed (among others) by Becker [-@becker1988synthesi
 (\#eq:es201)
 \end{equation}
 
-The standard errors of $\text{MD}_{\text{within}}$ and $\text{SMD}_{\text{within}}$ can be calculated using these formulas [@borenstein2011introduction, chapter 24; @becker1988synthesizing]:
+The standard errors of $\text{MD}_{\text{within}}$ and $\text{SMD}_{\text{within}}$ can be calculated using these formulas [@borenstein2011introduction, chapter 4; @becker1988synthesizing]:
 
 \begin{equation}
 SE_{\text{MD}_{\text{within}}}=\sqrt{\dfrac{s^2_{\text{t}_1}+s^2_{\text{t}_2}-(2r_{\text{t}_1\text{t}_2}s_{\text{t}_1}s_{\text{t}_2})}{n}}
@@ -804,7 +804,7 @@ Because both ${p_{E}}_{\text{treat}}$ and ${p_{E}}_{\text{control}}$ can only ha
 
 A peculiarity of the RR is that same-sized effects are not **equidistant**. For example, RR $=$ 0.5 means that the risks are halved in the intervention group. However, the direct opposite of this effect, the risk being doubled due to the intervention, is not expressed by RR $=$ 1.5, but by RR $=$ 2. This means that risk ratios do not follow a normal distribution, which can be problematic in meta-analyses. 
 
-To avoid this issue, risk ratios are often transformed into the **log-risk ratio** before pooling. This ensures normality, that effect sizes can assume any value, and that values are centered around 0 (meaning no effect). The transformation is performed by taking the natural logarithm of RR:
+To avoid this issue, risk ratios are often transformed into the **log-risk ratio** before pooling. This ensures asymptomatic normality, that effect sizes can assume any value, and that values are centered around 0 (meaning no effect). The transformation is performed by taking the natural logarithm of RR:
 
 \begin{equation}
 \log \text{RR}  = \log_{e}(\text{RR})
@@ -906,7 +906,7 @@ The odds ratio (OR) is then defined as the odds in the treatment group, divided 
 
 \index{Log-Odds Ratio}
 
-Like the risk ratio (see Chapter \@ref(rr)), the odds ratio has undesirable statistical properties for meta-analyses. It is therefore also common to transform the odds ratio to the **log-odds ratio** using the natural logarithm:
+Like the risk ratio (see Chapter \@ref(rr)), the odds ratio as such has undesirable statistical properties for meta-analyses. It is therefore also common to transform the odds ratio to the **log-odds ratio** using the natural logarithm:
 
 \begin{equation}
 \log \text{OR}  = \log_{e}(\text{OR})
@@ -928,7 +928,7 @@ library(esc)
 
 # Define data
 grp1yes <- 45  # events in the treatment group
-grp1no <- 98   # non-events in the control group
+grp1no <- 98   # non-events in the treatment group
 grp2yes <- 67  # events in the control group
 grp2no <- 76   # non-events in the control group
 
@@ -1477,11 +1477,13 @@ Due to the double-counting of C, the two effect sizes are **correlated**. If the
 
 \index{Multilevel Meta-Analysis}
 
-The unit-of-analysis problem also arises when a study measured an outcome using multiple instruments. This is commonly the case when there is no clear "gold standard" determining how a variable of interest should be measured. If we calculate an effect size for each of these measurements and include them into our meta-analysis, this also results in double-counting. Furthermore, the effect sizes will be correlated, because the same sample was used to measure the effects. 
+The unit-of-analysis problem also arises when a study measured an outcome using multiple instruments. This is commonly the case when there is no clear "gold standard" determining how a variable of interest should be measured. If we calculate an effect size for each of these measurements and include them into our meta-analysis, this also results in double-counting. Furthermore, the effect sizes will be correlated, because the same sample was used to measure the effects. There are three approaches to deal with this situation:
 
-There are two approaches to deal with this situation. First, we can simply select one instrument per study. It is important that this selection is done in a systematic and reproducible way. At best, our analysis plan (Chapter \@ref(analysis-plan)) should already define a hierarchy of instruments for our meta-analysis. This hierarchy can be based on previous evidence on the reliability of certain instruments, or based on which type of measurement reflects the content of our research question best. The hierarchy then clearly determines which instrument we select when more than one is available. 
+- First, we can simply select one instrument per study. It is important that this selection is done in a systematic and reproducible way. At best, our analysis plan (Chapter \@ref(analysis-plan)) should already define a hierarchy of instruments for our meta-analysis. This hierarchy can be based on previous evidence on the reliability of certain instruments, or based on which type of measurement reflects the content of our research question best. The hierarchy then clearly determines which instrument we select when more than one is available. 
 
-The second approach is to include data from all available instruments, and use meta-analytic models which can account for the fact that studies in our meta-analysis contribute more than one effect size. This can be achieved by "three-level" meta-analysis models, which we will examine in Chapter \@ref(multilevel-ma). 
+- Alternatively, we can also use the calculated effect sizes and aggregate them, so that each study only provides one (aggregated) effect size. This is somewhat of a "brute force" approach. It requires us to specify how strongly effect sizes are correlated within studies, but this value is typically not known. In Chapter \@ref(aggregate-es), we present a function which allows to aggregate pre-calculated effect sizes into one combined estimate for each study.
+
+- The third approach is to include data from all available instruments, and use meta-analytic models which can account for the fact that studies in our meta-analysis contribute more than one effect size. This can be achieved by "three-level" meta-analysis models, which we will examine in Chapter \@ref(multilevel-ma). 
 
 $$\tag*{$\blacksquare$}$$
 

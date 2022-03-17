@@ -1,4 +1,144 @@
+<link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
+
 <style>
+
+:root {
+  --background-color: #FFFEFA;
+  --text-color: #000;
+  --highlight-color: #277DB0;
+  --border-color: #999896;
+  --grey-color: #6C6C6C;
+  --line-color: #eee;
+  --bg-box: #f5f5f5;
+  --box-border-color: #eeeeee;
+  --code-bg: #f8f8f8;
+  --code-chunk-bg: linear-gradient(160deg,#f8f8f8 0, #f1f1f1 100%);
+  --code-text-color: #212529;
+  --hr-border-top: 1px solid rgba(0,0,0,0.1);
+  --table-text-color: #000;
+  --toc-active: #eee;
+  --form-color: #4D4C4B;
+  --form-background-color: #FFFEFA;
+  --form-border: 1px solid #999896;
+  --aa-cursor-background-color: #B2D7FF;
+}
+
+
+[data-theme="dark"] {
+  --background-color: #2b2b2b;
+  --text-color: #ffffff;
+  --highlight-color: #34a8ed;
+  --border-color: yellow;
+  --grey-color: #cfcfcf;
+  --line-color: #575757;
+  --bg-box: #474747;
+  --box-border-color: #474747;
+  --code-bg: #474747;
+  --code-chunk-bg: linear-gradient(160deg,#CDCDCD 0,#f1f1f1 100%);
+  --code-text-color: #ffffff;
+  --hr-border-top: 1px solid #575757;
+  --table-text-color: #ffffff;
+  --toc-active: #474747;
+  --form-color: #cfcfcf;
+  --form-background-color: #474747;
+  --form-border: 1px solid #575757;
+  --aa-cursor-background-color: #2b2b2b;
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion {
+  color: var(--form-color);
+  border-bottom: 1px var(--form-border) solid;
+  background-color: var(--form-background-color);
+}
+
+.algolia-autocomplete .aa-dropdown-menu .aa-suggestion.aa-cursor {
+  background-color: var(--aa-cursor-background-color);
+}
+
+strong {
+  font-weight: 500;
+}
+
+.form-control {
+  color: var(--form-color);
+  background-color: var(--form-background-color);
+  border: var(--form-border);
+}
+
+.form-control:focus {
+  color: var(--text-color);
+  background-color: var(--form-background-color);
+  border: var(--form-border);
+}
+
+
+nav[data-toggle="toc"] .nav a.nav-link.active, nav[data-toggle="toc"] .nav .nav-link.active > li > a {
+    background-color: var(--toc-active);
+}
+
+.btn-circle.btn-md {
+  width: 50px;
+  height: 50px;
+  padding: 7px 10px;
+  border-radius: 25px;
+  font-size: 10px;
+  text-align: center;
+}
+
+
+.lightable-classic td {
+  color: var(--text-color);
+}
+
+
+.table {
+  color: var(--table-text-color);
+}
+
+hr {
+  border-top: var(--hr-border-top);
+}
+
+code {
+  background-color: var(--code-bg);
+  color: var(--code-text-color);
+}
+
+pre {
+  background-image: var(--code-chunk-bg);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+a {
+  color: var(--highlight-color);
+}
+
+.header-section-number {
+  color: var(--grey-color);
+}
+
+small.text-muted {
+  color: var(--grey-color) !important;
+}
+
+
+.firstcharacter {
+  color: var(--highlight-color);
+}
+
+p.caption {
+  color: var(--grey-color);
+}
+
+.figure {
+  border-top: 2px solid var(--line-color);
+  border-bottom: 2px solid var(--line-color);
+}
+
 
 .inline-figure {
   border: 0;
@@ -8,11 +148,11 @@
 .boxinfo {
   padding: 1em 1em 1em 3em;
   margin-bottom: 10px;
-  background: #f5f5f5;
+  background: var(--bg-box);
   position:relative;
   border-width: 3px;
   border-style: solid;
-  border-color: #eeeeee;
+  border-color: var(--box-border-color);
   border-radius: .25rem;
 }
 
@@ -22,17 +162,17 @@
     left:20px;
     position:absolute;
     font-size: 30px;
-    color: #277DB0;
+    color: var(--highlight-color);
  }
 
- .boxempty {
+.boxempty {
   padding: 1em 1em 1em 1.1em;
   margin-bottom: 10px;
-  background: #f5f5f5;
+  background: var(--bg-box);
   position:relative;
   border-width: 3px;
   border-style: solid;
-  border-color: #eeeeee;
+  border-color: var(--box-border-color);
   border-radius: .25rem;
 }
 
@@ -42,17 +182,17 @@
     left:0px;
     position:absolute;
     font-size: 30px;
-    color: #f5f5f5;
+    color: transparent;
  }
 
 .boximportant {
   padding: 1em 1em 1em 3em;
   margin-bottom: 10px;
-  background: #f5f5f5;
+  background: var(--bg-box);
   position:relative;
   border-width: 3px;
   border-style: solid;
-  border-color: #eeeeee;
+  border-color: var(--box-border-color);
   border-radius: .25rem;
 }
 
@@ -62,17 +202,17 @@
     left:13px;
     position:absolute;
     font-size: 30px;
-    color: #277DB0;
+    color: var(--highlight-color);
  }
 
 .boxreport {
   padding: 1em 1em 1em 3em;
   margin-bottom: 10px;
-  background: #f5f5f5;
+  background: var(--bg-box);
   position:relative;
   border-width: 3px;
   border-style: solid;
-  border-color: #eeeeee;
+  border-color: var(--box-border-color);
   border-radius: .25rem;
 }
 
@@ -82,17 +222,17 @@
     left:15px;
     position:absolute;
     font-size: 30px;
-    color: #277DB0;
+    color: var(--highlight-color);
  }
 
 .boxdmetar {
   padding: 1em 1em 1em 3em;
   margin-bottom: 10px;
-  background: #f5f5f5;
+  background: var(--bg-box);
   position:relative;
   border-width: 3px;
   border-style: solid;
-  border-color: #eeeeee;
+  border-color: var(--box-border-color);
   border-radius: .25rem;
 }
 
@@ -108,17 +248,17 @@
     left:10px;
     position:absolute;
     font-size: 30px;
-    color: #277DB0;
+    color: var(--highlight-color);
  }
 
 .boxquestion {
   padding: 1em 1em 1em 3em;
   margin-bottom: 10px;
-  background: #f5f5f5;
+  background: var(--bg-box);
   position:relative;
   border-width: 3px;
   border-style: solid;
-  border-color: #eeeeee;
+  border-color: var(--box-border-color);
   border-radius: .25rem;
 }
 
@@ -128,8 +268,12 @@
     left:12px;
     position:absolute;
     font-size: 30px;
-    color: #277DB0;
+    color: var(--highlight-color);
  }
+
+.mode-switch {
+  font-size: 0.9rem;
+}
 
 img {
   max-width: 100%;
@@ -139,7 +283,7 @@ img {
 
 
 .firstcharacter {
-  color: #277DB0;
+  color: var(--highlight-color);
   float: left;
   font-size: 40px;
   line-height: 50px;
@@ -147,6 +291,45 @@ img {
   padding-right: 8px;
   padding-left: 2px;
 }
+
+
+.btn-circle.btn-sm {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    font-size: 20px;
+    text-align: center;
+}
+.btn-circle.btn-md {
+    width: 50px;
+    height: 50px;
+    padding: 7px 10px;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
+}
+.btn-circle.btn-xl {
+    width: 60px;
+    height: 60px;
+    padding: 7px 7px;
+    border-radius: 35px;
+    font-size: 30px;
+    text-align: center;
+}
+
+#critical-btn.btn-secondary {
+  background-color: var(--grey-color);
+  border-color: var(--grey-color);
+}
+
+.sticky-item {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+}
+
+
 
 </style>
 
@@ -170,5 +353,91 @@ for (let popover of popovers){
   }
 }
 </script>
+
+
+
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+
+<script type="text/javascript">
+  // Add switch element
+  document.addEventListener('DOMContentLoaded', function(event){
+    let darkSwitch = document.createElement('div');
+    darkSwitch.innerHTML = "<div class='sticky-item'><button type='button' id='critical-btn' class='btn btn-dark btn-circle btn-xl'>🌓</button></div>"
+    document.body.appendChild(darkSwitch);
+  })
+
+$(document).ready(function() {
+
+    $("#critical-btn").click(function () {
+
+        if ($(this).hasClass('btn-dark')){
+            $('#critical-btn').removeClass('btn-dark').addClass('btn-secondary');
+            $(this).addClass('btn-secondary').removeClass('btn-dark');
+        }
+
+        else if ($(this).hasClass('btn-secondary')){
+            $('#critical-btn').removeClass('btn-secondary').addClass('btn-dark');
+            $(this).addClass('btn-dark').removeClass('btn-secondary');
+        }
+
+    })
+})
+</script>
+
+
+
+<script type="text/javascript">
+  // Wait for document to load
+  document.addEventListener("DOMContentLoaded", function(event) {
+    document.documentElement.setAttribute("data-theme", "light");
+
+    // Get our button switcher
+    var themeSwitcher = document.getElementById("critical-btn");
+
+    // When our button gets clicked
+    themeSwitcher.onclick = function() {
+      // Get the current selected theme, on the first run
+      // it should be `light`
+      var currentTheme = document.documentElement.getAttribute("data-theme");
+
+      // Switch between `dark` and `light`
+      var switchToTheme = currentTheme === "dark" ? "light" : "dark"
+
+      // Set our currenet theme to the new one
+      document.documentElement.setAttribute("data-theme", switchToTheme);
+
+      // Save current selection
+      localStorage.setItem('themeMode', switchToTheme);
+
+    }
+  });
+
+  // keep selection across pages
+  document.addEventListener('DOMContentLoaded', function(event){
+    const currentTheme = localStorage.getItem('themeMode')
+    if (currentTheme === 'dark'){
+    document.documentElement.setAttribute("data-theme", 'dark');
+      if ($("#critical-btn").hasClass('btn-dark')) {
+        $('#critical-btn').removeClass('btn-dark').addClass('btn-secondary');
+        $('#critical-btn').addClass('btn-secondary').removeClass('btn-dark');
+      }
+    } else {
+    document.documentElement.setAttribute("data-theme", 'light');
+      if ($("#critical-btn").hasClass('btn-secondary')) {
+        $('#critical-btn').removeClass('btn-secondary').addClass('btn-dark');
+        $('#critical-btn').addClass('btn-dark').removeClass('btn-secondary');
+      }
+  }})
+</script>
+
+
+
+
+
+
+
+
 
 
