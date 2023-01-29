@@ -573,7 +573,7 @@ As a first step, we feed the function with our fitted model `m.netmeta`. Since w
 \vspace{4mm}
 
 ```{r, echo=F}
-load("data/m.netmeta.rda")
+load("data/m_netmeta.rda")
 ```
 
 ```{r}
@@ -849,7 +849,7 @@ The most important information presented in the output is the difference between
 
 We see in the output that there are indeed many comparisons which show significant inconsistency between direct and indirect evidence (when using the fixed-effects model). A good way to visualize the net split results is through a forest plot. 
 
-```{r, fig.width=7, fig.height=17, fig.align='center', out.width="79%"}
+```{r, fig.width=9, fig.height=17, fig.align='center', out.width="79%"}
 netsplit(m.netmeta) %>% forest()
 ```
 
@@ -929,20 +929,20 @@ In the next chapter, we will try to (re-)think network meta-analysis from a Baye
 ```
 
 <br></br>
-
+  
 ## Bayesian Network Meta-Analysis {#bayesian-net-ma}
-
+  
 ---
-
+  
 In the following, we will describe how to perform a network meta-analysis based on a Bayesian hierarchical framework. The _R_ package we will use to do this is called **{gemtc}** [@van2012automating]. But first, let us consider the idea behind Bayesian inference in general, and the type of Bayesian model we can use for network meta-analysis.
 
 
 <br></br>
-
+  
 ### Bayesian Inference {#bayesian-inference}
-
+  
 ---
-
+  
 \index{Bayes' Theorem}
 \index{Frequentist Statistics}
 \index{Conditional Probability}
@@ -950,26 +950,27 @@ In the following, we will describe how to perform a network meta-analysis based 
 Besides the frequentist approach, **Bayesian** inference is another important strand of inference statistics. Frequentist statistics is arguably used more often in most research fields. The Bayesian approach, however, is actually older; and while being increasingly picked up by researchers in recent years [@marsman2017bayesian], it has never really been "gone" [@mcgrayne2011theory]. 
 
 The foundation of Bayesian statistics is **Bayes’ Theorem**, first formulated by Reverend Thomas Bayes [1701-1761, @bellhouse2004reverend]. Bayesian statistics differs from frequentism because it also incorporates “subjective” **prior** knowledge to make inferences. Bayes' theorem allows us to estimate the probability of an event A, **given** that we already know that another event B has occurred. This results in a **conditional probability**, which can be denoted like this: $P(\text{A}|\text{B})$. The theorem is based on a formula that explains how this conditional probability can be calculated:
-
+      
 \begin{equation}
-P(\text{A}|\text{B})=\frac{P(\text{B}|\text{A})\times P(\text{A})}{P(\text{B})}
+P(\text{A}|\text{B})=\frac{P(\text{B}|\text{A})\times
+P(\text{A})}{P(\text{B})}
 (\#eq:nw8)
 \end{equation}
-
+      
 \index{Posterior Distribution}
 \index{Prior Distribution}
-
+      
 In this formula, the two probabilities in the numerator of the fraction each have their own names. The $P(\text{B}|\text{A})$ part is known as the **likelihood**. It is the probability of event B, given that A is the case, or occurs [@etz2018introduction]. $P(\text{A})$ is the **prior** probability that $A$ occurs. $P(\text{A}|\text{B})$, lastly, is the **posterior** probability: the probability of A given B. Since $P(\text{B})$ is a fixed constant, the formula above is often simplified:
-
+        
 \begin{equation}
 P(\text{A}|\text{B}) \propto P(\text{B}|\text{A})\times P(\text{A})
 (\#eq:nw9)
 \end{equation}
-
+        
 Where the $\propto$ symbol means that, since we discarded the denominator of the fraction, the probability on the left remains at least **proportional** to the part on the right as values change. 
-
+        
 It is easier to understand Bayes' theorem if we think of the formula above as a process, beginning on the right side of the equation. We simply combine the prior information we have on the probability of A, with the likelihood of B given that A occurs, to produce our posterior, or adapted, probability of A: $P(\text{A}|\text{B})$. The crucial point here is that we can produce a "better" (posterior) estimate of A's probability when we take previous knowledge into account. This knowledge is the assumed (prior) probability of A.
-
+        
 Bayes' Theorem is often explained in the way we just did, with A and B standing for specific events. However, we can also think of A and B as probability **distributions** of two variables. Imagine that A is a random variable following a normal distribution. This distribution can be characterized by a set of parameters, which we denote with $\boldsymbol{\theta}$. Since A is normally distributed, $\boldsymbol{\theta}$ contains two elements: the true mean $\mu$ and variance $\sigma^2$ of A. These parameters $\boldsymbol{\theta}$ are what we actually want to estimate. 
 
 Furthermore, imagine that for B, we have collected **actual data**, which we want to use to estimate $\boldsymbol{\theta}$. We store our observed data in a vector $\boldsymbol{Y}$. Our observed data also follows a normal distribution, represented by $P({Y})$. This leads to a formula that looks like this:
@@ -1784,39 +1785,39 @@ summary(mcmc3)
 ## Input standardized: x' = (rob - 0.4340659) / 1
 ## Estimates at the centering value: rob = 0.4340659
 ```
-
+        
 The results for our predictor are reported next to `B`. Because our predictor is dummy-coded, the value of `B` represents the effect of a study having a **high** risk of bias. The estimate is $b=$ -0.33, and when looking at the second table (`Quantiles for each variable`), we see that the 95% credible interval of $b$ ranges from -0.59 to -0.08. Since the credible interval does not include zero, we may conclude that risk of bias does indeed influence the results. When the risk of bias is high (`rob` = 1), we can predict higher overall effects (since negative effect sizes indicate "better" outcomes in our example).
-
+        
 We can explore the effect of the predictor further by generating two forest plots: one for the estimated treatment effects when the risk of bias is high, and another for when it is low. We can do this using the `relative.effect` function, where we specify the `covariate` value. A value of `covariate = 0` stands for studies with a low risk of bias, and `covariate = 1` for high risk of bias.
-
-\vspace{2mm}
-
+        
+vspace{2mm}
+        
 ```{r, fig.show='hold', fig.width=7, fig.height=3, fig.align="center", out.width="80%", eval=F}
 forest(relative.effect(mcmc3, t1 = "cau", covariate = 1),
        use.description = TRUE, xlim = c(-1.5, 1))
 title("High Risk of Bias")
-
+        
 forest(relative.effect(mcmc3, t1 = "cau", covariate = 0),
        use.description = TRUE, xlim = c(-1.5, 1))
 title("Low Risk of Bias")
 ```
-
+        
 ```{r, fig.show='hold', fig.width=7, fig.height=3, fig.align="center", out.width="80%", echo=F}
 par(bg="#FFFEFA")
 forest(relative.effect(mcmc3, t1 = "cau", covariate = 1),
        use.description = TRUE, xlim = c(-1.5, 1))
 title("High Risk of Bias")
 ```
-
+        
 ```{r, fig.show='hold', fig.width=7, fig.height=3, fig.align="center", out.width="80%", echo=F}
 par(bg="#FFFEFA")
 forest(relative.effect(mcmc3, t1 = "cau", covariate = 0),
        use.description = TRUE, xlim = c(-1.5, 1))
 title("Low Risk of Bias")
 ```
-
+        
 Comparing the forest plots, we can see that there is a pattern. The treatment effects based on high risk of bias studies are generally higher (i.e. more negative). This is in line with the estimate of our predictor $b$ in the fitted model.
-
+        
 \index{Akaike's Information Criterion}
 
 Lastly, we can also examine if the network meta-regression model we just generated fits the data better than the "normal" network meta-analysis model from before. To do this, we can compare the **deviance information criteria** (DICs), which are an equivalent to the AIC and BIC values in frequentist statistics. We can access the DIC of both `mcmc3` and `mcmc2` using this code:
@@ -1888,7 +1889,7 @@ $$\tag*{$\blacksquare$}$$
 \vspace{4mm}
 
 
-**Answers to these questions are listed in [Appendix A](#qanda12) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda12) at the end of this book.**
 
 ```
 
@@ -1909,3 +1910,5 @@ $$\tag*{$\blacksquare$}$$
 * In network meta-analyses based on a Bayesian hierarchical model, we can also add study **covariates** that predict effect size differences. This results in a network meta-regression model.
 
 * Indices such as the SUCRA or P-score can be used to examine which type of treatment may be **the most effective** in our network. However, it is also important to integrate uncertainty into our decision-making process. Confidence/credible intervals of different treatments often overlap, which makes it less clear if one format is truly superior to all the others.
+
+

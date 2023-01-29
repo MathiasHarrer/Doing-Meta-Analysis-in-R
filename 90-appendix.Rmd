@@ -578,24 +578,24 @@ kableExtra::kable(dat, "html",
 
 <br></br>
 
-This book was compiled using _R_ version 4.0.3 ("Bunny-Wunnies Freak Out", 2020-10-10) running under macOS Catalina 10.15.4 (Apple Darwin 17.0 64-bit x86-64). The following package versions are used in the book:
+This book was compiled using _R_ version 4.2.0 ("Vigorous Calisthenics", 2022-04-22) running under macOS Catalina 10.15.4 (Apple Darwin 17.0 64-bit x86-64). The following package versions are used in the book:
 
 \vspace{4mm}
 
 ```
-brms 2.13.0                 clubSandwich 0.5.5
-dmetar 0.0.9000             dplyr 1.0.1                 
+brms 2.18.0                 clubSandwich 0.5.6
+dmetar 0.0.9000             dplyr 1.0.10             
 esc 0.5.1                   extraDistr 1.9.1            
-forcats 0.5.0               gemtc 0.8-6                 
-ggplot2 3.3.2               ggridges 0.5.2              
+forcats 0.5.1               gemtc 0.8-6                 
+ggplot2 3.3.5               ggridges 0.5.2              
 glue 1.4.1                  igraph 1.2.5                
-meta 5.0-0                  metafor 2.5-62              
-metaSEM 1.2.5               metasens 0.5-0              
-netmeta 2.0-0               openxlsx 4.1.5              
+meta 6.1.0                  metafor 3.8.1              
+metaSEM 1.3.0               metasens 1.5.1              
+netmeta 2.1.0               openxlsx 4.2.5              
 osfr 0.2.8                  PerformanceAnalytics 2.0.4  
 rjags 4-10                  robvis 0.3.0                
-semPlot 1.1.2               stringr 1.4.0               
-tidybayes 2.1.1             tidyverse 1.3.0
+semPlot 1.1.5               stringr 1.4.0               
+tidybayes 2.1.1             tidyverse 1.3.1
 wildmeta 0.1.0
 ```
 
@@ -604,14 +604,26 @@ wildmeta 0.1.0
 Attached base packages:
 
 ```
-base 4.0.3        datasets 4.0.3    graphics 4.0.3      
-grDevices 4.0.3   methods 4.0.3     stats 4.0.3
-utils 4.0.3
+base 4.2.0        datasets 4.2.0    graphics 4.2.0     
+grDevices 4.2.0   methods 4.2.0     stats 4.2.0
+utils 4.2.0
 ```
 
 \vspace{4mm}
 
 Locale: `en_US.UTF-8`
+
+```{block, type='boxinfo'}
+**Installing Specific Package Versions**
+
+Are you having trouble running some of the code presented in the guide? Sometimes, this is caused by having an **older or newer version** of a package installed on your computer. If this is the case, it can be helpful to install the exact version of a package that we also used to compile this book. Some helpful tips on how to install specific versions of an R package can be found [here](https://support.posit.co/hc/en-us/articles/219949047-Installing-older-versions-of-packages).
+
+
+```
+
+
+
+
 
 \vspace{8mm}
 
@@ -634,6 +646,10 @@ Errata and remarks concerning the first edition print version of the book are di
 ```
 
 Last updated: `r format(Sys.time(), '%d %B, %Y')`.
+
+## Chapter 3.3.3 {-}
+
+In the imaginary experiment in Figure 3.4, four participants experience the event during the 10-year observation period. In the calculation example, however, we use $E=3$ to calculate the incidence rate. In the online version, we have now corrected this so that $E=4$, like in the experiment.
 
 
 ## Chapter 4.2 {-}

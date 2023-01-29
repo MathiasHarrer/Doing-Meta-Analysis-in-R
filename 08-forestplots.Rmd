@@ -87,7 +87,7 @@ This is how our code looks in the end:
 ```{r, fig.height=6, fig.width=8, eval=F}
 forest.meta(m.gen, 
             sortvar = TE,
-            predict = TRUE, 
+            prediction = TRUE, 
             print.tau2 = FALSE,
             leftlabs = c("Author", "g", "SE"))
 ```
@@ -96,7 +96,7 @@ forest.meta(m.gen,
 par(bg="#FFFEFA")
 forest(m.gen, 
        sortvar = TE,
-       predict = TRUE, 
+       prediction = TRUE, 
        print.tau2 = FALSE,
        leftlabs = c("Author", "g", "SE"))
 ```
@@ -113,7 +113,7 @@ When we used `metagen` to calculate the meta-analysis (Chapter \@ref(pre-calcula
 ```{r, fig.height=6, fig.width=9, eval=F}
 forest.meta(m.gen, 
             sortvar = TE,
-            predict = TRUE, 
+            prediction = TRUE, 
             print.tau2 = FALSE,
             leftcols = c("studlab", "TE", "seTE", "RiskOfBias"),
             leftlabs = c("Author", "g", "SE", "Risk of Bias"))
@@ -123,7 +123,7 @@ forest.meta(m.gen,
 par(bg="#FFFEFA")
 forest(m.gen, 
        sortvar = TE,
-       predict = TRUE, 
+       prediction = TRUE, 
        print.tau2 = FALSE,
        leftcols = c("studlab", "TE", "seTE", "RiskOfBias"),
        leftlabs = c("Author", "g", "SE", "Risk of Bias"))
@@ -188,7 +188,7 @@ pdf(file = "forestplot.pdf", width = 8, height = 7)
 
 forest.meta(m.gen, 
             sortvar = TE,
-            predict = TRUE, 
+            prediction = TRUE, 
             print.tau2 = FALSE,
             leftlabs = c("Author", "g", "SE"))
 
@@ -204,7 +204,7 @@ png(file = "forestplot.png", width = 2800, height = 2400, res = 300)
 
 forest.meta(m.gen, 
             sortvar = TE,
-            predict = TRUE, 
+            prediction = TRUE, 
             print.tau2 = FALSE,
             leftlabs = c("Author", "g", "SE"))
 
@@ -220,7 +220,7 @@ svg(file = "forestplot.svg", width = 8, height = 7)
 
 forest.meta(m.gen, 
             sortvar = TE,
-            predict = TRUE, 
+            prediction = TRUE, 
             print.tau2 = FALSE,
             leftlabs = c("Author", "g", "SE"))
 
@@ -311,7 +311,7 @@ $$\tag*{$\blacksquare$}$$
 \vspace{4mm}
 
 
-**Answers to these questions are listed in [Appendix A](#qanda6) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda6) at the end of this book.**
 
 ```
 

@@ -570,7 +570,8 @@ MVRegressionData[,c("reputation", "quality", "pubyear")] %>%
 library(PerformanceAnalytics)
 
 MVRegressionData[,c("reputation", "quality", "pubyear")] %>% 
-  chart.Correlation()
+  chart.Correlation() %>% 
+  suppressWarnings()
 ```
 
 We see that our variables are indeed correlated, but probably not to a degree that would warrant excluding one of them.
@@ -1010,7 +1011,7 @@ $$\tag*{$\blacksquare$}$$
 \vspace{4mm}
 
 
-**Answers to these questions are listed in [Appendix A](#qanda8) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda8) at the end of this book.**
 
 ```
 

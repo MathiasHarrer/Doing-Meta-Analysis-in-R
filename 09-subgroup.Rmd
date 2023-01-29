@@ -248,8 +248,9 @@ update.meta(m.gen,
 ## 
 ## Number of studies combined: k = 18
 ## 
-##                         SMD           95%-CI    t  p-value
-## Random effects model 0.5771 [0.3782; 0.7760] 6.12 < 0.0001
+##                              SMD            95%-CI    t  p-value
+## Random effects model (HK) 0.5771 [ 0.3782; 0.7760] 6.12 < 0.0001
+## Prediction interval              [-0.0572; 1.2115]              
 ## 
 ## Quantifying heterogeneity:
 ##  tau^2 = 0.0820 [0.0295; 0.3533]; tau = 0.2863 [0.1717; 0.5944]
@@ -259,20 +260,21 @@ update.meta(m.gen,
 ##      Q d.f. p-value
 ##  45.50   17  0.0002
 ## 
-## Results for subgroups (random effects model):
+## Results for subgroups (random effects model (HK)):
 ##                     k    SMD           95%-CI  tau^2    tau     Q   I^2
 ## RiskOfBias = high   7 0.8126 [0.2835; 1.3417] 0.2423 0.4922 25.89 76.8%
 ## RiskOfBias = low   11 0.4300 [0.2770; 0.5830] 0.0099 0.0997 13.42 25.5%
 ## 
-## Test for subgroup differences (random effects model):
-##                     Q d.f. p-value
-## Between groups   2.84    1  0.0917
+## Test for subgroup differences (random effects model (HK)):
+##                   Q d.f. p-value
+## Between groups 2.84    1  0.0917
 ## 
 ## Details on meta-analytical method:
 ## - Inverse variance method
 ## - Restricted maximum-likelihood estimator for tau^2
-## - Q-profile method for confidence interval of tau^2 and tau
-## - Hartung-Knapp adjustment for random effects model
+## - Q-Profile method for confidence interval of tau^2 and tau
+## - Hartung-Knapp (HK) adjustment for random effects model (df = 17)
+## - Prediction interval based on t-distribution (df = 16)
 ```
 
 
@@ -295,14 +297,14 @@ update.meta(m.gen, subgroup = RiskOfBias, tau.common = TRUE)
 ## RiskOfBias = high   7 0.7691 [0.2533; 1.2848] 0.0691 0.2630 25.89 76.8%
 ## RiskOfBias = low   11 0.4698 [0.3015; 0.6382] 0.0691 0.2630 13.42 25.5%
 ## 
-## Test for subgroup differences (random effects model):
+## Test for subgroup differences (random effects model (HK)):
 ##                    Q d.f. p-value
 ## Between groups  1.79    1  0.1814
 ## Within groups  39.31   16  0.0010
 ## 
 ## Details on meta-analytical method:
 ## - Inverse variance method
-## - Restricted maximum-likelihood estimator for tau^2 
+## - Restricted maximum-likelihood estimator for tau^2
 ##   (assuming common tau^2 in subgroups)
 ## [...]
 ```
@@ -386,7 +388,7 @@ $$\tag*{$\blacksquare$}$$
 \vspace{4mm}
 
 
-**Answers to these questions are listed in [Appendix A](#qanda7) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda7) at the end of this book.**
 
 ```
 

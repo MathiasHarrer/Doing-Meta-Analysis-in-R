@@ -353,7 +353,7 @@ To specify a multivariate meta-analysis model, we do not have to follow the TSSE
 
 We save our fitted model under the name `m.mv`. Importantly, before running `meta`, please make sure that the **{meta}** package is **not** loaded. Some functions in **{meta}** and **{metaSEM}** have the same name, and this can lead to errors when running the code in _R_. It is possible to "unload" packages using the `detach` function. 
 
-Therefore, we first make sure that **{meta}** is unloaded and then fit the model. The resulting `m.mv` object can be inspected using `summary`.
+The resulting `m.mv` object can be inspected using `summary`.
 
 ```{r, message=F, warning=F, echo=F}
 m.mv <- meta(y = cbind(Stress, Anxiety), 
@@ -363,8 +363,6 @@ m.mv <- meta(y = cbind(Stress, Anxiety),
 
 
 ```{r, fig.width=5, fig.height=5, eval=F}
-detach(package:meta, unload = TRUE)
-
 m.mv <- meta(y = cbind(Stress, Anxiety), 
              v = cbind(Stress_var, Covariance, Anxiety_var),
              data = ThirdWaveMV)
@@ -479,13 +477,14 @@ To plot the multivariate meta-analysis model, we can use the `plot` function. We
 plot(m.mv, 
      axis.labels = c("Perceived Stress", "Anxiety"), 
      randeff.ellipse.col = "#014d64",
-     univariate.arrows.col = "gray40", 
+     univariate.arrows.col = "gray40",
+     univariate.arrows.lwd = 9,
      univariate.polygon.col = "gray40",
      estimate.ellipse.col = "gray40",
      estimate.col = "firebrick")
 ```
 
-```{r, fig.width=5, fig.height=5, fig.align='center', out.width="60%", echo=F}
+```{r, fig.width=5, fig.height=5, fig.align='center', out.width="60%", echo=F, eval=F}
 par(bg="#FFFEFA")
 plot(m.mv, 
      axis.labels = c("Perceived Stress", "Anxiety"), 
@@ -496,6 +495,10 @@ plot(m.mv,
      estimate.col = "firebrick")
 ```
 
+```{r metasem_forest_img, message = F, out.width = '70%', echo = F, fig.align='center'}
+library(OpenImageR)
+knitr::include_graphics('images/forest_metasem.png')
+```
 
 Let us go through what we see. The plot has two axes: an x-axis displaying the effects on stress, and a y-axis, which displays the effects on anxiety. We also see the pooled effect and its 95% confidence interval for both outcomes, symbolized by the black diamond. 
 
@@ -942,7 +945,7 @@ To plot the model, we have to convert it into a format that **{semPlot}** can us
 
 \vspace{2mm}
 
-```{r, message=F}
+```{r, message=F, eval=F}
 cfa.plot <- meta2semPlot(cfa2)
 ```
 
@@ -971,7 +974,7 @@ semPaths(cfa.plot,
 ```
 
 
-```{r, fig.align="center", fig.width=4, fig.height=3, out.width="60%", echo=F}
+```{r, fig.align="center", fig.width=4, fig.height=3, out.width="60%", echo=F, eval=F}
 par(bg="#FFFEFA")
 # Create Plot labels (left to right, bottom to top)
 labels <- c("Sleep\nQuality",
@@ -990,6 +993,13 @@ semPaths(cfa.plot,
          sizeLat = 10, 
          edge.label.cex = 1)
 ```
+
+
+```{r cfa_img, message = F, out.width = '65%', echo = F, fig.align='center'}
+library(OpenImageR)
+knitr::include_graphics('images/cfa.png')
+```
+
 
 ```{block, type='boxinfo'}
 **Further Reading**
@@ -1037,7 +1047,7 @@ $$\tag*{$\blacksquare$}$$
 \vspace{4mm}
 
 
-**Answers to these questions are listed in [Appendix A](#qanda11) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda11) at the end of this book.**
 
 ```
 

@@ -246,7 +246,7 @@ We owe a great debt of gratitude to all researchers involved in the development 
 
 Furthermore, particular thanks go to Luke McGuinness, author of the gorgeous **{robvis}** package, for writing an additional chapter on Risk of Bias visualization, which you can find on this book's companion website. Luke, we are incredibly grateful for your continuous support for this project.
 
-Last but not least, we want to thank Lea Schuurmans and Paula Kuper for supporting us in the development and compilation of this book. 
+Last but not least, we want to thank Lea Schuurmans, Paula Kuper and Antonia Sprenger for supporting us in the development and compilation of this book. 
 
 
 <br></br>

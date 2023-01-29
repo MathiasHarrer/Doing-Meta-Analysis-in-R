@@ -1519,6 +1519,7 @@ Then, using a pipe and the `hist` function, we let _R_ draw a histogram of both 
 
 ```{r, eval=F, fig.align="center", fig.width=6, fig.height=4, out.width="75%"}
 # '1 with 6 zeros' can also be written as '1e6' in R
+# Make sure that the "tidyverse" package is loaded (for pipe)
 rt(n = 1e6, df = 48, ncp = 0) %>% 
   hist(breaks = 100, 
        col = "gray50",
@@ -2147,7 +2148,7 @@ $$\tag*{$\blacksquare$}$$
 
 
 
-**Answers to these questions are listed in [Appendix A](#qanda9) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda9) at the end of this book.**
 
 ```
 

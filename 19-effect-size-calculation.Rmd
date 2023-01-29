@@ -53,7 +53,7 @@ esc_mean_se(grp1m = 8.5,   # mean of group 1
 
 ---
 
-It is possible to calculate SMDs, Hedges' $g$ or a correlation $r$ from standardized or unstandardized regression coefficients [@lipsey2001practical]. For unstandardized coefficients, we can use the `esc_B` function in **{esc}**. Here is an example:
+It is possible to calculate SMDs, Hedges' $g$ or a correlation $r$ from standardized or unstandardized regression coefficients [@lipsey2001practical, Appendix B]. For unstandardized coefficients, we can use the `esc_B` function in **{esc}**. Here is an example:
 
 \index{Correlation}
 
@@ -128,6 +128,8 @@ esc_beta(beta = 0.37,   # standardized regression coefficient
 ##       Lower CIz:   0.1823
 ##       Upper CIz:   0.5871
 ```
+
+Please note that using regression coefficients in meta-analysis can be tricky, because we assume that the the same model has been used in all studies. This is particularly problematic if coefficients are extracted from multiple regression models, because studies may have controlled for different co-variates in their models, which means that the $b$ values are not directly comparable.
 
 <br></br>
 

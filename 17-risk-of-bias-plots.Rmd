@@ -9,7 +9,7 @@
 ```{block2, type='boxempty'}
 **Please cite this chapter as:**
 
-McGuinness, L. A. (2021). Risk of Bias Plots. In Harrer, M., Cuijpers, P., Furukawa, T.A., & Ebert, D.D., _Doing Meta-Analysis with R: A Hands-On Guide_ (online version). https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/rob-plots.html.
+McGuinness, L. A. (2021). Risk of Bias Plots. In Harrer, M., Cuijpers, P., Furukawa, T.A., & Ebert, D.D., _Doing Meta-Analysis with R: A Hands-On Guide_ (online version). bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/rob-plots.html.
 ```
 
 

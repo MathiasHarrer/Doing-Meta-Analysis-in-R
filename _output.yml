@@ -49,6 +49,8 @@ bookdown::bs4_book:
   includes:
     in_header: [style.html]
   favicon: "favicon.ico"
+  biblio-style: "apalike"
+  link-citations: true
 
 
 

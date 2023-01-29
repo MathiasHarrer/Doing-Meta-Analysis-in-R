@@ -81,7 +81,7 @@ Previously, we only made statements about the true effect size of **one** indivi
 
 
 ```{block2, type='boxinfo'}
-The **idea behind the fixed-effect model** is that observed effect sizes may vary from study to study, but this is only because of the sampling error. In reality, their true effect sizes are **all the same**: they are **fixed**.
+The **idea behind the fixed-effect model** is that observed effect sizes may vary from study to study, but this is only because of the sampling error. In reality, their true effect sizes are **all the same**: they are fixed. For this reason, the fixed-effect model is sometimes also referred to as the **"equal effects"** or **"common effect"** model.^[The term "equal effects model" is used by the **{metafor}** package, while **{meta}** uses the term "common effect model".] 
 ```
 
 
@@ -317,7 +317,7 @@ In many fields, including medicine and the social sciences, it is therefore conv
 
 \vspace{4mm}
 
-Even though it is conventional to use the random-effects model a priori, this approach is not undisputed. The random-effects model pays more attention to small studies when calculating the overall effect of a meta-analysis [@schwarzer2015meta, chapter 2.3]. Yet, small studies in particular are often fraught with biases (see Chapter \@ref(small-study-effects)). This is why some have argued that the fixed-effect model is (sometimes) preferable [@poole1999random; @furukawa2003low].
+Even though it is conventional to use the random-effects model a priori, this approach is not undisputed. The random-effects model pays more attention to small studies when calculating the overall effect of a meta-analysis [@schwarzer2015meta, chapter 2.3]. Yet, small studies in particular are often fraught with biases (see Chapter \@ref(small-study-effects)). This is why some have argued that the fixed-effect model is (sometimes) preferable [@poole1999random; @furukawa2003low]. Stanley, Doucouliagos, and Ioannidis [-@stanley2022beyond] make a similar point and argue that, in some disciplines, a so-called "unrestricted weighted least squares" (UWLS) model should be used instead of the random-effects model.
 
 
 ```
@@ -641,7 +641,7 @@ Here we go, the results of our first meta-analysis using _R_. There is a lot to 
 
 \index{Weight}
 
-* The first part of the output contains the individual studies, along with their effect sizes and confidence intervals. Since the effects were pre-calculated, there is not much new to be seen here. The `%W(random)` column contains the weight (in percent) that the random-effects model attributed to each study. We can see that, with 7.3%, the greatest weight in our meta-analysis has been given to the study by de Vibe. The smallest weight has been given to the study by Ratanasiripong. Looking at the confidence interval of this study, we can see why this is the case. The CIs around the pooled effect are extremely wide, meaning that the standard error is very high, and that the study's effect size estimate is therefore not very precise.
+* The first part of the output contains the individual studies, along with their effect sizes and confidence intervals. Since the effects were pre-calculated, there is not much new to be seen here. The `%W(random)` column contains the weight (in percent) that the random-effects model attributed to each study. We can see that, with 7.9%, the greatest weight in our meta-analysis has been given to the study by de Vibe. The smallest weight has been given to the study by Ratanasiripong. Looking at the confidence interval of this study, we can see why this is the case. The CIs around the pooled effect are extremely wide, meaning that the standard error is very high, and that the study's effect size estimate is therefore not very precise.
 
 
 
@@ -1057,7 +1057,7 @@ m.bin_update <- update.meta(m.bin,
 
 Now, let us have a look at the pooled effect again by inspecting `TE.random`. We have to remember here that meta-analyses of binary outcomes are actually performed by using a log-transformed version of the effect size. When presenting the results, `metabin` just reconverts the effect size metrics to their original form for our convenience. This step is not performed if we inspect elements in our meta-analysis object. 
 
-To retransform log-transformed effect sizes, we have to **exponentiate** the value. Exponentiation can be seen as the "antagonist" of log-transforming data, and can be performed in _R_ using the `exp` function^[Generally speaking, exponentiation is an operation including two variables $b$ and $x$. When $x$ is exponentiated, we raise $b$ (the base) to the power of $x$ (the exponent): $b^x$. Most commonly, $b$ is defined as Euler's number $e \approx$ 2.718). Using $e^x$ creates an **exponential function** $\exp(x)$, which can be used to reconvert some log-transformed value $x$ back to its original scale.]. Let us put this into practice.
+To retransform log-transformed effect sizes, we have to **exponentiate** the value. Exponentiation can be seen as the "antagonist" of log-transforming data, and can be performed in _R_ using the `exp` function^[Generally speaking, exponentiation is an operation including two variables $b$ and $x$. When $x$ is exponentiated, we raise $b$ (the base) to the power of $x$ (the exponent): $b^x$. Most commonly, $b$ is defined as Euler's number $e \approx$ 2.718). Using $e^x$ creates an **exponential function** $\exp(x)$, which can be used to reconvert some log-transformed value $x$ back to its original scale. This operation is also known as **"taking the anti-log"**.]. Let us put this into practice.
 
 ```{r}
 exp(m.bin_update$TE.random)
@@ -1349,6 +1349,7 @@ summary(m.cor)
 ## [...]
 ## 
 ## Number of studies combined: k = 29
+## Number of observations: o = 853794
 ## 
 ##                         COR           95%-CI     t  p-value
 ## Random effects model 0.3632 [0.3092; 0.4148] 12.81 < 0.0001
@@ -1609,7 +1610,7 @@ $$\tag*{$\blacksquare$}$$
 
 
 
-**Answers to these questions are listed in [Appendix A](#qanda4) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda4) at the end of this book.**
 
 ```
 

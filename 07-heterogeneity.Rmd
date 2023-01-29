@@ -257,7 +257,7 @@ I^2 = \frac{Q-(K-1)}{Q}
 (\#eq:het3)
 \end{equation}
 
-Where $K$ is the total number of studies. The value of $I^2$ can not be lower than 0%, so if $Q$ happens to be smaller than $K-1$, we simply use $0$ instead of a negative value. 
+where $K$ is the total number of studies. The value of $I^2$ can not be lower than 0%, so if $Q$ happens to be smaller than $K-1$, we simply use $0$ instead of a negative value^[Please note that, while $I^2$ is often calculated using the formula above, **not all software** follows this definition. In **{metafor}**, for example, its value is derived using the estimated between-study heterogeneity $\tau^2$ (see [here](https://www.metafor-project.org/doku.php/tips:i2_multilevel_multivariate)), so that: $$I^2 = \frac{\hat{\tau}^2}{\hat{\tau}^2 + \tilde{v}};$$ where: $$\tilde{v} = \frac{(K-1) \sum w_k}{(\sum w_k)^2 - \sum w_k^2}$$ is the "average" or "typical" sampling variance calculated from the weights $w_k$ of all studies $k$ in our sample (see Chapter \@ref(fem)). In contrast to the formula shown before, this way to calculate $I^2$ makes it easier to see that **$I^2$ is a _relative_ measure of heterogeneity**. It depends on the "typical" within-study variance $\tilde{v}$, which can vary form meta-analysis to meta-analysis. We elaborate on this point in Chapter \@ref(het-measure-which). Please also note that these different formulas can sometimes explain why meta-analysis tools can return **divergent values** of $I^2$, even though the same data was pooled.]. 
 
 We can use our simulated values of $Q$ from before to illustrate how $I^2$ is calculated. First, let us randomly pick the tenth simulated value in `Q_fixed`, where we assumed no heterogeneity. Then, we use the formula above to calculate $I^2$.
 
@@ -289,6 +289,8 @@ It is common to use the $I^2$ statistic to report the between-study heterogeneit
 * $I^2$ = 50%: moderate heterogeneity
 
 * $I^2$ = 75%: substantial heterogeneity.
+
+
 
 <br></br>
 
@@ -362,7 +364,7 @@ The **{meta}** package follows the recommendations of Veronikki [-@veroniki2016m
 
 \vspace{4mm}
 
-The $Q$-Profile method is based on an altered $Q$ version , the **generalized** $Q$**-statistic** $Q_{\text{gen}}$. While the standard version of $Q$ uses the pooled effect based on the fixed-effect model, $Q_{\text{gen}}$ is based on the random-effects model. It uses the overall effect according to the random-effects model, $\hat\mu$, to calculate the deviates, as well as weights based on the random-effects model:
+The $Q$-Profile method is based on an altered $Q$ version, the **generalized** $Q$**-statistic** $Q_{\text{gen}}$. While the standard version of $Q$ uses the pooled effect based on the fixed-effect model, $Q_{\text{gen}}$ is based on the random-effects model. It uses the overall effect according to the random-effects model, $\hat\mu$, to calculate the deviates, as well as weights based on the random-effects model:
 
 \begin{equation}
 Q_{\text{gen}} = \sum_{k=1}^{K} w^*_k (\hat\theta_k-\hat\mu)^2
@@ -463,9 +465,9 @@ summary(m.gen)
 ## 
 ## Number of studies combined: k = 18
 ## 
-##                         SMD            95%-CI    t  p-value
-## Random effects model 0.5771 [ 0.3782; 0.7760] 6.12 < 0.0001
-## Prediction interval         [-0.0619; 1.2162]              
+##                              SMD            95%-CI    t  p-value
+## Random effects model (HK) 0.5771 [ 0.3782; 0.7760] 6.12 < 0.0001
+## Prediction interval              [-0.0572; 1.2115]             
 ## 
 ## Quantifying heterogeneity:
 ##  tau^2 = 0.0820 [0.0295; 0.3533]; tau = 0.2863 [0.1717; 0.5944];
@@ -479,7 +481,8 @@ summary(m.gen)
 ## - Inverse variance method
 ## - Restricted maximum-likelihood estimator for tau^2
 ## - Q-profile method for confidence interval of tau^2 and tau
-## - Hartung-Knapp adjustment for random effects model
+## - Hartung-Knapp adjustment for random effects model (df = 17)
+## - Prediction interval based on t-distribution (df = 16)
 ```
 
 In the output, we see results for all heterogeneity measures we defined before. Let us begin with the `Quantifying heterogeneity` section. Here, we see that $\tau^2=$ 0.08. The confidence interval around $\tau^2$ (0.03 - 0.35) does not contain zero, indicating that some between-study heterogeneity exists in our data. The value of $\tau$ is 0.29, meaning that the true effect sizes have an estimated standard deviation of $SD=$ 0.29, expressed on the scale of the effect size metric (here, Hedges' $g$).
@@ -1131,7 +1134,7 @@ $$\tag*{$\blacksquare$}$$
 \vspace{4mm}
 
 
-**Answers to these questions are listed in [Appendix A](#qanda5) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda5) at the end of this book.**
 
 ```
 

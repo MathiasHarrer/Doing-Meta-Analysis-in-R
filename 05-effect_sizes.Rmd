@@ -475,9 +475,9 @@ s_{\text{pooled}} = \sqrt{\frac{(n_1-1)s^2_1+(n_2-1)s^2_2}{(n_1-1)+(n_2-1)}}
 (\#eq:es16)
 \end{align}
 
-Here is an example how we can calculate a mean difference and its standard error in _R_.
+Time to provide an example on how we can calculate a mean difference and its standard error in _R_. As a first step, we will be simulating some data. We only do this here so that we have plausible values to work with. In a real meta-analysis, the mean of `x1` and `x2` as well as their standard deviations `s1` and `s2` are something that we can hopefully extract from the published paper, same as the group sample sizes `n1` and `n2`. So you do not have to worry about this first part too much.
 
-```{r}
+```{r, eval=FALSE}
 # Generate two random variables with different population means
 set.seed(123)
 x1 <- rnorm(n = 20, mean = 10, sd = 3)
@@ -488,11 +488,19 @@ s1 <- sd(x1)
 s2 <- sd(x2)
 n1 <- 20
 n2 <- 20
+```
 
+With this data at hand, we can proceed to the core part, in which we calculate the mean difference and its standard error using the formulae we showed before:
+
+```{r, eval=FALSE}
 # Calculate the mean difference
 MD <- mean(x1) - mean(x2)
 MD
-
+```
+```
+## [1] -4.421357
+```
+```{r, eval=FALSE}
 # Calculate s_pooled
 s_pooled <- sqrt(
   (((n1-1)*s1^2) + ((n2-1)*s2^2))/
@@ -502,10 +510,12 @@ s_pooled <- sqrt(
 # Calculate the standard error
 se <- s_pooled*sqrt((1/n1)+(1/n2))
 se
-
+```
+```
+## [1] 0.8577262
 ```
 
-It is usually not necessary to do these calculations manually. For a meta-analysis of mean differences, we only have to prepare the following columns in our data set:
+It is usually not necessary to do these calculations **manually** like we did here. For a meta-analysis of mean differences, we only have to prepare the following columns in our data set:
 
 * **`n.e`**. The number of observations in the intervention/experimental group.
 * **`mean.e`**. The mean of the intervention/experimental group.
@@ -570,6 +580,7 @@ There are several functions in _R_ which allow us to calculate $\text{SMD}_{\tex
 library(esc)
 
 # Define the data we need to calculate SMD/d
+# This is just some example data that we made up
 grp1m <- 50   # mean of group 1
 grp2m <- 60   # mean of group 2
 grp1sd <- 10  # sd of group 1
@@ -682,7 +693,7 @@ However, if we do not get the correlation exactly right, this can lead to errors
 The within-group standardized mean difference (also known as the within-group Cohen's $d$) can be calculated like this in _R_:
 
 ```{r, message=F}
-# Define data needed for effect size calculation
+# Define example data needed for effect size calculation
 x1 <- 20    # mean at t1
 x2 <- 30    # mean at t2
 sd1 <- 13   # sd at t1
@@ -804,7 +815,7 @@ Because both ${p_{E}}_{\text{treat}}$ and ${p_{E}}_{\text{control}}$ can only ha
 
 A peculiarity of the RR is that same-sized effects are not **equidistant**. For example, RR $=$ 0.5 means that the risks are halved in the intervention group. However, the direct opposite of this effect, the risk being doubled due to the intervention, is not expressed by RR $=$ 1.5, but by RR $=$ 2. This means that risk ratios do not follow a normal distribution, which can be problematic in meta-analyses. 
 
-To avoid this issue, risk ratios are often transformed into the **log-risk ratio** before pooling. This ensures asymptomatic normality, that effect sizes can assume any value, and that values are centered around 0 (meaning no effect). The transformation is performed by taking the natural logarithm of RR:
+To avoid this issue, risk ratios are often transformed into the **log-risk ratio** before pooling. This ensures asymptotic normality, that effect sizes can assume any value, and that values are centered around 0 (meaning no effect). The transformation is performed by taking the natural logarithm of RR:
 
 \begin{equation}
 \log \text{RR}  = \log_{e}(\text{RR})
@@ -1036,7 +1047,7 @@ Now that we know the person-years in our experiment, which we will denote as $T$
 (\#eq:es33)
 \end{equation}
 
-In our example, this gives an incidence rate of $3/40 = 0.075$. This incidence rate means that, if we would follow 1000 people for one year, 75 would experience the event during that time. 
+In our example, this gives an incidence rate of $4/40 = 0.1$. This incidence rate means that, if we would follow 1000 people for one year, 100 would experience the event during that time. 
 
 To calculate the incidence rate ratio IRR, we have to divide the incidence rate of one group by the incidence rate of another group:
 
@@ -1443,7 +1454,7 @@ When we described effect size metrics in the last chapters, we also mentioned th
 
 If we can extract this information from all studies, everything is fine. In practice, however, one may soon find that not all studies report their results in a suitable format. Some studies, for example, may not report the raw data of two groups, but only a calculated standardized mean difference, and its confidence interval. Others may only report the results of a $t$-test or **analysis of variance** (ANOVA) examining the difference between two groups. 
 
-If this is the case, it often becomes impossible to use raw effect size data for our meta-analysis. Instead, we have to **pre-calculate** the effect size of each study before we can pool them. In chapter \@ref(what-is-es), we already found out that the minimum information we need to do a meta-analysis is the effect size and standard error of a study. Therefore, as long as we can transform the results into an estimate of the effect size and its standard error, a study can be included. In Chapter \@ref(es-calc) in the "Helpful Tools" section, we present several effect size converters which can help you to derive an effect size from other types of reported data. 
+If this is the case, it often becomes impossible to use raw effect size data for our meta-analysis. Instead, we have to **pre-calculate** the effect size of each study before we can pool them. In Chapter \@ref(what-is-es), we already found out that the minimum information we need to do a meta-analysis is the effect size and standard error of a study. Therefore, as long as we can transform the results into an estimate of the effect size and its standard error, a study can be included. In Chapter \@ref(es-calc) in the "Helpful Tools" section, we present several effect size converters which can help you to derive an effect size from other types of reported data. 
 
 However, it is still possible that there are studies for which effect sizes cannot be calculated, even with these tools. As mentioned in Chapter \@ref(study-selection), one remaining possibility under such circumstances is to contact the authors of the respective publication several times, and ask them if they can provide the data you need to calculate the effect size. If this also fails, the study has to be excluded.
 
@@ -1483,7 +1494,7 @@ The unit-of-analysis problem also arises when a study measured an outcome using 
 
 - Alternatively, we can also use the calculated effect sizes and aggregate them, so that each study only provides one (aggregated) effect size. This is somewhat of a "brute force" approach. It requires us to specify how strongly effect sizes are correlated within studies, but this value is typically not known. In Chapter \@ref(aggregate-es), we present a function which allows to aggregate pre-calculated effect sizes into one combined estimate for each study.
 
-- The third approach is to include data from all available instruments, and use meta-analytic models which can account for the fact that studies in our meta-analysis contribute more than one effect size. This can be achieved by "three-level" meta-analysis models, which we will examine in Chapter \@ref(multilevel-ma). 
+- The third approach is to include data from all available instruments, and use meta-analytic models which can account for the fact that studies in our meta-analysis contribute more than one effect size. This can be achieved by **"three-level" meta-analysis** models, which we will examine in Chapter \@ref(multilevel-ma). 
 
 $$\tag*{$\blacksquare$}$$
 
@@ -1531,7 +1542,7 @@ $$\tag*{$\blacksquare$}$$
 
 
 
-**Answers to these questions are listed in [Appendix A](#qanda3) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda3) at the end of this book.**
 
 ```
 

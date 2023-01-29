@@ -67,7 +67,7 @@ The aim of meta-analysis is to combine, summarize and interpret all available ev
 ```{block, type='boxinfo'}
 **Individual Participant Data Meta-Analysis**
 
-Depending on the definition, there is also a fourth type of evidence synthesis method, so called **Individual Participant Data (IPD) Meta-Analysis** [@riley2010meta]. Traditionally, meta-analyses are based on **aggregated** results of studies that are found in the published literature (e.g., means and standard deviations, or proportions). In IPD meta-analysis, the **original** data of all studies is collected instead and combined into one big data set. 
+Depending on the definition, there is also a fourth type of evidence synthesis method, so called **Individual Participant Data (IPD) Meta-Analysis** [@riley2010meta; @riley2021individual]. Traditionally, meta-analyses are based on **aggregated** results of studies that are found in the published literature (e.g., means and standard deviations, or proportions). In IPD meta-analysis, the **original** data of all studies is collected instead and combined into one big data set. 
 
 IPD meta-analysis has several advantages. For example, it is possible to impute missing data and apply statistical methods in exactly the same way across all studies. Furthermore, they can make it easier to explore variables which influence the outcome of interest. In traditional meta-analyses, only so-called **study-level** variables (e.g., the year of publication, or the population used in the study) can by used to do this. However, it is often **participant-level** information (e.g. an individual person's age or gender) which may play a role as an important moderators of the results. Such variables can only be explored using IPD meta-analysis.
 
@@ -583,7 +583,7 @@ $$\tag*{$\blacksquare$}$$
 
 
 
-**Answers to these questions are listed in [Appendix A](#qanda1) at the end of this book.**
+**Answers to these questions are listed in [Appendix A](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/qanda.html#qanda1) at the end of this book.**
 ```
 
 <br></br>
