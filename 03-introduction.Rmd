@@ -16,9 +16,14 @@ At least by the numbers alone, this sentiment may be justified. Never in history
 
 The amount of published research findings is also increasing almost exponentially. The number of articles indexed for each year in one of the largest bibliographical databases, [**PubMed**](pubmed.ncbi.nlm.nih.gov/), symbolizes this in an exemplary fashion. Until the middle of the 20<sup>th</sup> century, only a few hundred research articles are listed for each year. These numbers rise substantially for the following decades, and since the beginning of the 21<sup>st</sup> century, they skyrocket (see Figure \@ref(fig:pubmed)).
 
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+F <- FALSE
+```
+
 ```{r pubmed, fig.cap='Articles indexed in PubMed by year, 1781-2019', echo=F, message=F, warning = FALSE, fig.align='center', fig.width=4.5, fig.height=3}
 library(ggplot2)
 options(scipen = 999)
+F <- FALSE
 
 read.csv("data/pubmed.csv", skip = 1)[-1,] -> pubmed
 
@@ -108,11 +113,9 @@ knitr::include_graphics('images/eysenck_col.jpg')
 ```
 
 
-Today we know that Smith and Glass' study may have overestimated the effects of psychotherapy because it did not control for biases in the included studies [@cuijpers2019eysenck]. However, the primary finding that some psychotherapies are effective has been corroborated by countless other meta-analyses in the following decades. Eysenck's grim response could not change that meta-analysis soon became a commonly used method in various fields of study. 
+Today we know that Smith and Glass' study may have overestimated the effects of psychotherapy because it did not control for biases in the included studies [@cuijpers2019eysenck]. However, the primary finding that some psychotherapies are effective has been corroborated by countless other meta-analyses in the following decades. Eysenck's grim response could not change that meta-analysis soon became a commonly used method in various fields of study. This time has been very aptly described as the "meta-analytic Big Bang" [@shadish2015meta].
 
-The methodology behind meta-analysis has been continuously refined since that time. About the same time Glass developed his meta-analysis method, Hunter and Schmidt started crafting their own type of meta-analysis techniques putting emphasis on the correction of measurement artifacts [@schmidt1977development; @hunter2004methods]. 
-
-Meta-analysis first found its way into medicine through the groundbreaking work of Peter Elwood and Archie Cochrane, among others, who used meta-analysis to show that aspirin has a small, but statistically and clinically relevant preventive effect on the recurrence of heart attacks [@peto1980aspirin; @elwood2006first; @o2007historical]. 
+About the same time Glass developed his meta-analysis method, Hunter and Schmidt started crafting their own type of meta-analysis techniques putting emphasis on the correction of measurement artifacts [@schmidt1977development; @hunter2004methods]. Meta-analysis also found its way into medicine through the groundbreaking work of Peter Elwood and Archie Cochrane, among others, who used meta-analysis to show that aspirin has a small, but statistically and clinically relevant preventive effect on the recurrence of heart attacks [@peto1980aspirin; @elwood2006first; @o2007historical]. 
 
 In the mid-80s, Rebecca DerSimonian and Nan Laird introduced an approach to calculate random-effects meta-analyses (see Chapter \@ref(rem)) that has been in use to this day [@dersimonian1986meta]. Countless other innovations have helped to increase the applicability, robustness and versatility of meta-analytic methods in the last four decades.  
 
@@ -432,13 +435,13 @@ kableExtra::kable(bibdb,
   #column_spec(2, width = "5cm") %>% 
   #column_spec(3, width = "3cm") %>% 
   pack_rows("Core Database", 1, 6, latex_align = "c", latex_gap_space = "2em",
-            hline_after = T, indent = F, background = "#f2f1ed") %>% 
+            hline_after = T, indent = FALSE, background = "#f2f1ed") %>% 
   pack_rows("Citation Database", 7, 9, latex_align = "c", latex_gap_space = "2em",
-            hline_after = T, indent = F, background = "#f2f1ed") %>% 
+            hline_after = T, indent = FALSE, background = "#f2f1ed") %>% 
   pack_rows("Dissertations", 10, 10, latex_align = "c", latex_gap_space = "2em",
-            hline_after = T, indent = F, background = "#f2f1ed") %>% 
+            hline_after = T, indent = FALSE, background = "#f2f1ed") %>% 
   pack_rows("Study Registries", 11, 12, latex_align = "c", latex_gap_space = "2em",
-            hline_after = T, indent = F, background = "#f2f1ed") %>% 
+            hline_after = T, indent = FALSE, background = "#f2f1ed") %>% 
   row_spec(0, font_size = 17) %>% 
   kable_styling(bootstrap_options = c("hover"), font_size = 14)
 

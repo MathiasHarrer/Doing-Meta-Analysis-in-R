@@ -4,7 +4,7 @@
 
 <br></br>
 
-<img src="images/harrer.png" width="130" align="right" alt="" class="cover" /> [**Mathias Harrer**](https://www.protectlab.org/en/author/mathias-harrer-msc/) is a researcher at the Technical University of Munich and the Friedrich-Alexander-University Erlangen-Nuremberg. Mathias' research focuses on statistical and technological methods in psychotherapy research, methods for clinical research synthesis, and on the development of statistical software.
+<img src="images/harrer.png" width="130" align="right" alt="" class="cover" /> [**Mathias Harrer**](https://www.mharrer.dev) is a researcher at the Technical University of Munich and the Friedrich-Alexander-University Erlangen-Nuremberg. Mathias' research focuses on statistical and technological methods in psychotherapy research, methods for clinical research synthesis, and on the development of statistical software.
 
 [![Twitter URL](https://img.shields.io/badge/@MathiasHarrer-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/MathiasHarrer)
 [![GitHub followers](https://img.shields.io/badge/MathiasHarrer-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MathiasHarrer)

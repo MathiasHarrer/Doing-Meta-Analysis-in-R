@@ -338,6 +338,7 @@ dat = data.frame(g = round(m.gen.sg$TE.random.w, 2),
                  i2 = round(m.gen.sg$I2.w, 2),
                  ci.i2 = paste0(format(round(m.gen.sg$lower.I2.w, 2), nsmall=2), "-", round(m.gen.sg$upper.I2.w, 2)),
                  p.sg = c(" ", " "))
+dat$p = stringr::str_replace_all(dat$p, "\\<", "$<$")
 
 dat = rbind(c("", "", "", "", "", 0.092), dat)
 
@@ -354,11 +355,14 @@ kable(dat, booktabs = T, digits = 2, escape = FALSE) %>%
 ```
 
 ```{block2, type='boxempty'}
+In the table above, the two $p$-values in the third column show if the subgroup-specific effects are significant. We can see that this is the case for both the high and low risk of bias studies. At the same time, the value under $p_{\textsf{subgroup}}$ shows that the effect _difference_ between high and low risk of bias studies is not significant. 
+
+To extract the subgroup-specific $p$-values, it is necessary to save the results of `update.meta` to an object, and then extract the `pval.random.w` element from that object using the `$` operator. 
+
 Further rows can be added to the table if more than one subgroup analysis was conducted.
 ```
 
 $$\tag*{$\blacksquare$}$$
-
 <br></br>
 
 ## Questions & Answers

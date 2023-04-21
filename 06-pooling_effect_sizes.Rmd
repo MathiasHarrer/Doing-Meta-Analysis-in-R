@@ -373,7 +373,7 @@ It is an ongoing research question which of these estimators performs best for d
 \index{Review Manager (RevMan)}
 \index{Comprehensive Meta-Analysis (CMA)}
 
-Arguably, the most frequently used estimator is the one by DerSimonian and Laird. The estimator is implemented in software that has commonly been used by meta-analysts in the past, such as **RevMan** (a program developed by Cochrane) or **Comprehensive Meta-Analysis**. It is also the default estimator used in **{meta}**. Due to this historic legacy, one often finds research papers in which "using a random-effects model" is used synonymously with employing the DerSimonian-Laird estimator. 
+Arguably, the most frequently used estimator is the one by DerSimonian and Laird. The estimator is implemented in software that has commonly been used by meta-analysts in the past, such as **RevMan** (a program developed by Cochrane) or **Comprehensive Meta-Analysis**. It is also used to be the default estimator used in **{meta}**. Due to this historic legacy, one often finds research papers in which "using a random-effects model" is used synonymous with employing the DerSimonian-Laird estimator. 
 
 However, it has been found that this estimator can be biased, particularly when the number of studies is small and heterogeneity is high [@hartung1999alternative; @hartung2001refined; @hartung2001tests; @follmann1999valid; @makambi2004effect]. This is quite problematic because it is very common to find meta-analyses with few studies and high heterogeneity.
 
