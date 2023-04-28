@@ -176,6 +176,8 @@ The `SuicidePrevention` data set contains raw effect size data, meaning that we 
 
 The function has an additional argument, `es.type`, through which we can specify that the small-sample correction should be performed (by setting `es.type = "g"`; Chapter \@ref(hedges-g)). 
 
+Since the release of _R_ version 4.2.1, we additionally have to plug our call to `esc_mean_sd` into the `pmap_dfr` function so that a standardized mean difference is calculated for each row in our data set:
+
 ```{r, message=F, eval=F}
 # Load dmetar, esc and tidyverse (for pipe)
 library(dmetar)
@@ -187,17 +189,20 @@ data(SuicidePrevention)
 
 # Calculate Hedges' g and the Standard Error
 # - We save the study names in "study".
-# - After that, we use the pipe operator to directly transform
-#   the results to a data frame.
-SP_calc <- esc_mean_sd(grp1m = SuicidePrevention$mean.e,
-                       grp1sd = SuicidePrevention$sd.e,
-                       grp1n = SuicidePrevention$n.e,
-                       grp2m = SuicidePrevention$mean.c,
-                       grp2sd = SuicidePrevention$sd.c,
-                       grp2n = SuicidePrevention$n.c,
-                       study = SuicidePrevention$author,
-                       es.type = "g") %>% 
-                     as.data.frame()
+# - We use the pmap_dfr function to calculate the effect size
+#   for each row.
+SP_calc <- pmap_dfr(SuicidePrevention, 
+                    function(mean.e, sd.e, n.e, mean.c,
+                             sd.c, n.c, author, ...){
+                      esc_mean_sd(grp1m = mean.e,
+                                  grp1sd = sd.e,
+                                  grp1n = n.e,
+                                  grp2m = mean.c,
+                                  grp2sd = sd.c,
+                                  grp2n = n.c,
+                                  study = author,
+                                  es.type = "g") %>% 
+                        as.data.frame()}) 
 
 # Let us catch a glimpse of the data
 # The data set contains Hedges' g ("es") and standard error ("se")
@@ -208,20 +213,21 @@ glimpse(SP_calc)
 ```
 ## Rows: 9
 ## Columns: 9
-## $ study       <chr> "Berry et al.", "DeVries et al.", "Fleming et al." …
-## $ es          <dbl> -0.14279447, -0.60770928, -0.11117965, -0.12698011 …
-## $ weight      <dbl> 46.09784, 34.77314, 14.97625, 32.18243, 24.52054 …
-## $ sample.size <dbl> 185, 146, 60, 129, 100, 220, 120, 80, 107data
-## $ se          <dbl> 0.1472854, 0.1695813, 0.2584036, 0.1762749 …
-## $ var         <dbl> 0.02169299, 0.02875783, 0.06677240, 0.03107286 …
-## $ ci.lo       <dbl> -0.4314686, -0.9400826, -0.6176413, -0.4724727 …
-## $ ci.hi       <dbl> 0.145879624, -0.275335960, 0.395282029 …
-## $ measure     <chr> "g", "g", "g", "g", "g", "g", "g", "g", "g"
-
+## $ study       <chr> "Berry et al.", "DeVries et …
+## $ es          <dbl> -0.14279447, -0.60770928, -0…
+## $ weight      <dbl> 46.09784, 34.77314, 14.97625…
+## $ sample.size <dbl> 185, 146, 60, 129, 100, 220,…
+## $ se          <dbl> 0.1472854, 0.1695813, 0.2584…
+## $ var         <dbl> 0.02169299, 0.02875783, 0.06…
+## $ ci.lo       <dbl> -0.4314686, -0.9400826, -0.6…
+## $ ci.hi       <dbl> 0.145879624, -0.275335960, 0…
+## $ measure     <chr> "g", "g", "g", "g", "g", "g"…
 ```
 
+Next, we use these results to apply the formula of the fixed-effect model:
+
 ```{r, message=F, eval=F}
-# We now calculate the inverse variance-weights for each study
+# Calculate the inverse variance-weights for each study
 SP_calc$w <- 1/SP_calc$se^2
 
 # Then, we use the weights to calculate the pooled effect

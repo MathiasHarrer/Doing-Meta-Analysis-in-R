@@ -15,7 +15,7 @@ Back in Chapter \@ref(study-search), we mentioned that meta-analyses usually try
 
 Unfortunately, meta-analyses are often unable to include all existing evidence. To make things worse, there are also good reasons to assume that some studies are not missing completely "at random" from our collected data. Our world is imperfect, and so are the incentives and "rules" that govern scientific practice. This means that there are systemic biases that can determine if a study ends up in our meta-analysis or not.
 
-A good example of this problem can be found in a not-so-recent anecdote from pharmacotherapy research. Even back in the 1990s, it was considered secured knowledge that antidepressive medication (such as **selective serotonin re-uptake inhibitors**, or SSRIs) are effective in treating patients suffering from depression. Most of this evidence was provided by meta-analyses of published pharmocotherapy trials, in which an antidepressant is compared to a pill placebo. The question regarding the effects of antidepressive medication is an important one, considering that the antidepressant drug market is worth billions of dollars, and growing steadily. 
+A good example of this problem can be found in a not-so-recent anecdote from pharmacotherapy research. Even back in the 1990s, it was considered secured knowledge that antidepressive medication (such as **selective serotonin re-uptake inhibitors**, or SSRIs) are effective in treating patients suffering from depression. Most of this evidence was provided by meta-analyses of published pharmacotherapy trials, in which an antidepressant is compared to a pill placebo. The question regarding the effects of antidepressive medication is an important one, considering that the antidepressant drug market is worth billions of dollars, and growing steadily. 
 
 This may help to understand the turmoil caused by an article called **The Emperor's New Drugs**, written by Irving Kirsch and colleagues [-@kirsch2002emperor], which argued that things may not look so bright after all. 
 
@@ -52,7 +52,7 @@ Meta-analytic techniques allow us to find an unbiased estimate of the average ef
 \index{Language Bias}
 \index{Outcome Reporting Bias}
 
-Publication bias is actually just one of many **reporting biases**. There are several other factors that can also distort the evidence that we obtain in our meta-analysis [@page2020investigating], including:
+Publication bias is actually just one of many **non-reporting biases**. There are several other factors that can also distort the evidence that we obtain in our meta-analysis [@page2020investigating], including:
 
 * **Citation bias**: Even when published, studies with negative or inconclusive findings are less likely to be cited by related literature. This makes it harder to detect them through reference searches, for example.
 

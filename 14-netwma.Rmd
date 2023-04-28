@@ -1790,7 +1790,6 @@ The results for our predictor are reported next to `B`. Because our predictor is
         
 We can explore the effect of the predictor further by generating two forest plots: one for the estimated treatment effects when the risk of bias is high, and another for when it is low. We can do this using the `relative.effect` function, where we specify the `covariate` value. A value of `covariate = 0` stands for studies with a low risk of bias, and `covariate = 1` for high risk of bias.
         
-vspace{2mm}
         
 ```{r, fig.show='hold', fig.width=7, fig.height=3, fig.align="center", out.width="80%", eval=F}
 forest(relative.effect(mcmc3, t1 = "cau", covariate = 1),
