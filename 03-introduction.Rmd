@@ -79,7 +79,7 @@ IPD meta-analysis has several advantages. For example, it is possible to impute 
 
 IPD meta-analysis is a relatively new method, and the overwhelming majority of meta-analyses conducted today remain "traditional" meta-analyses. This is also one reason why we will not cover IPD meta-analysis methods in this guide. 
 
-This has nothing to do with traditional meta-analysis being superior--the opposite is correct. It is simply due to the fact that making all research data openly available has unfortunately been very uncommon in most disciplines until recently. While it is relatively easy to extract summarized results from published research reports, obtaining original data from all relevant studies is much more challenging. In biomedical research, for example, individual participant data can only be obtained from approximately 64% of the eligible studies [@riley2007evidence].
+This has nothing to do with traditional meta-analysis being superior--the opposite is correct. It is simply due to the fact that making all research data openly available has unfortunately been very uncommon in most disciplines until recently. While it is relatively easy to extract summarized results from published research reports, obtaining original data from all relevant studies is much more challenging. In biomedical research, for example, it has been found that studies which considered both individual participant and aggregate data could only obtain IPD from approximately 64% of the eligible studies [@riley2007evidence]. A more recent review found that, while the median number of studies included in IPD meta-analyses was eleven, individual participant data could only be obtained from a median of seven studies [@wang2021methodological]. 
 
 ```
 
