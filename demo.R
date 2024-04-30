@@ -1,7 +1,7 @@
 library(ggplot2)
 set.seed(888)
 rnorm(n,mean = 20,sd = 2)
-plot(rnorm）
+plot(rnorm)
 
 
 
