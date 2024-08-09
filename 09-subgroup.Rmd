@@ -228,19 +228,19 @@ Let us have a look at this column first. In our code, we use the `head` function
 head(ThirdWave[,c("Author", "RiskOfBias")])
 ```
 
-We see that every study in our data set has a label specifying its risk of bias assessment. When we calculated the meta-analysis using `metagen`, this information was saved internally in the `m.gen` object. To conduct a subgroup analysis, we can therefore use the `update.meta` function, provide it with the `m.gen` object, and use the `subgroup` argument to specify which column in our data set contains the subgroup labels. 
+We see that every study in our data set has a label specifying its risk of bias assessment. When we calculated the meta-analysis using `metagen`, this information was saved internally in the `m.gen` object. To conduct a subgroup analysis, we can therefore use the `update` function, provide it with the `m.gen` object, and use the `subgroup` argument to specify which column in our data set contains the subgroup labels. 
 
 Previously, we also covered that subgroup analyses can be conducted with or without a common estimate of $\tau^2$ across subgroups. This can be controlled in **{meta}** by setting `tau.common` to `TRUE` or `FALSE`. For now, let us use separate estimates of the between-study heterogeneity variance in each subgroup. 
 
-In our example, we want to apply the fixed-effects (plural) model and assume that studies within subgroups are pooled using the random-effects model. Given that `m.gen` contains results for the random-effects model (because we set `comb.fixed` to `FALSE` and `comb.random` to `TRUE`), there is nothing we have to change. Because the original meta-analysis was performed using the random-effects model, `update.meta` automatically assumes that studies within subgroups should also be pooled using the random-effects model. 
+In our example, we want to apply the fixed-effects (plural) model and assume that studies within subgroups are pooled using the random-effects model. Given that `m.gen` contains results for the random-effects model (because we set `comb.fixed` to `FALSE` and `comb.random` to `TRUE`), there is nothing we have to change. Because the original meta-analysis was performed using the random-effects model, `update` automatically assumes that studies within subgroups should also be pooled using the random-effects model. 
 
 Therefore, the resulting code looks like this:
 
 
 ```{r, eval=FALSE}
-update.meta(m.gen, 
-            subgroup = RiskOfBias, 
-            tau.common = FALSE)
+update(m.gen, 
+       subgroup = RiskOfBias, 
+       tau.common = FALSE)
 ```
 
 ```
@@ -287,7 +287,7 @@ But is the difference statistically significant? We can check this by looking at
 We can also check the results if were to assume a **common** $\tau^2$ estimate in both subgroups. We only have to set `tau.common` to `TRUE`.
 
 ```{r, eval=F}
-update.meta(m.gen, subgroup = RiskOfBias, tau.common = TRUE)
+update(m.gen, subgroup = RiskOfBias, tau.common = TRUE)
 ```
 
 
@@ -327,9 +327,9 @@ The results of subgroup analyses are usually reported in a table displaying the 
 
 ```{r, echo=F}
 library(kableExtra)
-m.gen.sg = update.meta(m.gen, 
-            subgroup = RiskOfBias, 
-            tau.common = FALSE)
+m.gen.sg = update(m.gen, 
+                  subgroup = RiskOfBias, 
+                  tau.common = FALSE)
 
 dat = data.frame(g = round(m.gen.sg$TE.random.w, 2),
                  g.ci = paste0(round(m.gen.sg$lower.random.w,2),"-", 
@@ -338,16 +338,16 @@ dat = data.frame(g = round(m.gen.sg$TE.random.w, 2),
                  i2 = round(m.gen.sg$I2.w, 2),
                  ci.i2 = paste0(format(round(m.gen.sg$lower.I2.w, 2), nsmall=2), "-", round(m.gen.sg$upper.I2.w, 2)),
                  p.sg = c(" ", " "))
-dat$p = stringr::str_replace_all(dat$p, "\\<", "$<$")
+#dat$p = stringr::str_replace_all(dat$p, "\\<", "$<$")
 
 dat = rbind(c("", "", "", "", "", 0.092), dat)
 
 rownames(dat) = c("Risk of Bias", "- High", "- Low")
-colnames(dat) = c("$g$", "95\\%CI", "$p$", "$I^2$", "95\\%CI", "$p$<sub>subgroup</sub>")
+colnames(dat) = c("$g$", "95\\%CI", "$p$", "$I^2$", "95\\%CI", "$p$ (subgroup)")
 
 kable(dat, booktabs = T, digits = 2, escape = FALSE) %>% 
   kable_styling(latex_options = c("scale_down"),
-                bootstrap_options = c("condensed", "striped"))
+                bootstrap_options = c("condensed"))
 
 # kable_styling(font_size = 7)
 
@@ -357,7 +357,7 @@ kable(dat, booktabs = T, digits = 2, escape = FALSE) %>%
 ```{block2, type='boxempty'}
 In the table above, the two $p$-values in the third column show if the subgroup-specific effects are significant. We can see that this is the case for both the high and low risk of bias studies. At the same time, the value under $p_{\textsf{subgroup}}$ shows that the effect _difference_ between high and low risk of bias studies is not significant. 
 
-To extract the subgroup-specific $p$-values, it is necessary to save the results of `update.meta` to an object, and then extract the `pval.random.w` element from that object using the `$` operator. 
+To extract the subgroup-specific $p$-values, it is necessary to save the results of `update` to an object, and then extract the `pval.random.w` element from that object using the `$` operator. 
 
 Further rows can be added to the table if more than one subgroup analysis was conducted.
 ```

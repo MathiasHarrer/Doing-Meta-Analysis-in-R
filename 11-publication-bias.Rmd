@@ -140,7 +140,7 @@ When there is no publication bias, the data points in such a plot should form a 
 
 It becomes easier to see why studies should form a funnel when we think back to what we learned about the behavior of effect sizes in Chapter \@ref(what-is-es), and when discussing the fixed-effect model in Chapter \@ref(fem) (Figure \@ref(fig:funnel1)). The standard error is indicative of a study's **precision**: with decreasing standard error, we expect the observed effect size to become an increasingly good estimator of the true effect size. When the standard error is high, the effect size has a low precision and is therefore much more likely to be far off from the actual effect in the population.
 
-We will now make this more concrete by generating a funnel plot ourselves. In the **{meta}** package, the `funnel.meta` function can be used to print a funnel plot for a meta-analysis object. Here, we produce a funnel plot for our `m.gen` meta-analysis object. We specify two further arguments, `xlim` and `studlab`. The first controls the limits of the x-axis in the plot, while the latter tells the function to include study labels. A call to the `title` function after running `funnel` adds a title to the plot. 
+We will now make this more concrete by generating a funnel plot ourselves. In the **{meta}** package, the `meta::funnel`^[In this chapter we always append `meta::` when calling the `funnel` function. This is not strictly necessary, but in practice may sometimes help to avoid error messages (and related confusion), since there is a another `funnel` function in the `metafor` package, which we do not cover here.] function can be used to print a funnel plot for a meta-analysis object. Here, we produce a funnel plot for our `m.gen` meta-analysis object. We specify two further arguments, `xlim` and `studlab`. The first controls the limits of the x-axis in the plot, while the latter tells the function to include study labels. A call to the `title` function after running `meta::funnel` adds a title to the plot. 
 
 Our code looks like this:
 
@@ -153,9 +153,9 @@ Our code looks like this:
 library(meta)
 
 # Produce funnel plot
-funnel.meta(m.gen,
-            xlim = c(-0.5, 2),
-            studlab = TRUE)
+meta::funnel(m.gen,
+             xlim = c(-0.5, 2),
+             studlab = TRUE)
 
 # Add title
 title("Funnel Plot (Third Wave Psychotherapies)")
@@ -169,9 +169,9 @@ library(meta)
 
 par(bg="#FFFEFA")
 # Produce funnel plot
-funnel.meta(m.gen,
-            xlim = c(-0.5, 2),
-            studlab = TRUE)
+meta::funnel(m.gen,
+             xlim = c(-0.5, 2),
+             studlab = TRUE)
 
 # Add title
 title("Funnel Plot (Third Wave Psychotherapies)")
@@ -187,7 +187,7 @@ These studies, however, have no equivalent in the bottom-left corner in the plot
 Overall, the data set shows an asymmetrical pattern in the funnel plot that **might** be indicative of publication bias. It could be that the three small studies are the ones that were lucky to find effects high enough to become significant, while there is an underbelly of unpublished studies with similar standard errors, but smaller and thus non-significant effects which did not make the cut.
 
 
-A good way to inspect how asymmetry patterns relate to statistical significance is to generate **contour-enhanced funnel plots** [@peters2008contour]. Such plots can help to distinguish publication bias from other forms of asymmetry. Contour-enhanced funnel plots include colors which signify the significance level of each study in the plot. In the `funnel.meta` function, contours can be added by providing the desired significance thresholds to the `contour` argument. Usually, these are `0.9`, `0.95` and `0.99`, which equals $p$ < 0.1, 0.05 and 0.01, respectively. Using the `col.contour` argument, we can also specify the color that the contours should have. Lastly, the `legend` function can be used afterwards to add a legend to the plot, specifying what the different colors mean. We can position the legend on the plot using the `x` and `y` arguments, provide labels in `legend`, and add fill colors using the `fill` argument. 
+A good way to inspect how asymmetry patterns relate to statistical significance is to generate **contour-enhanced funnel plots** [@peters2008contour]. Such plots can help to distinguish publication bias from other forms of asymmetry. Contour-enhanced funnel plots include colors which signify the significance level of each study in the plot. In the `meta::funnel` function, contours can be added by providing the desired significance thresholds to the `contour` argument. Usually, these are `0.9`, `0.95` and `0.99`, which equals $p$ < 0.1, 0.05 and 0.01, respectively. Using the `col.contour` argument, we can also specify the color that the contours should have. Lastly, the `legend` function can be used afterwards to add a legend to the plot, specifying what the different colors mean. We can position the legend on the plot using the `x` and `y` arguments, provide labels in `legend`, and add fill colors using the `fill` argument. 
 
 This results in the following code: 
 
@@ -196,9 +196,9 @@ This results in the following code:
 col.contour = c("gray75", "gray85", "gray95")
 
 # Generate funnel plot (we do not include study labels here)
-funnel.meta(m.gen, xlim = c(-0.5, 2),
-            contour = c(0.9, 0.95, 0.99),
-            col.contour = col.contour)
+meta::funnel(m.gen, xlim = c(-0.5, 2),
+             contour = c(0.9, 0.95, 0.99),
+             col.contour = col.contour)
 
 # Add a legend
 legend(x = 1.6, y = 0.01, 
@@ -218,9 +218,9 @@ col.contour = c("gray75", "gray85", "gray95")
 
 par(bg="#FFFEFA")
 # Generate funnel plot (we do not include study labels here)
-funnel.meta(m.gen, xlim = c(-0.5, 2),
-            contour = c(0.9, 0.95, 0.99),
-            col.contour = col.contour)
+meta::funnel(m.gen, xlim = c(-0.5, 2),
+             contour = c(0.9, 0.95, 0.99),
+             col.contour = col.contour)
 
 # Add a legend
 legend(x = 1.6, y = 0.01, 
@@ -305,7 +305,7 @@ library(ggplot2)
 load("data/m.egdat.rda")
 load("data/m.egdat.bias.rda")
 
-funnel(m.egdat, xlab = "Effect Size")
+meta::funnel(m.egdat, xlab = "Effect Size")
 title("Funnel Plot (No Asymmetry)")
 
 m.egdat$data %>% 
@@ -330,7 +330,7 @@ m.egdat$data %>%
         panel.background = element_rect(fill = "#FFFEFA")) # 'nearly-white' used to keep knitr from cropping
 
 
-meta::funnel.meta(m.egdat.bias, xlab = "Effect Size")
+meta::funnel(m.egdat.bias, xlab = "Effect Size")
 title("Funnel Plot (Asymmetry)")
 
 m.egdat.bias$data %>% 
@@ -641,7 +641,7 @@ summary(tf.no.out)
 
 With $g=$ 0.34, the results are nearly identical. Overall, the trim and fill method indicates that the pooled effect of $g=$ 0.58 in our meta-analysis is overestimated due to small-study effects. In reality, the effect may be considerably smaller. It is likely that this overestimation has been caused by publication bias, but this is not certain. Other explanations are possible too, and this could mean that the trim and fill estimate is invalid.
 
-Lastly, it is also possible to create a funnel plot including the imputed studies. We only have to apply the `funnel.meta` function to the output of `trimfill`. In the following code, we create contour-enhanced funnel plots for both trim and fill analyses (with and without outliers). Using the `par` function, we can print both plots side by side.
+Lastly, it is also possible to create a funnel plot including the imputed studies. We only have to apply the `meta::funnel` function to the output of `trimfill`. In the following code, we create contour-enhanced funnel plots for both trim and fill analyses (with and without outliers). Using the `par` function, we can print both plots side by side.
 
 \vspace{4mm}
 
@@ -656,15 +656,15 @@ ld <- c("p < 0.1", "p < 0.05", "p < 0.01")
 par(mfrow=c(1,2))
 
 # Contour-enhanced funnel plot (full data)
-funnel.meta(tf, 
-            xlim = c(-1.5, 2), contour = contour,
-            col.contour = col.contour)
+meta::funnel(tf, 
+             xlim = c(-1.5, 2), contour = contour,
+             col.contour = col.contour)
 legend(x = 1.1, y = 0.01, 
        legend = ld, fill = col.contour)
 title("Funnel Plot (Trim & Fill Method)")
 
 # Contour-enhanced funnel plot (outliers removed)
-funnel.meta(tf.no.out, 
+meta::funnel(tf.no.out, 
             xlim = c(-1.5, 2), contour = contour,
             col.contour = col.contour)
 legend(x = 1.1, y = 0.01, 
@@ -685,15 +685,15 @@ par(mfrow=c(1,2),
     bg="#FFFEFA")
 
 # Contour-enhanced funnel plot (full data)
-funnel.meta(tf, 
-            xlim = c(-1.5, 2), contour = contour,
-            col.contour = col.contour)
+meta::funnel(tf, 
+             xlim = c(-1.5, 2), contour = contour,
+             col.contour = col.contour)
 legend(x = 1.1, y = 0.01, 
        legend = ld, fill = col.contour)
 title("Funnel Plot (Trim & Fill Method)")
 
 # Contour-enhanced funnel plot (outliers removed)
-funnel.meta(tf.no.out, 
+meta::funnel(tf.no.out, 
             xlim = c(-1.5, 2), contour = contour,
             col.contour = col.contour)
 legend(x = 1.1, y = 0.01, 
@@ -965,7 +965,7 @@ If the small-study effects are indeed caused by publication bias, this result wo
 
 \index{Funnel Plot}
 
-It is also possible to create funnel plots for the limit meta-analysis: we simply have to provide the results of `limitmeta` to the `funnel.limitmeta` function. This creates a funnel plot which looks exactly like the one produced by `funnel.meta`. The only difference is that a **gray curve** is added to the plot. This curve indicates the adjusted average effect size when the standard error on the y-axis is zero, but also symbolizes the increasing bias due to small-study effects as the standard error increases. 
+It is also possible to create funnel plots for the limit meta-analysis: we simply have to provide the results of `limitmeta` to the `funnel.limitmeta` function. This creates a funnel plot which looks exactly like the one produced by `meta::funnel`. The only difference is that a **gray curve** is added to the plot. This curve indicates the adjusted average effect size when the standard error on the y-axis is zero, but also symbolizes the increasing bias due to small-study effects as the standard error increases. 
 
 When generating a funnel plot for `limitmeta` objects, it is also possible to include the shrunken study-level effect size estimates, by setting the `shrunken` argument to `TRUE`. Here is the code to produce these plots: 
 
@@ -1306,7 +1306,7 @@ library(dmetar)
 library(meta)
 
 # Update m.gen to exclude outliers
-m.gen_update <- update.meta(m.gen, subset = -c(3, 16))
+m.gen_update <- update(m.gen, subset = -c(3, 16))
 
 # Run p-curve analysis
 pcurve(m.gen_update)
@@ -1630,7 +1630,7 @@ pcurve(m.gen_update,
 source("data/pcurve.bw.es.R")
 
 
-m.gen_update <- update.meta(m.gen, subset = -c(3, 16))
+m.gen_update <- update(m.gen, subset = -c(3, 16))
 
 n1 <- c(62, 72, 135, 103, 71, 69, 68, 95, 
         43, 79, 61, 62, 60, 43, 64, 63)
@@ -1680,11 +1680,15 @@ kable(dat, booktabs = T, digits = 2, escape = FALSE) %>%
   kable_styling(latex_options = c("scale_down"), 
                 bootstrap_options = c("condensed")) %>% 
   add_header_above(c(" " = 2, "Full Curve" = 2, "Half Curve" = 2, "Evidential Value" = 2, " ")) %>% 
-  collapse_rows(columns = c(7:9), latex_hline = "major", valign = "middle") %>%
+  collapse_rows(columns = c(7:8), latex_hline = "major", valign = "middle") %>%
 kable_styling(font_size = 14)
 
 
 ```
+
+
+
+
 
 ```{block, type='boxempty'}
 The developers of p-curve also highly recommend to create a **disclosure table** for each analysis, describing from which part of an article the result was extracted, and how it was originally reported. An example for such a disclosure table, along with several other practical guidelines, can be found in Simonsohn et al. [-@simonsohn2014p].

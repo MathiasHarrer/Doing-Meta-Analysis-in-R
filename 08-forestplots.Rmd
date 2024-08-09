@@ -46,7 +46,7 @@ This makes sense for ratios since these effect size metrics cannot be interprete
 
 ---
 
-We can produce a forest plot for any type of **{meta}** meta-analysis object (e.g. results of `metagen`, `metacont`, or `metabin`) using the `forest.meta` function. We simply have to provide `forest.meta` with our **{meta}** object, and a plot will be created. Usually, these forest plots already look very good by default, but the function also has countless additional arguments to further adapt the appearance. All of these arguments are described in the function documentation (which can be accessed by running `?forest.meta`). Here is a list of the more important ones:
+We can produce a forest plot for any type of **{meta}** meta-analysis object (e.g. results of `metagen`, `metacont`, or `metabin`) using the `meta::forest` function^[In this chapter we always append `meta::` when calling the `forest` function. This is not strictly necessary, but in practice may sometimes help to avoid error messages (and related confusion), since there is a another `forest` function in the `metafor` package, which we do not cover here.]. We simply have to provide `meta::forest` with our **{meta}** object, and a plot will be created. Usually, these forest plots already look very good by default, but the function also has countless additional arguments to further adapt the appearance. All of these arguments are described in the function documentation (which can be accessed by running `?meta::forest`). Here is a list of the more important ones:
 
 * **`sortvar`**. The variable in the meta-analysis data set by which studies are sorted in the forest plot. If we want to order the results by effect size, for example, we can use the code `sortvar = TE`. 
 
@@ -79,17 +79,17 @@ We can produce a forest plot for any type of **{meta}** meta-analysis object (e.
 * **`col.square`**, **`col.diamond`** and **`col.predict`**. The color (e.g. `"blue"`) of the square, diamond and prediction interval, respectively.
 
 
-Time to generate our first forest plot. In this example, we plot the `m.gen` object that we also used in the previous examples. We sort the studies in the forest plot by effect size, add a prediction interval, and user-defined labels to the left. The `forest.meta` function prints the $\tau^2$ value by default, which we do not want here, so we set `print.tau2` to `FALSE`. 
+Time to generate our first forest plot. In this example, we plot the `m.gen` object that we also used in the previous examples. We sort the studies in the forest plot by effect size, add a prediction interval, and user-defined labels to the left. The `meta::forest` function prints the $\tau^2$ value by default, which we do not want here, so we set `print.tau2` to `FALSE`. 
 
 This is how our code looks in the end:
 
 
 ```{r, fig.height=6, fig.width=8, eval=F}
-forest.meta(m.gen, 
-            sortvar = TE,
-            prediction = TRUE, 
-            print.tau2 = FALSE,
-            leftlabs = c("Author", "g", "SE"))
+meta::forest(m.gen, 
+             sortvar = TE,
+             prediction = TRUE, 
+             print.tau2 = FALSE,
+             leftlabs = c("Author", "g", "SE"))
 ```
 
 ```{r, fig.height=6, fig.width=8, echo=F}
@@ -102,7 +102,7 @@ forest(m.gen,
 ```
 
 
-The plot that `forest.meta` provides us with already looks quite decent. We also see that a think black line has been added to the plot, representing the prediction interval around our pooled effect.
+The plot that `meta::forest` provides us with already looks quite decent. We also see that a think black line has been added to the plot, representing the prediction interval around our pooled effect.
 
 \index{Risk of Bias}
 
@@ -111,12 +111,12 @@ We could enhance the plot by adding a column displaying the risk of bias of each
 When we used `metagen` to calculate the meta-analysis (Chapter \@ref(pre-calculated-es)), the function automatically saved this data within `m.gen`. Therefore, we can use the `leftcols` argument to add the column to the plot. This results in the following code:
 
 ```{r, fig.height=6, fig.width=9, eval=F}
-forest.meta(m.gen, 
-            sortvar = TE,
-            prediction = TRUE, 
-            print.tau2 = FALSE,
-            leftcols = c("studlab", "TE", "seTE", "RiskOfBias"),
-            leftlabs = c("Author", "g", "SE", "Risk of Bias"))
+meta::forest(m.gen, 
+             sortvar = TE,
+             prediction = TRUE, 
+             print.tau2 = FALSE,
+             leftcols = c("studlab", "TE", "seTE", "RiskOfBias"),
+             leftlabs = c("Author", "g", "SE", "Risk of Bias"))
 ```
 
 ```{r, fig.height=6, fig.width=9, echo=F}
@@ -139,17 +139,17 @@ We see that now, the risk of bias information of each study has been added to th
 
 ---
 
-The `forest.meta` function has two "pre-packaged" layouts, which we can use to bring our forest plot into a specific format without having to specify numerous arguments. One of them is the `"JAMA"` layout, which gives us a forest plot according to the guidelines of the **Journal of the American Medical Association**. This layout may be used if you want to publish your meta-analysis in a medical journal.
+The `meta::forest` function has two "pre-packaged" layouts, which we can use to bring our forest plot into a specific format without having to specify numerous arguments. One of them is the `"JAMA"` layout, which gives us a forest plot according to the guidelines of the **Journal of the American Medical Association**. This layout may be used if you want to publish your meta-analysis in a medical journal.
 
 \vspace{2mm}
 
 ```{r, eval=F}
-forest.meta(m.gen, layout = "JAMA")
+meta::forest(m.gen, layout = "JAMA")
 ```
 
 ```{r, echo=F, fig.height=6, fig.width=8, out.width="75%", fig.align='center'}
 par(bg="#FFFEFA")
-forest.meta(m.gen, layout = "JAMA")
+meta::forest(m.gen, layout = "JAMA")
 ```
 
 \index{Review Manager (RevMan)}
@@ -157,12 +157,12 @@ forest.meta(m.gen, layout = "JAMA")
 The other layout is `"RevMan5"`, which produces a forest plot similar to the ones generated by Cochrane's **Review Manager 5**.
 
 ```{r, eval=F}
-forest.meta(m.gen, layout = "RevMan5")
+meta::forest(m.gen, layout = "RevMan5")
 ```
 
 ```{r, echo=F, fig.height=6, fig.width=9, out.width="75%", fig.align='center'}
 par(bg="#FFFEFA")
-forest.meta(m.gen, layout = "RevMan5")
+meta::forest(m.gen, layout = "RevMan5")
 ```
 
 <br></br>
@@ -171,9 +171,9 @@ forest.meta(m.gen, layout = "RevMan5")
 
 ---
 
-Forest plots generated by `forest.meta` can be saved as a PDF, PNG, or **scalable vector graphic** (SVG) file. In contrast to other plots generated through base _R_ or the **{ggplot2}** package, the output of `forest.meta` is not automatically re-scaled when we save it as a file. This means that forest plots are sometimes cut off on two or four sides, and we have to adjust the width and height manually so that everything is visible.
+Forest plots generated by `meta::forest` can be saved as a PDF, PNG, or **scalable vector graphic** (SVG) file. In contrast to other plots generated through base _R_ or the **{ggplot2}** package, the output of `meta::forest` is not automatically re-scaled when we save it as a file. This means that forest plots are sometimes cut off on two or four sides, and we have to adjust the width and height manually so that everything is visible.
 
-The `pdf`, `png` and `svg` function can be used to save plots via _R_ code. We have to start with a call to one of these functions, which tells _R_ that the output of the following code should be saved in the document. Then, we add our call to the  `forest.meta` function. In the last line, we have to include `dev.off()`, which will save the generated output to the file we specified above. 
+The `pdf`, `png` and `svg` function can be used to save plots via _R_ code. We have to start with a call to one of these functions, which tells _R_ that the output of the following code should be saved in the document. Then, we add our call to the  `meta::forest` function. In the last line, we have to include `dev.off()`, which will save the generated output to the file we specified above. 
 
 All three functions require us to specify the `file` argument, which should contain the name of the file. The file is then automatically saved in the working directory under that name. Additionally, we can use the `width` and `height` argument to control the size of the plot, which can be helpful when the output is cut off.
 
@@ -186,11 +186,11 @@ Assuming we want to save our initial forest plot under the name "forestplot", we
 ```{r, eval=F}
 pdf(file = "forestplot.pdf", width = 8, height = 7)
 
-forest.meta(m.gen, 
-            sortvar = TE,
-            prediction = TRUE, 
-            print.tau2 = FALSE,
-            leftlabs = c("Author", "g", "SE"))
+meta::forest(m.gen, 
+             sortvar = TE,
+             prediction = TRUE, 
+             print.tau2 = FALSE,
+             leftlabs = c("Author", "g", "SE"))
 
 dev.off()
 ```
@@ -202,11 +202,11 @@ dev.off()
 ```{r, eval=F}
 png(file = "forestplot.png", width = 2800, height = 2400, res = 300)
 
-forest.meta(m.gen, 
-            sortvar = TE,
-            prediction = TRUE, 
-            print.tau2 = FALSE,
-            leftlabs = c("Author", "g", "SE"))
+meta::forest(m.gen, 
+             sortvar = TE,
+             prediction = TRUE, 
+             print.tau2 = FALSE,
+             leftlabs = c("Author", "g", "SE"))
 
 dev.off()
 ```
@@ -218,11 +218,11 @@ dev.off()
 ```{r, eval=F}
 svg(file = "forestplot.svg", width = 8, height = 7)
 
-forest.meta(m.gen, 
-            sortvar = TE,
-            prediction = TRUE, 
-            print.tau2 = FALSE,
-            leftlabs = c("Author", "g", "SE"))
+meta::forest(m.gen, 
+             sortvar = TE,
+             prediction = TRUE, 
+             print.tau2 = FALSE,
+             leftlabs = c("Author", "g", "SE"))
 
 dev.off()
 ```
@@ -247,7 +247,7 @@ Drapery plots are based on $p$-**value functions**. Such $p$-value functions hav
 
 Therefore, instead of only calculating the 95% confidence interval, $p$-value functions provide a continuous curve which shows the confidence interval for varying values of $p$. In a drapery plot, a confidence curve is plotted for each study, as well as for the average effect. The x-axis shows the effect size metric, and the y-axis the assumed $p$-value. 
 
-Drapery plots can be generated through the `drapery` function in **{meta}**. Like `forest.meta`, this function automatically generates the plot once we provide it with a **{meta}** meta-analysis object. There are a few additional arguments, with the most important ones being:
+Drapery plots can be generated through the `drapery` function in **{meta}**. Like `meta::forest`, this function automatically generates the plot once we provide it with a **{meta}** meta-analysis object. There are a few additional arguments, with the most important ones being:
 
 * **`type`**: Defines the type of value to be plotted on the y-axis. This can be `"zvalue"` (default) for the test statistic, or the $p$-value (`"pvalue"`). 
 

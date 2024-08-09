@@ -379,7 +379,7 @@ It is an ongoing research question which of these estimators performs best for d
 \index{Review Manager (RevMan)}
 \index{Comprehensive Meta-Analysis (CMA)}
 
-Arguably, the most frequently used estimator is the one by DerSimonian and Laird. The estimator is implemented in software that has commonly been used by meta-analysts in the past, such as **RevMan** (a program developed by Cochrane) or **Comprehensive Meta-Analysis**. It is also used to be the default estimator used in **{meta}**. Due to this historic legacy, one often finds research papers in which "using a random-effects model" is used synonymous with employing the DerSimonian-Laird estimator. 
+Arguably, the most frequently used estimator is the one by DerSimonian and Laird. The estimator is implemented in software that has commonly been used by meta-analysts in the past, such as **RevMan** (a program developed by Cochrane) or **Comprehensive Meta-Analysis**. It also used to be the default estimator used in **{meta}**^[In newer versions of **{meta}**, the Restricted Maximum Likelihood (`"REML"`) estimator is now used as the default.]. Due to this historic legacy, one often finds research papers in which "using a random-effects model" is used synonymous with employing the DerSimonian-Laird estimator. 
 
 However, it has been found that this estimator can be biased, particularly when the number of studies is small and heterogeneity is high [@hartung1999alternative; @hartung2001refined; @hartung2001tests; @follmann1999valid; @makambi2004effect]. This is quite problematic because it is very common to find meta-analyses with few studies and high heterogeneity.
 
@@ -488,7 +488,7 @@ All meta-analysis functions in **{meta}** follow the same structure. We have to 
 * **`fixed`**. We need to provide this argument with a logical (`TRUE` or `FALSE`), indicating if a fixed-effect model meta-analysis should be calculated^[In older versions of **{meta}** (before version 5.0-0), this argument is called `comb.fixed`.].
 * **`random`**. In a similar fashion, this argument controls if a random-effects model should be used. If both `comb.fixed` and `comb.random` are set to `TRUE`, both models are calculated and displayed^[In older versions of **{meta}** (before version 5.0-0), this argument is called `comb.random`.].
 * **`method.tau`**. This argument defines the $\tau^2$ estimator. All functions use the codes for different estimators that we already presented in the previous chapter (e.g. for the DerSimonian-Laird method: `method.tau = "DL"`).
-* **`hakn`**. This is yet another logical argument, and controls if the Knapp-Hartung adjustments should be applied when using the random-effects model.
+* **`method.random.ci`**. This argument controls how confidence intervals should be calculated when using the random-effects model. When setting `method.random.ci = "HK"`, the Knapp-Hartung adjustment will be applied. In older versions of **{meta}**, this feature was controlled by setting the `hakn` argument to `TRUE` instead. Using the Knapp-Hartung adjustment is advisable in most cases (see Chapter \@ref(knapp-hartung)). 
 * **`data`**. In this argument, we provide **{meta}** with the name of our meta-analysis data set.
 * **`title`** (**not mandatory**). This argument takes a character string with the name of the analysis. While it is not essential to provide input for this argument, it can help us to identify the analysis later on.
 
@@ -589,7 +589,7 @@ m.gen <- metagen(TE = TE,
                  fixed = FALSE,
                  random = TRUE,
                  method.tau = "REML",
-                 hakn = TRUE,
+                 method.random.ci = "HK",
                  title = "Third Wave Psychotherapies")
 ```
 
@@ -680,11 +680,10 @@ m.gen$TE.fixed
 
 We see that this estimate deviates considerably from the random-effects model result.
 
-When we want to adapt some details of our analyses, the `update.meta` function can be helpful. This function needs the **{meta}** object as input, and the argument we want to change. Let us say that we want to check if results differ substantially if we use the Paule-Mandel instead of the restricted maximum likelihood estimator. We can do that using this code:
+When we want to adapt some details of our analyses, the `update` function can be helpful. This function needs the **{meta}** object as input, and the argument we want to change. Let us say that we want to check if results differ substantially if we use the Paule-Mandel instead of the restricted maximum likelihood estimator. We can do that using this code:
 
 ```{r}
-m.gen_update <- update.meta(m.gen, 
-                            method.tau = "PM")
+m.gen_update <- update(m.gen, method.tau = "PM")
 
 # Get pooled effect
 m.gen_update$TE.random
@@ -756,7 +755,7 @@ m.cont <- metacont(n.e = n.e,
                    fixed = FALSE,
                    random = TRUE,
                    method.tau = "REML",
-                   hakn = TRUE,
+                   method.random.ci = "HK",
                    title = "Suicide Prevention")
 
 
@@ -807,7 +806,7 @@ However, this approach is suboptimal for binary outcome data [@higgins2019cochra
 
 \index{Mantel-Haenszel Method}
 
-The **Mantel-Haenszel** method [@mantel1959statistical; @robins1986general] is therefore commonly used as an alternative to calculate the weights of studies with binary outcome data. It is also the default approach used in `metabin`. This method uses the number of events and non-events in the treatment and control group to determine a study's weight. There are different formulas depending on if we want to calculate the risk or odds ratio.
+The **Mantel-Haenszel** method [@mantel1959statistical; @robins1986general] is therefore sometimes used as an alternative to calculate the (fixed-effect) weights of studies with binary outcome data. It is also the default approach used in `metabin`. This method uses the number of events and non-events in the treatment and control group to determine a study's weight. There are different formulas depending on if we want to calculate the risk or odds ratio.
 
 \vspace{8mm}
 
@@ -881,7 +880,7 @@ w_k = \frac{n_{\text{treat}_k}n_{\text{control}_k}}{n_{\text{treat}_k} + n_{\tex
 (\#eq:pes15)
 \end{equation}
 
-When we implement this pooling method in `metabin`, the weights and overall effect using the fixed- and random-effects model will be identical. Only the $p$-value and confidence interval of the pooled effect will differ.
+When we implement this pooling method in `metabin`, the weights and overall effect of the fixed-effect and random-effects model will be identical, since the sample sizes will be used as weights in both cases. Only the $p$-value and confidence interval of the pooled effect will differ.
 
 
 \index{Continuity Correction}
@@ -894,7 +893,7 @@ When we implement this pooling method in `metabin`, the weights and overall effe
 
 In Chapter \@ref(rr), we already talked extensively about the problem of **zero-cells** and **continuity correction**. While both the Peto and sample size method can be used without modification when there are zero cells, it is common to add 0.5 to zero cells when using the Mantel-Haenszel method. This is also the default behavior in `metabin`. 
 
-Using continuity corrections, however, has been discouraged [@efthimiou2018practical], as they can lead to biased results. The Mantel-Haenszel method only **really** requires a continuity correction when one specific cell is zero in **all** included studies, which is rarely the case. Usually, it is therefore advisable to use the **exact** Mantel-Haenszel method without continuity corrections by setting `MH.exact = TRUE` in `metabin`.
+Using continuity corrections, however, have been discouraged [@efthimiou2018practical], as they can lead to biased results. The Mantel-Haenszel method only **really** requires a continuity correction when one specific cell is zero in **all** included studies, which is rarely the case. Usually, it is therefore advisable to use the **exact** Mantel-Haenszel method without continuity corrections by setting `MH.exact = TRUE` in `metabin`.
 
 \vspace{4mm}
 
@@ -905,6 +904,8 @@ The Bakbergenuly-sample size method, lastly, is a fairly new approach, meaning t
 \vspace{2mm}
 
 All in all, it may be advisable in most cases to follow Cochrane's general assessment [@higgins2019cochrane, chapter 10.4], and use the Mantel-Haenszel method (without continuity correction). The Peto method may be used when the odds ratio is the desired effect size metric, and when the event of interest is expected to be rare.
+
+It is also important to keep in mind that these alternative methods are primarily relevant for the **fixed-effect model**. Pooled estimates using the random-effects model will still essentially be based on the (generic) inverse-variance method. For example, even if the Mantel-Haenszel method is specified in `metabin`, the pooled effect is still derived using the same weighting approach we discussed in Chapter \@ref(tau-estimators). For the Peto method, the inverse-variance approach will be applied using the variance of the Peto log-odds ratio. 
 
 ```
 
@@ -925,7 +926,7 @@ There are eight important function-specific arguments in `metabin`:
 
 * **`n.c`**. The number of observations in the control group.
 
-* **`method`**. The pooling method to be used. This can either be `"Inverse"` (generic inverse-variance pooling), `"MH"` (Mantel-Haenszel; default and recommended), `"Peto"` (Peto method), or `"SSW"` (Bakbergenuly-sample size method; only when `sm = "OR"`).
+* **`method`**. The pooling method to be used. This can either be `"Inverse"` (generic inverse-variance pooling), `"MH"` (Mantel-Haenszel; default and recommended for fixed-effect models), `"Peto"` (Peto method), or `"SSW"` (Bakbergenuly-sample size method; only when `sm = "OR"`).
 
 * **`sm`**. The summary measure (i.e. effect size metric) to be calculated. We can use `"RR"` for the risk ratio and `"OR"` for the odds ratio.
 
@@ -977,10 +978,10 @@ m.bin <- metabin(event.e = event.e,
                  sm = "RR",
                  method = "MH",
                  MH.exact = TRUE,
-                 fixed = FALSE,
+                 fixed = TRUE,
                  random = TRUE,
                  method.tau = "PM",
-                 hakn = TRUE,
+                 method.random.ci = "HK",
                  title = "Depression and Mortality")
 summary(m.bin)
 ```
@@ -998,42 +999,45 @@ m.bin <- metabin(event.e = event.e,
                  fixed = FALSE,
                  random = TRUE,
                  method.tau = "PM",
-                 hakn = TRUE,
+                 method.random.ci = "HK",
                  title = "Depression and Mortality")
 
 
 ```
 
 ```
-
 ## Review:     Depression and Mortality
-##                           RR        95%-CI %W(random)
-## Aaroma et al., 1994     2.09 [1.41;  3.12]        6.0
-## Black et al., 1998      1.75 [1.31;  2.33]        6.6
-## Bruce et al., 1989      2.51 [1.07;  5.88]        3.7
-## Bruce et al., 1994      1.16 [0.85;  1.57]        6.5
-## Enzell et al., 1984     1.82 [1.28;  2.60]        6.3
-## Fredman et al., 1989    0.39 [0.05;  2.78]        1.2
-## Murphy et al., 1987     1.76 [1.26;  2.46]        6.4
-## Penninx et al., 1999    1.46 [0.93;  2.29]        5.8
-## Pulska et al., 1998     1.94 [1.34;  2.81]        6.2
-## Roberts et al., 1990    2.30 [1.92;  2.75]        7.0
-## Saz et al., 1999        2.18 [1.55;  3.07]        6.3
-## Sharma et al., 1998     2.05 [1.07;  3.91]        4.7
-## Takeida et al., 1997    6.97 [4.13; 11.79]        5.3
-## Takeida et al., 1999    5.81 [3.88;  8.70]        6.0
-## Thomas et al., 1992     1.33 [0.77;  2.27]        5.3
-## Thomas et al., 1992     1.77 [1.10;  2.83]        5.6
-## Weissman et al., 1986   1.25 [0.66;  2.33]        4.8
-## Zheng et al., 1997      1.98 [1.40;  2.80]        6.3
 ## 
-## Number of studies combined: k = 18
+##                           RR            95%-CI %W(common) %W(random)
+## Aaroma et al., 1994   2.0998 [1.4128;  3.1208]        4.6        6.0
+## Black et al., 1998    1.7512 [1.3139;  2.3341]       11.6        6.6
+## Bruce et al., 1989    2.5183 [1.0785;  5.8802]        0.8        3.7
+## Bruce et al., 1994    1.1605 [0.8560;  1.5733]        9.0        6.5
+## Enzell et al., 1984   1.8285 [1.2853;  2.6014]        6.8        6.3
+## Fredman et al., 1989  0.3971 [0.0566;  2.7861]        1.0        1.2
+## Murphy et al., 1987   1.7640 [1.2644;  2.4610]        5.2        6.4
+## Penninx et al., 1999  1.4647 [0.9361;  2.2919]        4.1        5.8
+## Pulska et al., 1998   1.9436 [1.3441;  2.8107]        3.1        6.2
+## Roberts et al., 1990  2.3010 [1.9206;  2.7567]       23.7        7.0
+## Saz et al., 1999      2.1837 [1.5533;  3.0700]        5.5        6.3
+## Sharma et al., 1998   2.0500 [1.0744;  3.9114]        2.5        4.7
+## Takeida et al., 1997  6.9784 [4.1303; 11.7902]        1.5        5.3
+## Takeida et al., 1999  5.8124 [3.8816;  8.7035]        3.3        6.0
+## Thomas et al., 1992   1.3303 [0.7780;  2.2745]        4.0        5.3
+## Thomas et al., 1992   1.7722 [1.1073;  2.8363]        4.1        5.6
+## Weissman et al., 1986 1.2500 [0.6678;  2.3398]        2.7        4.8
+## Zheng et al., 1997    1.9803 [1.4001;  2.8011]        6.4        6.3
 ## 
-##                          RR           95%-CI    t  p-value
-## Random effects model 2.0217 [1.5786; 2.5892] 6.00 < 0.0001
+## Number of studies: k = 18
+## Number of observations: o = 94770 (o.e = 4514, o.c = 90256)
+## Number of events: e = 5439
+## 
+##                          RR           95%-CI   z|t  p-value
+## Common effect model  2.0634 [1.8909; 2.2516] 16.26 < 0.0001
+## Random effects model 2.0217 [1.5786; 2.5892]  6.00 < 0.0001
 ## 
 ## Quantifying heterogeneity:
-##  tau^2 = 0.1865 [0.0739; 0.5568]; tau = 0.4319 [0.2718; 0.7462];
+##  tau^2 = 0.1865 [0.0739; 0.5568]; tau = 0.4319 [0.2718; 0.7462]
 ##  I^2 = 77.2% [64.3%; 85.4%]; H = 2.09 [1.67; 2.62]
 ## 
 ## Test of heterogeneity:
@@ -1041,21 +1045,21 @@ m.bin <- metabin(event.e = event.e,
 ##  74.49   17 < 0.0001
 ## 
 ## Details on meta-analytical method:
-## - Mantel-Haenszel method
+## - Mantel-Haenszel method (common effect model)
+## - Inverse variance method (random effects model)
 ## - Paule-Mandel estimator for tau^2
-## - Q-profile method for confidence interval of tau^2 and tau
-## - Hartung-Knapp adjustment for random effects model
+## - Q-Profile method for confidence interval of tau^2 and tau
+## - Hartung-Knapp adjustment for random effects model (df = 17)
 ```
 
-We see that the pooled effect size is RR $=$ 2.02. The pooled effect is significant ($p<$ 0.001), and indicates that suffering from depression doubles the mortality risk. We see that our estimate of the between-study heterogeneity variance is $\tau^2 \approx$ 0.19. 
+We see that the pooled effect size, based on the random-effects model, is RR $=$ 2.02. The pooled effect is significant ($p<$ 0.001), and indicates that suffering from depression doubles the mortality risk. We see that our estimate of the between-study heterogeneity variance is $\tau^2 \approx$ 0.19. The effect using the fixed-effect model is RR $=$ 2.06, which is very similar to the random-effects model.
 
-The confidence interval of $\tau^2$ does not include zero, indicating substantial heterogeneity between studies. Lastly, a look into the details section of the output reveals that the `metabin` function used the Mantel-Haenszel method for pooling, as intended.
+The confidence interval of $\tau^2$ does not include zero, indicating substantial heterogeneity between studies. Lastly, a look into the details section of the output reveals that the `metabin` function used the Mantel-Haenszel method for pooling in the fixed-effect model, as intended.
 
-As announced above, let us have a look if the method used to estimate $\tau^2$ has an impact on the results. Using the `update.meta` function, we re-run the analysis, but use the restricted maximum likelihood estimator this time.
+As announced above, let us have a look if the method used to estimate $\tau^2$ has an impact on the results. Using the `update` function, we re-run the analysis, but use the restricted maximum likelihood estimator this time.
 
 ```{r}
-m.bin_update <- update.meta(m.bin, 
-                            method.tau = "REML")
+m.bin_update <- update(m.bin, method.tau = "REML")
 
 ```
 
@@ -1076,11 +1080,11 @@ m.bin_update$tau2
 ```
 This value deviates somewhat, but not to a degree that should make us worry about the validity of our initial results.
 
-Our call to `metabin` would have looked exactly the same if we had decided to pool odds ratios. The only thing we need to change is the `sm` argument, which has to be set to `"OR"`. Instead of writing down the entire function call one more time, we can use the `update.meta` function again to calculate the pooled OR.
+Our call to `metabin` would have looked exactly the same if we had decided to pool odds ratios. The only thing we need to change is the `sm` argument, which has to be set to `"OR"`. Instead of writing down the entire function call one more time, we can use the `update` function again to calculate the pooled OR.
 
 
 ```{r, eval=F}
-m.bin_or <- update.meta(m.bin, sm = "OR")
+m.bin_or <- update(m.bin, sm = "OR")
 m.bin_or
 ```
 
@@ -1091,11 +1095,12 @@ m.bin_or
 ## 
 ## Number of studies combined: k = 18
 ## 
-##                          OR           95%-CI    t  p-value
-## Random effects model 2.2901 [1.7512; 2.9949] 6.52 < 0.0001
+##                          OR           95%-CI   z|t  p-value
+## Common effect model  2.3249 [2.0950; 2.5801] 15.88 < 0.0001
+## Random effects model 2.2901 [1.7512; 2.9949]  6.52 < 0.0001
 ## 
 ## Quantifying heterogeneity:
-##  tau^2 = 0.2032 [0.0744; 0.6314]; tau = 0.4508 [0.2728; 0.7946];
+##  tau^2 = 0.2032 [0.0744; 0.6314]; tau = 0.4508 [0.2728; 0.7946]
 ##  I^2 = 72.9% [56.7%; 83.0%]; H = 1.92 [1.52; 2.43]
 ## 
 ## Test of heterogeneity:
@@ -1103,10 +1108,11 @@ m.bin_or
 ##  62.73   17 < 0.0001
 ## 
 ## Details on meta-analytical method:
-## - Mantel-Haenszel method
+## - Mantel-Haenszel method (common effect model)
+## - Inverse variance method (random effects model)
 ## - Paule-Mandel estimator for tau^2
-## - Q-profile method for confidence interval of tau^2 and tau
-## - Hartung-Knapp adjustment for random effects model
+## - Q-Profile method for confidence interval of tau^2 and tau
+## - Hartung-Knapp adjustment for random effects model (df = 17)
 ```
 
 In the output, we see that the pooled effect using odds ratios is OR = 2.29. 
@@ -1119,7 +1125,7 @@ In the output, we see that the pooled effect using odds ratios is OR = 2.29.
 
 It is sometimes not possible to extract the raw effect size data needed to calculate risk or odds ratios in each study. For example, a primary study may report an odds ratio, but not the data on which this effect size is based on. If the authors do not provide us with the original data, this may require us to perform a meta-analysis based on pre-calculated effect size data. As we learned, the function we can use to do this is `metagen`. 
 
-When dealing with binary outcome data, we should be really careful if there is no other option than using pre-calculated effect size data. The `metagen` function uses the inverse-variance method to pool effect sizes, and better options such as the Mantel-Haenszel approach can not be used. However, it is still a viable alternative if everything else fails. 
+When dealing with binary outcome data, we should be careful if there is no other option than using pre-calculated effect size data. The `metagen` function always uses the inverse-variance method to pool effect sizes (even for fixed-effect models), and better options such as the Mantel-Haenszel approach can not be used. However, it is still a viable alternative if everything else fails. 
 
 Using the `DepressionMortality` data set, let us simulate that we are dealing with a pre-calculated effect size meta-analysis. We can extract the `TE` and `seTE` object in `m.bin` to get the effect size and standard error of each study. We save this information in our `DepressionMortality` data set.
 
@@ -1203,7 +1209,7 @@ summary(m.gen_bin)
 ## [...]
 ```
 
-In the output, we see that all $K=$ 18 studies could be combined in the meta-analysis, meaning that `metagen` used the information in `lower` and `upper` provided for study 7. The output also shows that the results using the inverse variance method are nearly identical to the ones of the Mantel-Haenszel method from before.
+In the output, we see that all $K=$ 18 studies could be combined in the meta-analysis, meaning that `metagen` used the information in `lower` and `upper` provided for study 7. The output also shows that the results using the inverse variance method are nearly identical to the ones we obtained before, using the raw outcome data.
 
 <br></br>
 
@@ -1224,7 +1230,7 @@ Effect sizes based on incidence rates (i.e. incidence rate ratios, Chapter \@ref
 
 * **`time.c`**: The person-time at risk in the control group.
 
-* **`method`**: Like `metabin`, the default pooling method is the one by Mantel and Haenszel (`"MH"`). Alternatively, we can also use generic inverse variance pooling (`"Inverse"`). 
+* **`method`**: Like `metabin`, the default pooling method is the one by Mantel and Haenszel (`"MH"`), which is typically most relevant for the fixed-effects model. Alternatively, we can also use generic inverse variance pooling (`"Inverse"`). 
 
 * **`sm`**: The summary measure. We can choose between the incidence rate ratio (`"IRR"`) and the incidence rate difference (`"IRD"`).
 
@@ -1261,7 +1267,7 @@ glimpse(EatingDisorderPrevention)
 \index{Mantel-Haenszel Method}
 \index{Paule-Mandel Estimator}
 
-We use `metainc` to pool the effect size data, with the incidence rate ratio as the effect size metric. The Mantel-Haenszel method is used for pooling, and the Paule-Mandel estimator to calculate the between-study heterogeneity variance.
+We use `metainc` to pool the effect size data, with the incidence rate ratio as the effect size metric. The Mantel-Haenszel method is used, and we employ the Paule-Mandel estimator to calculate the between-study heterogeneity variance.
 
 ```{r}
 m.inc <- metainc(event.e = event.e, 
@@ -1272,16 +1278,16 @@ m.inc <- metainc(event.e = event.e,
                  data = EatingDisorderPrevention,
                  sm = "IRR",
                  method = "MH",
-                 fixed = FALSE,
+                 fixed = TRUE,
                  random = TRUE,
                  method.tau = "PM",
-                 hakn = TRUE,
+                 method.random.ci = "HK",
                  title = "Eating Disorder Prevention")
 
 summary(m.inc)
 ```
 
-We see that the pooled effect is IRR = 0.62. This effect is significant ($p=$ 0.04), albeit being somewhat closer to the conventional significance threshold than in the previous examples. Based on the pooled effect, we can say that the preventive interventions reduced the incidence of eating disorders within one year by 38%. Lastly, we see that the estimate of the heterogeneity variance $\tau^2$ is zero.
+We see that the pooled effect using the random-effects model is IRR = 0.62. This effect is significant ($p=$ 0.04), albeit being somewhat closer to the conventional significance threshold than in the previous examples. Based on the pooled effect, we can say that the preventive interventions reduced the incidence of eating disorders within one year by 38%. Lastly, we see that the estimate of the heterogeneity variance $\tau^2$ is zero.
 
 <br></br>
 
@@ -1338,7 +1344,7 @@ m.cor <- metacor(cor = cor,
                  fixed = FALSE,
                  random = TRUE,
                  method.tau = "REML",
-                 hakn = TRUE,
+                 method.random.ci = "HK",
                  title = "Health and Wellbeing")
 summary(m.cor)
 ```
@@ -1433,7 +1439,7 @@ m.mean <- metamean(n = n,
                    fixed = FALSE,
                    random = TRUE,
                    method.tau = "REML",
-                   hakn = TRUE,
+                   method.random.ci = "HK",
                    title = "BDI-II Scores")
 summary(m.mean)
 ```
@@ -1530,7 +1536,7 @@ m.prop <- metaprop(event = event,
                    sm = "PLOGIT",
                    fixed = FALSE,
                    random = TRUE,
-                   hakn = TRUE,
+                   method.random.ci = "HK",
                    title = "Opioid Misuse")
 summary(m.prop)
 

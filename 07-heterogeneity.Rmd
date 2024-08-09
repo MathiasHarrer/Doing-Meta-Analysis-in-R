@@ -335,7 +335,7 @@ m.gen <- metagen(TE = TE,
                  comb.fixed = FALSE,
                  comb.random = TRUE,
                  method.tau = "REML",
-                 hakn = TRUE,
+                 method.random.ci = "HK",
                  title = "Third Wave Psychotherapies")
 
 ```
@@ -446,10 +446,10 @@ In sum, it is advisable to not resort to one measure only when characterizing th
 
 Let us see how we can use the things we learned about heterogeneity measures in practice. As an illustration, let us examine the heterogeneity of our `m.gen` meta-analysis object a little closer (we generated this object in Chapter \@ref(pre-calculated-es)). 
 
-Because the default output of `metagen` objects does not include prediction intervals, we have to update it first. We simply use the `update.meta` function, and tell it that we want `prediction` intervals to be printed out additionally.
+Because the default output of `metagen` objects does not include prediction intervals, we have to update it first. We simply use the `update` function, and tell it that we want `prediction` intervals to be printed out additionally.
 
 ```{r}
-m.gen <- update.meta(m.gen, prediction = TRUE)
+m.gen <- update(m.gen, prediction = TRUE)
 ```
 
 Now we can reinspect the results:
@@ -1016,7 +1016,7 @@ The other plots show a GOSH plot again, but there are now shaded points which re
 Let us see what happens if we rerun the meta-analysis while removing the three studies that the `gosh.diagnostics` function has identified.
 
 ```{r, eval=F}
-update.meta(m.gen, exclude = c(3, 4, 16)) %>% 
+update(m.gen, exclude = c(3, 4, 16)) %>% 
   summary()
 ```
 

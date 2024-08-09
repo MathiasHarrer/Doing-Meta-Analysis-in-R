@@ -132,7 +132,7 @@ In formula 3.2, we can see that the standard error of the mean depends on the sa
 
 To exemplify this relationship, we conducted another simulation. Again, we used the `rnorm` function, and assumed a true population mean of $\mu =$ 10 and that $\sigma =$ 2. But this time, we varied the sample size, from $n =$ 2 to $n =$ 500. For each simulation, we calculated both the mean, and the standard error using formula 3.2. 
 
-```{r simulse, fig.cap = 'Sample mean and standard error as a function of sample size.', message=F, echo=F, fig.height=2.5}
+```{r simulse, fig.cap = 'Sample mean and standard error as a function of sample size.', message=F, echo=F, fig.height=2.5, warning=FALSE}
 library(ggplot2)
 library(gridExtra)
 
@@ -152,22 +152,22 @@ ggplot(data = plotdat_mean, aes(x = x, y = y)) +
   scale_color_grey() +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "#FFFEFA",
-                                        size = 0),
+                                        linewidth = 0),
         plot.background = element_rect(fill = "#FFFEFA",
-                                       size = 0)) +
+                                       linewidth = 0)) +
   ylab("Mean") +
   xlab("Sample Size") -> p1
 
 ggplot(data = plotdat_se[2:499,], aes(x = x, y = y)) +
   geom_smooth(method = "gam", se = F, color = "black", 
-              linetype = "dotted", size = 0.5) +
+              linetype = "dotted", linewidth = 0.5) +
   geom_line(color = "gray39") +
   scale_color_grey() +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "#FFFEFA",
-                                        size = 0),
+                                        linewidth = 0),
         plot.background = element_rect(fill = "#FFFEFA",
-                                       size = 0)) +
+                                       linewidth = 0)) +
   ylab("Standard Error") +
   xlab("Sample Size") -> p2
 
@@ -189,11 +189,11 @@ In formula 3.2, we described how the standard error of a mean can be calculated,
 
 In the following section, we not only want to provide a theoretical discussion of different effect size metrics. We also show you which kind of information you have to prepare in your data set so that the _R_ meta-analysis functions we are using later can easily calculate the effect sizes for us. 
 
-We grouped effect sizes based on the type of research design in which they usually appear: **single group designs** (e.g. naturalistic studies, surveys, or uncontrolled trials), and **control group designs** (e.g. experimental studies or controlled clinical trials). Please note that this is just a rough classification, not a strict rule. Many of the effect sizes we present are technically applicable to any type of research design, as long as the type of outcome data is suited. 
+We grouped effect sizes based on the type of research design in which they usually appear: **observational designs** (e.g. naturalistic studies or surveys), and **experimental designs** (e.g. controlled clinical trials). Please note that this is just a rough classification, not a strict rule. Many of the effect sizes we present are technically applicable to any type of research design, as long as the type of outcome data is suited. 
 
 <br></br>
 
-## Measures & Effect Sizes in Single Group Designs {#single-group-es}
+## Measures & Effect Sizes in Observational Designs {#single-group-es}
 
 ---
 
@@ -434,7 +434,7 @@ When we are interested in group differences on a continuous outcome variable, it
 
 <br></br>
 
-## Effect Sizes in Control Group Designs
+## Effect Sizes in Experimental Designs {#effect-sizes-in-control-group-designs}
 
 ---
 
@@ -658,7 +658,7 @@ The within-group mean difference $\text{MD}_{\text{within}}$ is calculated the s
 (\#eq:es19)
 \end{equation}
 
-Things become more complicated when we want to calculate a standardized version of the within-group mean difference. There is no full consensus on how $\text{SMD}_{\text{within}}$ should be computed. In a [blog post](http://jakewestfall.org/blog/index.php/2016/03/25/five-different-cohens-d-statistics-for-within-subject-designs/), Jake Westfall points out that there are at least five distinct ways to calculate it. 
+Things become more complicated when we want to calculate a standardized version of the within-group mean difference. There is no full consensus on how $\text{SMD}_{\text{within}}$ should be computed. In a [blog post](https://web.archive.org/web/20160829095224/http://jakewestfall.org/blog/index.php/2016/03/25/five-different-cohens-d-statistics-for-within-subject-designs/), Jake Westfall points out that there are at least five distinct ways to calculate it. 
 
 An intuitive option is to standardize the mean difference $\text{MD}_{\text{within}}$ using the pooled standard deviation of both assessment points, $s_{\text{t}_1}$ and $s_{\text{t}_2}$. Since in the number of observations is typically identical in within-group designs, this means that the sum of the two squared standard deviations simply has to be divided by 2 to obtain $s^2_{\text{pooled}}$. Otherwise, formula (3.16) in Chapter \@ref(b-group-md) can be used to calculate $s_{\text{pooled}}$. This leads to the following formula:
 
@@ -667,7 +667,7 @@ An intuitive option is to standardize the mean difference $\text{MD}_{\text{with
 (\#eq:es20)
 \end{equation}
 
-An even better solution, proposed (among others) by Becker [-@becker1988synthesizing], is to divide $\text{MD}_{\text{within}}$ by the standard deviation of the pre-test scores ($s_{\text{t}_1}$). The reason for this is that $s_{\text{t}_1}$ is less likely to be influenced by intervention effects^[There is also another, "statistical" reasoning behind using $s_{\text{t}_1}$ instead of $\sqrt{(s_{\text{t}_1}^2 + s_{\text{t}_2}^2/2)}$ in the denominator. In within-group designs, $s_{\text{t}_1}$ and $s_{\text{t}_2}$ are not independent. This means that $s_{\text{t}_1}^2 + s_{\text{t}_2}^2$ does not follow a $\chi^2$ distribution, which is required for formula (3.23) below to be applicable when calculating the standard error of $\text{SMD}_{\text{within}}$. A "correct" formula of the approximate sampling distribution of $\text{SMD}_{\text{within}}$ when using $\sqrt{(s_{\text{t}_1}^2 + s_{\text{t}_2}^2/2)}$ in the denominator has recently been described [@cousineau2020approximating]; it also assumes that $r_{\text{t}_1\text{t}_2}$ is known. @cousineau2021ci discuss ways to calculate confidence intervals based on this newly "discovered" distribution. Here, however, we restrict ourselves to the formulas for $\text{SMD}_{\text{within}}$ and its standard error when using only $s_{\text{t}_1}$ in the denominator. We do this because these formulas are relatively easy to apply in practice, commonly found in the literature, and because standardizing by the pre-test standard deviation $s_{\text{t}_1}$ is typically a reasonable approach.]:
+Another solution, proposed (among others) by Becker [-@becker1988synthesizing], is to divide $\text{MD}_{\text{within}}$ by the standard deviation of the pre-test scores ($s_{\text{t}_1}$). The reason for this is that $s_{\text{t}_1}$ is less likely to be influenced by intervention effects^[There is also another, "statistical" reasoning behind using $s_{\text{t}_1}$ instead of $\sqrt{(s_{\text{t}_1}^2 + s_{\text{t}_2}^2/2)}$ in the denominator. In within-group designs, $s_{\text{t}_1}$ and $s_{\text{t}_2}$ are not independent. This means that $s_{\text{t}_1}^2 + s_{\text{t}_2}^2$ does not follow a $\chi^2$ distribution, which is required for formula (3.23) below to be applicable when calculating the standard error of $\text{SMD}_{\text{within}}$. A "correct" formula of the approximate sampling distribution of $\text{SMD}_{\text{within}}$ when using $\sqrt{(s_{\text{t}_1}^2 + s_{\text{t}_2}^2/2)}$ in the denominator has recently been described [@cousineau2020approximating]; it also assumes that $r_{\text{t}_1\text{t}_2}$ is known. @cousineau2021ci discuss ways to calculate confidence intervals based on this newly "discovered" distribution. Here, however, we restrict ourselves to the formulas for $\text{SMD}_{\text{within}}$ and its standard error when using only $s_{\text{t}_1}$ in the denominator. We do this because these formulas are relatively easy to apply in practice, commonly found in the literature, and because standardizing by the pre-test standard deviation $s_{\text{t}_1}$ is typically a reasonable approach.]:
 
 \begin{equation}
 \text{SMD}_{\text{within}} = \frac{\bar{x}_{\text{t}_2} - \bar{x}_{\text{t}_1}}{s_{\text{t}_1}}
@@ -688,7 +688,7 @@ SE_{\text{SMD}_{\text{within}}} = \sqrt{\frac{2(1-r_{\text{t}_1\text{t}_2})}{n}+
 
 The fact that we need two know the correlation $r_{\text{t}_1\text{t}_2}$ between the assessment points to calculate the standard error of within-group (standardized) mean differences is often problematic in practice. The pre-post correlation of a variable is hardly ever reported in published research, which forces us to assume a value of $r_{\text{t}_1\text{t}_2}$ based on previous research. 
 
-However, if we do not get the correlation exactly right, this can lead to errors in our results. It general, it should best be avoided to calculate within-group effect sizes for a meta-analysis [@cuijpers2017pre]. Especially when we have data from both an experimental **and** control group, it is much better to calculate the **between-group** (standardized) mean differences at $t_2$ to measure the effect of a treatment, instead of pre-post comparisons. Within-group mean difference may be calculated, however, when our meta-analysis focuses solely on studies which did not include a control group.
+However, if we do not get the correlation exactly right, this can lead to errors in our results. In general, it should best be avoided to calculate within-group effect sizes for a meta-analysis [@cuijpers2017pre]. Especially when we have data from both an experimental **and** control group, it is much better to calculate the **between-group** (standardized) mean differences at $t_2$ to measure the effect of a treatment, instead of pre-post comparisons. Within-group mean differences may be calculated, however, when our meta-analysis focuses solely on studies which did not include a control group.
 
 The within-group standardized mean difference (also known as the within-group Cohen's $d$) can be calculated like this in _R_:
 
@@ -737,7 +737,7 @@ In this case, it is somewhat difficult to argue that the "causal" strength of th
 
 In addition, we have also seen that the **unit** by which to standardize is often **less clearly defined** than one may think. Various options exist both for between- and within-group $\text{SMD}$s, and it is often hard to disentangle which approach was chosen in a particular study. It is necessary to always be **as consistent as possible** across studies in terms of how we calculate standardized effect sizes for our meta-analysis. Even so, one should keep in mind that the **commensurability of effect sizes** can be limited, even if standardization was applied. 
 
-Of course, the best solutation would be if outcomes were **measured on the same scale in all studies**, so that **raw mean differences** could be used. In many research fields, however, we are living far away from such a level of methodological harmony. Thus, unfortunately, standardized effect sizes are often our **second best option**.
+Of course, the best solution would be if outcomes were **measured on the same scale in all studies**, so that **raw mean differences** could be used. In many research fields, however, we are living far away from such a level of methodological harmony. Thus, unfortunately, standardized effect sizes are often our **second best option**.
 
 
 ```

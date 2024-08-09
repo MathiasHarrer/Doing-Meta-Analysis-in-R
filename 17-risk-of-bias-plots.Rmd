@@ -410,16 +410,16 @@ kkk<-seq(1:10)
 ms3 <- data.frame(colnum = kkk, data_rob2 = k, data_rob1 = kk)
 
 kableExtra::kable(
-  list(
-    ms3[,c(1,2)],
-    ms3[,c(1,3)]
-  ), col.names = c("No.", "Column name"),
+  ms3, col.names = c("No.", "data_rob2", "data_rob1"),
   longtable = T,
   booktabs = T,
   caption = 'Comparison of column names in the `data_rob2` (left) and `data_rob1` (right) datasets.'
 ) %>% 
-  kable_styling()
+  kableExtra::kable_styling()
 ```
+
+
+
 
 The domain columns (Columns 2-6) in the ROB2 example dataset have been given arbitrary names of _D1_ - _D5_, as they will be overwritten by the tool to correspond to the correct domain titles given by the ROB2 guidance.
 

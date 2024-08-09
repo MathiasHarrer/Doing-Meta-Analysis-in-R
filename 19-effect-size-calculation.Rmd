@@ -356,8 +356,7 @@ m.gen_bin$print.subgroup.name = FALSE
 
 ```{r}
 # Also show fixed-effect model results
-m.gen_bin <- update.meta(m.gen_bin, 
-                         fixed = TRUE)
+m.gen_bin <- update(m.gen_bin, fixed = TRUE)
 
 nnt(m.gen_bin, 
     p.c = 0.1) # Use a CER of 0.1

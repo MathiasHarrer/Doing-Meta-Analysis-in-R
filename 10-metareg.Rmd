@@ -939,8 +939,10 @@ $$~$$
 
 
 ```{r, echo=F, fig.height=2, fig.width=6, out.width="70%", fig.align="center"}
-load("data/mmi.rda")
-mmi$predictor.importance.plot + geom_hline(aes(yintercept = 0.8), size = 2, color = "black")
+#load("data/mmi.rda")
+#mmi$predictor.importance.plot + geom_hline(aes(yintercept = 0.8), size = 2, color = "black")
+library(OpenImageR)
+knitr::include_graphics('images/mmi-plot.png')
 ```
 
 \index{Akaike's Information Criterion}

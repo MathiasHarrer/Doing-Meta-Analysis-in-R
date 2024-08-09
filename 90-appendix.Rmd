@@ -660,6 +660,10 @@ A new version of **{meta}** (version 5.0-0) has recently been released. We adapt
 
 - To print all studies, one now has to use `summary` method for **{meta}** meta-analysis objects.
 
+In the latest version of **{meta}** (version 7.0-0), calls to `update.meta` now need to be replaced with `update`. If `meta` models have been fitted using the deprecated `hakn` argument, `update` will now produce an error message. We have therefore changed this to the new `method.random.ci` argument throughout the guide. This applies to all meta-analysis functions, e.g., `metagen`, `metabin`, `metacor`, etc.
+
+
+
 ## Chapter 7.3 {-}
 
 A new version of **{meta}** (version 5.0-0) has recently been released. We adapted the code in this chapter accordingly to avoid deprecation messages:

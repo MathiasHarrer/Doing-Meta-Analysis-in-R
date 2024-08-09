@@ -226,7 +226,7 @@ colnames(SuicidePrevention) = c("Author", "N ", "Mean ", "SD", "N", "Mean", "SD 
 kableExtra::kable(SuicidePrevention, "html", booktabs = T,
                   caption = 'The suicide prevention dataset.',
                   linesep = "") %>% 
-  kable_styling(bootstrap_options = c("striped", "condensed", "responsive", "hover"), font_size = 12) %>%
+  kable_styling(bootstrap_options = c("condensed", "responsive", "hover"), font_size = 14, full_width = TRUE) %>%
   add_header_above(c(" ", "Intervention Group" = 3, "Control Group" = 3, "Subgroups" = 3)) %>% 
   add_header_above(c("'author'", "'n.e'", "'mean.e'", "'sd.e'", "'n.c'", 
                      "'mean.c'", "'sd.c'", "'pubyear'", "'age_group'", "'control'"))
